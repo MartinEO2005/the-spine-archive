@@ -1,0 +1,11 @@
+# Carpetas de librerías y entorno
+node_modules/
+**/node_modules/
+.venv/
+
+# Carpetas de imágenes (La ruta según tu captura)
+mi-app-spines/public/spines/
+
+# Archivos de construcción y temporales
+dist/
+.DS_Store
