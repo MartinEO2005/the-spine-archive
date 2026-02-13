@@ -19,30 +19,34 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const inchToMm = (inch) => inch * 25.4;
 
-  // Promesa para cargar imagen y convertirla a Base64 con máxima compatibilidad
-  const loadImageToBase64 = (url) => {
-    return new Promise((resolve, reject) => {
+  // FUNCIÓN DE CARGA SEGURA: Si falla el 404, no rompe el PDF
+  const loadImageSafe = (url) => {
+    return new Promise((resolve) => {
       const img = new Image();
-      // Añadimos un timestamp para evitar problemas de caché con CORS
-      const cleanUrl = url.includes('cloudinary') ? `${url}?_=${Date.now()}` : url;
+      img.setAttribute('crossOrigin', 'anonymous');
       
-      img.setAttribute('crossOrigin', 'anonymous'); 
-      img.src = cleanUrl;
-
       img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        // Usamos JPEG para máxima compatibilidad con jsPDF
-        resolve(canvas.toDataURL('image/jpeg', 1.0));
+        // Convertimos a JPEG para evitar el error de "PNG signature"
+        resolve(canvas.toDataURL('image/jpeg', 0.95));
       };
 
-      img.onerror = (e) => {
-        console.error("❌ Error cargando imagen:", url);
-        reject(e);
+      img.onerror = () => {
+        console.warn("⚠️ Saltando imagen por error 404 o carga:", url);
+        resolve(null); // Devolvemos null en lugar de error para que Promise.all no explote
       };
+
+      // Si la URL no empieza por http, es que el scraper no funcionó bien para este ID
+      if (!url.startsWith('http')) {
+        console.error("❌ URL inválida (no es Cloudinary):", url);
+        resolve(null);
+      } else {
+        img.src = url;
+      }
     });
   };
 
@@ -53,8 +57,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
     }
 
     setIsGenerating(true);
-    console.log("🚀 Iniciando generación de PDF...");
-
+    
     try {
       const pdf = new jsPDF({
         orientation: 'l',
@@ -74,23 +77,20 @@ const PrinterView = ({ initialSpines, onBack }) => {
       let curX = mLeft;
       let curY = mTop;
 
-      // Crear lista de URLs a procesar
+      // Priorizar siempre el campo .image (Cloudinary)
       const urlList = [];
       images.forEach(imgObj => {
-        const targetUrl = imgObj.image || imgObj.src;
+        const urlToUse = imgObj.image || imgObj.src;
         for (let i = 0; i < imgObj.count; i++) {
-          urlList.push(targetUrl);
+          urlList.push(urlToUse);
         }
       });
 
-      // 1. Cargamos TODAS las imágenes en paralelo antes de dibujar
-      const base64Images = await Promise.all(
-        urlList.map(url => loadImageToBase64(url).catch(() => null))
-      );
+      // Cargamos todas las imágenes. Las que den 404 devolverán null.
+      const loadedImages = await Promise.all(urlList.map(url => loadImageSafe(url)));
 
-      // 2. Dibujamos en el PDF
-      base64Images.forEach((imgData, index) => {
-        if (!imgData) return; // Saltamos las que fallaron
+      loadedImages.forEach((imgData) => {
+        if (!imgData) return; // Si la imagen falló (null), no la dibujamos
 
         if (curX + sW > pW - mRight) {
           curX = mLeft;
@@ -102,34 +102,31 @@ const PrinterView = ({ initialSpines, onBack }) => {
           curY = mTop;
         }
 
+        // Usamos formato JPEG para evitar problemas de firmas de archivos
         pdf.addImage(imgData, 'JPEG', curX, curY, sW, sH, undefined, 'NONE');
         curX += sW + gap;
       });
 
       setPdfUrl(pdf.output('bloburl'));
-      console.log("✅ PDF generado con éxito");
-    } catch (error) {
-      console.error("🔥 Error fatal en el PDF:", error);
+    } catch (err) {
+      console.error("Error crítico generando PDF:", err);
     } finally {
       setIsGenerating(false);
     }
   }, [images, config]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      generatePreview();
-    }, 500); // Pequeño delay para no colapsar si cambias los inputs rápido
+    const timer = setTimeout(() => generatePreview(), 600);
     return () => clearTimeout(timer);
   }, [generatePreview]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden' }}>
       
-      {/* BARRA SUPERIOR */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
         <button onClick={onBack} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK</button>
         <div style={{ color: 'white', fontWeight: 'bold' }}>
-          {isGenerating ? "⏳ GENERATING PDF..." : "PRINT EDITOR"}
+          {isGenerating ? "⏳ PROCESSING IMAGES..." : "PRINT EDITOR"}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button onClick={() => setImages([])} style={{ background: '#333', color: '#ff4444', border: '1px solid #ff4444', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>CLEAR ALL</button>
@@ -138,14 +135,13 @@ const PrinterView = ({ initialSpines, onBack }) => {
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        {/* LISTA LATERAL */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
               <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                 <img 
                   src={img.image || img.src} 
-                  alt="t" 
+                  alt="thumb" 
                   crossOrigin="anonymous"
                   style={{ width: '100%', height: '100px', objectFit: 'cover' }} 
                 />
@@ -162,7 +158,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
           </div>
         </div>
 
-        {/* VISOR PDF */}
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center' }}>
           {/* Panel de Configuración */}
           <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10, backgroundColor: 'white', padding: '15px', borderRadius: '8px', width: '280px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>
@@ -178,7 +173,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
             <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '90%', height: '95%', border: 'none', marginTop: '10px' }} title="preview" />
           ) : (
             <div style={{ color: 'white', marginTop: '100px', textAlign: 'center' }}>
-              <h2>{isGenerating ? "Creating high-quality preview..." : "PDF is empty"}</h2>
+              <h2>{isGenerating ? "Downloading from Cloudinary..." : "PDF is empty"}</h2>
             </div>
           )}
         </div>
