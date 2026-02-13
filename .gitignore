@@ -9,3 +9,4 @@ mi-app-spines/public/spines/
 # Archivos de construcción y temporales
 dist/
 .DS_Store
+.env
