@@ -1,125 +1,70 @@
 import os
 import json
-import signal
-import sys
 import cloudinary
 import cloudinary.uploader
 from dotenv import load_dotenv
 
-# 1. CARGA DE SECRETOS
+# Cargamos las claves
 load_dotenv()
 
+# --- CONFIGURACIÓN A LO BRUTO ---
+# He puesto la ruta basada en tu mensaje de error. 
+# Si tu carpeta spines no está aquí, cámbialo por lo que copiaste en el Paso 1.
+# La 'r' delante es OBLIGATORIA para Windows.
+RUTA_OBLIGATORIA = r"C:\Users\MartinEO\Desktop\the-spine-archive\mi-app-spines\public\spines"
+RUTA_JSON = r"C:\Users\MartinEO\Desktop\the-spine-archive\mi-app-spines\public\database.json"
+
+# Configuración Cloudinary
 cloudinary.config(
     cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'),
     api_key = os.getenv('CLOUDINARY_API_KEY'),
     api_secret = os.getenv('CLOUDINARY_API_SECRET')
 )
 
-# 2. RUTAS (Se ajustan solas a tu PC)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RUTA_JSON = os.path.join(BASE_DIR, "public", "database.json")
-RUTA_FOTOS = os.path.join(BASE_DIR, "public", "spines")
+def forzar_subida():
+    print(f"--- 🛑 MODO FUERZA BRUTA ---")
+    print(f"Mirando fijamente en: {RUTA_OBLIGATORIA}")
 
-# Variable global para guardar datos si cortamos el script
-datos_globales = []
-cambios_pendientes = False
-
-def guardar_y_salir(signum, frame):
-    """Esta función se activa si pulsas Ctrl+C"""
-    print("\n\n🛑 ¡INTERRUPCIÓN DETECTADA! (Ctrl+C)")
-    if cambios_pendientes:
-        print("💾 Guardando progreso antes de cerrar...")
-        with open(RUTA_JSON, 'w', encoding='utf-8') as f:
-            json.dump(datos_globales, f, indent=2, ensure_ascii=False)
-        print("✅ Progreso guardado. ¡Hasta luego!")
-    else:
-        print("👋 Cerrando sin cambios pendientes.")
-    sys.exit(0)
-
-# Activamos el detector de Ctrl+C
-signal.signal(signal.SIGINT, guardar_y_salir)
-
-def limpiar_titulo(nombre_archivo):
-    """Solo se usa para libros NUEVOS que no tengan título"""
-    return os.path.splitext(nombre_archivo)[0].replace('_', ' ').replace('-', ' ').title()
-
-def ejecutar_cirugia():
-    global datos_globales, cambios_pendientes
-    
-    print(f"📂 Leyendo base de datos actual: {RUTA_JSON}")
-    
-    # Cargar JSON existente (Si no existe, creamos lista vacía)
-    if os.path.exists(RUTA_JSON):
-        with open(RUTA_JSON, 'r', encoding='utf-8') as f:
-            datos_globales = json.load(f)
-    else:
-        datos_globales = []
-
-    # Crear un mapa para buscar rápido por ID (Evita duplicados)
-    mapa_db = {item['id']: item for item in datos_globales}
-    
-    # Obtener fotos de la carpeta
-    if not os.path.exists(RUTA_FOTOS):
-        print(f"❌ ERROR: No encuentro la carpeta {RUTA_FOTOS}")
+    # 1. VERIFICACIÓN VISUAL
+    if not os.path.exists(RUTA_OBLIGATORIA):
+        print("❌ ¡LA RUTA NO EXISTE! Revisa que hayas copiado bien el path.")
         return
 
-    archivos_en_carpeta = [f for f in os.listdir(RUTA_FOTOS) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
-    print(f"🔍 Analizando {len(archivos_en_carpeta)} archivos en la carpeta...")
+    # Listar TODO lo que hay, sea imagen o no
+    todo_el_contenido = os.listdir(RUTA_OBLIGATORIA)
+    print(f"📂 Archivos detectados en la carpeta (Totales): {len(todo_el_contenido)}")
+    
+    # Filtrar imágenes
+    imagenes = [f for f in todo_el_contenido if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+    
+    if len(imagenes) == 0:
+        print("⚠️  LA CARPETA EXISTE PERO NO VEO IMÁGENES.")
+        print(f"Contenido exacto: {todo_el_contenido}")
+        print("¿Tienen extensión .jpg? ¿Son carpetas?")
+        return
 
-    contador_nuevos = 0
-    contador_actualizados = 0
-    contador_saltados = 0
+    print(f"🚀 ¡AHORA SÍ! Encontradas {len(imagenes)} imágenes. Subiendo...")
 
-    for archivo in archivos_en_carpeta:
-        ruta_completa = os.path.join(RUTA_FOTOS, archivo)
-        
-        # CASO 1: El libro YA EXISTE en el JSON
-        if archivo in mapa_db:
-            entrada = mapa_db[archivo]
+    db = []
+    for archivo in imagenes:
+        ruta_completa = os.path.join(RUTA_OBLIGATORIA, archivo)
+        try:
+            print(f"📤 Subiendo: {archivo}")
+            res = cloudinary.uploader.upload(ruta_completa, folder="spines_archive")
             
-            # ¿Ya tiene link de Cloudinary?
-            if "image" in entrada and "res.cloudinary.com" in entrada["image"]:
-                print(f"⏩ Saltando (Ya tiene nube): {archivo}")
-                contador_saltados += 1
-                continue
-            
-            # Si no tiene link, lo subimos pero RESPETAMOS el resto
-            print(f"🔄 Actualizando existente: {archivo} (Mantiene Autor: {entrada.get('author', 'N/A')})")
-            try:
-                res = cloudinary.uploader.upload(ruta_completa, folder="spines_archive")
-                entrada['image'] = res['secure_url'] # Solo tocamos esto
-                contador_actualizados += 1
-                cambios_pendientes = True
-            except Exception as e:
-                print(f"❌ Error subiendo {archivo}: {e}")
+            db.append({
+                "id": archivo,
+                "title": archivo.split('.')[0].replace('_', ' ').replace('-', ' ').title(),
+                "image": res['secure_url']
+            })
+        except Exception as e:
+            print(f"❌ Error con {archivo}: {e}")
 
-        # CASO 2: El libro es NUEVO (No está en el JSON)
-        else:
-            print(f"✨ Encontrado NUEVO spine: {archivo}")
-            try:
-                res = cloudinary.uploader.upload(ruta_completa, folder="spines_archive")
-                nueva_entrada = {
-                    "id": archivo,
-                    "title": limpiar_titulo(archivo),
-                    "author": "Unknown", # Valor por defecto seguro
-                    "image": res['secure_url']
-                }
-                datos_globales.append(nueva_entrada)
-                # Actualizamos el mapa por si acaso
-                mapa_db[archivo] = nueva_entrada
-                contador_nuevos += 1
-                cambios_pendientes = True
-            except Exception as e:
-                print(f"❌ Error subiendo {archivo}: {e}")
-
-    # GUARDADO FINAL
-    if cambios_pendientes:
-        print("\n💾 Guardando todos los cambios en database.json...")
-        with open(RUTA_JSON, 'w', encoding='utf-8') as f:
-            json.dump(datos_globales, f, indent=2, ensure_ascii=False)
-        print(f"✅ ¡TERMINADO!\n- Actualizados: {contador_actualizados}\n- Nuevos añadidos: {contador_nuevos}\n- Saltados (ya listos): {contador_saltados}")
-    else:
-        print("\n✅ Todo estaba al día. No se tocó el archivo.")
+    # Guardar JSON
+    with open(RUTA_JSON, 'w', encoding='utf-8') as f:
+        json.dump(db, f, indent=2, ensure_ascii=False)
+    
+    print(f"✨ ¡VICTORIA! {len(db)} enlaces guardados en: {RUTA_JSON}")
 
 if __name__ == "__main__":
-    ejecutar_cirugia()
+    forzar_subida()
