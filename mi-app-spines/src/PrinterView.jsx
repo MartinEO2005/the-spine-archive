@@ -18,6 +18,25 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const inchToMm = (inch) => inch * 25.4;
 
+  // Función auxiliar para convertir URL a Base64 y asegurar calidad/CORS
+  const getBase64Image = (url) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous'); // Vital para Cloudinary
+      img.src = url;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        // Usamos WebP o PNG para mantener la máxima calidad
+        resolve(canvas.toDataURL('image/webp', 1.0)); 
+      };
+      img.onerror = (err) => reject(err);
+    });
+  };
+
   const generatePreview = useCallback(async () => {
     if (images.length === 0) {
       setPdfUrl(null);
@@ -42,9 +61,13 @@ const PrinterView = ({ initialSpines, onBack }) => {
     let curX = mLeft;
     let curY = mTop;
 
+    // 1. Corregimos la selección de URL (Cloudinary o Local)
     const expandedImages = [];
     images.forEach(imgObj => {
-      for (let i = 0; i < imgObj.count; i++) expandedImages.push(imgObj.src);
+      const targetUrl = imgObj.image || imgObj.src;
+      for (let i = 0; i < imgObj.count; i++) {
+        expandedImages.push(targetUrl);
+      }
     });
 
     for (const src of expandedImages) {
@@ -57,7 +80,16 @@ const PrinterView = ({ initialSpines, onBack }) => {
         curX = mLeft;
         curY = mTop;
       }
-      pdf.addImage(src, 'PNG', curX, curY, sW, sH, undefined, 'FAST');
+
+      try {
+        // 2. Cargamos la imagen como Base64 para evitar errores de renderizado en el PDF
+        const imgData = await getBase64Image(src);
+        // Usamos 'NONE' en lugar de 'FAST' para que no comprima y pierda calidad
+        pdf.addImage(imgData, 'WEBP', curX, curY, sW, sH, undefined, 'NONE');
+      } catch (error) {
+        console.error("Error cargando imagen para el PDF:", src, error);
+      }
+      
       curX += sW + gap;
     }
 
@@ -91,7 +123,13 @@ const PrinterView = ({ initialSpines, onBack }) => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
               <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                <img src={img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
+                {/* 3. Corregimos el src de la miniatura y añadimos crossOrigin */}
+                <img 
+                  src={img.image || img.src} 
+                  alt="t" 
+                  crossOrigin="anonymous"
+                  style={{ width: '100%', height: '100px', objectFit: 'cover' }} 
+                />
                 <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between' }}>
                   <input type="number" value={img.count} onChange={(e) => {
                     const newImages = [...images];
@@ -108,7 +146,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
         {/* VISOR PDF Y PANEL DE CONFIGURACIÓN */}
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center' }}>
           
-          {/* PANEL BLANCO DE CONFIGURACIÓN */}
           <div style={{ 
             position: 'absolute', 
             top: '20px', 
@@ -130,7 +167,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
               </div>
             ))}
             
-            {/* AQUÍ ESTÁ EL BOTÓN DE RESET QUE FALTABA */}
             <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ccc', paddingTop: '10px', marginTop: '5px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
                 <label style={{ fontSize: '11px', fontWeight: 'bold' }}>SPINE WIDTH: {config.spineWidthMM}mm</label>
