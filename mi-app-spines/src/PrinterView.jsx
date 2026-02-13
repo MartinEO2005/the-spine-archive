@@ -19,9 +19,14 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const inchToMm = (inch) => inch * 25.4;
 
-  // FUNCIÓN DE CARGA SEGURA: Si falla el 404, no rompe el PDF
   const loadImageSafe = (url) => {
     return new Promise((resolve) => {
+      // 🛡️ FILTRO CRÍTICO: Si no empieza por http, es una ruta local que fallará en Vercel
+      if (!url || !url.startsWith('http')) {
+        console.warn("🚫 Saltando ruta local no permitida en Vercel:", url);
+        return resolve(null);
+      }
+
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
       
@@ -31,22 +36,15 @@ const PrinterView = ({ initialSpines, onBack }) => {
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        // Convertimos a JPEG para evitar el error de "PNG signature"
-        resolve(canvas.toDataURL('image/jpeg', 0.95));
+        resolve(canvas.toDataURL('image/jpeg', 0.9)); // Forzamos JPEG para evitar líos de firmas
       };
 
       img.onerror = () => {
-        console.warn("⚠️ Saltando imagen por error 404 o carga:", url);
-        resolve(null); // Devolvemos null en lugar de error para que Promise.all no explote
+        console.error("❌ Error de red/CORS en URL:", url);
+        resolve(null);
       };
 
-      // Si la URL no empieza por http, es que el scraper no funcionó bien para este ID
-      if (!url.startsWith('http')) {
-        console.error("❌ URL inválida (no es Cloudinary):", url);
-        resolve(null);
-      } else {
-        img.src = url;
-      }
+      img.src = url;
     });
   };
 
@@ -77,20 +75,26 @@ const PrinterView = ({ initialSpines, onBack }) => {
       let curX = mLeft;
       let curY = mTop;
 
-      // Priorizar siempre el campo .image (Cloudinary)
+      // Solo procesamos lo que tenga link de Cloudinary
       const urlList = [];
       images.forEach(imgObj => {
-        const urlToUse = imgObj.image || imgObj.src;
-        for (let i = 0; i < imgObj.count; i++) {
-          urlList.push(urlToUse);
+        // PRIORIDAD ABSOLUTA A .image
+        const urlToUse = imgObj.image; 
+        if (urlToUse) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(urlToUse);
         }
       });
 
-      // Cargamos todas las imágenes. Las que den 404 devolverán null.
+      if (urlList.length === 0) {
+        console.warn("⚠️ Ninguna de las imágenes seleccionadas tiene link de Cloudinary todavía.");
+        setPdfUrl(null);
+        return;
+      }
+
       const loadedImages = await Promise.all(urlList.map(url => loadImageSafe(url)));
 
       loadedImages.forEach((imgData) => {
-        if (!imgData) return; // Si la imagen falló (null), no la dibujamos
+        if (!imgData) return;
 
         if (curX + sW > pW - mRight) {
           curX = mLeft;
@@ -102,21 +106,20 @@ const PrinterView = ({ initialSpines, onBack }) => {
           curY = mTop;
         }
 
-        // Usamos formato JPEG para evitar problemas de firmas de archivos
         pdf.addImage(imgData, 'JPEG', curX, curY, sW, sH, undefined, 'NONE');
         curX += sW + gap;
       });
 
       setPdfUrl(pdf.output('bloburl'));
     } catch (err) {
-      console.error("Error crítico generando PDF:", err);
+      console.error("🔥 Error en PDF:", err);
     } finally {
       setIsGenerating(false);
     }
   }, [images, config]);
 
   useEffect(() => {
-    const timer = setTimeout(() => generatePreview(), 600);
+    const timer = setTimeout(() => generatePreview(), 800);
     return () => clearTimeout(timer);
   }, [generatePreview]);
 
@@ -126,7 +129,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
         <button onClick={onBack} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK</button>
         <div style={{ color: 'white', fontWeight: 'bold' }}>
-          {isGenerating ? "⏳ PROCESSING IMAGES..." : "PRINT EDITOR"}
+          {isGenerating ? "⏳ SYNCING CLOUDINARY..." : "PRINT EDITOR"}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button onClick={() => setImages([])} style={{ background: '#333', color: '#ff4444', border: '1px solid #ff4444', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>CLEAR ALL</button>
@@ -138,13 +141,14 @@ const PrinterView = ({ initialSpines, onBack }) => {
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
+              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative', border: !img.image ? '2px solid orange' : 'none' }}>
                 <img 
                   src={img.image || img.src} 
-                  alt="thumb" 
+                  alt="t" 
                   crossOrigin="anonymous"
-                  style={{ width: '100%', height: '100px', objectFit: 'cover' }} 
+                  style={{ width: '100%', height: '100px', objectFit: 'cover', opacity: !img.image ? 0.3 : 1 }} 
                 />
+                {!img.image && <div style={{position:'absolute', top:0, fontSize:'8px', background:'orange', color:'black', padding:'2px'}}>LOCAL ONLY</div>}
                 <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between' }}>
                   <input type="number" value={img.count} onChange={(e) => {
                     const newImages = [...images];
@@ -159,7 +163,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
         </div>
 
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center' }}>
-          {/* Panel de Configuración */}
           <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10, backgroundColor: 'white', padding: '15px', borderRadius: '8px', width: '280px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>
             {['spineSpacing', 'pageWidth', 'pageHeight', 'marginTop', 'marginLeft', 'marginRight'].map(k => (
               <div key={k}>
@@ -172,8 +175,9 @@ const PrinterView = ({ initialSpines, onBack }) => {
           {pdfUrl ? (
             <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '90%', height: '95%', border: 'none', marginTop: '10px' }} title="preview" />
           ) : (
-            <div style={{ color: 'white', marginTop: '100px', textAlign: 'center' }}>
-              <h2>{isGenerating ? "Downloading from Cloudinary..." : "PDF is empty"}</h2>
+            <div style={{ color: 'white', marginTop: '100px', textAlign: 'center', padding: '20px' }}>
+              <h2>{isGenerating ? "Downloading Cloudinary Assets..." : "No Cloudinary images found"}</h2>
+              <p style={{fontSize: '12px'}}>If you see orange borders on the left, those images aren't uploaded yet.</p>
             </div>
           )}
         </div>
