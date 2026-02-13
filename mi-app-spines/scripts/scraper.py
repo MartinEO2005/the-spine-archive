@@ -1,70 +1,97 @@
 import os
 import json
+import signal
+import sys
 import cloudinary
 import cloudinary.uploader
 from dotenv import load_dotenv
 
-# Cargamos las claves
 load_dotenv()
 
-# --- CONFIGURACIÓN A LO BRUTO ---
-# He puesto la ruta basada en tu mensaje de error. 
-# Si tu carpeta spines no está aquí, cámbialo por lo que copiaste en el Paso 1.
-# La 'r' delante es OBLIGATORIA para Windows.
-RUTA_OBLIGATORIA = r"C:\Users\MartinEO\Desktop\the-spine-archive\mi-app-spines\public\spines"
-RUTA_JSON = r"C:\Users\MartinEO\Desktop\the-spine-archive\mi-app-spines\public\database.json"
-
-# Configuración Cloudinary
 cloudinary.config(
     cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'),
     api_key = os.getenv('CLOUDINARY_API_KEY'),
     api_secret = os.getenv('CLOUDINARY_API_SECRET')
 )
 
-def forzar_subida():
-    print(f"--- 🛑 MODO FUERZA BRUTA ---")
-    print(f"Mirando fijamente en: {RUTA_OBLIGATORIA}")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RUTA_JSON = os.path.join(BASE_DIR, "public", "database.json")
+RUTA_FOTOS = os.path.join(BASE_DIR, "public", "spines")
 
-    # 1. VERIFICACIÓN VISUAL
-    if not os.path.exists(RUTA_OBLIGATORIA):
-        print("❌ ¡LA RUTA NO EXISTE! Revisa que hayas copiado bien el path.")
+datos_globales = []
+hubo_cambios = False
+
+def guardar_y_salir(signum, frame):
+    print("\n\n🛑 INTERRUPCIÓN. Guardando progreso...")
+    if hubo_cambios:
+        with open(RUTA_JSON, 'w', encoding='utf-8') as f:
+            json.dump(datos_globales, f, indent=2, ensure_ascii=False)
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, guardar_y_salir)
+
+def ejecutar_limpio():
+    global datos_globales, hubo_cambios
+    
+    if not os.path.exists(RUTA_JSON):
+        print("❌ No encuentro el database.json")
         return
 
-    # Listar TODO lo que hay, sea imagen o no
-    todo_el_contenido = os.listdir(RUTA_OBLIGATORIA)
-    print(f"📂 Archivos detectados en la carpeta (Totales): {len(todo_el_contenido)}")
-    
-    # Filtrar imágenes
-    imagenes = [f for f in todo_el_contenido if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
-    
-    if len(imagenes) == 0:
-        print("⚠️  LA CARPETA EXISTE PERO NO VEO IMÁGENES.")
-        print(f"Contenido exacto: {todo_el_contenido}")
-        print("¿Tienen extensión .jpg? ¿Son carpetas?")
-        return
+    with open(RUTA_JSON, 'r', encoding='utf-8') as f:
+        datos_globales = json.load(f)
 
-    print(f"🚀 ¡AHORA SÍ! Encontradas {len(imagenes)} imágenes. Subiendo...")
+    print(f"📊 Total entradas en JSON: {len(datos_globales)}")
 
-    db = []
-    for archivo in imagenes:
-        ruta_completa = os.path.join(RUTA_OBLIGATORIA, archivo)
-        try:
-            print(f"📤 Subiendo: {archivo}")
-            res = cloudinary.uploader.upload(ruta_completa, folder="spines_archive")
-            
-            db.append({
-                "id": archivo,
-                "title": archivo.split('.')[0].replace('_', ' ').replace('-', ' ').title(),
-                "image": res['secure_url']
-            })
-        except Exception as e:
-            print(f"❌ Error con {archivo}: {e}")
+    actualizados = 0
+    saltados = 0
 
-    # Guardar JSON
-    with open(RUTA_JSON, 'w', encoding='utf-8') as f:
-        json.dump(db, f, indent=2, ensure_ascii=False)
+    for libro in datos_globales:
+        # 1. Si ya tiene URL de Cloudinary, saltar
+        if "image" in libro and "res.cloudinary.com" in libro["image"]:
+            saltados += 1
+            continue
+        
+        # 2. Intentar encontrar el archivo (probando extensiones)
+        id_libro = str(libro.get("id"))
+        
+        # Probamos con .webp, .jpg, .png...
+        archivo_encontrado = None
+        for ext in ['.webp', '.jpg', '.jpeg', '.png', '.JPG']:
+            posible_ruta = os.path.join(RUTA_FOTOS, id_libro + ext)
+            if os.path.exists(posible_ruta):
+                archivo_encontrado = posible_ruta
+                break
+        
+        if archivo_encontrado:
+            try:
+                print(f"📤 Subiendo ({actualizados + 1}): {id_libro}...")
+                res = cloudinary.uploader.upload(archivo_encontrado, folder="spines_archive")
+                # GUARDAMOS LA URL EN EL CAMPO "image"
+                libro["image"] = res["secure_url"]
+                actualizados += 1
+                hubo_cambios = True
+            except Exception as e:
+                print(f"❌ Error con {id_libro}: {e}")
+        else:
+            # Si el ID ya incluía la extensión, probamos directo
+            ruta_directa = os.path.join(RUTA_FOTOS, id_libro)
+            if os.path.exists(ruta_directa):
+                try:
+                    print(f"📤 Subiendo directo: {id_libro}...")
+                    res = cloudinary.uploader.upload(ruta_directa, folder="spines_archive")
+                    libro["image"] = res["secure_url"]
+                    actualizados += 1
+                    hubo_cambios = True
+                except Exception as e:
+                    print(f"❌ Error con {id_libro}: {e}")
+            else:
+                print(f"⚠️  No encuentro la foto para el ID: {id_libro} en la carpeta spines")
+
+    if hubo_cambios:
+        with open(RUTA_JSON, 'w', encoding='utf-8') as f:
+            json.dump(datos_globales, f, indent=2, ensure_ascii=False)
     
-    print(f"✨ ¡VICTORIA! {len(db)} enlaces guardados en: {RUTA_JSON}")
+    print(f"\n✨ FIN. Actualizados: {actualizados}, Ya listos: {saltados}, Total: {len(datos_globales)}")
 
 if __name__ == "__main__":
-    forzar_subida()
+    ejecutar_limpio()
