@@ -21,12 +21,11 @@ function App() {
 
   const inchToMm = (inch) => inch * 25.4;
 
-  // Lógica de reset original
   const resetSpineWidth = () => {
     setConfig({ ...config, spineWidthMM: DEFAULT_SPINE_WIDTH });
   };
 
-  // Función para procesar imágenes de Cloudinary sin errores de firma o 404
+  // Esta función ahora ignora errores 403 silenciosamente para no romper el PDF
   const getSafeImageData = (url) => {
     return new Promise((resolve) => {
       if (!url || !url.startsWith('http')) return resolve(null);
@@ -43,7 +42,11 @@ function App() {
         ctx.drawImage(img, 0, 0);
         resolve(canvas.toDataURL('image/jpeg', 0.95));
       };
-      img.onerror = () => resolve(null);
+
+      img.onerror = () => {
+        console.warn("Bloqueo de acceso (403) o error en imagen:", url);
+        resolve(null);
+      };
     });
   };
 
@@ -74,13 +77,19 @@ function App() {
       let curX = mLeft;
       let curY = mTop;
 
+      // Filtrar solo las que tengan Cloudinary (.image)
       const urlList = [];
       images.forEach(imgObj => {
-        const urlToUse = imgObj.image; // Prioridad Cloudinary
-        if (urlToUse) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(urlToUse);
+        if (imgObj.image) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.image);
         }
       });
+
+      if (urlList.length === 0) {
+        setPdfUrl(null);
+        setIsGenerating(false);
+        return;
+      }
 
       const loadedImages = await Promise.all(urlList.map(url => getSafeImageData(url)));
 
@@ -103,14 +112,14 @@ function App() {
 
       setPdfUrl(pdf.output('bloburl'));
     } catch (err) {
-      console.error("PDF Error:", err);
+      console.error("PDF Generator Error:", err);
     } finally {
       setIsGenerating(false);
     }
   }, [images, config, view]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => generatePreview(), 300);
+    const timeoutId = setTimeout(() => generatePreview(), 400);
     return () => clearTimeout(timeoutId);
   }, [generatePreview]);
 
@@ -121,7 +130,7 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
-      {/* HEADER ORIGINAL */}
+      {/* HEADER */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
@@ -129,13 +138,13 @@ function App() {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
              <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
-             <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>DOWNLOAD PDF</button>
+             <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
         </div>
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO ORIGINAL */}
+        {/* PANEL IZQUIERDO */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
@@ -157,10 +166,9 @@ function App() {
           </div>
         </div>
 
-        {/* ÁREA CENTRAL Y CONTROLES FLOTANTES ORIGINALES */}
+        {/* ÁREA CENTRAL Y CONTROLES */}
         <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
           
-          {/* CUADRADO DE CONFIGURACIÓN (TUS 3 COLUMNAS) */}
           <div style={{ position: 'absolute', top: '15px', right: '15px', zIndex: 10, backgroundColor: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {[
               { label: 'Spacing', key: 'spineSpacing' },
@@ -203,7 +211,7 @@ function App() {
           {pdfUrl ? (
             <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview" style={{ width: '100%', height: '100%', border: 'none' }} />
           ) : (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
               <p>{isGenerating ? "📥 Downloading from Cloudinary..." : "Generating preview..."}</p>
             </div>
           )}
