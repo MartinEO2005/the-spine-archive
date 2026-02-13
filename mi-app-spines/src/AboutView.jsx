@@ -70,7 +70,7 @@ const AboutView = () => {
             textAlign: 'justify', // TEXTO JUSTIFICADO
             margin: 0
           }}>
-            This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or a user looking for a specific franchise or creator that hasn't been archived yet, please do not hesitate to reach out. Your feedback and contributions help keep this archive complete and up to date for everyone.
+            This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or a user looking for a specific franchise or creator that hasn't been archived yet, please do not hesitate to reach out. Your feedback and contributions help keep this archive complete and up to date for everyone. <strong>Please contact if image quality is a big issue or if spine size is incorrect</strong>
           </p>
 
           {/* BOTÓN DE REDDIT */}
