@@ -10,8 +10,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [hoveredId, setHoveredId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState('catalog');
-
-  // OPTIMIZACIÓN 1: Paginación para no explotar con 6000 imágenes
   const [visibleCount, setVisibleCount] = useState(60); 
 
   useEffect(() => {
@@ -20,23 +18,21 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       .then(data => { setSpines(data); setLoading(false); });
   }, []);
 
-  useEffect(() => { setSelectedSpines(initialSelected); }, [initialSelected]);
-
-  // Resetear la paginación si buscamos algo nuevo
   useEffect(() => {
     setVisibleCount(60);
-  }, [searchTerm]);
+    window.scrollTo(0, 0);
+  }, [searchTerm, currentView]);
 
-  // Detectar scroll para cargar más imágenes automáticamente (Infinite Scroll simple)
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-        setVisibleCount(prev => prev + 40); // Carga 40 más al llegar al fondo
+      if (currentView !== 'catalog') return;
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 600) {
+        setVisibleCount(prev => prev + 40);
       }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentView]);
 
   const stats = useMemo(() => {
     if (!spines.length) return null;
@@ -49,96 +45,57 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return { totalSpines: spines.length, totalAuthors: Object.keys(counts).length, topAuthors: sorted };
   }, [spines]);
 
-  // OPTIMIZACIÓN 2: useMemo para que el filtrado sea instantáneo
   const filteredSpines = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
     if (!term) return spines;
     return spines.filter(s => {
-      const title = s.title ? s.title.toLowerCase() : "";
-      const author = s.author ? s.author.toLowerCase() : "";
+      const title = s.title?.toLowerCase() || "";
+      const author = s.author?.toLowerCase() || "";
       return title.includes(term) || author.includes(term);
     });
   }, [spines, searchTerm]);
 
-  // Aquí cortamos la lista para pasarle solo las visibles a SpineGrid
-  const spinesToDisplay = filteredSpines.slice(0, visibleCount);
-  
-  const toggleSpine = (spine) => {
-    const isSelected = selectedSpines.find(s => s.id === spine.id);
-    if (isSelected) {
-      setSelectedSpines(selectedSpines.filter(s => s.id !== spine.id));
-    } else {
-      setSelectedSpines([...selectedSpines, { ...spine, count: 1 }]);
-    }
-  };
-
-  const navButtonStyle = (view) => ({
-    backgroundColor: 'transparent', color: currentView === view ? 'white' : 'rgba(255,255,255,0.6)',
-    border: 'none', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', marginRight: '20px',
-    borderBottom: currentView === view ? '2px solid white' : '2px solid transparent', padding: '5px 0'
-  });
-
-  if (loading) return <div style={{color: 'white', textAlign: 'center', marginTop: '20%'}}>LOADING DATABASE...</div>;
+  if (loading) return <div style={{color: 'white', textAlign: 'center', marginTop: '20%', backgroundColor: '#111', height: '100vh'}}>LOADING...</div>;
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111', fontFamily: 'sans-serif' }}>
+    <div style={{ minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#111' }}>
       
-      {/* HEADER BAR */}
-      <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
-        
-        <img 
-          src="/logo.jpg"
-          alt="The Spine Archive Logo"
-          onClick={() => setCurrentView('catalog')}
-          style={{ height: '70px', width: 'auto', objectFit: 'contain', marginRight: '30px', cursor: 'pointer', borderRadius: '4px' }} 
-        />
-
-        <div style={{ display: 'flex', marginRight: '30px' }}>
-          <button onClick={() => setCurrentView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
-          <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
-          <button onClick={() => setCurrentView('about')} style={navButtonStyle('about')}>ABOUT</button>
+      {/* HEADER */}
+      <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 1000, position: 'sticky', top: 0, width: '100%', boxSizing: 'border-box' }}>
+        <img src="/logo.jpg" alt="Logo" onClick={() => setCurrentView('catalog')} style={{ height: '50px', cursor: 'pointer', marginRight: '30px' }} />
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <button onClick={() => setCurrentView('catalog')} style={{ background: 'none', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer', borderBottom: currentView === 'catalog' ? '3px solid white' : 'none' }}>CATALOG</button>
+          <button onClick={() => setCurrentView('stats')} style={{ background: 'none', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer', borderBottom: currentView === 'stats' ? '3px solid white' : 'none' }}>STATS</button>
+          <button onClick={() => setCurrentView('about')} style={{ background: 'none', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer', borderBottom: currentView === 'about' ? '3px solid white' : 'none' }}>ABOUT</button>
         </div>
-        
-        {currentView === 'catalog' && (
-          <input 
-            type="text" 
-            placeholder="Search 6000+ titles..." 
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ flex: 1, maxWidth: '400px', padding: '10px 20px', borderRadius: '5px', border: 'none' }}
-          />
-        )}
-        
-        <div style={{ flex: 1 }}></div>
-        
-        <button onClick={() => onConfirm(selectedSpines)} disabled={selectedSpines.length === 0}
-          style={{ backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', color: '#b30000', border: 'none', padding: '10px 25px', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}
-        >
-          GENERATE PDF ({selectedSpines.length})
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          {currentView === 'catalog' && (
+            <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: '80%', maxWidth: '400px', padding: '10px', borderRadius: '5px', border: 'none' }} />
+          )}
+        </div>
+        <button onClick={() => onConfirm(selectedSpines)} disabled={selectedSpines.length === 0} style={{ backgroundColor: 'white', color: '#b30000', padding: '10px 20px', borderRadius: '5px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>
+          PDF ({selectedSpines.length})
         </button>
       </div>
 
-      {currentView === 'catalog' && (
-        <div style={{ flex: 1 }}>
-            <SpineGrid 
-              spines={spinesToDisplay} 
-              selectedSpines={selectedSpines} 
-              toggleSpine={toggleSpine} 
-              hoveredId={hoveredId} 
-              setHoveredId={setHoveredId} 
-            />
-            {/* Mensaje sutil al final para saber que hay más */}
-            {visibleCount < filteredSpines.length && (
-                <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
-                    Scrolling to load more spines...
-                </div>
-            )}
-        </div>
-      )}
-      
-      {currentView === 'stats' && <StatsView stats={stats} spines={spines} />}
-      
-      {currentView === 'about' && <AboutView />}
+      {/* BODY */}
+      <div style={{ flex: 1, width: '100%' }}>
+        {currentView === 'catalog' ? (
+          <SpineGrid 
+            spines={filteredSpines.slice(0, visibleCount)} 
+            selectedSpines={selectedSpines} 
+            toggleSpine={(spine) => {
+              const isSelected = selectedSpines.find(s => s.id === spine.id);
+              setSelectedSpines(isSelected ? selectedSpines.filter(s => s.id !== spine.id) : [...selectedSpines, {...spine, count: 1}]);
+            }} 
+            hoveredId={hoveredId} setHoveredId={setHoveredId} 
+          />
+        ) : (
+          <div className="view-container">
+            {currentView === 'stats' ? <StatsView stats={stats} spines={spines} /> : <AboutView />}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
