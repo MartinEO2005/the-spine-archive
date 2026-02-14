@@ -64,9 +64,11 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           ))}
         </div>
 
-        <h2 style={{ color: 'white' }}>Top Contributors</h2>
+        <h2 style={{ color: 'white' }}>All Contributors ({stats.topAuthors.length})</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
-          {stats.topAuthors.slice(0, 100).map(([author, count], index) => (
+          
+          {/* EL CAMBIO ESTÁ AQUÍ ABAJO: He quitado .slice(0, 100) */}
+          {stats.topAuthors.map(([author, count], index) => (
             <div key={author} style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '1px solid #333' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <span style={{ width: '50px', color: '#666', fontSize: '0.9rem' }}>#{index + 1}</span>
@@ -77,6 +79,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
               <div style={{ fontWeight: 'bold', color: 'white' }}>{count} spines</div>
             </div>
           ))}
+
         </div>
       </div>
     </div>
