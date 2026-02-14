@@ -98,58 +98,115 @@ const PrinterView = ({ initialSpines, onBack }) => {
   }, [generatePreview]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', color: '#333' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden' }}>
       
-      <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
+      {/* HEADER */}
+      <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <button onClick={onBack} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK</button>
         <div style={{ color: 'white', fontWeight: 'bold' }}>
-          {isGenerating ? "⏳ SYNCING..." : "PRINT EDITOR"}
+          {isGenerating ? "⏳ GENERATING PDF..." : "PRINT EDITOR"}
         </div>
-        <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+        <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000', cursor: 'pointer' }}>DOWNLOAD PDF</button>
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        
+        {/* SIDEBAR IZQUIERDO */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
+              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative', border: '1px solid #999' }}>
                 <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-                <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between' }}>
-                  <input type="number" value={img.count} onChange={(e) => {
-                    const newImages = [...images];
-                    newImages[i].count = Math.max(1, parseInt(e.target.value) || 1);
-                    setImages(newImages);
-                  }} style={{ width: '40px', color: '#333' }} />
-                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', cursor: 'pointer', width: '22px', height: '22px', borderRadius: '4px' }}>✕</button>
+                <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f0f0f0' }}>
+                  <input 
+                    type="number" 
+                    value={img.count} 
+                    onChange={(e) => {
+                      const newImages = [...images];
+                      newImages[i].count = Math.max(1, parseInt(e.target.value) || 1);
+                      setImages(newImages);
+                    }} 
+                    style={{ width: '50px', color: 'black', background: 'white', border: '1px solid #ccc', padding: '2px' }} 
+                  />
+                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: '#ff4444', color: 'white', border: 'none', cursor: 'pointer', width: '24px', height: '24px', borderRadius: '4px', fontWeight: 'bold' }}>✕</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center' }}>
-          {/* CAJA DE CONFIGURACIÓN - TEXTOS FORZADOS A NEGRO */}
-          <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10, backgroundColor: 'white', padding: '15px', borderRadius: '8px', width: '280px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>
+        {/* ÁREA DE PREVIEW Y CONFIGURACIÓN */}
+        <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
+          
+          {/* CAJA DE CONFIGURACIÓN (LA QUE SE VEÍA MAL) */}
+          <div style={{ 
+            position: 'absolute', 
+            top: '20px', 
+            right: '20px', 
+            zIndex: 1000, 
+            backgroundColor: 'white', 
+            padding: '20px', 
+            borderRadius: '12px', 
+            width: '280px', 
+            boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '15px'
+          }}>
             {['spineSpacing', 'pageWidth', 'pageHeight', 'marginTop', 'marginLeft', 'marginRight'].map(k => (
               <div key={k}>
-                <label style={{ fontSize: '9px', fontWeight: 'bold', display: 'block', color: '#333' }}>{k.toUpperCase()}</label>
+                <label style={{ 
+                  fontSize: '10px', 
+                  fontWeight: 'bold', 
+                  display: 'block', 
+                  color: '#333333', // FORZADO NEGRO
+                  marginBottom: '4px',
+                  textTransform: 'uppercase'
+                }}>
+                  {k.replace(/([A-Z])/g, ' $1')}
+                </label>
                 <input 
                   type="number" 
                   step="0.1" 
                   value={config[k]} 
                   onChange={e => setConfig({...config, [k]: parseFloat(e.target.value) || 0})} 
-                  style={{ width: '100%', color: '#333', border: '1px solid #ccc', borderRadius: '4px' }} 
+                  style={{ 
+                    width: '100%', 
+                    color: '#000000', // FORZADO NEGRO PARA EL NÚMERO
+                    backgroundColor: '#ffffff', 
+                    border: '1px solid #bbbbbb', 
+                    borderRadius: '4px',
+                    padding: '5px',
+                    boxSizing: 'border-box',
+                    fontSize: '14px'
+                  }} 
                 />
               </div>
             ))}
-            <button onClick={() => setConfig({ ...config, spineSpacing: 0.1, pageWidth: 11, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5 })} style={{ gridColumn: 'span 2', marginTop: '10px', padding: '5px', fontSize: '10px' }}>RESET</button>
+            <button 
+              onClick={() => setConfig({ ...config, spineSpacing: 0.1, pageWidth: 11, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5 })} 
+              style={{ 
+                gridColumn: 'span 2', 
+                backgroundColor: '#eee', 
+                color: '#333', 
+                border: '1px solid #ccc',
+                padding: '8px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontSize: '11px'
+              }}
+            >
+              RESET SETTINGS
+            </button>
           </div>
 
+          {/* PDF IFRAME */}
           {pdfUrl ? (
-            <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '90%', height: '95%', border: 'none', marginTop: '10px' }} title="preview" />
+            <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '100%', height: '100%', border: 'none', borderRadius: '4px' }} title="preview" />
           ) : (
             <div style={{ color: 'white', marginTop: '100px', textAlign: 'center' }}>
-              <h2>{isGenerating ? "Downloading Assets..." : "No images found"}</h2>
+              <h2 style={{ color: 'white' }}>{isGenerating ? "Processing Images..." : "No items selected"}</h2>
             </div>
           )}
         </div>
