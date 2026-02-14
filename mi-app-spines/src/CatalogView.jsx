@@ -6,6 +6,7 @@ import AboutView from './AboutView';
 const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState(''); // 1. Nueva variable para la espera
   const [selectedSpines, setSelectedSpines] = useState(initialSelected);
   const [hoveredId, setHoveredId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,16 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       .then(data => { setSpines(data); setLoading(false); });
   }, []);
 
+  // 2. EFECTO DEBOUNCE: Espera 300ms antes de buscar de verdad
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+      setVisibleCount(60); // Reseteamos el scroll al buscar
+    }, 300);
+
+    return () => clearTimeout(timer); // Limpia el timer si sigues escribiendo
+  }, [searchTerm]);
+
   useEffect(() => {
     const handleScroll = () => {
       if (currentView !== 'catalog') return;
@@ -29,15 +40,18 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
+  // 3. OPTIMIZACIÓN: Filtramos usando 'debouncedTerm', no 'searchTerm'
   const filteredSpines = useMemo(() => {
-    const term = searchTerm.toLowerCase().trim();
+    const term = debouncedTerm.toLowerCase().trim();
     if (!term) return spines;
+    
+    // Optimizamos la búsqueda para que sea más rápida
     return spines.filter(s => {
-      const title = s.title?.toLowerCase() || "";
-      const author = s.author?.toLowerCase() || "";
-      return title.includes(term) || author.includes(term);
+      // Usamos includes simple que es más rápido
+      return (s.title && s.title.toLowerCase().includes(term)) || 
+             (s.author && s.author.toLowerCase().includes(term));
     });
-  }, [spines, searchTerm]);
+  }, [spines, debouncedTerm]);
 
   const navButtonStyle = (view) => ({
     backgroundColor: 'transparent', color: currentView === view ? 'white' : 'rgba(255,255,255,0.6)',
@@ -56,9 +70,23 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
           <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
           <button onClick={() => setCurrentView('about')} style={navButtonStyle('about')}>ABOUT</button>
         </div>
+        
         {currentView === 'catalog' && (
-          <input type="text" placeholder="Search 6000+ titles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ flex: 1, maxWidth: '400px', padding: '10px 20px', borderRadius: '5px', border: 'none' }} />
+          <div style={{ flex: 1, maxWidth: '400px', position: 'relative' }}>
+             <input 
+               type="text" 
+               placeholder="Search 6000+ titles..." 
+               value={searchTerm} 
+               onChange={(e) => setSearchTerm(e.target.value)} 
+               style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} 
+             />
+             {/* Indicador visual si está escribiendo pero aún no ha buscado */}
+             {searchTerm !== debouncedTerm && (
+               <span style={{ position: 'absolute', right: '10px', top: '10px', color: '#999', fontSize: '12px' }}>...</span>
+             )}
+          </div>
         )}
+        
         <div style={{ flex: 1 }}></div>
         <button onClick={() => onConfirm(selectedSpines)} disabled={selectedSpines.length === 0} style={{ backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', color: '#b30000', border: 'none', padding: '10px 25px', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>
           GENERATE PDF ({selectedSpines.length})
