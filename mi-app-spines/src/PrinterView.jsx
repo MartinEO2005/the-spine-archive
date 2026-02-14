@@ -46,7 +46,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
         unit: 'mm',
         format: [inchToMm(config.pageWidth), inchToMm(config.pageHeight)]
       });
-
       const sW = parseFloat(config.spineWidthMM);
       const sH = 161; 
       const gap = inchToMm(config.spineSpacing);
@@ -58,7 +57,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
       let curX = mLeft;
       let curY = mTop;
-
       const urlList = [];
       images.forEach(imgObj => {
         if (imgObj.image) {
@@ -71,25 +69,16 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
-        if (curX + sW > pW - mRight) {
-          curX = mLeft;
-          curY += sH + 5;
-        }
+        if (curX + sW > pW - mRight) { curX = mLeft; curY += sH + 5; }
         if (curY + sH > pH - mTop) {
           pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], 'l');
-          curX = mLeft;
-          curY = mTop;
+          curX = mLeft; curY = mTop;
         }
         pdf.addImage(imgData, 'JPEG', curX, curY, sW, sH, undefined, 'NONE');
         curX += sW + gap;
       });
-
       setPdfUrl(pdf.output('bloburl'));
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsGenerating(false);
-    }
+    } catch (err) { console.error(err); } finally { setIsGenerating(false); }
   }, [images, config]);
 
   useEffect(() => {
@@ -104,20 +93,18 @@ const PrinterView = ({ initialSpines, onBack }) => {
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <button onClick={onBack} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK</button>
         <div style={{ color: 'white', fontWeight: 'bold' }}>
-          {isGenerating ? "⏳ GENERATING PDF..." : "PRINT EDITOR"}
+          {isGenerating ? "⏳ GENERATING..." : "PRINT EDITOR"}
         </div>
-        <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000', cursor: 'pointer' }}>DOWNLOAD PDF</button>
+        <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        
-        {/* SIDEBAR IZQUIERDO */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative', border: '1px solid #999' }}>
+              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                 <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-                <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f0f0f0' }}>
+                <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <input 
                     type="number" 
                     value={img.count} 
@@ -126,45 +113,32 @@ const PrinterView = ({ initialSpines, onBack }) => {
                       newImages[i].count = Math.max(1, parseInt(e.target.value) || 1);
                       setImages(newImages);
                     }} 
-                    style={{ width: '50px', color: 'black', background: 'white', border: '1px solid #ccc', padding: '2px' }} 
+                    style={{ width: '50px', color: '#000000', WebkitTextFillColor: '#000000', background: 'white', border: '1px solid #ccc' }} 
                   />
-                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: '#ff4444', color: 'white', border: 'none', cursor: 'pointer', width: '24px', height: '24px', borderRadius: '4px', fontWeight: 'bold' }}>✕</button>
+                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', width: '24px', height: '24px', borderRadius: '4px' }}>✕</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ÁREA DE PREVIEW Y CONFIGURACIÓN */}
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
           
-          {/* CAJA DE CONFIGURACIÓN - AHORA CON COLOR FORZADO TRAS EL CAMBIO EN INDEX.CSS */}
+          {/* CAJA DE CONFIGURACIÓN - PROTECCIÓN MÁXIMA CONTRA TEXTO BLANCO */}
           <div style={{ 
-            position: 'absolute', 
-            top: '20px', 
-            right: '20px', 
-            zIndex: 1000, 
-            backgroundColor: 'white', 
-            padding: '20px', 
-            borderRadius: '12px', 
-            width: '280px', 
-            boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '15px',
-            color: '#333333' // Esto asegura que etiquetas y textos hereden el negro
+            position: 'absolute', top: '20px', right: '20px', zIndex: 1000, 
+            backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', width: '280px', 
+            boxShadow: '0 10px 25px rgba(0,0,0,0.5)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px'
           }}>
             {['spineSpacing', 'pageWidth', 'pageHeight', 'marginTop', 'marginLeft', 'marginRight'].map(k => (
               <div key={k}>
                 <label style={{ 
-                  fontSize: '10px', 
-                  fontWeight: 'bold', 
-                  display: 'block', 
-                  color: '#333333', 
-                  marginBottom: '4px',
-                  textTransform: 'uppercase'
+                  fontSize: '11px', fontWeight: 'bold', display: 'block', 
+                  color: '#000000', // FORZADO NEGRO
+                  WebkitTextFillColor: '#000000', // ANTI-BUG NAVEGADOR
+                  marginBottom: '4px'
                 }}>
-                  {k.replace(/([A-Z])/g, ' $1')}
+                  {k.toUpperCase()}
                 </label>
                 <input 
                   type="number" 
@@ -173,42 +147,21 @@ const PrinterView = ({ initialSpines, onBack }) => {
                   onChange={e => setConfig({...config, [k]: parseFloat(e.target.value) || 0})} 
                   style={{ 
                     width: '100%', 
-                    color: '#000000', 
+                    color: '#000000', // FORZADO NEGRO
+                    WebkitTextFillColor: '#000000', // ANTI-BUG NAVEGADOR
                     backgroundColor: '#ffffff', 
-                    border: '1px solid #bbbbbb', 
-                    borderRadius: '4px',
-                    padding: '5px',
-                    boxSizing: 'border-box',
-                    fontSize: '14px'
+                    border: '2px solid #333333', // BORDE MÁS OSCURO PARA VERLO BIEN
+                    borderRadius: '4px', padding: '5px', boxSizing: 'border-box'
                   }} 
                 />
               </div>
             ))}
-            <button 
-              onClick={() => setConfig({ ...config, spineSpacing: 0.1, pageWidth: 11, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5 })} 
-              style={{ 
-                gridColumn: 'span 2', 
-                backgroundColor: '#eee', 
-                color: '#333', 
-                border: '1px solid #ccc',
-                padding: '8px',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                fontSize: '11px'
-              }}
-            >
-              RESET SETTINGS
-            </button>
           </div>
 
-          {/* PDF IFRAME */}
           {pdfUrl ? (
-            <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '100%', height: '100%', border: 'none', borderRadius: '4px' }} title="preview" />
+            <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '100%', height: '100%', border: 'none' }} title="preview" />
           ) : (
-            <div style={{ color: 'white', marginTop: '100px', textAlign: 'center' }}>
-              <h2 style={{ color: 'white' }}>{isGenerating ? "Processing Images..." : "No items selected"}</h2>
-            </div>
+            <div style={{ color: 'white', marginTop: '100px' }}><h2>Generating preview...</h2></div>
           )}
         </div>
       </div>
