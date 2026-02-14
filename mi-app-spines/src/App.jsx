@@ -25,7 +25,6 @@ function App() {
     setConfig({ ...config, spineWidthMM: DEFAULT_SPINE_WIDTH });
   };
 
-  // Esta función ahora ignora errores 403 silenciosamente para no romper el PDF
   const getSafeImageData = (url) => {
     return new Promise((resolve) => {
       if (!url || !url.startsWith('http')) return resolve(null);
@@ -77,7 +76,6 @@ function App() {
       let curX = mLeft;
       let curY = mTop;
 
-      // Filtrar solo las que tengan Cloudinary (.image)
       const urlList = [];
       images.forEach(imgObj => {
         if (imgObj.image) {
@@ -152,13 +150,14 @@ function App() {
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img src={imgObj.image || imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
+                {/* CORRECCIÓN 1: Color negro para el input del contador */}
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 'bold' }}>COUNT:</span>
+                    <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
                     <input type="number" value={imgObj.count} onChange={(e) => {
                       const newImgs = [...images];
                       newImgs[i].count = Math.max(1, parseInt(e.target.value) || 1);
                       setImages(newImgs);
-                    }} style={{ width: '45px', textAlign: 'center', border: '1px solid #ccc' }} />
+                    }} style={{ width: '45px', textAlign: 'center', border: '1px solid #ccc', color: '#000', background: 'white' }} />
                 </div>
                 <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(230, 0, 18, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer' }}> × </button>
               </div>
@@ -169,7 +168,14 @@ function App() {
         {/* ÁREA CENTRAL Y CONTROLES */}
         <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
           
-          <div style={{ position: 'absolute', top: '15px', right: '15px', zIndex: 10, backgroundColor: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+          {/* CORRECCIÓN 2: Color negro forzado para toda la caja de configuración */}
+          <div style={{ 
+              position: 'absolute', top: '15px', right: '15px', zIndex: 10, 
+              backgroundColor: 'white', padding: '15px', borderRadius: '8px', 
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'grid', 
+              gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px',
+              color: '#000000' // <--- ESTA LÍNEA ARREGLA TODO
+          }}>
             {[
               { label: 'Spacing', key: 'spineSpacing' },
               { label: 'Page W', key: 'pageWidth' },
@@ -179,29 +185,29 @@ function App() {
               { label: 'M. Right', key: 'marginRight' }
             ].map(item => (
               <div key={item.key}>
-                <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block' }}>{item.label}</label>
+                <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block', color: '#333' }}>{item.label}</label>
                 <input 
                   type="number" step="0.01" 
                   value={config[item.key]} 
                   onChange={e => setConfig({...config, [item.key]: parseFloat(e.target.value) || 0})} 
-                  style={{ width: '55px' }} 
+                  style={{ width: '55px', color: '#000', border: '1px solid #ccc', background: 'white' }} 
                 />
               </div>
             ))}
             <div style={{ gridColumn: 'span 3', borderTop: '1px solid #eee', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: 'bold' }}>Spine (mm): </label>
+                  <label style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>Spine (mm): </label>
                   <input 
                     type="range" min={DEFAULT_SPINE_WIDTH - 5} max={DEFAULT_SPINE_WIDTH + 10} step="0.1"
                     value={config.spineWidthMM} 
                     onChange={e => setConfig({...config, spineWidthMM: parseFloat(e.target.value)})} 
                     style={{ width: '100px', verticalAlign: 'middle' }} 
                   />
-                  <span style={{ marginLeft: '8px', fontSize: '12px' }}>{config.spineWidthMM}</span>
+                  <span style={{ marginLeft: '8px', fontSize: '12px', color: '#000' }}>{config.spineWidthMM}</span>
                 </div>
                 <button 
                   onClick={resetSpineWidth}
-                  style={{ backgroundColor: '#eee', border: '1px solid #ccc', borderRadius: '3px', fontSize: '10px', padding: '2px 5px', cursor: 'pointer' }}
+                  style={{ backgroundColor: '#eee', color: '#333', border: '1px solid #ccc', borderRadius: '3px', fontSize: '10px', padding: '2px 5px', cursor: 'pointer' }}
                 >
                   RESET
                 </button>
