@@ -6,29 +6,42 @@ import AboutView from './AboutView';
 const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedTerm, setDebouncedTerm] = useState(''); // 1. Nueva variable para la espera
+  const [debouncedTerm, setDebouncedTerm] = useState(''); 
   const [selectedSpines, setSelectedSpines] = useState(initialSelected);
   const [hoveredId, setHoveredId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState('catalog');
   const [visibleCount, setVisibleCount] = useState(60); 
 
+  // 1. CARGA DE DATOS
   useEffect(() => {
     fetch('/database.json')
       .then(res => res.json())
       .then(data => { setSpines(data); setLoading(false); });
   }, []);
 
-  // 2. EFECTO DEBOUNCE: Espera 300ms antes de buscar de verdad
+  // 2. NUEVO: Lector de URL para SEO (Detecta ?search=juego)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('search');
+    if (query) {
+      // Decodificamos y cambiamos guiones por espacios para que la búsqueda sea natural
+      const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
+      setSearchTerm(decodedQuery);
+    }
+  }, []);
+
+  // 3. EFECTO DEBOUNCE: Espera 300ms antes de filtrar
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedTerm(searchTerm);
-      setVisibleCount(60); // Reseteamos el scroll al buscar
+      setVisibleCount(60); 
     }, 300);
 
-    return () => clearTimeout(timer); // Limpia el timer si sigues escribiendo
+    return () => clearTimeout(timer); 
   }, [searchTerm]);
 
+  // 4. SCROLL INFINITO
   useEffect(() => {
     const handleScroll = () => {
       if (currentView !== 'catalog') return;
@@ -40,14 +53,12 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // 3. OPTIMIZACIÓN: Filtramos usando 'debouncedTerm', no 'searchTerm'
+  // 5. LÓGICA DE FILTRADO
   const filteredSpines = useMemo(() => {
     const term = debouncedTerm.toLowerCase().trim();
     if (!term) return spines;
     
-    // Optimizamos la búsqueda para que sea más rápida
     return spines.filter(s => {
-      // Usamos includes simple que es más rápido
       return (s.title && s.title.toLowerCase().includes(term)) || 
              (s.author && s.author.toLowerCase().includes(term));
     });
@@ -75,12 +86,11 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
           <div style={{ flex: 1, maxWidth: '400px', position: 'relative' }}>
              <input 
                type="text" 
-               placeholder="Search 6000+ titles..." 
+               placeholder="Search from 6000+ titles or artists..." 
                value={searchTerm} 
                onChange={(e) => setSearchTerm(e.target.value)} 
                style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} 
              />
-             {/* Indicador visual si está escribiendo pero aún no ha buscado */}
              {searchTerm !== debouncedTerm && (
                <span style={{ position: 'absolute', right: '10px', top: '10px', color: '#999', fontSize: '12px' }}>...</span>
              )}
