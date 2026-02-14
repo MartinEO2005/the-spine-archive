@@ -1,16 +1,15 @@
 :root {
   font-family: system-ui, Helvetica, Arial, sans-serif;
-  background-color: #111; /* Fondo negro real */
-  color: white;
+  background-color: #111;
+  /* Quitamos el color: white de aquí */
 }
 
 body {
   margin: 0;
   padding: 0;
-  display: block; /* Quitamos el centrado de Vite */
+  display: block;
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  color: white; /* Lo ponemos aquí para que afecte a la web pero sea flexible */
 }
-
-/* Eliminamos todas las reglas de "light mode" que Vite pone por defecto */

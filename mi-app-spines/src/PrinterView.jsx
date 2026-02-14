@@ -138,7 +138,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
         {/* ÁREA DE PREVIEW Y CONFIGURACIÓN */}
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
           
-          {/* CAJA DE CONFIGURACIÓN (LA QUE SE VEÍA MAL) */}
+          {/* CAJA DE CONFIGURACIÓN - AHORA CON COLOR FORZADO TRAS EL CAMBIO EN INDEX.CSS */}
           <div style={{ 
             position: 'absolute', 
             top: '20px', 
@@ -151,7 +151,8 @@ const PrinterView = ({ initialSpines, onBack }) => {
             boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            gap: '15px'
+            gap: '15px',
+            color: '#333333' // Esto asegura que etiquetas y textos hereden el negro
           }}>
             {['spineSpacing', 'pageWidth', 'pageHeight', 'marginTop', 'marginLeft', 'marginRight'].map(k => (
               <div key={k}>
@@ -159,7 +160,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
                   fontSize: '10px', 
                   fontWeight: 'bold', 
                   display: 'block', 
-                  color: '#333333', // FORZADO NEGRO
+                  color: '#333333', 
                   marginBottom: '4px',
                   textTransform: 'uppercase'
                 }}>
@@ -172,7 +173,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
                   onChange={e => setConfig({...config, [k]: parseFloat(e.target.value) || 0})} 
                   style={{ 
                     width: '100%', 
-                    color: '#000000', // FORZADO NEGRO PARA EL NÚMERO
+                    color: '#000000', 
                     backgroundColor: '#ffffff', 
                     border: '1px solid #bbbbbb', 
                     borderRadius: '4px',
