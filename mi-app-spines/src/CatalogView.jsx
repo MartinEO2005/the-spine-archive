@@ -11,6 +11,9 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState('catalog');
 
+  // OPTIMIZACIÓN 1: Paginación para no explotar con 6000 imágenes
+  const [visibleCount, setVisibleCount] = useState(60); 
+
   useEffect(() => {
     fetch('/database.json')
       .then(res => res.json())
@@ -18,6 +21,22 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   }, []);
 
   useEffect(() => { setSelectedSpines(initialSelected); }, [initialSelected]);
+
+  // Resetear la paginación si buscamos algo nuevo
+  useEffect(() => {
+    setVisibleCount(60);
+  }, [searchTerm]);
+
+  // Detectar scroll para cargar más imágenes automáticamente (Infinite Scroll simple)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+        setVisibleCount(prev => prev + 40); // Carga 40 más al llegar al fondo
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const stats = useMemo(() => {
     if (!spines.length) return null;
@@ -30,13 +49,19 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return { totalSpines: spines.length, totalAuthors: Object.keys(counts).length, topAuthors: sorted };
   }, [spines]);
 
-  const filteredSpines = spines.filter(s => {
+  // OPTIMIZACIÓN 2: useMemo para que el filtrado sea instantáneo
+  const filteredSpines = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
-    if (!term) return true;
-    const title = s.title ? s.title.toLowerCase() : "";
-    const author = s.author ? s.author.toLowerCase() : "";
-    return title.includes(term) || author.includes(term);
-  });
+    if (!term) return spines;
+    return spines.filter(s => {
+      const title = s.title ? s.title.toLowerCase() : "";
+      const author = s.author ? s.author.toLowerCase() : "";
+      return title.includes(term) || author.includes(term);
+    });
+  }, [spines, searchTerm]);
+
+  // Aquí cortamos la lista para pasarle solo las visibles a SpineGrid
+  const spinesToDisplay = filteredSpines.slice(0, visibleCount);
   
   const toggleSpine = (spine) => {
     const isSelected = selectedSpines.find(s => s.id === spine.id);
@@ -56,24 +81,16 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   if (loading) return <div style={{color: 'white', textAlign: 'center', marginTop: '20%'}}>LOADING DATABASE...</div>;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111', fontFamily: 'sans-serif' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111', fontFamily: 'sans-serif' }}>
       
       {/* HEADER BAR */}
-      <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100 }}>
+      <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
         
-        {/* --- CAMBIO AQUÍ: LOGO EN LUGAR DE TEXTO --- */}
         <img 
-          src="/logo.jpg"  // Asegúrate de que la imagen se llame así en la carpeta public
-          alt="The Spine Archive"
-          onClick={() => setCurrentView('catalog')} // Al hacer clic te lleva al inicio
-          style={{ 
-            height: '70px', // Altura ajustada para caber en la barra de 70px
-            width: 'auto', 
-            objectFit: 'contain',
-            marginRight: '30px', 
-            cursor: 'pointer',
-            borderRadius: '4px' // Opcional: suaviza las esquinas de la imagen
-          }} 
+          src="/logo.jpg"
+          alt="The Spine Archive Logo"
+          onClick={() => setCurrentView('catalog')}
+          style={{ height: '70px', width: 'auto', objectFit: 'contain', marginRight: '30px', cursor: 'pointer', borderRadius: '4px' }} 
         />
 
         <div style={{ display: 'flex', marginRight: '30px' }}>
@@ -85,7 +102,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         {currentView === 'catalog' && (
           <input 
             type="text" 
-            placeholder="Search by title or author..." 
+            placeholder="Search 6000+ titles..." 
             value={searchTerm} 
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ flex: 1, maxWidth: '400px', padding: '10px 20px', borderRadius: '5px', border: 'none' }}
@@ -102,13 +119,21 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       </div>
 
       {currentView === 'catalog' && (
-        <SpineGrid 
-          spines={filteredSpines} 
-          selectedSpines={selectedSpines} 
-          toggleSpine={toggleSpine} 
-          hoveredId={hoveredId} 
-          setHoveredId={setHoveredId} 
-        />
+        <div style={{ flex: 1 }}>
+            <SpineGrid 
+              spines={spinesToDisplay} 
+              selectedSpines={selectedSpines} 
+              toggleSpine={toggleSpine} 
+              hoveredId={hoveredId} 
+              setHoveredId={setHoveredId} 
+            />
+            {/* Mensaje sutil al final para saber que hay más */}
+            {visibleCount < filteredSpines.length && (
+                <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+                    Scrolling to load more spines...
+                </div>
+            )}
+        </div>
       )}
       
       {currentView === 'stats' && <StatsView stats={stats} spines={spines} />}
