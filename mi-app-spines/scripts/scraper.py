@@ -27,7 +27,7 @@ DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 # Generamos términos: a-z, A-Z y franquicias clave (cumpliendo tu regla de variaciones)
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = ["Longjumping_Dog7979", "Lewcifer820" ,"eridyon", "AlejaKaiser"] + list(letras)
+SEARCH_TERMS = ["amiibolover99", "Mii203" ,"Commander_Shepard123"] # + list(letras)
 
 # Límite alto para producción (básicamente sin límite)
 MAX_UPLOADS = 10000 
