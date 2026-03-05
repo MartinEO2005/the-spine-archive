@@ -189,10 +189,10 @@ function App() {
                     }}
                     style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
                 >
-                    <option value="Letter">Letter (US) - 11" x 8.5"</option>
+                    <option value="Letter">Letter (𝐫𝐞𝐜𝐨𝐦𝐦𝐞𝐧𝐝𝐞𝐝) - 11" x 8.5"</option>
                     <option value="A4">A4 (EU) - 297 x 210mm</option>
                     <option value="7x5">7 x 5 inch (Standard)</option>
-                    <option value="7x5-tight">7 x 5 inch (Tight - Max Spines)</option>
+                    <option value="7x5-tight">7 x 5 inch (Tight)</option>
                 </select>
             </div>
 
