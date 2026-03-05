@@ -150,7 +150,6 @@ function App() {
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img src={imgObj.image || imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-                {/* CORRECCIÓN 1: Color negro para el input del contador */}
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
                     <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
                     <input type="number" value={imgObj.count} onChange={(e) => {
@@ -168,33 +167,54 @@ function App() {
         {/* ÁREA CENTRAL Y CONTROLES */}
         <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
           
-          {/* CORRECCIÓN 2: Color negro forzado para toda la caja de configuración */}
           <div style={{ 
               position: 'absolute', top: '15px', right: '15px', zIndex: 10, 
               backgroundColor: 'white', padding: '15px', borderRadius: '8px', 
-              boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'grid', 
-              gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px',
-              color: '#000000' // <--- ESTA LÍNEA ARREGLA TODO
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'flex', 
+              flexDirection: 'column', gap: '12px',
+              color: '#000000'
           }}>
-            {[
-              { label: 'Spacing', key: 'spineSpacing' },
-              { label: 'Page W', key: 'pageWidth' },
-              { label: 'Page H', key: 'pageHeight' },
-              { label: 'M. Top', key: 'marginTop' },
-              { label: 'M. Left', key: 'marginLeft' },
-              { label: 'M. Right', key: 'marginRight' }
-            ].map(item => (
-              <div key={item.key}>
-                <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block', color: '#333' }}>{item.label}</label>
-                <input 
-                  type="number" step="0.01" 
-                  value={config[item.key]} 
-                  onChange={e => setConfig({...config, [item.key]: parseFloat(e.target.value) || 0})} 
-                  style={{ width: '55px', color: '#000', border: '1px solid #ccc', background: 'white' }} 
-                />
-              </div>
-            ))}
-            <div style={{ gridColumn: 'span 3', borderTop: '1px solid #eee', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* SELECTOR DE TAMAÑO DE PAPEL */}
+            <div>
+                <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
+                <select 
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5});
+                        if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27});
+                        if (val === '7x5') setConfig({...config, pageWidth: 7.0, pageHeight: 5.0});
+                    }}
+                    style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
+                >
+                    <option value="Letter">Letter (US) - 11" x 8.5"</option>
+                    <option value="A4">A4 (EU) - 297 x 210mm</option>
+                    <option value="7x5">7 x 5 inch (UK Photo)</option>
+                </select>
+            </div>
+
+            {/* GRID DE ENTRADAS MANUALES */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+              {[
+                { label: 'Spacing', key: 'spineSpacing' },
+                { label: 'Page W', key: 'pageWidth' },
+                { label: 'Page H', key: 'pageHeight' },
+                { label: 'M. Top', key: 'marginTop' },
+                { label: 'M. Left', key: 'marginLeft' },
+                { label: 'M. Right', key: 'marginRight' }
+              ].map(item => (
+                <div key={item.key}>
+                  <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block', color: '#333' }}>{item.label}</label>
+                  <input 
+                    type="number" step="0.01" 
+                    value={config[item.key]} 
+                    onChange={e => setConfig({...config, [item.key]: parseFloat(e.target.value) || 0})} 
+                    style={{ width: '55px', color: '#000', border: '1px solid #ccc', background: 'white' }} 
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div style={{ borderTop: '1px solid #eee', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <label style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>Spine (mm): </label>
                   <input 
