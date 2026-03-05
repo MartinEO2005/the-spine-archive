@@ -10,7 +10,7 @@ function App() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // Mantenemos tus estados y valores originales exactamente igual
+  // Mantenemos tus valores originales (Letter por defecto)
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
     pageWidth: 11.0,
@@ -30,11 +30,9 @@ function App() {
   const getSafeImageData = (url) => {
     return new Promise((resolve) => {
       if (!url || !url.startsWith('http')) return resolve(null);
-
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
       img.src = url;
-
       img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
@@ -43,11 +41,7 @@ function App() {
         ctx.drawImage(img, 0, 0);
         resolve(canvas.toDataURL('image/jpeg', 0.95));
       };
-
-      img.onerror = () => {
-        console.warn("Bloqueo de acceso (403) o error en imagen:", url);
-        resolve(null);
-      };
+      img.onerror = () => resolve(null);
     });
   };
 
@@ -60,7 +54,6 @@ function App() {
     setIsGenerating(true);
     
     try {
-      // LÓGICA DE ORIENTACIÓN DINÁMICA
       const isPortrait = config.pageWidth < config.pageHeight;
       const orientation = isPortrait ? 'p' : 'l';
 
@@ -100,15 +93,16 @@ function App() {
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
 
-        // Salto de fila si no cabe a lo ancho
+        // Si el lomo se sale del ancho, salta de fila (aunque en 7x5 no caben dos filas)
         if (curX + sW > pW - mRight) {
           curX = mLeft;
-          curY += sH + 5;
+          curY += sH + 2; 
         }
         
-        // AJUSTE: Salto de página. 
-        // Usamos pH - 5 en lugar de pH - mTop para que el lomo de 161mm quepa en el papel de 177mm (7")
-        if (curY + sH > pH - 5) {
+        // CORRECCIÓN QUIRÚRGICA: Salto de página
+        // En lugar de restar el margen completo (mTop), restamos solo 2mm de seguridad.
+        // Esto permite que el lomo de 161mm quepa en el papel de 177mm (7 pulgadas).
+        if (curY + sH > pH - 2) {
           pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
           curX = mLeft;
           curY = mTop;
@@ -138,7 +132,7 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
-      {/* HEADER - Mantenido idéntico */}
+      {/* HEADER - MANTENIDO IDÉNTICO */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
@@ -152,7 +146,7 @@ function App() {
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO - Tu diseño original de cuadrícula 2 columnas */}
+        {/* PANEL IZQUIERDO - MANTENIDO IDÉNTICO */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
@@ -184,7 +178,6 @@ function App() {
               flexDirection: 'column', gap: '12px',
               color: '#000000'
           }}>
-            {/* SELECTOR DE TAMAÑO - Integrado en tu panel de control */}
             <div>
                 <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
                 <select 
