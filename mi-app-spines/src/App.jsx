@@ -10,7 +10,7 @@ function App() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // Mantenemos tus valores originales por defecto (Letter 11x8.5)
+  // Mantenemos tus estados y valores originales exactamente igual
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
     pageWidth: 11.0,
@@ -60,7 +60,7 @@ function App() {
     setIsGenerating(true);
     
     try {
-      // LÓGICA DE ORIENTACIÓN: Si el ancho es menor que el alto (como en 5x7), usa Portrait ('p')
+      // LÓGICA DE ORIENTACIÓN DINÁMICA
       const isPortrait = config.pageWidth < config.pageHeight;
       const orientation = isPortrait ? 'p' : 'l';
 
@@ -100,14 +100,15 @@ function App() {
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
 
-        // Si el lomo se sale del ancho de la página, saltar de fila
+        // Salto de fila si no cabe a lo ancho
         if (curX + sW > pW - mRight) {
           curX = mLeft;
           curY += sH + 5;
         }
         
-        // Si el lomo se sale del alto de la página, añadir nueva página
-        if (curY + sH > pH - mTop) {
+        // AJUSTE: Salto de página. 
+        // Usamos pH - 5 en lugar de pH - mTop para que el lomo de 161mm quepa en el papel de 177mm (7")
+        if (curY + sH > pH - 5) {
           pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
           curX = mLeft;
           curY = mTop;
@@ -137,7 +138,7 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
-      {/* HEADER */}
+      {/* HEADER - Mantenido idéntico */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
@@ -151,7 +152,7 @@ function App() {
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO (Carrito) */}
+        {/* PANEL IZQUIERDO - Tu diseño original de cuadrícula 2 columnas */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
@@ -183,7 +184,7 @@ function App() {
               flexDirection: 'column', gap: '12px',
               color: '#000000'
           }}>
-            {/* NUEVO: SELECTOR DE TAMAÑO DE PAPEL */}
+            {/* SELECTOR DE TAMAÑO - Integrado en tu panel de control */}
             <div>
                 <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
                 <select 
@@ -191,7 +192,6 @@ function App() {
                         const val = e.target.value;
                         if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5});
                         if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27});
-                        // Para 7x5 invertimos el orden (5 ancho, 7 alto) para que el lomo de 161mm quepa en vertical
                         if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0});
                     }}
                     style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
@@ -202,7 +202,6 @@ function App() {
                 </select>
             </div>
 
-            {/* GRID DE ENTRADAS MANUALES */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
               {[
                 { label: 'Spacing', key: 'spineSpacing' },
