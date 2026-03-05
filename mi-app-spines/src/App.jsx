@@ -10,7 +10,6 @@ function App() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // Mantenemos tus valores originales (Letter por defecto)
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
     pageWidth: 11.0,
@@ -54,6 +53,7 @@ function App() {
     setIsGenerating(true);
     
     try {
+      // Calculamos orientación: si el ancho es menor que el alto, es Portrait ('p')
       const isPortrait = config.pageWidth < config.pageHeight;
       const orientation = isPortrait ? 'p' : 'l';
 
@@ -93,15 +93,13 @@ function App() {
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
 
-        // Si el lomo se sale del ancho, salta de fila (aunque en 7x5 no caben dos filas)
+        // Si no cabe en el ancho restante, saltamos de fila
         if (curX + sW > pW - mRight) {
           curX = mLeft;
-          curY += sH + 2; 
+          curY += sH + 2;
         }
         
-        // CORRECCIÓN QUIRÚRGICA: Salto de página
-        // En lugar de restar el margen completo (mTop), restamos solo 2mm de seguridad.
-        // Esto permite que el lomo de 161mm quepa en el papel de 177mm (7 pulgadas).
+        // Si no cabe en el alto restante (usamos margen de seguridad de 2mm), nueva página
         if (curY + sH > pH - 2) {
           pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
           curX = mLeft;
@@ -132,7 +130,7 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
-      {/* HEADER - MANTENIDO IDÉNTICO */}
+      {/* HEADER */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
@@ -146,7 +144,7 @@ function App() {
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO - MANTENIDO IDÉNTICO */}
+        {/* PANEL IZQUIERDO */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
@@ -176,22 +174,25 @@ function App() {
               backgroundColor: 'white', padding: '15px', borderRadius: '8px', 
               boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'flex', 
               flexDirection: 'column', gap: '12px',
-              color: '#000000'
+              color: '#000000' 
           }}>
             <div>
                 <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
                 <select 
                     onChange={(e) => {
                         const val = e.target.value;
-                        if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5});
-                        if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27});
-                        if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0});
+                        if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                        if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                        if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                        // NUEVA OPCIÓN TIGHT: Márgenes mínimos y spacing casi nulo para que entren 12
+                        if (val === '7x5-tight') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.1, marginLeft: 0.01, marginRight: 0.01, spineSpacing: 0.0});
                     }}
                     style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
                 >
                     <option value="Letter">Letter (US) - 11" x 8.5"</option>
                     <option value="A4">A4 (EU) - 297 x 210mm</option>
-                    <option value="7x5">7 x 5 inch (UK Photo)</option>
+                    <option value="7x5">7 x 5 inch (Standard)</option>
+                    <option value="7x5-tight">7 x 5 inch (Tight - Max Spines)</option>
                 </select>
             </div>
 
