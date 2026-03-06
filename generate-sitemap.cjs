@@ -2,11 +2,15 @@ const fs = require('fs');
 const path = require('path');
 
 const BASE_URL = 'https://thespinearchive.vercel.app';
-// Ajustamos la ruta para que encuentre el database.json correctamente
+// process.cwd() apunta a la raíz del proyecto en Vercel
 const DATABASE_PATH = path.join(process.cwd(), 'public', 'database.json');
 const SITEMAP_PATH = path.join(process.cwd(), 'public', 'sitemap.xml');
 
 try {
+  if (!fs.existsSync(DATABASE_PATH)) {
+    throw new Error(`No se encontró el archivo database.json en ${DATABASE_PATH}`);
+  }
+
   const data = fs.readFileSync(DATABASE_PATH, 'utf8');
   const spines = JSON.parse(data);
   const today = new Date().toISOString().split('T')[0];
@@ -22,11 +26,12 @@ try {
   </url>`;
 
   spines.forEach(spine => {
-    // Limpiamos el título para la URL: minúsculas, sin caracteres especiales y guiones por espacios
+    // Generar slug limpio: minúsculas, solo letras/números y guiones
     const slug = spine.title
       ? spine.title.toLowerCase()
-          .replace(/[^a-z0-9\s]/g, '') // Quita símbolos raros
-          .replace(/\s+/g, '-')         // Espacios por guiones
+          .replace(/[^a-z0-9\s]/g, '')
+          .trim()
+          .replace(/\s+/g, '-')
       : spine.id;
 
     xml += `
@@ -44,5 +49,7 @@ try {
   console.log('✅ ¡Sitemap generado con éxito en /public/sitemap.xml!');
 
 } catch (err) {
-  console.error('❌ Error generando el sitemap:', err);
+  console.error('❌ Error generando el sitemap:', err.message);
+  // Salimos con error para que Vercel detenga el build si el sitemap falla
+  process.exit(1);
 }
