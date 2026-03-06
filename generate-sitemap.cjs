@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-// URL base de tu sitio
+
 const BASE_URL = 'https://thespinearchive.vercel.app';
 // Ajustamos la ruta para que encuentre el database.json correctamente
 const DATABASE_PATH = path.join(process.cwd(), 'public', 'database.json');
