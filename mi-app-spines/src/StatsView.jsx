@@ -122,7 +122,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           ))}
         </div>
 
-        {/* --- LISTADO DE TODOS LOS CONTRIBUYENTES CON DESPLEGABLE --- */}
+        {/* --- LISTADO DE TODOS LOS CONTRIBUYENTES --- */}
         <h2 style={{ color: 'white' }}>All Contributors</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333', marginBottom: '100px' }}>
           {stats.topAuthors.map(([author, count], index) => {
@@ -132,11 +132,23 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
                 
                 <div 
                   onClick={() => handleExpandAuthor(author)} 
-                  style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', cursor: 'pointer', transition: 'background-color 0.2s' }}
+                  style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', cursor: 'pointer', transition: 'background-color 0.2s', alignItems: 'center' }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#333'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
-                  <span style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white' }}>u/{author}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <span style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white' }}>u/{author}</span>
+                    {/* ENLACE RECUPERADO A REDDIT */}
+                    <a 
+                      href={`https://www.reddit.com/user/${author}`} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      onClick={(e) => e.stopPropagation()} // Importante para que no abra el desplegable al clicar
+                      style={{ fontSize: '11px', color: '#ccc', textDecoration: 'none', backgroundColor: '#444', padding: '2px 8px', borderRadius: '4px' }}
+                    >
+                      Reddit ↗
+                    </a>
+                  </div>
                   <div style={{ fontWeight: 'bold', color: isExpanded ? '#b30000' : 'white' }}>
                     {count} spines {isExpanded ? '▲' : '▼'}
                   </div>
@@ -149,23 +161,20 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
                     ) : authorTopSpines.length > 0 ? (
                       authorTopSpines.map((spine, i) => (
                         <div key={i} style={{ flexShrink: 0, width: '220px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          
-                          {/* Contenedor de la Spine Tumbada (Horizontal) */}
                           <div style={{ width: '220px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '25px' }}>
                             <img 
                               src={spine.image || spine.src} 
                               alt={spine.title} 
                               loading="lazy"
                               style={{ 
-                                height: '220px', // Tamaño de la spine
-                                transform: 'rotate(-90deg)', // El truco para que salga horizontal
+                                height: '220px', 
+                                transform: 'rotate(-90deg)', 
                                 transformOrigin: 'center',
                                 borderRadius: '2px', 
                                 border: '1px solid #444'
                               }} 
                             />
                           </div>
-                          
                           <div style={{ color: '#aaa', fontSize: '11px', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
                             {spine.title}
                           </div>
