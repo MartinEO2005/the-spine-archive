@@ -1,16 +1,27 @@
 import { Redis } from '@upstash/redis';
 
 const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
 });
 
 export default async function handler(req, res) {
   try {
-    // zrange con rev: true y withScores: true nos devuelve los IDs ordenados del más al menos popular
-    const ranking = await redis.zrange('ranking_spines', 0, -1, { rev: true, withScores: true });
-    res.status(200).json(ranking);
+    // Traemos los 5 mejores. Redis devuelve [autor, score, autor, score...]
+    const rawRanking = await redis.zrange('ranking_authors', 0, 4, { rev: true, withScores: true });
+    
+    // Lo formateamos para que sea fácil de leer en React
+    const ranking = [];
+    for (let i = 0; i < rawRanking.length; i += 2) {
+      ranking.push({
+        author: rawRanking[i],
+        clicks: rawRanking[i + 1]
+      });
+    }
+
+    res.status(200).json({ ranking });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error obteniendo estadísticas' });
   }
 }
