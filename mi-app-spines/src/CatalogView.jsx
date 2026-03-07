@@ -53,17 +53,24 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return spines.filter(s => (s.title && s.title.toLowerCase().includes(term)) || (s.author && s.author.toLowerCase().includes(term)));
   }, [spines, debouncedTerm]);
 
-  // --- NUEVA FUNCIÓN PARA REDIS ---
-  const registerClick = (author) => {
-    if (!author) return;
-    const cleanAuthor = author.replace('u/', '');
-    fetch(`/api/click?author=${cleanAuthor}`).catch(() => {}); 
+  // --- FUNCIÓN ACTUALIZADA PARA ENVIAR SPINE ID ---
+  const registerClick = (spine) => {
+    if (!spine || !spine.author) return;
+    const cleanAuthor = spine.author.replace('u/', '');
+    // Enviamos el autor y el ID de la spine para el top 5 individual
+    fetch(`/api/click?author=${cleanAuthor}&spineId=${spine.id}`).catch(() => {}); 
   };
 
   const navButtonStyle = (view) => ({
-    backgroundColor: 'transparent', color: currentView === view ? 'white' : 'rgba(255,255,255,0.6)',
-    border: 'none', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', marginRight: '20px',
-    borderBottom: currentView === view ? '2px solid white' : '2px solid transparent', padding: '5px 0'
+    backgroundColor: 'transparent', 
+    color: currentView === view ? 'white' : 'rgba(255,255,255,0.6)',
+    border: 'none', 
+    fontWeight: 'bold', 
+    fontSize: '16px', 
+    cursor: 'pointer', 
+    marginRight: '20px',
+    borderBottom: currentView === view ? '2px solid white' : '2px solid transparent', 
+    padding: '5px 0'
   });
 
   if (loading) return <div style={{color: 'white', textAlign: 'center', marginTop: '20%'}}>LOADING...</div>;
@@ -91,11 +98,18 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
 
       <div style={{ flex: 1, backgroundColor: '#111' }}>
         {currentView === 'catalog' ? (
-          <SpineGrid spines={filteredSpines.slice(0, visibleCount)} selectedSpines={selectedSpines} toggleSpine={(s) => {
-            const isSelected = selectedSpines.find(x => x.id === s.id);
-            if (!isSelected) registerClick(s.author); // Solo cuenta si lo añades
-            setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
-          }} hoveredId={hoveredId} setHoveredId={setHoveredId} />
+          <SpineGrid 
+            spines={filteredSpines.slice(0, visibleCount)} 
+            selectedSpines={selectedSpines} 
+            toggleSpine={(s) => {
+              const isSelected = selectedSpines.find(x => x.id === s.id);
+              // Registramos el clic solo si se está seleccionando la spine (añadiendo al PDF)
+              if (!isSelected) registerClick(s); 
+              setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
+            }} 
+            hoveredId={hoveredId} 
+            setHoveredId={setHoveredId} 
+          />
         ) : (
           <div style={{ padding: '40px', minHeight: '100vh' }}>
             {currentView === 'stats' ? <StatsView spines={spines} /> : <AboutView />}
