@@ -1,23 +1,19 @@
 import { Redis } from '@upstash/redis';
 
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+// Usamos el constructor automático que lee las variables de Vercel
+const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
-  const author = req.query.author;
+  const { author } = req.query;
   
-  if (!author) {
-    return res.status(400).json({ error: 'Falta el nombre del autor' });
-  }
+  if (!author) return res.status(400).json({ error: 'No author' });
 
   try {
-    // Usamos 'ranking_authors' para que coincida con lo que busca el stats
+    // IMPORTANTE: Asegúrate de que el nombre coincide con el de stats.js
     await redis.zincrby('ranking_authors', 1, author);
-    res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, author });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error guardando el clic' });
+    console.error("Error en Redis:", error);
+    return res.status(500).json({ error: error.message });
   }
 }
