@@ -1,13 +1,15 @@
 import { createClient } from 'redis';
 
 export default async function handler(req, res) {
-  const client = createClient({ url: process.env.REDIS_URL });
-  
+  const client = createClient({
+    url: process.env.REDIS_URL
+  });
+
   try {
     await client.connect();
-    // Obtenemos el ranking de mayor a menor puntuación
+    // Traemos el Top 5
     const rawRanking = await client.zRangeWithScores('ranking_authors', 0, 4, { REV: true });
-    await client.disconnect();
+    await client.quit();
 
     const ranking = rawRanking.map(item => ({
       author: item.value,
