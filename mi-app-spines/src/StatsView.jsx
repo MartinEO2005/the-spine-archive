@@ -3,6 +3,9 @@ import React, { useMemo, useState, useEffect } from 'react';
 const StatsView = ({ stats: propStats, spines = [] }) => {
   const [trendingAuthors, setTrendingAuthors] = useState([]);
   const [loadingTrending, setLoadingTrending] = useState(true);
+  
+  // Nuevo estado para controlar qué autor está desplegado
+  const [expandedAuthor, setExpandedAuthor] = useState(null);
 
   // Cargar ranking de Redis (Top 5)
   useEffect(() => {
@@ -43,6 +46,14 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
     return Object.entries(counts).sort(([, a], [, b]) => b - a);
   }, [spines]);
 
+  // Función para obtener hasta 5 spines de un autor específico
+  const getTopSpinesForAuthor = (authorName) => {
+    return spines.filter(s => {
+      const cleanA = s.author ? s.author.replace('u/', '') : 'Unknown';
+      return cleanA === authorName;
+    }).slice(0, 5);
+  };
+
   if (!stats) return <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>No data available.</div>;
 
   return (
@@ -61,7 +72,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           </div>
         </div>
 
-        {/* --- NUEVA SECCIÓN: RANKING POPULARIDAD (REDIS) --- */}
+        {/* --- SECCIÓN: RANKING POPULARIDAD (REDIS) --- */}
         <h2 style={{ color: '#ffcc00', marginBottom: '15px' }}>🔥 Trending Creators (Top 5 by clicks)</h2>
         <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '8px', border: '1px solid #ffcc00', marginBottom: '40px' }}>
           {loadingTrending ? (
@@ -90,14 +101,56 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
         <h2 style={{ color: 'white' }}>All Contributors</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
-          {stats.topAuthors.map(([author, count], index) => (
-            <div key={author} style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '1px solid #333' }}>
-              <a href={`https://www.reddit.com/user/${author}`} target="_blank" rel="noreferrer" style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white', textDecoration: 'none' }}>
-                u/{author}
-              </a>
-              <div style={{ fontWeight: 'bold' }}>{count} spines</div>
-            </div>
-          ))}
+          {stats.topAuthors.map(([author, count], index) => {
+            const isExpanded = expandedAuthor === author;
+            return (
+              <div key={author} style={{ backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '1px solid #333' }}>
+                
+                {/* Cabecera de la fila interactiva */}
+                <div 
+                  onClick={() => setExpandedAuthor(isExpanded ? null : author)} 
+                  style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', cursor: 'pointer', alignItems: 'center', transition: 'background-color 0.2s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#333'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <span style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white' }}>u/{author}</span>
+                    <a 
+                      href={`https://www.reddit.com/user/${author}`} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      onClick={(e) => e.stopPropagation()} // Evita que se cierre el acordeón al ir a Reddit
+                      style={{ fontSize: '11px', color: '#ccc', textDecoration: 'none', backgroundColor: '#444', padding: '3px 8px', borderRadius: '4px' }}
+                    >
+                      Reddit ↗
+                    </a>
+                  </div>
+                  <div style={{ fontWeight: 'bold', color: isExpanded ? '#b30000' : 'white' }}>
+                    {count} spines {isExpanded ? '▲' : '▼'}
+                  </div>
+                </div>
+
+                {/* Desplegable de Spines (Horizontal) */}
+                {isExpanded && (
+                  <div style={{ padding: '20px', backgroundColor: '#050505', borderTop: '1px solid #333', display: 'flex', gap: '20px', overflowX: 'auto' }}>
+                    {getTopSpinesForAuthor(author).map((spine, i) => (
+                      <div key={i} style={{ flexShrink: 0, width: '100px', textAlign: 'center' }}>
+                        <img 
+                          src={spine.image || spine.src} 
+                          alt={spine.title} 
+                          loading="lazy"
+                          style={{ height: '180px', width: 'auto', display: 'block', margin: '0 auto', borderRadius: '4px', border: '1px solid #444', objectFit: 'contain' }} 
+                        />
+                        <div style={{ color: '#aaa', fontSize: '11px', marginTop: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {spine.title}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
