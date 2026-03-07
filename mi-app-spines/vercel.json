@@ -1,8 +1,14 @@
 {
+  "functions": {
+    "api/*.js": {
+      "runtime": "vercel-node@latest",
+      "memory": 128
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/$1.js"
+      "destination": "/api/$1"
     }
   ]
 }
