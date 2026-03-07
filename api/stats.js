@@ -1,15 +1,18 @@
-import { Redis } from '@upstash/redis';
-
-const redis = Redis.fromEnv();
+import { createClient } from 'redis';
 
 export default async function handler(req, res) {
+  const client = createClient({ url: process.env.REDIS_URL });
+  
   try {
-    const rawRanking = await redis.zrange('ranking_authors', 0, 4, { rev: true, withScores: true });
-    
-    const ranking = [];
-    for (let i = 0; i < rawRanking.length; i += 2) {
-      ranking.push({ author: rawRanking[i], clicks: rawRanking[i + 1] });
-    }
+    await client.connect();
+    // Obtenemos el ranking de mayor a menor puntuación
+    const rawRanking = await client.zRangeWithScores('ranking_authors', 0, 4, { REV: true });
+    await client.disconnect();
+
+    const ranking = rawRanking.map(item => ({
+      author: item.value,
+      clicks: item.score
+    }));
 
     return res.status(200).json({ ranking });
   } catch (error) {
