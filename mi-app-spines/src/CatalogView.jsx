@@ -20,28 +20,26 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       .then(data => { setSpines(data); setLoading(false); });
   }, []);
 
-  // 2. NUEVO: Lector de URL para SEO (Detecta ?search=juego)
+  // 2. Lector de URL para SEO (Mantener intacto)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get('search');
     if (query) {
-      // Decodificamos y cambiamos guiones por espacios para que la búsqueda sea natural
       const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
       setSearchTerm(decodedQuery);
     }
   }, []);
 
-  // 3. EFECTO DEBOUNCE: Espera 300ms antes de filtrar
+  // 3. EFECTO DEBOUNCE (Mantener intacto)
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedTerm(searchTerm);
       setVisibleCount(60); 
     }, 300);
-
     return () => clearTimeout(timer); 
   }, [searchTerm]);
 
-  // 4. SCROLL INFINITO
+  // 4. SCROLL INFINITO (Mantener intacto)
   useEffect(() => {
     const handleScroll = () => {
       if (currentView !== 'catalog') return;
@@ -53,16 +51,24 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // 5. LÓGICA DE FILTRADO
+  // 5. LÓGICA DE FILTRADO (Mantener intacto)
   const filteredSpines = useMemo(() => {
     const term = debouncedTerm.toLowerCase().trim();
     if (!term) return spines;
-    
     return spines.filter(s => {
       return (s.title && s.title.toLowerCase().includes(term)) || 
              (s.author && s.author.toLowerCase().includes(term));
     });
   }, [spines, debouncedTerm]);
+
+  // --- NUEVO: Función para registrar el clic en la base de datos ---
+  const registerClick = async (spineId) => {
+    try {
+      await fetch(`/api/click?id=${spineId}`);
+    } catch (err) {
+      console.error("Error registrando estadística:", err);
+    }
+  };
 
   const navButtonStyle = (view) => ({
     backgroundColor: 'transparent', color: currentView === view ? 'white' : 'rgba(255,255,255,0.6)',
@@ -91,9 +97,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
                onChange={(e) => setSearchTerm(e.target.value)} 
                style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} 
              />
-             {searchTerm !== debouncedTerm && (
-               <span style={{ position: 'absolute', right: '10px', top: '10px', color: '#999', fontSize: '12px' }}>...</span>
-             )}
           </div>
         )}
         
@@ -105,10 +108,20 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
 
       <div style={{ flex: 1, backgroundColor: '#111' }}>
         {currentView === 'catalog' ? (
-          <SpineGrid spines={filteredSpines.slice(0, visibleCount)} selectedSpines={selectedSpines} toggleSpine={(s) => {
-            const isSelected = selectedSpines.find(x => x.id === s.id);
-            setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
-          }} hoveredId={hoveredId} setHoveredId={setHoveredId} />
+          <SpineGrid 
+            spines={filteredSpines.slice(0, visibleCount)} 
+            selectedSpines={selectedSpines} 
+            toggleSpine={(s) => {
+              const isSelected = selectedSpines.find(x => x.id === s.id);
+              if (!isSelected) {
+                // NUEVO: Solo registramos el clic si está seleccionando el lomo por primera vez
+                registerClick(s.id);
+              }
+              setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
+            }} 
+            hoveredId={hoveredId} 
+            setHoveredId={setHoveredId} 
+          />
         ) : (
           <div style={{ padding: '40px', minHeight: '100vh' }}>
             {currentView === 'stats' ? <StatsView spines={spines} /> : <AboutView />}

@@ -1,11 +1,33 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 const StatsView = ({ stats: propStats, spines = [] }) => {
-  // --- FALLBACK: Si el padre no pasa 'stats', las calculamos aquí mismo ---
+  // NUEVO: Estado para el ranking de Redis
+  const [popularSpines, setPopularSpines] = useState([]);
+
+  // --- NUEVO: Cargar datos de clics desde la API ---
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(res => res.json())
+      .then(data => {
+        // La API devuelve [id1, score1, id2, score2...]
+        // Lo convertimos en una lista de objetos vinculados a nuestra base de datos
+        const ranking = [];
+        for (let i = 0; i < data.length; i += 2) {
+          const id = data[i];
+          const clicks = data[i+1];
+          const spineInfo = spines.find(s => String(s.id) === String(id));
+          if (spineInfo) {
+            ranking.push({ ...spineInfo, clicks });
+          }
+        }
+        setPopularSpines(ranking.slice(0, 10)); // Top 10 general
+      })
+      .catch(err => console.error("Error cargando populares:", err));
+  }, [spines]);
+
   const stats = useMemo(() => {
     if (propStats) return propStats;
     if (!spines.length) return null;
-
     const counts = {};
     spines.forEach(s => {
       const author = s.author ? s.author.replace('u/', '') : 'Unknown';
@@ -19,7 +41,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
     };
   }, [propStats, spines]);
 
-  // --- LÓGICA DE FRANQUICIAS ---
   const franchiseStats = useMemo(() => {
     const counts = { Zelda: 0, Mario: 0, Xenoblade: 0, Pokemon: 0, Metroid: 0, Kirby: 0, DragonQuest: 0, AnimalCrossing: 0 };
     spines.forEach(s => {
@@ -40,9 +61,31 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '50px', color: 'white', backgroundColor: '#111' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <h1 style={{ borderBottom: '2px solid #b30000', paddingBottom: '10px', color: 'white' }}>Project Statistics</h1>
         
+        {/* NUEVO: TOP 5 POPULAR SPINES */}
+        {popularSpines.length > 0 && (
+          <div style={{ marginBottom: '50px' }}>
+            <h2 style={{ color: '#b30000' }}>🔥 Most Popular (By Clicks)</h2>
+            <div style={{ display: 'flex', gap: '15px', overflowX: 'auto', paddingBottom: '20px' }}>
+              {popularSpines.slice(0, 5).map((spine, index) => (
+                <div key={spine.id} style={{ minWidth: '140px', textAlign: 'center' }}>
+                  <div style={{ position: 'relative' }}>
+                    <img src={spine.image || spine.src} alt={spine.title} style={{ height: '180px', borderRadius: '4px', border: '1px solid #333' }} />
+                    <div style={{ position: 'absolute', top: 5, left: 5, backgroundColor: '#b30000', padding: '2px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>
+                      #{index + 1}
+                    </div>
+                  </div>
+                  <div style={{ fontSize: '11px', marginTop: '8px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{spine.title}</div>
+                  <div style={{ fontSize: '10px', color: '#b30000' }}>{spine.clicks} CLICKS</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Stats Originales (Mantenidas) */}
         <div style={{ display: 'flex', gap: '20px', margin: '40px 0' }}>
           <div style={{ flex: 1, backgroundColor: '#222', padding: '20px', borderRadius: '8px', textAlign: 'center', border: '1px solid #333' }}>
             <div style={{ fontSize: '40px', fontWeight: 'bold', color: '#b30000' }}>{stats.totalSpines}</div>
@@ -66,8 +109,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
         <h2 style={{ color: 'white' }}>All Contributors ({stats.topAuthors.length})</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
-          
-          {/* EL CAMBIO ESTÁ AQUÍ ABAJO: He quitado .slice(0, 100) */}
           {stats.topAuthors.map(([author, count], index) => (
             <div key={author} style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '1px solid #333' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -79,7 +120,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
               <div style={{ fontWeight: 'bold', color: 'white' }}>{count} spines</div>
             </div>
           ))}
-
         </div>
       </div>
     </div>
