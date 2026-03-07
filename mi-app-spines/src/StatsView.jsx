@@ -1,29 +1,19 @@
 import React, { useMemo, useState, useEffect } from 'react';
 
 const StatsView = ({ stats: propStats, spines = [] }) => {
-  // NUEVO: Estado para el ranking de Redis
-  const [popularSpines, setPopularSpines] = useState([]);
+  const [trendingAuthors, setTrendingAuthors] = useState([]);
+  const [loadingTrending, setLoadingTrending] = useState(true);
 
-  // --- NUEVO: Cargar datos de clics desde la API ---
+  // Cargar ranking de Redis (Top 5)
   useEffect(() => {
     fetch('/api/stats')
       .then(res => res.json())
       .then(data => {
-        // La API devuelve [id1, score1, id2, score2...]
-        // Lo convertimos en una lista de objetos vinculados a nuestra base de datos
-        const ranking = [];
-        for (let i = 0; i < data.length; i += 2) {
-          const id = data[i];
-          const clicks = data[i+1];
-          const spineInfo = spines.find(s => String(s.id) === String(id));
-          if (spineInfo) {
-            ranking.push({ ...spineInfo, clicks });
-          }
-        }
-        setPopularSpines(ranking.slice(0, 10)); // Top 10 general
+        setTrendingAuthors(data.ranking || []);
+        setLoadingTrending(false);
       })
-      .catch(err => console.error("Error cargando populares:", err));
-  }, [spines]);
+      .catch(() => setLoadingTrending(false));
+  }, []);
 
   const stats = useMemo(() => {
     if (propStats) return propStats;
@@ -34,11 +24,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
       counts[author] = (counts[author] || 0) + 1;
     });
     const sorted = Object.entries(counts).sort(([, a], [, b]) => b - a);
-    return {
-      totalSpines: spines.length,
-      totalAuthors: Object.keys(counts).length,
-      topAuthors: sorted
-    };
+    return { totalSpines: spines.length, totalAuthors: Object.keys(counts).length, topAuthors: sorted };
   }, [propStats, spines]);
 
   const franchiseStats = useMemo(() => {
@@ -57,35 +43,13 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
     return Object.entries(counts).sort(([, a], [, b]) => b - a);
   }, [spines]);
 
-  if (!stats) return <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>No data available to show stats.</div>;
+  if (!stats) return <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>No data available.</div>;
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '50px', color: 'white', backgroundColor: '#111' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <h1 style={{ borderBottom: '2px solid #b30000', paddingBottom: '10px', color: 'white' }}>Project Statistics</h1>
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <h1 style={{ borderBottom: '2px solid #b30000', paddingBottom: '10px' }}>Project Statistics</h1>
         
-        {/* NUEVO: TOP 5 POPULAR SPINES */}
-        {popularSpines.length > 0 && (
-          <div style={{ marginBottom: '50px' }}>
-            <h2 style={{ color: '#b30000' }}>🔥 Most Popular (By Clicks)</h2>
-            <div style={{ display: 'flex', gap: '15px', overflowX: 'auto', paddingBottom: '20px' }}>
-              {popularSpines.slice(0, 5).map((spine, index) => (
-                <div key={spine.id} style={{ minWidth: '140px', textAlign: 'center' }}>
-                  <div style={{ position: 'relative' }}>
-                    <img src={spine.image || spine.src} alt={spine.title} style={{ height: '180px', borderRadius: '4px', border: '1px solid #333' }} />
-                    <div style={{ position: 'absolute', top: 5, left: 5, backgroundColor: '#b30000', padding: '2px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>
-                      #{index + 1}
-                    </div>
-                  </div>
-                  <div style={{ fontSize: '11px', marginTop: '8px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{spine.title}</div>
-                  <div style={{ fontSize: '10px', color: '#b30000' }}>{spine.clicks} CLICKS</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Stats Originales (Mantenidas) */}
         <div style={{ display: 'flex', gap: '20px', margin: '40px 0' }}>
           <div style={{ flex: 1, backgroundColor: '#222', padding: '20px', borderRadius: '8px', textAlign: 'center', border: '1px solid #333' }}>
             <div style={{ fontSize: '40px', fontWeight: 'bold', color: '#b30000' }}>{stats.totalSpines}</div>
@@ -93,31 +57,45 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           </div>
           <div style={{ flex: 1, backgroundColor: '#222', padding: '20px', borderRadius: '8px', textAlign: 'center', border: '1px solid #333' }}>
             <div style={{ fontSize: '40px', fontWeight: 'bold', color: 'white' }}>{stats.totalAuthors}</div>
-            <div style={{ color: '#aaa' }}>Authors</div>
+            <div style={{ color: '#aaa' }}>Total Authors</div>
           </div>
+        </div>
+
+        {/* --- NUEVA SECCIÓN: RANKING POPULARIDAD (REDIS) --- */}
+        <h2 style={{ color: '#ffcc00', marginBottom: '15px' }}>🔥 Trending Creators (Top 5 by clicks)</h2>
+        <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '8px', border: '1px solid #ffcc00', marginBottom: '40px' }}>
+          {loadingTrending ? (
+            <div style={{ color: '#666' }}>Loading real-time data...</div>
+          ) : trendingAuthors.length > 0 ? (
+            trendingAuthors.slice(0, 5).map((entry, i) => (
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < 4 ? '1px solid #333' : 'none' }}>
+                <span style={{ fontWeight: 'bold' }}>#{i+1} u/{entry.author}</span>
+                <span style={{ color: '#ffcc00' }}>{entry.clicks} clicks</span>
+              </div>
+            ))
+          ) : (
+            <div style={{ color: '#666' }}>No clicks recorded yet. Be the first!</div>
+          )}
         </div>
 
         <h2 style={{ fontSize: '1.2rem', color: '#aaa', marginBottom: '15px' }}>Spines by Franchise</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '50px' }}>
           {franchiseStats.map(([name, count]) => (
             <div key={name} style={{ backgroundColor: '#1a1a1a', padding: '10px 20px', borderRadius: '20px', border: '1px solid #b30000', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontWeight: 'bold', color: 'white' }}>{name.toUpperCase()}</span>
+              <span style={{ fontWeight: 'bold' }}>{name.toUpperCase()}</span>
               <span style={{ color: '#b30000', fontWeight: 'bold' }}>{count}</span>
             </div>
           ))}
         </div>
 
-        <h2 style={{ color: 'white' }}>All Contributors ({stats.topAuthors.length})</h2>
+        <h2 style={{ color: 'white' }}>All Contributors</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
           {stats.topAuthors.map(([author, count], index) => (
             <div key={author} style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '1px solid #333' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span style={{ width: '50px', color: '#666', fontSize: '0.9rem' }}>#{index + 1}</span>
-                <a href={`https://www.reddit.com/user/${author}`} target="_blank" rel="noreferrer" style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white', textDecoration: 'none' }}>
-                  u/{author}
-                </a>
-              </div>
-              <div style={{ fontWeight: 'bold', color: 'white' }}>{count} spines</div>
+              <a href={`https://www.reddit.com/user/${author}`} target="_blank" rel="noreferrer" style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white', textDecoration: 'none' }}>
+                u/{author}
+              </a>
+              <div style={{ fontWeight: 'bold' }}>{count} spines</div>
             </div>
           ))}
         </div>

@@ -13,14 +13,12 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [currentView, setCurrentView] = useState('catalog');
   const [visibleCount, setVisibleCount] = useState(60); 
 
-  // 1. CARGA DE DATOS
   useEffect(() => {
     fetch('/database.json')
       .then(res => res.json())
       .then(data => { setSpines(data); setLoading(false); });
   }, []);
 
-  // 2. Lector de URL para SEO (Mantener intacto)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get('search');
@@ -30,7 +28,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     }
   }, []);
 
-  // 3. EFECTO DEBOUNCE (Mantener intacto)
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedTerm(searchTerm);
@@ -39,7 +36,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => clearTimeout(timer); 
   }, [searchTerm]);
 
-  // 4. SCROLL INFINITO (Mantener intacto)
   useEffect(() => {
     const handleScroll = () => {
       if (currentView !== 'catalog') return;
@@ -51,23 +47,17 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // 5. LÓGICA DE FILTRADO (Mantener intacto)
   const filteredSpines = useMemo(() => {
     const term = debouncedTerm.toLowerCase().trim();
     if (!term) return spines;
-    return spines.filter(s => {
-      return (s.title && s.title.toLowerCase().includes(term)) || 
-             (s.author && s.author.toLowerCase().includes(term));
-    });
+    return spines.filter(s => (s.title && s.title.toLowerCase().includes(term)) || (s.author && s.author.toLowerCase().includes(term)));
   }, [spines, debouncedTerm]);
 
-  // --- NUEVO: Función para registrar el clic en la base de datos ---
-  const registerClick = async (spineId) => {
-    try {
-      await fetch(`/api/click?id=${spineId}`);
-    } catch (err) {
-      console.error("Error registrando estadística:", err);
-    }
+  // --- NUEVA FUNCIÓN PARA REDIS ---
+  const registerClick = (author) => {
+    if (!author) return;
+    const cleanAuthor = author.replace('u/', '');
+    fetch(`/api/click?author=${cleanAuthor}`).catch(() => {}); 
   };
 
   const navButtonStyle = (view) => ({
@@ -90,16 +80,9 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         
         {currentView === 'catalog' && (
           <div style={{ flex: 1, maxWidth: '400px', position: 'relative' }}>
-             <input 
-               type="text" 
-               placeholder="Search from 6000+ titles or artists..." 
-               value={searchTerm} 
-               onChange={(e) => setSearchTerm(e.target.value)} 
-               style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} 
-             />
+             <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} />
           </div>
         )}
-        
         <div style={{ flex: 1 }}></div>
         <button onClick={() => onConfirm(selectedSpines)} disabled={selectedSpines.length === 0} style={{ backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', color: '#b30000', border: 'none', padding: '10px 25px', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>
           GENERATE PDF ({selectedSpines.length})
@@ -108,20 +91,11 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
 
       <div style={{ flex: 1, backgroundColor: '#111' }}>
         {currentView === 'catalog' ? (
-          <SpineGrid 
-            spines={filteredSpines.slice(0, visibleCount)} 
-            selectedSpines={selectedSpines} 
-            toggleSpine={(s) => {
-              const isSelected = selectedSpines.find(x => x.id === s.id);
-              if (!isSelected) {
-                // NUEVO: Solo registramos el clic si está seleccionando el lomo por primera vez
-                registerClick(s.id);
-              }
-              setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
-            }} 
-            hoveredId={hoveredId} 
-            setHoveredId={setHoveredId} 
-          />
+          <SpineGrid spines={filteredSpines.slice(0, visibleCount)} selectedSpines={selectedSpines} toggleSpine={(s) => {
+            const isSelected = selectedSpines.find(x => x.id === s.id);
+            if (!isSelected) registerClick(s.author); // Solo cuenta si lo añades
+            setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
+          }} hoveredId={hoveredId} setHoveredId={setHoveredId} />
         ) : (
           <div style={{ padding: '40px', minHeight: '100vh' }}>
             {currentView === 'stats' ? <StatsView spines={spines} /> : <AboutView />}
