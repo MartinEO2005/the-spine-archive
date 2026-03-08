@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 
 const AboutView = () => {
-  // Estado para controlar qué sección se está mostrando
   const [activeSection, setActiveSection] = useState('about');
 
-  // Estilo base para los botones del menú lateral
   const getMenuItemStyle = (sectionId) => ({
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     padding: '10px 15px',
     marginBottom: '10px',
-    fontSize: '22px', // Tamaño grande estilo RPG
-    fontFamily: '"Courier New", Courier, monospace', // Fuente retro/terminal
+    fontSize: '22px',
     fontWeight: 'bold',
     color: activeSection === sectionId ? '#fff' : '#888',
     textTransform: 'uppercase',
@@ -26,7 +23,8 @@ const AboutView = () => {
       minHeight: '100vh',
       backgroundColor: '#0a0a0a',
       color: 'white',
-      padding: '40px'
+      padding: '40px',
+      fontFamily: '"Courier New", Courier, monospace' // ESTILO RPG APLICADO A TODO
     }}>
       
       {/* --- SIDEBAR MENÚ ESTILO RPG --- */}
@@ -36,14 +34,12 @@ const AboutView = () => {
         paddingRight: '30px',
         borderRight: '2px solid #333'
       }}>
-        
-        {/* Contenedor negro con borde para simular un menú de juego */}
         <div style={{
           backgroundColor: '#000',
           border: '2px solid #555',
           borderRadius: '8px',
           padding: '20px',
-          boxShadow: '4px 4px 0px rgba(179,0,0,0.5)' // Sombra retro roja
+          boxShadow: '4px 4px 0px rgba(179,0,0,0.5)'
         }}>
           
           <div 
@@ -87,7 +83,7 @@ const AboutView = () => {
         maxWidth: '900px'
       }}>
         
-        {/* SECCIÓN: ABOUT (Tu contenido original) */}
+        {/* SECCIÓN: ABOUT */}
         {activeSection === 'about' && (
           <div style={{ animation: 'fadeIn 0.3s ease-in' }}>
             <h1 style={{ 
@@ -104,14 +100,14 @@ const AboutView = () => {
             </div>
 
             <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#ccc', textAlign: 'justify', marginBottom: '40px' }}>
-              Welcome to <strong>The Spine Archive</strong>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <strong>r/SwitchSpines</strong> community. Our mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork. Every spine in this archive is a testament to the creativity and passion of the fans who dedicate their time to making our physical collections look better than ever.
+              Welcome to <strong>The Spine Archive</strong>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <strong>r/SwitchSpines</strong> community. My mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork. Every spine in this archive is a testament to the creativity and passion of the fans who dedicate their time to making our physical collections look better than ever.
             </p>
 
             <div style={{ height: '1px', backgroundColor: '#333', margin: '40px 0' }}></div>
 
             <h2 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '15px' }}>Contribution & Contact</h2>
             <p style={{ fontSize: '1rem', lineHeight: '1.6', color: '#999', textAlign: 'justify', marginBottom: '25px' }}>
-              This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or a user looking for a specific franchise or creator that hasn't been archived yet, please do not hesitate to reach out. Your feedback and contributions help keep this archive complete and up to date for everyone. <strong style={{color: '#ddd'}}>Please contact if image quality is a big issue or if spine size is incorrect.</strong>
+              This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or if you don't find a specific franchise or creator that you know <strong>is already on the r/SwitchSpines subreddit</strong>, please send me a private message. Your feedback and contributions help keep this archive complete and up to date for everyone. <br/><br/><strong style={{color: '#ddd'}}>Please contact me if image quality is a big issue or if a spine size is incorrect.</strong>
             </p>
 
             <a 
@@ -130,13 +126,12 @@ const AboutView = () => {
                 fontSize: '1rem',
                 border: '2px solid #ff0000',
                 transition: 'all 0.2s',
-                fontFamily: '"Courier New", Courier, monospace',
                 textTransform: 'uppercase'
               }}
               onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#cc0000'; }}
               onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#b30000'; }}
             >
-              Contact Developer
+              Send me a Private Message
             </a>
           </div>
         )}
@@ -158,7 +153,7 @@ const AboutView = () => {
               When you generate the PDF, you will be prompted to select a paper size.
             </p>
             <ul style={{ color: '#ccc', fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '30px', backgroundColor: '#1a1a1a', padding: '20px 40px', borderRadius: '8px' }}>
-              <li><strong>Letter Size (Recommended):</strong> This is the default and highly recommended setting for standard home printing. It ensures the dimensions of the spines match standard Nintendo Switch cases perfectly.</li>
+              <li style={{ marginBottom: '10px' }}><strong>Letter Size (Recommended):</strong> This is the default and highly recommended setting for standard home printing. It ensures the dimensions of the spines match standard Nintendo Switch cases perfectly.</li>
               <li><strong>A4 / Legal / Other:</strong> These formats are provided as alternatives, particularly useful if you are taking the PDF to a professional print shop or using specific photographic paper sizes. Always verify dimensions before printing a large batch.</li>
             </ul>
 
@@ -178,12 +173,12 @@ const AboutView = () => {
 
             <h3 style={{ color: '#ffcc00', fontSize: '1.4rem', marginBottom: '15px' }}>Maintain a Consistent Shelf</h3>
             <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#ccc', marginBottom: '25px', textAlign: 'justify' }}>
-              If you discover a spine design you really like, we highly recommend checking out other works by the same author. Many creators on r/SwitchSpines design their covers following a specific template or visual style. 
+              If you discover a spine design you really like, <strong style={{ color: 'white', textDecoration: 'underline' }}>we highly recommend checking out other works by the same author.</strong> Many creators on r/SwitchSpines design their covers following a specific template or visual style. 
               <br/><br/>
               By using spines from a single creator (or creators with similar styles) for a specific franchise, you ensure your physical collection looks unified and professional on the shelf.
             </p>
 
-            {/* CONTENEDOR PARA LA IMAGEN DE EJEMPLO (ESTILO DNN) */}
+            {/* IMAGEN DE EJEMPLO */}
             <div style={{ 
               backgroundColor: '#1a1a1a', 
               border: '1px solid #444', 
@@ -194,27 +189,19 @@ const AboutView = () => {
             }}>
               <p style={{ color: '#888', fontStyle: 'italic', marginBottom: '15px' }}>Example: Consistent series formatting by u/DieNoMight9</p>
               
-              {/* REEMPLAZA ESTE SRC POR LA RUTA REAL DE TU IMAGEN */}
               <div style={{ 
                 width: '100%', 
-                height: '250px', 
-                backgroundColor: '#222', 
-                border: '1px dashed #555',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: '#666',
                 borderRadius: '4px',
                 overflow: 'hidden'
               }}>
+                {/* Asegúrate de que el nombre aquí coincide con el archivo en tu carpeta public */}
                 <img 
-                  src="mi-app-spines/public/ejemplo-estilo-dnn.png" // <--- PON TU IMAGEN AQUÍ
-                  alt="Ejemplo de estilo consistente" 
-                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.parentNode.innerHTML = 'Image Placeholder:<br/>Insert your image here (e.g., /ejemplo-estilo-dnn.png)';
-                  }}
+                  src="/ejemplo-estilo-dnn.png" 
+                  alt="Consistent formatting example" 
+                  style={{ maxWidth: '100%', height: 'auto', border: '1px solid #333' }}
                 />
               </div>
             </div>
@@ -223,7 +210,6 @@ const AboutView = () => {
 
       </div>
 
-      {/* Estilo global para las animaciones */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
@@ -231,8 +217,7 @@ const AboutView = () => {
         }
       `}</style>
       
-      {/* Footer fijo general */}
-      <div style={{ position: 'fixed', bottom: '20px', left: '40px', color: '#444', fontSize: '12px', fontFamily: '"Courier New", Courier, monospace' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: '40px', color: '#444', fontSize: '12px' }}>
         © {new Date().getFullYear()} The Spine Archive. Not affiliated with Nintendo.
       </div>
     </div>
