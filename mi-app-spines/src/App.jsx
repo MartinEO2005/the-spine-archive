@@ -1,211 +1,253 @@
-import React, { useState, useMemo } from 'react';
-import { FUN_FACTS } from './data/funFactsData';
+import React, { useState, useEffect, useCallback } from 'react';
+import jsPDF from 'jspdf';
+import CatalogView from './CatalogView';
 
-// Componente para las cajas negras con borde blanco (Estilo RPG clásico)
-const RPGBox = ({ children, style }) => (
-  <div style={{
-    backgroundColor: 'rgba(0, 0, 0, 0.85)', // Un poco translúcido para que se intuya el fondo
-    border: '4px solid #fff',
-    boxShadow: '6px 6px 0px rgba(0,0,0,0.7)', 
-    padding: '25px',
-    marginBottom: '20px',
-    color: '#fff',
-    position: 'relative',
-    ...style
-  }}>
-    {children}
-  </div>
-);
+const DEFAULT_SPINE_WIDTH = 10.5;
 
-const AboutView = () => {
-  const [activeSection, setActiveSection] = useState('about');
-
-  // Lógica del Fun Fact
-  const dailyFact = useMemo(() => {
-    if (!FUN_FACTS || FUN_FACTS.length === 0) {
-      return { 
-        name: "Loading...", 
-        fact: "Cargando datos de la base de datos...", 
-        cover: "https://via.placeholder.com/300x450?text=Cargando" 
-      };
-    }
-    const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-    return FUN_FACTS[dayOfYear % FUN_FACTS.length];
-  }, []);
-
-  const menuStyle = (id) => ({
-    cursor: 'pointer',
-    padding: '12px 10px',
-    fontSize: '20px',
-    color: activeSection === id ? '#fff' : '#888',
-    display: 'flex',
-    alignItems: 'center',
-    transition: '0.2s',
-    fontWeight: activeSection === id ? 'bold' : 'normal',
-    textShadow: activeSection === id ? '2px 2px 0px #000' : 'none'
+function App() {
+  const [view, setView] = useState('catalog');
+  const [images, setImages] = useState([]);
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  
+  const [config, setConfig] = useState({
+    spineSpacing: 0.1,
+    pageWidth: 11.0,
+    pageHeight: 8.5,
+    marginTop: 0.5,
+    marginLeft: 0.5,
+    marginRight: 0.5,
+    spineWidthMM: DEFAULT_SPINE_WIDTH
   });
 
+  const inchToMm = (inch) => inch * 25.4;
+
+  const resetSpineWidth = () => {
+    setConfig({ ...config, spineWidthMM: DEFAULT_SPINE_WIDTH });
+  };
+
+  const getSafeImageData = (url) => {
+    return new Promise((resolve) => {
+      if (!url || !url.startsWith('http')) return resolve(null);
+      const img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.src = url;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg', 0.95));
+      };
+      img.onerror = () => resolve(null);
+    });
+  };
+
+  const generatePreview = useCallback(async () => {
+    if (images.length === 0 || view !== 'pdf') {
+      setPdfUrl(null);
+      return;
+    }
+    
+    setIsGenerating(true);
+    
+    try {
+      // Calculamos orientación: si el ancho es menor que el alto, es Portrait ('p')
+      const isPortrait = config.pageWidth < config.pageHeight;
+      const orientation = isPortrait ? 'p' : 'l';
+
+      const pdf = new jsPDF({
+        orientation: orientation,
+        unit: 'mm',
+        format: [inchToMm(config.pageWidth), inchToMm(config.pageHeight)]
+      });
+
+      const sW = parseFloat(config.spineWidthMM);
+      const sH = 161; 
+      const gap = inchToMm(config.spineSpacing);
+      const mLeft = inchToMm(config.marginLeft);
+      const mTop = inchToMm(config.marginTop);
+      const pW = inchToMm(config.pageWidth);
+      const pH = inchToMm(config.pageHeight);
+      const mRight = inchToMm(config.marginRight);
+
+      let curX = mLeft;
+      let curY = mTop;
+
+      const urlList = [];
+      images.forEach(imgObj => {
+        if (imgObj.image) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.image);
+        }
+      });
+
+      if (urlList.length === 0) {
+        setPdfUrl(null);
+        setIsGenerating(false);
+        return;
+      }
+
+      const loadedImages = await Promise.all(urlList.map(url => getSafeImageData(url)));
+
+      loadedImages.forEach((imgData) => {
+        if (!imgData) return;
+
+        // Si no cabe en el ancho restante, saltamos de fila
+        if (curX + sW > pW - mRight) {
+          curX = mLeft;
+          curY += sH + 2;
+        }
+        
+        // Si no cabe en el alto restante (usamos margen de seguridad de 2mm), nueva página
+        if (curY + sH > pH - 2) {
+          pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
+          curX = mLeft;
+          curY = mTop;
+        }
+
+        pdf.addImage(imgData, 'JPEG', curX, curY, sW, sH, undefined, 'NONE');
+        curX += sW + gap;
+      });
+
+      setPdfUrl(pdf.output('bloburl'));
+    } catch (err) {
+      console.error("PDF Generator Error:", err);
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [images, config, view]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => generatePreview(), 400);
+    return () => clearTimeout(timeoutId);
+  }, [generatePreview]);
+
+  if (view === 'catalog') {
+    return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
+  }
+
   return (
-    <div style={{ 
-      display: 'flex', 
-      minHeight: '100vh', 
-      // FONDO RPG: El linear-gradient oscurece la imagen un 85% para que los textos sean legibles.
-      // Recuerda poner una imagen llamada "fondo_rpg.jpg" en tu carpeta public/
-      backgroundImage: `linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.95)), url('/fondo_rpg.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
-      color: 'white', 
-      padding: '40px', 
-      fontFamily: '"Courier New", Courier, monospace' 
-    }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
-      {/* --- MENÚ IZQUIERDO --- */}
-      <div style={{ width: '250px', marginRight: '40px' }}>
-        <RPGBox>
-          <div style={menuStyle('about')} onClick={() => setActiveSection('about')}>
-            <span style={{ marginRight: '10px', visibility: activeSection === 'about' ? 'visible' : 'hidden', color: '#ff3333' }}>▶</span> ABOUT
-          </div>
-          <div style={menuStyle('how-to')} onClick={() => setActiveSection('how-to')}>
-            <span style={{ marginRight: '10px', visibility: activeSection === 'how-to' ? 'visible' : 'hidden', color: '#ff3333' }}>▶</span> HOW TO USE
-          </div>
-          <div style={menuStyle('advice')} onClick={() => setActiveSection('advice')}>
-            <span style={{ marginRight: '10px', visibility: activeSection === 'advice' ? 'visible' : 'hidden', color: '#ff3333' }}>▶</span> ADVICE
-          </div>
-        </RPGBox>
-      </div>
-
-      {/* --- CONTENIDO CENTRAL --- */}
-      <div style={{ flex: 1, maxWidth: '800px' }}>
-        
-        {/* Título mejorado: Más limpio, sin bordes raros, sombra estilo 16-bits */}
-        <h1 style={{ 
-          fontSize: '3.8rem', 
-          margin: '0 0 10px 0', 
-          color: '#ffffff',
-          textShadow: '3px 3px 0px #000, 6px 6px 0px rgba(0,0,0,0.5)',
-          letterSpacing: '2px'
-        }}>
-          THE SPINE ARCHIVE
-        </h1>
-        <p style={{ color: '#ff4444', fontWeight: 'bold', marginBottom: '40px', letterSpacing: '3px', textShadow: '2px 2px 0px #000' }}>
-          PRESERVATION PROJECT
-        </p>
-
-        {/* SECCIÓN: ABOUT */}
-        {activeSection === 'about' && (
-          <>
-            <RPGBox>
-              <p style={{ lineHeight: '1.8', margin: 0, textAlign: 'justify', fontSize: '1.05rem' }}>
-                Welcome to <b>The Spine Archive</b>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <b>r/SwitchSpines</b> community. My mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork. Every spine in this archive is a testament to the creativity and passion of the fans who dedicate their time to making our physical collections look better than ever.
-              </p>
-            </RPGBox>
-            
-            <RPGBox>
-              <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>Contribution & Contact</h2>
-              <p style={{ fontSize: '1rem', color: '#ccc', lineHeight: '1.7', textAlign: 'justify', marginBottom: '20px' }}>
-                This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or if you don't find a specific franchise or creator that you know is already on the r/SwitchSpines subreddit, please send me a private message. Your feedback and contributions help keep this archive complete and up to date for everyone.
-              </p>
-              <p style={{ fontSize: '1rem', color: '#fff', fontWeight: 'bold', marginBottom: '25px' }}>
-                Please contact me if image quality is a big issue or if a spine size is incorrect.
-              </p>
-              <a href="#" style={{ 
-                display: 'inline-block', color: '#fff', backgroundColor: '#b30000', 
-                padding: '12px 20px', textDecoration: 'none', fontWeight: 'bold', border: '2px solid #fff',
-                boxShadow: '3px 3px 0px #000'
-              }}>
-                SEND ME A PRIVATE MESSAGE
-              </a>
-            </RPGBox>
-          </>
-        )}
-
-        {/* SECCIÓN: HOW TO USE (System Manual) */}
-        {activeSection === 'how-to' && (
-          <RPGBox>
-            <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>SYSTEM MANUAL</h2>
-            
-            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>1. Selecting Spines</h3>
-            <p style={{ lineHeight: '1.7', margin: '0 0 20px 0', color: '#ddd' }}>
-              Browse the catalog and click on any spine to add it to your selection. The total count will update in the top bar. You can use the search bar to find specific games, franchises, or even search for your favorite creator's username.
-            </p>
-
-            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>2. Paper Sizes & Printing</h3>
-            <p style={{ lineHeight: '1.7', margin: '0 0 20px 0', color: '#ddd' }}>
-              When you generate the PDF, you will be prompted to select a paper size.<br/><br/>
-              • <b>Letter Size (Recommended):</b> This is the default and highly recommended setting for standard home printing. It ensures the dimensions of the spines match standard Nintendo Switch cases perfectly.<br/><br/>
-              • <b>A4 / Legal / Other:</b> These formats are provided as alternatives, particularly useful if you are taking the PDF to a professional print shop or using specific photographic paper sizes. Always verify dimensions before printing a large batch.
-            </p>
-
-            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>3. Cutting</h3>
-            <p style={{ lineHeight: '1.7', margin: 0, color: '#ddd' }}>
-              For the best results, use a paper trimmer or an X-ACTO knife with a metal ruler. The generated PDF includes subtle guidelines to help you make clean, precise cuts.
-            </p>
-          </RPGBox>
-        )}
-
-        {/* SECCIÓN: ADVICE (Pro Tips) */}
-        {activeSection === 'advice' && (
-          <RPGBox>
-            <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>PRO TIPS</h2>
-            
-            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>Maintain a Consistent Shelf</h3>
-            <p style={{ lineHeight: '1.7', margin: '0 0 15px 0', color: '#ddd' }}>
-              If you discover a spine design you really like, we highly recommend checking out other works by the same author. Many creators on r/SwitchSpines design their covers following a specific template or visual style.
-            </p>
-            <p style={{ lineHeight: '1.7', margin: '0 0 20px 0', color: '#ddd' }}>
-              By using spines from a single creator (or creators with similar styles) for a specific franchise, you ensure your physical collection looks unified and professional on the shelf.
-            </p>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '15px', borderLeft: '4px solid #ffcc00' }}>
-              <p style={{ fontSize: '0.95rem', color: '#fff', fontStyle: 'italic', margin: 0 }}>
-                Example: Consistent series formatting by u/DieNoMight9
-              </p>
-            </div>
-          </RPGBox>
-        )}
-      </div>
-
-      {/* --- SIDEBAR DERECHO: EL FUN FACT --- */}
-      {/* Ensanchado a 450px */}
-      <div style={{ width: '450px', marginLeft: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        
-        <div style={{ 
-          border: '4px solid #fff', 
-          marginBottom: '20px', 
-          backgroundColor: '#000',
-          width: '300px', // Forzamos la imagen a 300px para que no se vea gigante
-          minHeight: '430px', 
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '6px 6px 0px rgba(0,0,0,0.7)'
-        }}>
-          <img 
-            src={dailyFact.cover ? dailyFact.cover : "https://via.placeholder.com/300x450?text=No+Image"} 
-            alt={dailyFact.name || "Game Art"} 
-            style={{ width: '100%', height: 'auto', display: 'block', filter: 'contrast(1.1)' }} 
-            onError={(e) => e.target.src = "https://via.placeholder.com/300x450?text=Error+Loading+Image"}
-          />
+      {/* HEADER */}
+      <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
+          <div style={{ color: 'white', fontWeight: 'bold' }}>SPINES PREVIEW (MULTI-PAGE)</div>
         </div>
-        
-        {/* La caja de texto ahora ocupa el 100% de los 450px */}
-        <RPGBox style={{ width: '100%', minHeight: '180px', boxSizing: 'border-box' }}>
-          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#ffcc00', marginBottom: '10px', borderBottom: '1px solid #555', paddingBottom: '8px' }}>
-            {dailyFact.name}
-          </div>
-          <div style={{ fontSize: '0.85rem', color: '#aaa', marginBottom: '12px', letterSpacing: '1px' }}>— DID YOU KNOW? —</div>
-          <p style={{ fontSize: '1rem', margin: 0, lineHeight: '1.6', textAlign: 'justify', color: '#eee' }}>
-            {dailyFact.fact}
-          </p>
-          <div style={{ textAlign: 'right', marginTop: '15px', animation: 'blink 1s step-end infinite', color: '#fff', fontSize: '1.2rem' }}>▼</div>
-        </RPGBox>
+        <div style={{ display: 'flex', gap: '10px' }}>
+             <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
+             <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+        </div>
       </div>
 
-      <style>{`
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-      `}</style>
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        
+        {/* PANEL IZQUIERDO */}
+        <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+            {images.map((imgObj, i) => (
+              <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.image ? '2px solid orange' : 'none' }}>
+                <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={imgObj.image || imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
+                    <input type="number" value={imgObj.count} onChange={(e) => {
+                      const newImgs = [...images];
+                      newImgs[i].count = Math.max(1, parseInt(e.target.value) || 1);
+                      setImages(newImgs);
+                    }} style={{ width: '45px', textAlign: 'center', border: '1px solid #ccc', color: '#000', background: 'white' }} />
+                </div>
+                <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(230, 0, 18, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer' }}> × </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ÁREA CENTRAL Y CONTROLES */}
+        <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
+          
+          <div style={{ 
+              position: 'absolute', top: '15px', right: '15px', zIndex: 10, 
+              backgroundColor: 'white', padding: '15px', borderRadius: '8px', 
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'flex', 
+              flexDirection: 'column', gap: '12px',
+              color: '#000000' 
+          }}>
+            <div>
+                <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
+                <select 
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                        if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                        if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                        // NUEVA OPCIÓN TIGHT: Márgenes mínimos y spacing casi nulo para que entren 12
+                        if (val === '7x5-tight') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.1, marginLeft: 0.01, marginRight: 0.01, spineSpacing: 0.0});
+                    }}
+                    style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
+                >
+                    <option value="Letter">Letter (𝐫𝐞𝐜𝐨𝐦𝐦𝐞𝐧𝐝𝐞𝐝) - 11" x 8.5"</option>
+                    <option value="A4">A4 (EU) - 297 x 210mm</option>
+                    <option value="7x5">7 x 5 inch (Standard)</option>
+                    <option value="7x5-tight">7 x 5 inch (Tight)</option>
+                </select>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+              {[
+                { label: 'Spacing', key: 'spineSpacing' },
+                { label: 'Page W', key: 'pageWidth' },
+                { label: 'Page H', key: 'pageHeight' },
+                { label: 'M. Top', key: 'marginTop' },
+                { label: 'M. Left', key: 'marginLeft' },
+                { label: 'M. Right', key: 'marginRight' }
+              ].map(item => (
+                <div key={item.key}>
+                  <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block', color: '#333' }}>{item.label}</label>
+                  <input 
+                    type="number" step="0.01" 
+                    value={config[item.key]} 
+                    onChange={e => setConfig({...config, [item.key]: parseFloat(e.target.value) || 0})} 
+                    style={{ width: '55px', color: '#000', border: '1px solid #ccc', background: 'white' }} 
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div style={{ borderTop: '1px solid #eee', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <label style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>Spine (mm): </label>
+                  <input 
+                    type="range" min={DEFAULT_SPINE_WIDTH - 5} max={DEFAULT_SPINE_WIDTH + 10} step="0.1"
+                    value={config.spineWidthMM} 
+                    onChange={e => setConfig({...config, spineWidthMM: parseFloat(e.target.value)})} 
+                    style={{ width: '100px', verticalAlign: 'middle' }} 
+                  />
+                  <span style={{ marginLeft: '8px', fontSize: '12px', color: '#000' }}>{config.spineWidthMM}</span>
+                </div>
+                <button 
+                  onClick={resetSpineWidth}
+                  style={{ backgroundColor: '#eee', color: '#333', border: '1px solid #ccc', borderRadius: '3px', fontSize: '10px', padding: '2px 5px', cursor: 'pointer' }}
+                >
+                  RESET
+                </button>
+            </div>
+          </div>
+
+          {pdfUrl ? (
+            <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview" style={{ width: '100%', height: '100%', border: 'none' }} />
+          ) : (
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
+              <p>{isGenerating ? "📥 Downloading from Cloudinary..." : "Generating preview..."}</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default AboutView;
+export default App;
