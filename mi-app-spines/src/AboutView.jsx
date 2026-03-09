@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { FUN_FACTS } from './data/funFactsData';
 
-// Componente para las cajas negras con borde blanco (Estilo Earthbound)
+// Componente para las cajas negras con borde blanco (Estilo RPG)
 const RPGBox = ({ children, style }) => (
   <div style={{
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
     border: '4px solid #fff',
     boxShadow: '6px 6px 0px #000',
-    padding: '20px',
+    padding: '25px',
     marginBottom: '20px',
     color: '#fff',
     ...style
@@ -44,8 +44,16 @@ const AboutView = () => {
 
   return (
     <div style={{ 
-      display: 'flex', minHeight: '100vh', backgroundColor: '#1a1a1a', 
-      color: 'white', padding: '40px', fontFamily: '"Courier New", Courier, monospace' 
+      display: 'flex', 
+      minHeight: '100vh', 
+      // FONDO CON IMAGEN DIFUMINADA Y OSCURECIDA
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/fondo_rpg.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      color: 'white', 
+      padding: '40px', 
+      fontFamily: '"Courier New", Courier, monospace' 
     }}>
       
       {/* 1. MENÚ (IZQUIERDA) */}
@@ -76,6 +84,7 @@ const AboutView = () => {
           PRESERVATION PROJECT
         </p>
 
+        {/* SECCIÓN ABOUT (TEXTO COMPLETO) */}
         {activeSection === 'about' && (
           <>
             <RPGBox>
@@ -91,54 +100,73 @@ const AboutView = () => {
               <p style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 'bold', marginBottom: '20px' }}>
                 Please contact me if image quality is a big issue or if a spine size is incorrect.
               </p>
-              <a href="#" style={{ 
-                display: 'inline-block', color: '#fff', backgroundColor: '#cc0000', 
-                padding: '10px 15px', textDecoration: 'none', fontWeight: 'bold', border: '2px solid #fff'
+              <button style={{ 
+                backgroundColor: '#cc0000', color: '#fff', padding: '10px 15px', 
+                fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer'
               }}>
                 SEND ME A PRIVATE MESSAGE
-              </a>
+              </button>
             </RPGBox>
           </>
         )}
 
-        {/* SECCIÓN HOW TO USE */}
+        {/* SECCIÓN HOW TO USE (SYSTEM MANUAL) */}
         {activeSection === 'how-to' && (
           <RPGBox>
-            <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px' }}>How to Use This Archive</h2>
-            <p style={{ lineHeight: '1.8', margin: 0 }}>
-              1. Search for your favorite games using the main database.<br/><br/>
-              2. Download the high-resolution spine files directly from the catalog.<br/><br/>
-              3. Print them on high-quality glossy paper for the best results, ensuring the dimensions match the standard Nintendo Switch spine size (approx. 161mm x 10mm).<br/><br/>
-              4. Carefully cut them out and slide them into the spine sleeve of your physical cases.
+            <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>SYSTEM MANUAL</h2>
+            
+            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>1. Selecting Spines</h3>
+            <p style={{ lineHeight: '1.7', marginBottom: '20px', color: '#ddd' }}>
+              Browse the catalog and click on any spine to add it to your selection. The total count will update in the top bar. You can use the search bar to find specific games, franchises, or even search for your favorite creator's username.
+            </p>
+
+            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>2. Paper Sizes & Printing</h3>
+            <p style={{ lineHeight: '1.7', marginBottom: '20px', color: '#ddd' }}>
+              • <b>Letter Size (Recommended):</b> Default setting for standard home printing. It ensures the dimensions match standard Nintendo Switch cases perfectly.<br/>
+              • <b>A4 / Legal / Other:</b> Use these for professional print shops. Always verify dimensions before printing large batches.
+            </p>
+
+            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>3. Cutting</h3>
+            <p style={{ lineHeight: '1.7', margin: 0, color: '#ddd' }}>
+              For best results, use a paper trimmer or an X-ACTO knife with a metal ruler. The generated PDF includes subtle guidelines to help you make precise cuts.
             </p>
           </RPGBox>
         )}
 
-        {/* SECCIÓN ADVICE */}
+        {/* SECCIÓN ADVICE (PRO TIPS + IMAGEN) */}
         {activeSection === 'advice' && (
           <RPGBox>
-            <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px' }}>Printing Advice</h2>
-            <p style={{ lineHeight: '1.8', margin: 0 }}>
-              • <b>Paper Type:</b> We recommend using 130gsm - 170gsm glossy photo paper. It provides the closest feel to official retail covers.<br/><br/>
-              • <b>Printer Settings:</b> Always set your printer to "High Quality" or "Photo" mode, and ensure scaling is set to "Actual Size" or "100%" so the dimensions aren't altered by margins.<br/><br/>
-              • <b>Cutting:</b> Use a metal ruler and a hobby knife (X-Acto) instead of scissors for perfectly straight and clean edges.
+            <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>PRO TIPS</h2>
+            <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>Maintain a Consistent Shelf</h3>
+            <p style={{ lineHeight: '1.7', color: '#ddd', marginBottom: '20px' }}>
+              Using spines from a single creator ensures your physical collection looks unified and professional. Many creators follow specific templates for their series.
             </p>
+            
+            {/* Cuadrante para la imagen estilo-dnn */}
+            <div style={{ 
+              backgroundColor: 'rgba(255,255,255,0.05)', 
+              padding: '15px', 
+              border: '2px solid #444',
+              textAlign: 'center'
+            }}>
+              <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
+                Example: Consistent series formatting by u/DieNoMight9
+              </p>
+              <img 
+                src="/ejemplo-estilo-dnn.png" 
+                alt="Example Spines Style" 
+                style={{ maxWidth: '100%', height: 'auto', border: '2px solid #fff' }}
+              />
+            </div>
           </RPGBox>
         )}
       </div>
 
-      {/* --- SIDEBAR DERECHO: EL FUN FACT Y LA IMAGEN --- */}
+      {/* --- SIDEBAR DERECHO: FUN FACT Y METROID (LOGICA ORIGINAL) --- */}
       <div style={{ width: '300px', marginLeft: '40px' }}>
-        
-        {/* Contenedor de la imagen arreglado con minHeight para que no colapse */}
         <div style={{ 
-          border: '4px solid #fff', 
-          marginBottom: '15px', 
-          backgroundColor: '#000',
-          minHeight: '430px', // Evita que la caja desaparezca si la imagen no carga
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+          border: '4px solid #fff', marginBottom: '15px', backgroundColor: '#000',
+          minHeight: '430px', display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <img 
             src={dailyFact.cover ? dailyFact.cover : "https://via.placeholder.com/300x450?text=No+Image"} 
