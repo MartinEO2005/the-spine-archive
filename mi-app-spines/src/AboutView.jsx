@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-// Usamos ./ porque la carpeta 'data' está al mismo nivel que este archivo dentro de 'src'
 import { FUN_FACTS } from './data/funFactsData';
 // Componente para las cajas negras con borde blanco (Estilo Earthbound)
 const RPGBox = ({ children, style }) => (
