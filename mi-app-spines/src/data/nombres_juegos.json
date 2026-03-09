@@ -2,7 +2,7 @@
     {
         "name": "Super Metroid",
         "system": "SFC",
-        "cover": "/covers/super_metroid1.webp",
-        "fact": "The Japanese box art for Super Metroid is a cinematic masterpiece, emphasizing the atmospheric dread of Planet Zebes. Unlike the action-heavy Western covers, this version focuses on the scale and mystery of Samus's encounter with Ridley."
+        "cover": "public/covers/super_metroid1.webp",
+        "fact": "Despite the series being a massive hit in the West, it was largely ignored in Japan and is considered a hidden gem or cult classic rather than a mainstream success there."
     }
 ]
