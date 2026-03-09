@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { FUN_FACTS } from './data/funFactsData';
 
+// Componente para las cajas negras con borde blanco (Estilo Earthbound)
 const RPGBox = ({ children, style }) => (
   <div style={{
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
     border: '4px solid #fff',
-    boxShadow: '6px 6px 0px rgba(0,0,0,0.8)', 
-    padding: '25px',
+    boxShadow: '6px 6px 0px #000',
+    padding: '20px',
     marginBottom: '20px',
     color: '#fff',
     ...style
@@ -21,9 +22,9 @@ const AboutView = () => {
   const dailyFact = useMemo(() => {
     if (!FUN_FACTS || FUN_FACTS.length === 0) {
       return { 
-        name: "Super Metroid", 
-        fact: "The Japanese box art for Super Metroid is a cinematic masterpiece, emphasizing the atmospheric dread of Planet Zebes.", 
-        cover: "/covers/super_metroid1.webp" 
+        name: "Loading...", 
+        fact: "Cargando datos de la base de datos...", 
+        cover: "https://via.placeholder.com/300x450?text=Cargando" 
       };
     }
     const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
@@ -37,107 +38,125 @@ const AboutView = () => {
     color: activeSection === id ? '#fff' : '#666',
     display: 'flex',
     alignItems: 'center',
-    fontWeight: activeSection === id ? 'bold' : 'normal',
-    textShadow: activeSection === id ? '2px 2px 0px #000' : 'none'
+    transition: '0.2s',
+    fontWeight: activeSection === id ? 'bold' : 'normal'
   });
 
   return (
     <div style={{ 
-      display: 'flex', 
-      minHeight: '100vh', 
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.85)), url('/fondo_rpg.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
-      color: 'white', 
-      padding: '40px', 
-      fontFamily: '"Courier New", Courier, monospace' 
+      display: 'flex', minHeight: '100vh', backgroundColor: '#1a1a1a', 
+      color: 'white', padding: '40px', fontFamily: '"Courier New", Courier, monospace' 
     }}>
       
       {/* 1. MENÚ (IZQUIERDA) */}
       <div style={{ width: '250px', marginRight: '40px' }}>
         <RPGBox>
           <div style={menuStyle('about')} onClick={() => setActiveSection('about')}>
-            <span style={{ marginRight: '10px', visibility: activeSection === 'about' ? 'visible' : 'hidden', color: '#ff3333' }}>▶</span> ABOUT
+            <span style={{ marginRight: '10px', visibility: activeSection === 'about' ? 'visible' : 'hidden', color: '#ff0000' }}>▶</span> ABOUT
           </div>
           <div style={menuStyle('how-to')} onClick={() => setActiveSection('how-to')}>
-            <span style={{ marginRight: '10px', visibility: activeSection === 'how-to' ? 'visible' : 'hidden', color: '#ff3333' }}>▶</span> HOW TO USE
+            <span style={{ marginRight: '10px', visibility: activeSection === 'how-to' ? 'visible' : 'hidden', color: '#ff0000' }}>▶</span> HOW TO USE
           </div>
           <div style={menuStyle('advice')} onClick={() => setActiveSection('advice')}>
-            <span style={{ marginRight: '10px', visibility: activeSection === 'advice' ? 'visible' : 'hidden', color: '#ff3333' }}>▶</span> ADVICE
+            <span style={{ marginRight: '10px', visibility: activeSection === 'advice' ? 'visible' : 'hidden', color: '#ff0000' }}>▶</span> ADVICE
           </div>
         </RPGBox>
       </div>
 
-      {/* 2. CONTENIDO (CENTRO) */}
+      {/* --- CONTENIDO CENTRAL --- */}
       <div style={{ flex: 1, maxWidth: '800px' }}>
-        <h1 style={{ fontSize: '3.5rem', margin: '0 0 5px 0', textShadow: '4px 4px 0px #000' }}>THE SPINE ARCHIVE</h1>
-        <p style={{ color: '#ff4444', fontWeight: 'bold', marginBottom: '40px', letterSpacing: '2px' }}>PRESERVATION PROJECT</p>
+        <h1 style={{ 
+          fontSize: '3.5rem', margin: '0 0 10px 0', color: '#fff',
+          textShadow: '4px 4px 0px #000',
+          WebkitTextStroke: '1px #fff' 
+        }}>
+          THE SPINE ARCHIVE
+        </h1>
+        <p style={{ color: '#ff0000', fontWeight: 'bold', marginBottom: '30px', letterSpacing: '2px' }}>
+          PRESERVATION PROJECT
+        </p>
 
         {activeSection === 'about' && (
           <>
             <RPGBox>
               <p style={{ lineHeight: '1.8', margin: 0, textAlign: 'justify' }}>
-                Welcome to <b>The Spine Archive</b>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <b>r/SwitchSpines</b> community. My mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork.
+                Welcome to <b>The Spine Archive</b>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <b>r/SwitchSpines</b> community. My mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork. Every spine in this archive is a testament to the creativity and passion of the fans who dedicate their time to making our physical collections look better than ever.
               </p>
             </RPGBox>
             <RPGBox>
-              <h2 style={{ marginTop: 0, borderBottom: '2px solid #fff', paddingBottom: '10px' }}>Contribution & Contact</h2>
-              <p style={{ color: '#ccc', lineHeight: '1.7' }}>
-                If you are an artist wishing to add your portfolio, or if you don't find a specific franchise, please send me a private message. Your feedback helps keep this archive complete.
+              <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '15px' }}>Contribution & Contact</h2>
+              <p style={{ fontSize: '0.95rem', color: '#ccc', lineHeight: '1.6', textAlign: 'justify', marginBottom: '20px' }}>
+                This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or if you don't find a specific franchise or creator that you know is already on the r/SwitchSpines subreddit, please send me a private message. Your feedback and contributions help keep this archive complete and up to date for everyone.
               </p>
-              <button style={{ backgroundColor: '#b30000', color: '#fff', padding: '10px 20px', border: '2px solid #fff', fontWeight: 'bold', cursor: 'pointer', boxShadow: '3px 3px 0px #000' }}>
+              <p style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 'bold', marginBottom: '20px' }}>
+                Please contact me if image quality is a big issue or if a spine size is incorrect.
+              </p>
+              <a href="#" style={{ 
+                display: 'inline-block', color: '#fff', backgroundColor: '#cc0000', 
+                padding: '10px 15px', textDecoration: 'none', fontWeight: 'bold', border: '2px solid #fff'
+              }}>
                 SEND ME A PRIVATE MESSAGE
-              </button>
+              </a>
             </RPGBox>
           </>
         )}
 
+        {/* SECCIÓN HOW TO USE */}
         {activeSection === 'how-to' && (
           <RPGBox>
-            <h2 style={{ marginTop: 0, borderBottom: '2px solid #fff', paddingBottom: '10px' }}>SYSTEM MANUAL</h2>
-            <h3 style={{ color: '#ffcc00' }}>1. Selecting Spines</h3>
-            <p>Browse the catalog and click on any spine to add it to your selection. The total count will update in the top bar.</p>
-            <h3 style={{ color: '#ffcc00' }}>2. Paper Sizes & Printing</h3>
-            <p>• <b>Letter Size (Recommended):</b> Default setting for standard home printing. Matches Nintendo Switch cases perfectly.<br/>
-               • <b>A4 / Legal / Other:</b> For professional shops. Always verify dimensions.</p>
-            <h3 style={{ color: '#ffcc00' }}>3. Cutting</h3>
-            <p>Use a paper trimmer or an X-ACTO knife with a metal ruler for best results.</p>
+            <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px' }}>How to Use This Archive</h2>
+            <p style={{ lineHeight: '1.8', margin: 0 }}>
+              1. Search for your favorite games using the main database.<br/><br/>
+              2. Download the high-resolution spine files directly from the catalog.<br/><br/>
+              3. Print them on high-quality glossy paper for the best results, ensuring the dimensions match the standard Nintendo Switch spine size (approx. 161mm x 10mm).<br/><br/>
+              4. Carefully cut them out and slide them into the spine sleeve of your physical cases.
+            </p>
           </RPGBox>
         )}
 
+        {/* SECCIÓN ADVICE */}
         {activeSection === 'advice' && (
           <RPGBox>
-            <h2 style={{ marginTop: 0, borderBottom: '2px solid #fff', paddingBottom: '10px' }}>PRO TIPS</h2>
-            <h3 style={{ color: '#ffcc00' }}>Maintain a Consistent Shelf</h3>
-            <p>Using spines from a single creator ensures your physical collection looks unified and professional on the shelf.</p>
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
-              <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '10px' }}>Example: Consistent series formatting by u/DieNoMight9</p>
-              <img 
-                src="/ejemplo-estilo-dnn.png" 
-                alt="Example Spines" 
-                style={{ maxWidth: '400px', width: '100%', border: '2px solid #fff', boxShadow: '4px 4px 0px #000' }} 
-              />
-            </div>
+            <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px' }}>Printing Advice</h2>
+            <p style={{ lineHeight: '1.8', margin: 0 }}>
+              • <b>Paper Type:</b> We recommend using 130gsm - 170gsm glossy photo paper. It provides the closest feel to official retail covers.<br/><br/>
+              • <b>Printer Settings:</b> Always set your printer to "High Quality" or "Photo" mode, and ensure scaling is set to "Actual Size" or "100%" so the dimensions aren't altered by margins.<br/><br/>
+              • <b>Cutting:</b> Use a metal ruler and a hobby knife (X-Acto) instead of scissors for perfectly straight and clean edges.
+            </p>
           </RPGBox>
         )}
       </div>
 
-      {/* 3. FUN FACT (DERECHA) */}
-      <div style={{ width: '450px', marginLeft: '40px' }}>
-        <div style={{ border: '4px solid #fff', marginBottom: '20px', backgroundColor: '#000', width: '300px', margin: '0 auto 20px auto' }}>
+      {/* --- SIDEBAR DERECHO: EL FUN FACT Y LA IMAGEN --- */}
+      <div style={{ width: '300px', marginLeft: '40px' }}>
+        
+        {/* Contenedor de la imagen arreglado con minHeight para que no colapse */}
+        <div style={{ 
+          border: '4px solid #fff', 
+          marginBottom: '15px', 
+          backgroundColor: '#000',
+          minHeight: '430px', // Evita que la caja desaparezca si la imagen no carga
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
           <img 
-            src={dailyFact.cover} 
-            alt={dailyFact.name} 
-            style={{ width: '100%', display: 'block' }} 
-            onError={(e) => e.target.src = "https://via.placeholder.com/300x450?text=Super+Metroid"}
+            src={dailyFact.cover ? dailyFact.cover : "https://via.placeholder.com/300x450?text=No+Image"} 
+            alt={dailyFact.name || "Game Art"} 
+            style={{ width: '100%', height: 'auto', display: 'block', filter: 'contrast(1.1)' }} 
+            onError={(e) => e.target.src = "https://via.placeholder.com/300x450?text=Error+Loading+Image"}
           />
         </div>
-        <RPGBox style={{ minHeight: '200px' }}>
-          <div style={{ color: '#ffcc00', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '10px' }}>{dailyFact.name}</div>
-          <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '10px' }}>— DID YOU KNOW? —</div>
-          <p style={{ fontSize: '1rem', lineHeight: '1.6', margin: 0 }}>{dailyFact.fact}</p>
-          <div style={{ textAlign: 'right', marginTop: '15px', animation: 'blink 1s step-end infinite' }}>▼</div>
+        
+        <RPGBox style={{ minHeight: '180px' }}>
+          <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#fff', marginBottom: '8px', borderBottom: '1px solid #444', paddingBottom: '5px' }}>
+            {dailyFact.name}
+          </div>
+          <div style={{ fontSize: '0.8rem', color: '#aaa', marginBottom: '10px' }}>— DID YOU KNOW? —</div>
+          <p style={{ fontSize: '0.9rem', margin: 0, lineHeight: '1.5', textAlign: 'justify' }}>
+            {dailyFact.fact}
+          </p>
+          <div style={{ textAlign: 'right', marginTop: '10px', animation: 'blink 1s step-end infinite', color: '#fff' }}>▼</div>
         </RPGBox>
       </div>
 
