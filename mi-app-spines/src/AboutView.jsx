@@ -105,7 +105,7 @@ const AboutView = () => {
               {/* CONTENEDOR DE BOTONES (REDDIT + KO-FI) */}
               <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
                 <a 
-                  href="https://www.reddit.com/message/compose/?to=TU_USUARIO_DE_REDDIT" 
+                  href="https://www.reddit.com/user/Certain-Issue5855/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ 
@@ -114,7 +114,7 @@ const AboutView = () => {
                     textDecoration: 'none', display: 'inline-block'
                   }}
                 >
-                  SEND ME A PM
+                  SEND ME A Private Message
                 </a>
 
                 <a 
@@ -127,7 +127,7 @@ const AboutView = () => {
                     textDecoration: 'none', display: 'inline-block'
                   }}
                 >
-                  ☕ BUY ME A SWITCH 2
+                  ☕ Support me on Ko-fi
                 </a>
               </div>
             </RPGBox>
@@ -171,7 +171,9 @@ const AboutView = () => {
               backgroundColor: 'rgba(255,255,255,0.05)', 
               padding: '15px', 
               border: '2px solid #444',
-              textAlign: 'center'
+              textAlign: 'center',
+              maxWidth: '40%',     // <-- ESTO LO HACE MÁS CHICO (puedes probar con 50%, 40%, o 400px)
+              margin: '0 auto'
             }}>
               <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
                 Example: Consistent series formatting by a reddit creator.
