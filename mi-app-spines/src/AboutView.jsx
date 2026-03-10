@@ -101,12 +101,35 @@ const AboutView = () => {
               <p style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 'bold', marginBottom: '20px' }}>
                 Please contact me if image quality is a big issue or if a spine size is incorrect.
               </p>
-              <button style={{ 
-                backgroundColor: '#cc0000', color: '#fff', padding: '10px 15px', 
-                fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer'
-              }}>
-                SEND ME A PRIVATE MESSAGE
-              </button>
+              
+              {/* CONTENEDOR DE BOTONES (REDDIT + KO-FI) */}
+              <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <a 
+                  href="https://www.reddit.com/message/compose/?to=TU_USUARIO_DE_REDDIT" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ 
+                    backgroundColor: '#cc0000', color: '#fff', padding: '10px 15px', 
+                    fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer',
+                    textDecoration: 'none', display: 'inline-block'
+                  }}
+                >
+                  SEND ME A PM
+                </a>
+
+                <a 
+                  href="https://ko-fi.com/martineo" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ 
+                    backgroundColor: '#29abe0', color: '#fff', padding: '10px 15px', 
+                    fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer',
+                    textDecoration: 'none', display: 'inline-block'
+                  }}
+                >
+                  ☕ BUY ME A SWITCH 2
+                </a>
+              </div>
             </RPGBox>
           </>
         )}
@@ -140,7 +163,7 @@ const AboutView = () => {
             <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>PRO TIPS</h2>
             <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>Maintain a Consistent Shelf</h3>
             <p style={{ lineHeight: '1.7', color: '#ddd', marginBottom: '20px' }}>
-              Using spines from a single creator ensures your physical collection looks unified and professional. Many creators follow specific templates for their series.
+              Using spines from a single style/creator ensures your physical collection looks unified and professional. Many creators follow specific templates for their series or depending on the franchise. Make sure to explore all available spines before making your final selection!
             </p>
             
             {/* Cuadrante para la imagen estilo-dnn */}
@@ -151,7 +174,7 @@ const AboutView = () => {
               textAlign: 'center'
             }}>
               <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
-                Example: Consistent series formatting by u/DieNoMight9
+                Example: Consistent series formatting by a reddit creator.
               </p>
               <img 
                 src="/ejemplo-estilo-dnn.png" 
