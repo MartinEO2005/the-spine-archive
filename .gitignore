@@ -5,8 +5,9 @@ node_modules/
 
 # Carpetas de imágenes (La ruta según tu captura)
 mi-app-spines/public/spines/
-
+mi-app-spines/public/covers/
 # Archivos de construcción y temporales
 dist/
 .DS_Store
 .env
+public/covers/
