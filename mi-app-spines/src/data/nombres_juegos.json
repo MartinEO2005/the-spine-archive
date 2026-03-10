@@ -4,5 +4,293 @@
         "system": "SFC",
         "cover": "/covers/super_metroid1.webp",
         "fact": "Despite the series being a massive hit in the West, it was largely ignored in Japan and is considered a hidden gem or cult classic rather than a mainstream success there."
-    }
+    },
+  {
+    "name": "Akumajō Dracula XX",
+    "system": "SFC",
+    "cover": "/covers/akumajō_dracula_xx.webp",
+    "fact": "This game is a reimagining of the PC Engine masterpiece 'Rondo of Blood'. Due to the SNES hardware limits, many levels and the branching paths were completely redesigned from the original."
+  },
+  {
+    "name": "Batman Returns",
+    "system": "SFC",
+    "cover": "/covers/batman_returns.webp",
+    "fact": "Developed by Konami, this beat 'em up is widely considered one of the best movie-to-game adaptations of the 16-bit era, featuring digitized sounds directly from the film."
+  },
+  {
+    "name": "Breath of Fire II",
+    "system": "SFC",
+    "cover": "/covers/breath_of_fire_ii.webp",
+    "fact": "The game features a unique 'TownShip' mechanic where players can build their own village and recruit NPCs found throughout the world to unlock special services."
+  },
+  {
+    "name": "Chrono Trigger",
+    "system": "SFC",
+    "cover": "/covers/chrono_trigger1.webp",
+    "fact": "The game was developed by the 'Dream Team': Hironobu Sakaguchi (Final Fantasy), Yuji Horii (Dragon Quest), and Akira Toriyama (Dragon Ball)."
+  },
+  {
+    "name": "College Slam",
+    "system": "SFC",
+    "cover": "/covers/college_slam_super_famicom.webp",
+    "fact": "This is essentially an NCAA-licensed version of the 'NBA Jam' engine, keeping the over-the-top 'on fire' dunks and fast-paced 2v2 gameplay."
+  },
+  {
+    "name": "Contra 魂斗羅スピリッツ",
+    "system": "SFC",
+    "cover": "/covers/contra_魂斗羅スピリッツ.webp",
+    "fact": "In the Japanese version, players have infinite continues and a cheat code for 30 lives, making it significantly more accessible than the Western 'Contra III' version."
+  },
+  {
+    "name": "Doom",
+    "system": "SFC",
+    "cover": "/covers/doom.webp",
+    "fact": "This port was a technical marvel programmed by Randy Linden without the original source code, using the Super FX 2 chip to handle 3D rendering."
+  },
+  {
+    "name": "Dragon Quest I-II",
+    "system": "SFC",
+    "cover": "/covers/dragon_quest_i-ii.webp",
+    "fact": "This SFC remake updated the NES originals with 16-bit graphics and a symphonic soundtrack, while also significantly balancing the difficulty and XP gains."
+  },
+  {
+    "name": "Dragon Quest III",
+    "system": "SFC",
+    "cover": "/covers/dragon_quest_iii.webp",
+    "fact": "Often cited as the best SFC remake, it introduced the 'Personality' system that determines how a character's stats grow based on an opening psychological test."
+  },
+  {
+    "name": "Dragon Quest V",
+    "system": "SFC",
+    "cover": "/covers/dragon_quest_v.webp",
+    "fact": "This game introduced the monster-taming mechanic years before Pokémon became a phenomenon, allowing players to recruit almost any enemy to their party."
+  },
+  {
+    "name": "Dragon Quest VI",
+    "system": "SFC",
+    "cover": "/covers/dragon_quest_vi.webp",
+    "fact": "The game features a massive dual-world system (Real World and Dream World) and was one of the largest SFC cartridges ever made at 32 megabits."
+  },
+  {
+    "name": "Elfaria II",
+    "system": "SFC",
+    "cover": "/covers/elfaria_ii.webp",
+    "fact": "A late-lifecycle RPG for the SFC known for its unique 'Log-less' battle system and a beautiful soundtrack composed by the legendary Ryuji Sasai."
+  },
+  {
+    "name": "F-Zero",
+    "system": "SFC",
+    "cover": "/covers/f-zero.webp",
+    "fact": "It was a launch title designed to showcase 'Mode 7' technology, which allowed the background layer to rotate and scale, creating a convincing 3D effect."
+  },
+  {
+    "name": "Final Fight",
+    "system": "SFC",
+    "cover": "/covers/final_fight_nintendo_super_famicom_1990.webp",
+    "fact": "The SFC version is famous for being single-player only and removing the character Guy to save memory, which led to the release of 'Final Fight Guy' later."
+  },
+  {
+    "name": "Fire Emblem: Monshō no Nazo",
+    "system": "SFC",
+    "cover": "/covers/fire_emblem_monshō_no_nazo1.webp",
+    "fact": "This was the first Fire Emblem to allow units to dismount their horses during indoor battles, a tactical change that affected their weapon usage."
+  },
+  {
+    "name": "Gon",
+    "system": "SFC",
+    "cover": "/covers/gon.webp",
+    "fact": "Based on the textless manga, this game features no dialogue at all. It’s an unusual platformer where the tiny dinosaur is practically invincible."
+  },
+  {
+    "name": "Hiouden: Mamonotachi to no Chikai",
+    "system": "SFC",
+    "cover": "/covers/hiouden-_mamonotachi_to_no_chikai.webp",
+    "fact": "A rare real-time strategy RPG for the console that allowed players to control a large horde of monsters simultaneously using a cursor system."
+  },
+  {
+    "name": "Kirby Bowl (Kirby's Dream Course)",
+    "system": "SFC",
+    "cover": "/covers/kirby_bowl_nintendo_super_famicom_1994.webp",
+    "fact": "Originally developed as a generic golf game called 'Special Tee Shot', Nintendo decided to rebrand it with Kirby to ensure better sales."
+  },
+  {
+    "name": "Kirby Super Star",
+    "system": "SFC",
+    "cover": "/covers/kirby_super_star.webp",
+    "fact": "It was marketed as an '8-games-in-1' package. It also introduced the 'Helper' system, allowing a second player to jump in as Kirby's current ability."
+  },
+  {
+    "name": "Mario Paint",
+    "system": "SFC",
+    "cover": "/covers/mario_paint_-_super_famicom_-_nintendo_-_1992.webp",
+    "fact": "The game was bundled with the SNES Mouse. Its music composer, Hirokazu Tanaka, included a secret 'Totakeke' song that later became the basis for K.K. Slider in Animal Crossing."
+  },
+  {
+    "name": "Mario to Wario",
+    "system": "SFC",
+    "cover": "/covers/mario_to_wario_nintendo_super_famicom_1993.webp",
+    "fact": "Developed by Game Freak (Pokémon), this puzzle game requires the SNES Mouse to guide a blinded Mario through levels by clicking on environmental objects."
+  },
+  {
+    "name": "Mother 2",
+    "system": "SFC",
+    "cover": "/covers/mother_2.webp",
+    "fact": "The game’s development was in deep trouble until Satoru Iwata joined the team, famously saying: 'I can fix it in six months, but it will take two years if I use what you have'."
+  },
+  {
+    "name": "Nosferatu",
+    "system": "SFC",
+    "cover": "/covers/nosferatu_snes.webp",
+    "fact": "A cinematic platformer heavily influenced by 'Prince of Persia', featuring incredibly fluid rotoscoped animations for the protagonist's combat moves."
+  },
+  {
+    "name": "Pac-in-Time",
+    "system": "SFC",
+    "cover": "/covers/pac-in-time_nintendo_super_famicom_1995.webp",
+    "fact": "This is a re-skinned version of a PC game called 'Fury of the Furries'. Pac-Man uses a grappling hook and various spells to navigate platforming levels."
+  },
+  {
+    "name": "Prince of Persia",
+    "system": "SFC",
+    "cover": "/covers/prince_of_persia_snes.webp",
+    "fact": "The SFC version is considered the definitive port, adding 10 new levels, a 2-hour time limit, and vastly improved graphics compared to the PC original."
+  },
+  {
+    "name": "RockMan X3",
+    "system": "SFC",
+    "cover": "/covers/rockman_x31.webp",
+    "fact": "This was the first game in the series where Zero was a playable character, although he only has one life and cannot fight bosses."
+  },
+  {
+    "name": "Seiken Densetsu 3",
+    "system": "SFC",
+    "cover": "/covers/seiken_densetsu_31.webp",
+    "fact": "It features a day/night cycle and a calendar system that changes elemental powers based on the day of the week, which was revolutionary for 1995."
+  },
+  {
+    "name": "Shin Megami Tensei",
+    "system": "SFC",
+    "cover": "/covers/shin_megami_tensei.webp",
+    "fact": "This game set the tone for the series' dark atmosphere, allowing players to recruit demons through negotiation and choose between Law, Chaos, or Neutrality paths."
+  },
+  {
+    "name": "Sim City 2000",
+    "system": "SFC",
+    "cover": "/covers/sim_city_20001.webp",
+    "fact": "Despite the hardware struggle to run a complex simulation, this port includes exclusive Nintendo-themed rewards like a Mario Statue for your city."
+  },
+  {
+    "name": "Star Fox",
+    "system": "SFC",
+    "cover": "/covers/star_fox.webp",
+    "fact": "Developed by a small group of British teenagers (Argonaut Software) who convinced Nintendo to create the Super FX chip to enable true 3D on the console."
+  },
+  {
+    "name": "Street Fighter II",
+    "system": "SFC",
+    "cover": "/covers/street_fighter_ii.webp",
+    "fact": "The SFC port was so successful it became the console's best-selling third-party game, proving that arcade-perfect home conversions were finally possible."
+  },
+  {
+    "name": "Super Donkey Kong 2",
+    "system": "SFC",
+    "cover": "/covers/super_donkey_kong_2.webp",
+    "fact": "The game's soundtrack, composed by David Wise, is considered a technical masterpiece, using advanced wavetable synthesis to mimic high-end synthesizers."
+  },
+  {
+    "name": "Super Game Boy",
+    "system": "SFC",
+    "cover": "/covers/super_game_boy_advent.webp",
+    "fact": "It’s not an emulator; it actually contains the hardware of a Game Boy inside the cartridge, using the SFC only for power, controls, and video output."
+  },
+  {
+    "name": "Super Ghouls'n Ghosts",
+    "system": "SFC",
+    "cover": "/covers/super_ghouls'n_ghosts.webp",
+    "fact": "The game is notorious for its difficulty and the 'double jump' mechanic, which, unlike most games, does not allow you to change direction mid-air."
+  },
+  {
+    "name": "Super Mario Collection",
+    "system": "SFC",
+    "cover": "/covers/super_mario_collection_nintendo_super_famicom_1993.webp",
+    "fact": "This was one of the first 'HD Remaster' concepts in history, bringing 8-bit NES games into the 16-bit era with completely redrawn assets."
+  },
+  {
+    "name": "Super Mario Kart",
+    "system": "SFC",
+    "cover": "/covers/super_mario_kart1.webp",
+    "fact": "The game started as a prototype for a two-player racing game where one player could see the other's screen; it didn't even have Mario in it originally."
+  },
+  {
+    "name": "Super Mario RPG",
+    "system": "SFC",
+    "cover": "/covers/super_mario_rpg.webp",
+    "fact": "It used the SA-1 chip to handle pre-rendered 3D graphics, creating a look similar to Donkey Kong Country but in a fully isometric world."
+  },
+  {
+    "name": "Super Mario World",
+    "system": "SFC",
+    "cover": "/covers/super_mario_world1.webp",
+    "fact": "In the Japanese version, Yoshi can eat almost anything, including the dolphins in the water levels, which were made 'inedible' in the Western versions."
+  },
+  {
+    "name": "Super Royal Blood",
+    "system": "SFC",
+    "cover": "/covers/super_royal_blood_(gemfire).webp",
+    "fact": "A Koei strategy game that blends political simulation with fantasy elements, featuring a 'Gemfire' crown that grants the power to control dragons."
+  },
+  {
+    "name": "Super Star Wars",
+    "system": "SFC",
+    "cover": "/covers/super_star_wars1.webp",
+    "fact": "Known for its brutal difficulty, this game allows you to play as Chewbacca and Han Solo, each with their own unique weapons and movement speeds."
+  },
+  {
+    "name": "Turtles in Time",
+    "system": "SFC",
+    "cover": "/covers/turtles_in_time.webp",
+    "fact": "The SFC version actually improved on the arcade original by adding new levels (like the Technodrome) and new boss fights (like Bebop and Rocksteady)."
+  },
+  {
+    "name": "Uncharted Waters: New Horizons",
+    "system": "SFC",
+    "cover": "/covers/uncharted_waters_new_horizons_1993.webp",
+    "fact": "A massive open-world sailing RPG where you can choose between six characters, each with a completely different storyline and gameplay goal."
+  },
+  {
+    "name": "World Heroes",
+    "system": "SFC",
+    "cover": "/covers/world_heroes1.webp",
+    "fact": "A fighting game featuring historical figures like Rasputin and Joan of Arc. It was famous for its 'Death Match' mode with spiked walls and mines."
+  },
+  {
+    "name": "Wrecking Crew '98",
+    "system": "SFC",
+    "cover": "/covers/wrecking_crew_'98.webp",
+    "fact": "A Japan-exclusive sequel to the NES classic, featuring a competitive puzzle-action mode and the original NES game as an unlockable."
+  },
+  {
+    "name": "X-Men: Mutant Apocalypse",
+    "system": "SFC",
+    "cover": "/covers/x-men_mutant_apocalypse_nintendo_super_famicom_1995.webp",
+    "fact": "Unlike most beat 'em ups, special moves in this game are performed with fighting-game-style inputs (like Hadoken motions) rather than a single button."
+  },
+  {
+    "name": "Yoshi's Island",
+    "system": "SFC",
+    "cover": "/covers/yoshi_island.webp",
+    "fact": "The 'hand-drawn' crayon art style was a protest by the developers after Nintendo's management pushed for pre-rendered 3D graphics like Donkey Kong Country."
+  },
+  {
+    "name": "Yoshi’s Road Hunting",
+    "system": "SFC",
+    "cover": "/covers/yoshi’s_road_hunting__nintendo_(1993).webp",
+    "fact": "Known as 'Yoshi's Safari' in the West, it is the only Mario game that uses a first-person shooter perspective and requires the Super Scope light gun."
+  },
+  {
+    "name": "Zelda: Link to the Past",
+    "system": "SFC",
+    "cover": "/covers/zelda_link_to_the_past1.webp",
+    "fact": "It was originally planned to have three worlds (Past, Present, and Future) but the idea was scaled down to the Light and Dark worlds due to memory limits."
+  }
 ]

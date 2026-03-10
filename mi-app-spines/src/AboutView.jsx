@@ -28,7 +28,8 @@ const AboutView = () => {
       };
     }
     const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-    return FUN_FACTS[dayOfYear % FUN_FACTS.length];
+    // return FUN_FACTS[dayOfYear % FUN_FACTS.length];
+    return FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
   }, []);
 
   const menuStyle = (id) => ({
