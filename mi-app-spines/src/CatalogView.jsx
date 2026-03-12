@@ -53,11 +53,9 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return spines.filter(s => (s.title && s.title.toLowerCase().includes(term)) || (s.author && s.author.toLowerCase().includes(term)));
   }, [spines, debouncedTerm]);
 
-  // --- FUNCIÓN ACTUALIZADA PARA ENVIAR SPINE ID ---
   const registerClick = (spine) => {
     if (!spine || !spine.author) return;
     const cleanAuthor = spine.author.replace('u/', '');
-    // Enviamos el autor y el ID de la spine para el top 5 individual
     fetch(`/api/click?author=${cleanAuthor}&spineId=${spine.id}`).catch(() => {}); 
   };
 
@@ -91,7 +89,41 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
           </div>
         )}
         <div style={{ flex: 1 }}></div>
-        <button onClick={() => onConfirm(selectedSpines)} disabled={selectedSpines.length === 0} style={{ backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', color: '#b30000', border: 'none', padding: '10px 25px', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>
+
+        {/* --- NUEVO BOTÓN DE DONACIÓN AL LADO DE GENERAR --- */}
+        <a 
+          href="https://ko-fi.com/martineo" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            backgroundColor: '#000',
+            color: '#ffcc00', 
+            padding: '10px 15px',
+            border: '2px solid #ffcc00',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            fontSize: '13px',
+            marginRight: '15px',
+            borderRadius: '5px',
+            boxShadow: '3px 3px 0px rgba(0,0,0,0.2)'
+          }}
+        >
+          ⭐ SUPPORT THE PROJECT
+        </a>
+
+        <button 
+          onClick={() => onConfirm(selectedSpines)} 
+          disabled={selectedSpines.length === 0} 
+          style={{ 
+            backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', 
+            color: '#b30000', 
+            border: 'none', 
+            padding: '10px 25px', 
+            borderRadius: '5px', 
+            fontWeight: 'bold', 
+            cursor: 'pointer' 
+          }}
+        >
           GENERATE PDF ({selectedSpines.length})
         </button>
       </div>
@@ -103,7 +135,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
             selectedSpines={selectedSpines} 
             toggleSpine={(s) => {
               const isSelected = selectedSpines.find(x => x.id === s.id);
-              // Registramos el clic solo si se está seleccionando la spine (añadiendo al PDF)
               if (!isSelected) registerClick(s); 
               setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
             }} 
