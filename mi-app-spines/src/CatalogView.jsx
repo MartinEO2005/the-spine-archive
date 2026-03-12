@@ -85,7 +85,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         
         {currentView === 'catalog' && (
           <div style={{ flex: 1, maxWidth: '400px', position: 'relative' }}>
-             <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} />
+             <input type="text" placeholder="Search by name, author..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: '100%', padding: '10px 20px', borderRadius: '5px', border: 'none' }} />
           </div>
         )}
         <div style={{ flex: 1 }}></div>
