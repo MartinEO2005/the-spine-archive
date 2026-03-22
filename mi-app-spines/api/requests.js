@@ -4,6 +4,8 @@ export default async function handler(req, res) {
   const client = createClient({ url: process.env.REDIS_URL });
   client.on('error', (err) => console.log('Redis Client Error', err));
 
+  const ADMIN_PASSWORD = "TU_CONTRASEÑA_AQUI"; // Cambia esto para borrar pruebas
+
   try {
     await client.connect();
 
@@ -37,15 +39,11 @@ export default async function handler(req, res) {
         description,
         requester: requester || 'Anonymous',
         status: 'pending',
-        claimedBy: null,
+        claimedBy: [], // Inicializado como array vacío
         createdAt: Date.now()
       };
 
-      // Guardamos como STRING de JSON con un tiempo de vida (EX) de 14 días
-      await client.set(`request:${id}`, JSON.stringify(newRequest), {
-        EX: 1209600 
-      });
-
+      await client.set(`request:${id}`, JSON.stringify(newRequest), { EX: 1209600 });
       await client.quit();
       return res.status(200).json(newRequest);
     }
@@ -64,13 +62,36 @@ export default async function handler(req, res) {
       }
 
       const current = JSON.parse(currentRaw);
-      const updated = { ...current, status: 'in-progress', claimedBy: artistName };
       
-      // Actualizamos y extendemos 7 días más de vida
-      await client.set(key, JSON.stringify(updated), { EX: 604800 });
+      // Lógica para múltiples colaboradores
+      const currentClaims = Array.isArray(current.claimedBy) ? current.claimedBy : (current.claimedBy ? [current.claimedBy] : []);
+      if (!currentClaims.includes(artistName)) {
+        currentClaims.push(artistName);
+      }
 
+      const updated = { 
+        ...current, 
+        status: 'in-progress', 
+        claimedBy: currentClaims 
+      };
+      
+      await client.set(key, JSON.stringify(updated), { EX: 604800 });
       await client.quit();
       return res.status(200).json(updated);
+    }
+
+    // --- BORRAR PETICIÓN (DELETE) ---
+    if (req.method === 'DELETE') {
+      const { requestId, password } = req.query;
+      
+      if (password !== ADMIN_PASSWORD) {
+        await client.quit();
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      await client.del(`request:${requestId}`);
+      await client.quit();
+      return res.status(200).json({ success: true });
     }
 
     await client.quit();

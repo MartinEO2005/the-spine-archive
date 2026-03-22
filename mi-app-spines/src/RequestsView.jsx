@@ -102,18 +102,31 @@ const RequestsView = () => {
               
               <div style={{ borderTop: '1px solid #333', paddingTop: '15px' }}>
                 <p style={{ fontSize: '0.75rem', color: '#666', margin: '0 0 10px 0' }}>By: {req.requester || 'Anonymous'}</p>
-                {req.status === 'pending' ? (
-                  <button 
-                    onClick={() => handleClaim(req.id)}
-                    style={{ width: '100%', padding: '8px', background: 'transparent', border: '1px solid #b30000', color: '#b30000', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}
-                  >
-                    🛡️ CLAIM BOUNTY
-                  </button>
-                ) : (
-                  <div style={{ fontSize: '0.8rem', color: '#00ff00', textAlign: 'center', fontWeight: 'bold' }}>
-                    ⚒️ Working: {req.claimedBy}
+                
+                {/* Lista de colaboradores (se une con comas si hay varios) */}
+                {req.claimedBy && req.claimedBy.length > 0 && (
+                  <div style={{ fontSize: '0.8rem', color: '#00ff00', textAlign: 'center', fontWeight: 'bold', marginBottom: '10px' }}>
+                    ⚒️ Working: {Array.isArray(req.claimedBy) ? req.claimedBy.join(', ') : req.claimedBy}
                   </div>
                 )}
+
+                {/* Botón de Reclamar siempre disponible para que más gente se una */}
+                <button 
+                  onClick={() => handleClaim(req.id)}
+                  style={{ 
+                    width: '100%', 
+                    padding: '8px', 
+                    background: 'transparent', 
+                    border: `1px solid ${req.status === 'pending' ? '#b30000' : '#00ff00'}`, 
+                    color: req.status === 'pending' ? '#b30000' : '#00ff00', 
+                    fontWeight: 'bold', 
+                    cursor: 'pointer', 
+                    borderRadius: '4px',
+                    fontSize: '0.75rem'
+                  }}
+                >
+                  {req.status === 'pending' ? '🛡️ CLAIM BOUNTY' : '+ JOIN BOUNTY'}
+                </button>
               </div>
             </div>
           ))
