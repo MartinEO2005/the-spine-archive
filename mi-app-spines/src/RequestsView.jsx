@@ -34,7 +34,7 @@ const RequestsView = () => {
   };
 
   const handleClaim = async (requestId) => {
-    const artistName = prompt("Enter your Name (u/name):");
+    const artistName = prompt("Enter your Artist Name (u/name):");
     if (!artistName) return;
     
     await fetch('/api/requests', {
@@ -43,6 +43,27 @@ const RequestsView = () => {
       body: JSON.stringify({ requestId, artistName }),
     });
     fetchRequests();
+  };
+
+  const handleComplete = async (requestId, currentClaims) => {
+    const artistName = prompt("To close this request, enter your Artist Name (u/name):");
+    if (!artistName) return;
+
+    // Security check: Only artists in the claim list can finish it
+    if (!currentClaims.includes(artistName)) {
+      alert("Unauthorized. Only assigned artists can mark this bounty as finished.");
+      return;
+    }
+
+    if (!confirm("Have you already uploaded this spine to the catalog? This will remove the request from the board.")) return;
+
+    try {
+      // Replace 'YOUR_ADMIN_PASSWORD' with the one in your requests.js API
+      await fetch(`/api/requests?requestId=${requestId}&password=TU_CONTRASEÑA_AQUI`, {
+        method: 'DELETE',
+      });
+      fetchRequests();
+    } catch (e) { console.error("Error finishing request", e); }
   };
 
   return (
@@ -55,22 +76,30 @@ const RequestsView = () => {
             backgroundColor: showForm ? '#444' : '#b30000', 
             color: 'white', border: 'none', borderRadius: '50%', 
             width: '40px', height: '40px', fontSize: '24px', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'transform 0.2s'
+            display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}
         >
           {showForm ? '×' : '+'}
         </button>
       </div>
 
-      {/* Formulario Desplegable */}
+      {/* HOW IT WORKS SECTION */}
+      <div style={{ backgroundColor: '#1a1a1a', padding: '15px', borderRadius: '8px', borderLeft: '4px solid #b30000', marginBottom: '30px', fontSize: '0.85rem', lineHeight: '1.6' }}>
+        <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: '#fff' }}>HOW IT WORKS</p>
+        <ul style={{ margin: 0, paddingLeft: '20px', color: '#bbb' }}>
+          <li><strong>Users:</strong> Can't find a spine? Click "+" to post a request. Be specific about the region or style.</li>
+          <li><strong>Artists:</strong> Click <strong>CLAIM</strong> to let others know you're working on it. Multiple artists can join!</li>
+          <li><strong>Completion:</strong> Once the spine is uploaded to the catalog, click <strong>DONE</strong> to clear the bounty.</li>
+        </ul>
+      </div>
+
       {showForm && (
         <div style={{ backgroundColor: '#222', padding: '20px', borderRadius: '8px', marginBottom: '30px', border: '1px solid #444' }}>
           <h3 style={{ marginTop: 0 }}>Post a New Request</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <input placeholder="Game Title (e.g. Zelda: Echoes of Wisdom)" value={gameTitle} onChange={e => setGameTitle(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} required />
-            <textarea placeholder="Specific details (Style, language, region...)" value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px', minHeight: '80px' }} />
-            <input placeholder="Your Reddit/Name (Optional)" value={requester} onChange={e => setRequester(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} />
+            <textarea placeholder="Specific details (Region, language, specific artist style...)" value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px', minHeight: '80px' }} />
+            <input placeholder="Your Reddit Name (Optional)" value={requester} onChange={e => setRequester(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} />
             <button type="submit" disabled={loading} style={{ backgroundColor: '#b30000', color: 'white', border: 'none', padding: '12px', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}>
               {loading ? 'POSTING...' : 'SUBMIT BOUNTY'}
             </button>
@@ -78,7 +107,6 @@ const RequestsView = () => {
         </div>
       )}
 
-      {/* Grid de Tarjetas */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
         {requests.length === 0 ? (
           <p style={{ color: '#666', gridColumn: '1/-1', textAlign: 'center' }}>No active bounties. Be the first to request one!</p>
@@ -103,30 +131,29 @@ const RequestsView = () => {
               <div style={{ borderTop: '1px solid #333', paddingTop: '15px' }}>
                 <p style={{ fontSize: '0.75rem', color: '#666', margin: '0 0 10px 0' }}>By: {req.requester || 'Anonymous'}</p>
                 
-                {/* Lista de colaboradores (se une con comas si hay varios) */}
                 {req.claimedBy && req.claimedBy.length > 0 && (
                   <div style={{ fontSize: '0.8rem', color: '#00ff00', textAlign: 'center', fontWeight: 'bold', marginBottom: '10px' }}>
-                    ⚒️ Working: {Array.isArray(req.claimedBy) ? req.claimedBy.join(', ') : req.claimedBy}
+                    ⚒️ Working: {req.claimedBy.join(', ')}
                   </div>
                 )}
 
-                {/* Botón de Reclamar siempre disponible para que más gente se una */}
-                <button 
-                  onClick={() => handleClaim(req.id)}
-                  style={{ 
-                    width: '100%', 
-                    padding: '8px', 
-                    background: 'transparent', 
-                    border: `1px solid ${req.status === 'pending' ? '#b30000' : '#00ff00'}`, 
-                    color: req.status === 'pending' ? '#b30000' : '#00ff00', 
-                    fontWeight: 'bold', 
-                    cursor: 'pointer', 
-                    borderRadius: '4px',
-                    fontSize: '0.75rem'
-                  }}
-                >
-                  {req.status === 'pending' ? '🛡️ CLAIM BOUNTY' : '+ JOIN BOUNTY'}
-                </button>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button 
+                    onClick={() => handleClaim(req.id)}
+                    style={{ flex: 2, padding: '8px', background: 'transparent', border: `1px solid ${req.status === 'pending' ? '#b30000' : '#00ff00'}`, color: req.status === 'pending' ? '#b30000' : '#00ff00', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px', fontSize: '0.7rem' }}
+                  >
+                    {req.status === 'pending' ? '🛡️ CLAIM' : '+ JOIN'}
+                  </button>
+
+                  {req.status === 'in-progress' && (
+                    <button 
+                      onClick={() => handleComplete(req.id, req.claimedBy)}
+                      style={{ flex: 1, padding: '8px', background: '#00ff00', color: 'black', border: 'none', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px', fontSize: '0.7rem' }}
+                    >
+                      DONE
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))
