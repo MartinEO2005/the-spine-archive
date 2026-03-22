@@ -1,33 +1,34 @@
 import { kv } from '@vercel/kv';
 
 export default async function handler(req, res) {
-  // 1. OBTENER TODAS LAS PETICIONES (GET)
+  // Manejo de GET: Leer peticiones
   if (req.method === 'GET') {
     try {
-      // Buscamos todas las llaves que empiecen por "request:"
       const keys = await kv.keys('request:*');
-      if (keys.length === 0) return res.status(200).json([]);
+      if (!keys || keys.length === 0) return res.status(200).json([]);
 
-      // Traemos el contenido de todas esas llaves
       const requests = await kv.mget(...keys);
-      
-      // Ordenamos para que las más nuevas aparezcan primero
       const sortedRequests = requests
         .filter(r => r !== null)
         .sort((a, b) => b.createdAt - a.createdAt);
 
       return res.status(200).json(sortedRequests);
     } catch (error) {
-      return res.status(500).json({ error: 'Error fetching requests' });
+      console.error("GET Error:", error);
+      return res.status(500).json({ error: 'Failed to fetch' });
     }
   }
 
-  // 2. CREAR NUEVA PETICIÓN (POST)
+  // Manejo de POST: Crear petición
   if (req.method === 'POST') {
     try {
-      const { gameTitle, description, requester } = JSON.parse(req.body);
-      const id = Date.now().toString(); // ID simple basado en tiempo
-      
+      // FIX: Vercel a veces ya parsea el body automáticamente
+      const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+      const { gameTitle, description, requester } = body;
+
+      if (!gameTitle) return res.status(400).json({ error: 'Title required' });
+
+      const id = Date.now().toString();
       const newRequest = {
         id,
         gameTitle,
@@ -38,43 +39,34 @@ export default async function handler(req, res) {
         createdAt: Date.now()
       };
 
-      // Guardamos la petición con un TTL de 14 días (1,209,600 segundos)
+      // Guardar con TTL de 14 días
       await kv.set(`request:${id}`, newRequest, { ex: 1209600 });
-
       return res.status(200).json(newRequest);
     } catch (error) {
-      return res.status(500).json({ error: 'Error creating request' });
+      console.error("POST Error:", error);
+      return res.status(500).json({ error: 'Failed to save' });
     }
   }
 
-  // 3. RECLAMAR PETICIÓN (PATCH)
+  // Manejo de PATCH: Reclamar
   if (req.method === 'PATCH') {
     try {
-      const { requestId, artistName } = JSON.parse(req.body);
+      const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+      const { requestId, artistName } = body;
       
-      // Buscamos la petición actual
       const key = `request:${requestId}`;
-      const currentRequest = await kv.get(key);
+      const current = await kv.get(key);
 
-      if (!currentRequest) {
-        return res.status(404).json({ error: 'Request not found or expired' });
-      }
+      if (!current) return res.status(404).json({ error: 'Not found' });
 
-      // Actualizamos los datos
-      const updatedRequest = {
-        ...currentRequest,
-        status: 'in-progress',
-        claimedBy: artistName
-      };
+      const updated = { ...current, status: 'in-progress', claimedBy: artistName };
+      await kv.set(key, updated, { ex: 604800 }); // 7 días extra al reclamar
 
-      // Guardamos de nuevo y extendemos el tiempo 7 días más desde hoy
-      await kv.set(key, updatedRequest, { ex: 604800 });
-
-      return res.status(200).json(updatedRequest);
+      return res.status(200).json(updated);
     } catch (error) {
-      return res.status(500).json({ error: 'Error updating request' });
+      return res.status(500).json({ error: 'Update failed' });
     }
   }
 
-  return res.status(405).json({ error: 'Method not allowed' });
+  return res.status(405).end();
 }
