@@ -1,33 +1,35 @@
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
 
 export default async function handler(req, res) {
-  // Manejo de GET: Leer peticiones
-  if (req.method === 'GET') {
-    try {
-      const keys = await kv.keys('request:*');
-      if (!keys || keys.length === 0) return res.status(200).json([]);
+  const client = createClient({ url: process.env.REDIS_URL });
+  client.on('error', (err) => console.log('Redis Client Error', err));
 
-      const requests = await kv.mget(...keys);
-      const sortedRequests = requests
-        .filter(r => r !== null)
+  try {
+    await client.connect();
+
+    // --- LEER PETICIONES (GET) ---
+    if (req.method === 'GET') {
+      const keys = await client.keys('request:*');
+      if (keys.length === 0) {
+        await client.quit();
+        return res.status(200).json([]);
+      }
+      
+      const data = await Promise.all(keys.map(key => client.get(key)));
+      const requests = data
+        .filter(item => item !== null)
+        .map(item => JSON.parse(item))
         .sort((a, b) => b.createdAt - a.createdAt);
 
-      return res.status(200).json(sortedRequests);
-    } catch (error) {
-      console.error("GET Error:", error);
-      return res.status(500).json({ error: 'Failed to fetch' });
+      await client.quit();
+      return res.status(200).json(requests);
     }
-  }
 
-  // Manejo de POST: Crear petición
-  if (req.method === 'POST') {
-    try {
-      // FIX: Vercel a veces ya parsea el body automáticamente
+    // --- CREAR PETICIÓN (POST) ---
+    if (req.method === 'POST') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { gameTitle, description, requester } = body;
-
-      if (!gameTitle) return res.status(400).json({ error: 'Title required' });
-
+      
       const id = Date.now().toString();
       const newRequest = {
         id,
@@ -39,34 +41,43 @@ export default async function handler(req, res) {
         createdAt: Date.now()
       };
 
-      // Guardar con TTL de 14 días
-      await kv.set(`request:${id}`, newRequest, { ex: 1209600 });
-      return res.status(200).json(newRequest);
-    } catch (error) {
-      console.error("POST Error:", error);
-      return res.status(500).json({ error: 'Failed to save' });
-    }
-  }
+      // Guardamos como STRING de JSON con un tiempo de vida (EX) de 14 días
+      await client.set(`request:${id}`, JSON.stringify(newRequest), {
+        EX: 1209600 
+      });
 
-  // Manejo de PATCH: Reclamar
-  if (req.method === 'PATCH') {
-    try {
+      await client.quit();
+      return res.status(200).json(newRequest);
+    }
+
+    // --- RECLAMAR PETICIÓN (PATCH) ---
+    if (req.method === 'PATCH') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { requestId, artistName } = body;
       
       const key = `request:${requestId}`;
-      const current = await kv.get(key);
+      const currentRaw = await client.get(key);
+      
+      if (!currentRaw) {
+        await client.quit();
+        return res.status(404).json({ error: 'Request not found' });
+      }
 
-      if (!current) return res.status(404).json({ error: 'Not found' });
-
+      const current = JSON.parse(currentRaw);
       const updated = { ...current, status: 'in-progress', claimedBy: artistName };
-      await kv.set(key, updated, { ex: 604800 }); // 7 días extra al reclamar
+      
+      // Actualizamos y extendemos 7 días más de vida
+      await client.set(key, JSON.stringify(updated), { EX: 604800 });
 
+      await client.quit();
       return res.status(200).json(updated);
-    } catch (error) {
-      return res.status(500).json({ error: 'Update failed' });
     }
-  }
 
-  return res.status(405).end();
+    await client.quit();
+    return res.status(405).end();
+  } catch (error) {
+    console.error("API ERROR:", error);
+    if (client.isOpen) await client.quit();
+    return res.status(500).json({ error: error.message });
+  }
 }
