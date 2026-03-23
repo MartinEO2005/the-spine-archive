@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import SpineGrid from './SpineGrid';
 import StatsView from './StatsView';
 import AboutView from './AboutView';
+import RequestsView from './RequestsView';
 
 const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [spines, setSpines] = useState([]);
@@ -80,6 +81,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         <div style={{ display: 'flex', marginRight: '30px' }}>
           <button onClick={() => setCurrentView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
           <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
+          <button onClick={() => setCurrentView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
           <button onClick={() => setCurrentView('about')} style={navButtonStyle('about')}>ABOUT</button>
         </div>
         
@@ -143,7 +145,10 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
           />
         ) : (
           <div style={{ padding: '40px', minHeight: '100vh' }}>
-            {currentView === 'stats' ? <StatsView spines={spines} /> : <AboutView />}
+            {/* Se cambiaron los ternarios anidados por validaciones && limpias para mayor orden */}
+            {currentView === 'stats' && <StatsView spines={spines} />}
+            {currentView === 'requests' && <RequestsView />}
+            {currentView === 'about' && <AboutView />}
           </div>
         )}
       </div>
