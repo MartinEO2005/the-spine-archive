@@ -6,6 +6,8 @@ const RequestsView = () => {
   const [gameTitle, setGameTitle] = useState('');
   const [description, setDescription] = useState('');
   const [requester, setRequester] = useState('');
+  // NUEVO ESTADO PARA LA VERSIÓN DE SWITCH
+  const [switchVersion, setSwitchVersion] = useState('Both'); 
   const [loading, setLoading] = useState(false);
 
   const fetchRequests = async () => {
@@ -25,9 +27,11 @@ const RequestsView = () => {
       await fetch('/api/requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ gameTitle, description, requester }),
+        // ENVIAMOS LA NUEVA VARIABLE EN EL BODY
+        body: JSON.stringify({ gameTitle, description, requester, switchVersion }), 
       });
-      setGameTitle(''); setDescription(''); setRequester('');
+      // LIMPIAMOS LOS ESTADOS AL TERMINAR
+      setGameTitle(''); setDescription(''); setRequester(''); setSwitchVersion('Both'); 
       setShowForm(false);
       await fetchRequests();
     } finally { setLoading(false); }
@@ -49,7 +53,6 @@ const RequestsView = () => {
     const artistName = prompt("To close this request, enter your Artist Name (u/name):");
     if (!artistName) return;
 
-    // Security check: Only artists in the claim list can finish it
     if (!currentClaims.includes(artistName)) {
       alert("Unauthorized. Only assigned artists can mark this bounty as finished.");
       return;
@@ -58,7 +61,6 @@ const RequestsView = () => {
     if (!confirm("Have you already uploaded this spine to the catalog? This will remove the request from the board.")) return;
 
     try {
-      // Replace 'YOUR_ADMIN_PASSWORD' with the one in your requests.js API
       await fetch(`/api/requests?requestId=${requestId}&password=TU_CONTRASEÑA_AQUI`, {
         method: 'DELETE',
       });
@@ -83,7 +85,6 @@ const RequestsView = () => {
         </button>
       </div>
 
-      {/* HOW IT WORKS SECTION */}
       <div style={{ backgroundColor: '#1a1a1a', padding: '15px', borderRadius: '8px', borderLeft: '4px solid #b30000', marginBottom: '30px', fontSize: '0.85rem', lineHeight: '1.6' }}>
         <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: '#fff' }}>HOW IT WORKS</p>
         <ul style={{ margin: 0, paddingLeft: '20px', color: '#bbb' }}>
@@ -98,6 +99,18 @@ const RequestsView = () => {
           <h3 style={{ marginTop: 0 }}>Post a New Request</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <input placeholder="Game Title (e.g. Zelda: Echoes of Wisdom)" value={gameTitle} onChange={e => setGameTitle(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} required />
+            
+            {/* NUEVO SELECTOR PARA LA VERSIÓN DE SWITCH */}
+            <select 
+              value={switchVersion} 
+              onChange={e => setSwitchVersion(e.target.value)} 
+              style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }}
+            >
+              <option value="Switch 1">Switch 1 Only</option>
+              <option value="Switch 2">Switch 2 Only</option>
+              <option value="Both">Both Versions</option>
+            </select>
+
             <textarea placeholder="Specific details (Region, language, specific artist style...)" value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px', minHeight: '80px' }} />
             <input placeholder="Your Reddit Name (Optional)" value={requester} onChange={e => setRequester(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} />
             <button type="submit" disabled={loading} style={{ backgroundColor: '#b30000', color: 'white', border: 'none', padding: '12px', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}>
@@ -124,7 +137,13 @@ const RequestsView = () => {
                   </span>
                   <span style={{ fontSize: '0.7rem', color: '#666' }}>{new Date(req.createdAt).toLocaleDateString()}</span>
                 </div>
-                <h3 style={{ margin: '0 0 10px 0', fontSize: '1.1rem' }}>{req.gameTitle}</h3>
+                <h3 style={{ margin: '0 0 5px 0', fontSize: '1.1rem' }}>{req.gameTitle}</h3>
+                
+                {/* MOSTRAMOS LA VERSIÓN DE SWITCH SOLICITADA EN LA TARJETA */}
+                <p style={{ fontSize: '0.8rem', color: '#ffcc00', margin: '0 0 10px 0', fontWeight: 'bold' }}>
+                  Target: {req.switchVersion || 'Not specified'}
+                </p>
+
                 <p style={{ fontSize: '0.85rem', color: '#bbb', margin: '0 0 15px 0', lineHeight: '1.4' }}>{req.description}</p>
               </div>
               
