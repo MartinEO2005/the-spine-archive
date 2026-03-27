@@ -4,12 +4,11 @@ export default async function handler(req, res) {
   const client = createClient({ url: process.env.REDIS_URL });
   client.on('error', (err) => console.log('Redis Client Error', err));
 
-  const ADMIN_PASSWORD = "TU_CONTRASEÑA_AQUI"; // Cambia esto para borrar pruebas
+  const ADMIN_PASSWORD = "TU_CONTRASEÑA_AQUI"; 
 
   try {
     await client.connect();
 
-    // --- LEER PETICIONES (GET) ---
     if (req.method === 'GET') {
       const keys = await client.keys('request:*');
       if (keys.length === 0) {
@@ -27,10 +26,10 @@ export default async function handler(req, res) {
       return res.status(200).json(requests);
     }
 
-    // --- CREAR PETICIÓN (POST) ---
     if (req.method === 'POST') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-      const { gameTitle, description, requester } = body;
+      // RECUPERAMOS switchVersion DEL BODY
+      const { gameTitle, description, requester, switchVersion } = body; 
       
       const id = Date.now().toString();
       const newRequest = {
@@ -38,8 +37,10 @@ export default async function handler(req, res) {
         gameTitle,
         description,
         requester: requester || 'Anonymous',
+        // AÑADIMOS switchVersion AL OBJETO QUE SE GUARDA (Por defecto 'Both' si no llega nada)
+        switchVersion: switchVersion || 'Both', 
         status: 'pending',
-        claimedBy: [], // Inicializado como array vacío
+        claimedBy: [], 
         createdAt: Date.now()
       };
 
@@ -48,7 +49,6 @@ export default async function handler(req, res) {
       return res.status(200).json(newRequest);
     }
 
-    // --- RECLAMAR PETICIÓN (PATCH) ---
     if (req.method === 'PATCH') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { requestId, artistName } = body;
@@ -63,7 +63,6 @@ export default async function handler(req, res) {
 
       const current = JSON.parse(currentRaw);
       
-      // Lógica para múltiples colaboradores
       const currentClaims = Array.isArray(current.claimedBy) ? current.claimedBy : (current.claimedBy ? [current.claimedBy] : []);
       if (!currentClaims.includes(artistName)) {
         currentClaims.push(artistName);
@@ -80,7 +79,6 @@ export default async function handler(req, res) {
       return res.status(200).json(updated);
     }
 
-    // --- BORRAR PETICIÓN (DELETE) ---
     if (req.method === 'DELETE') {
       const { requestId, password } = req.query;
       
