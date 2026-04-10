@@ -1,303 +1,353 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stage, Layer, Image as KonvaImage, Text as KonvaText, Rect, Circle, Transformer } from 'react-konva';
-import useImage from 'use-image';
+import { Rnd } from 'react-rnd';
 import { nanoid } from 'nanoid';
 
-// --- TEMA UI ---
-const theme = { bgApp: '#1e1e1e', bgPanel: '#252526', bgCanvas: '#090909', border: '#3c3c3c', accent: '#007fd4', text: '#cccccc', textMuted: '#888888' };
-
-// ==========================================
-// COMPONENTES KONVA (IMAGEN Y TRANSFORMADOR)
-// ==========================================
-const DesignImage = ({ shapeProps, isSelected, onSelect, onChange }) => {
-  const shapeRef = useRef();
-  const trRef = useRef();
-  // 'anonymous' ayuda a evitar bloqueos CORS en algunas imágenes de internet
-  const [img] = useImage(shapeProps.url, 'anonymous'); 
-
-  useEffect(() => {
-    if (isSelected && trRef.current && shapeRef.current) {
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
-    }
-  }, [isSelected]);
-
-  return (
-    <React.Fragment>
-      <KonvaImage
-        onClick={onSelect}
-        onTap={onSelect}
-        ref={shapeRef}
-        {...shapeProps}
-        image={img}
-        draggable
-        onDragEnd={(e) => {
-          onChange({ ...shapeProps, x: e.target.x(), y: e.target.y() });
-        }}
-        onTransformEnd={(e) => {
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          // Konva escala visualmente, nosotros actualizamos el ancho/alto real y reseteamos escala
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            rotation: node.rotation(),
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(5, node.height() * scaleY),
-          });
-        }}
-      />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            if (newBox.width < 5 || newBox.height < 5) return oldBox;
-            return newBox;
-          }}
-          borderStroke={theme.accent}
-          anchorStroke={theme.accent}
-          anchorFill="#fff"
-          anchorSize={10}
-          rotateAnchorOffset={30}
-        />
-      )}
-    </React.Fragment>
-  );
+// --- TEMA UI ESTILO PHOTOSHOP DARK ---
+const theme = {
+  bgApp: '#1e1e1e', bgPanel: '#252526', bgCanvas: '#090909',
+  border: '#3c3c3c', accent: '#007fd4', text: '#cccccc', textMuted: '#888888'
 };
 
-// ==========================================
-// COMPONENTE PRINCIPAL DEL ESTUDIO
-// ==========================================
+// --- ESTILOS DE LOS TIRADORES DE REDIMENSIÓN ---
+const handleStyle = {
+  width: '16px', height: '16px', background: '#fff',
+  border: `3px solid ${theme.accent}`, borderRadius: '50%',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.5)', pointerEvents: 'auto'
+};
+const resizeHandleStyles = {
+  bottomRight: { ...handleStyle, right: '-8px', bottom: '-8px' },
+  bottomLeft: { ...handleStyle, left: '-8px', bottom: '-8px' },
+  topRight: { ...handleStyle, right: '-8px', top: '-8px' },
+  topLeft: { ...handleStyle, left: '-8px', top: '-8px' },
+};
+
 const GeneratorView = () => {
   const [template, setTemplate] = useState('switch1');
-  const [spineCount, setSpineCount] = useState(1);
-  const [spineGap, setSpineGap] = useState(0);
-  const [zoom, setZoom] = useState(0.4);
+  const [spineCount, setSpineCount] = useState(1); 
+  const [spineGap, setSpineGap] = useState(0); 
+  
+  const [zoom, setZoom] = useState(0.4); 
   const [bgColor, setBgColor] = useState('#ffffff');
   const [layers, setLayers] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [clipboard, setClipboard] = useState(null);
-
-  const stageRef = useRef(null);
-  const containerRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const [selectedLayerId, setSelectedLayerId] = useState(null);
   
-  // Cargar la plantilla (marco transparente)
-  const [templateImg] = useImage(`/${template}-template.png`);
+  const [previewMode, setPreviewMode] = useState(false);
+  const [croppingLayerId, setCroppingLayerId] = useState(null);
+  const [cropBox, setCropBox] = useState({ x: 0, y: 0, width: 100, height: 100 }); 
 
-  // --- ATAJOS DE TECLADO ---
+  const [clipboard, setClipboard] = useState(null);
+  const workspaceRef = useRef(null);
+  const fileInputRef = useRef(null);
+
+  // ==========================================
+  // BLOQUEO DE SCROLL EXTERIOR
+  // ==========================================
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    };
+  }, []);
+
+  // ==========================================
+  // ATAJOS DE TECLADO Y CTRL+V (PEGAR IMÁGENES)
+  // ==========================================
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
-        setLayers(prev => prev.filter(l => l.id !== selectedId));
-        setSelectedId(null);
+
+      // Borrar capa
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedLayerId) {
+        setLayers(prev => prev.filter(l => l.id !== selectedLayerId));
+        setSelectedLayerId(null); setCroppingLayerId(null);
       }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && selectedId) {
-        setClipboard(layers.find(l => l.id === selectedId));
+      
+      // Copiar capa interna
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && selectedLayerId) {
+        setClipboard(layers.find(l => l.id === selectedLayerId));
       }
+      
+      // Pegar capa interna
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'v' && clipboard) {
-        const newL = { ...clipboard, id: nanoid(), name: `${clipboard.name} (Copy)`, x: clipboard.x + 20, y: clipboard.y + 20 };
-        setLayers(prev => [...prev, newL]);
-        setSelectedId(newL.id);
+        const newLayer = { ...clipboard, id: nanoid(), name: `${clipboard.name} (Copy)`, x: clipboard.x + 20, y: clipboard.y + 20, zIndex: layers.length > 0 ? Math.max(...layers.map(l => l.zIndex)) + 1 : 10 };
+        setLayers(prev => [...prev, newLayer]); setSelectedLayerId(newLayer.id);
       }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd' && selectedId) {
-        e.preventDefault();
-        const t = layers.find(l => l.id === selectedId);
-        if (t) {
-          const newL = { ...t, id: nanoid(), name: `${t.name} (Copy)`, x: t.x + 20, y: t.y + 20 };
-          setLayers(prev => [...prev, newL]);
-          setSelectedId(newL.id);
+    };
+
+    // MAGIA: PEGAR IMÁGENES DEL PORTAPAPELES (NATIVO DEL PC)
+    const handlePaste = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+      for (let index in items) {
+        const item = items[index];
+        if (item.kind === 'file' && item.type.startsWith('image/')) {
+          const blob = item.getAsFile();
+          const url = URL.createObjectURL(blob);
+          addLayer('image', { url: url }, 'Pasted Image');
         }
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedId, layers, clipboard]);
 
-  // --- ZOOM ---
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('paste', handlePaste);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('paste', handlePaste);
+    };
+  }, [selectedLayerId, layers, clipboard]);
+
+  // ==========================================
+  // ZOOM ESCALONADO
+  // ==========================================
   useEffect(() => {
     const handleWheel = (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        const dir = e.deltaY < 0 ? 1 : -1;
-        setZoom(prev => Math.max(0.1, Math.min(3, Math.round((prev + (dir * 0.1)) * 10) / 10)));
+      if (e.ctrlKey || e.metaKey) { 
+        e.preventDefault(); 
+        const direction = e.deltaY < 0 ? 1 : -1; 
+        setZoom(prev => Math.max(0.1, Math.min(4, Math.round((prev + (direction * 0.1)) * 10) / 10)));
       }
     };
-    const container = containerRef.current;
-    if (container) container.addEventListener('wheel', handleWheel, { passive: false });
-    return () => container && container.removeEventListener('wheel', handleWheel);
+    if (workspaceRef.current) workspaceRef.current.addEventListener('wheel', handleWheel, { passive: false });
+    return () => workspaceRef.current?.removeEventListener('wheel', handleWheel);
   }, []);
 
-  // --- ARRASTRAR DE INTERNET / PC ---
+  // ==========================================
+  // CREADORES DE CAPAS
+  // ==========================================
+  const addLayer = (type, props, name) => {
+    const newL = { 
+      id: nanoid(), type, name: `${name} ${layers.length + 1}`, 
+      x: 0, y: 500, width: type==='text'?200:150, height: type==='text'?60:150, 
+      rotation: 0, opacity: 100, visible: true, lockRatio: false, cropMask: null, 
+      zIndex: layers.length > 0 ? Math.max(...layers.map(l => l.zIndex)) + 1 : 10, ...props 
+    };
+    setLayers(prev => [...prev, newL]); 
+    setSelectedLayerId(newL.id); 
+    setPreviewMode(false);
+  };
+
+  const updateLayer = (id, newProps) => setLayers(layers.map(l => l.id === id ? { ...l, ...newProps } : l));
+
+  // ==========================================
+  // ROTACIÓN CON EL RATÓN
+  // ==========================================
+  const handleRotateStart = (e, layer) => {
+    e.stopPropagation(); e.preventDefault();
+    const el = document.getElementById(`layer-content-${layer.id}`);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const onMouseMove = (moveEvent) => {
+      const angle = Math.atan2(moveEvent.clientY - centerY, moveEvent.clientX - centerX) * (180 / Math.PI) + 90;
+      updateLayer(layer.id, { rotation: Math.round(angle) });
+    };
+    const onMouseUp = () => { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); };
+    document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp);
+  };
+
+  // ==========================================
+  // DRAG & DROP DESDE INTERNET
+  // ==========================================
   const handleDrop = (e) => {
     e.preventDefault(); e.stopPropagation();
-    stageRef.current.setPointersPositions(e);
-    // Coordenadas relativas al lienzo escalado
-    const stage = stageRef.current;
-    const pointer = stage.getPointerPosition();
-    const x = pointer.x / zoom - stage.x() / zoom;
-    const y = pointer.y / zoom - stage.y() / zoom;
-
-    const addImg = (url) => {
-      const newL = { id: nanoid(), type: 'image', name: `Img ${layers.length + 1}`, url, x, y, width: 150, height: 150, rotation: 0, opacity: 1 };
-      setLayers(prev => [...prev, newL]);
-      setSelectedId(newL.id);
-    };
-
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      Array.from(e.dataTransfer.files).forEach(f => { if (f.type.startsWith('image/')) addImg(URL.createObjectURL(f)); });
+      Array.from(e.dataTransfer.files).forEach(file => { if (file.type.startsWith('image/')) addLayer('image', { url: URL.createObjectURL(file) }, 'Local File'); });
       return;
     }
     const html = e.dataTransfer.getData('text/html');
     if (html) {
       const match = html.match(/src\s*=\s*"([^"]+)"/);
-      if (match) { addImg(match[1]); return; }
+      if (match) { addLayer('image', { url: match[1] }, 'Web Image'); return; }
     }
     const url = e.dataTransfer.getData('URL') || e.dataTransfer.getData('text/plain');
-    if (url && (url.match(/^http/) || url.match(/^data:image/))) addImg(url);
+    if (url && (url.match(/^http/) || url.match(/^data:image/))) addLayer('image', { url: url }, 'URL Image');
   };
 
-  const addLayer = (type, props, name) => {
-    const newL = { id: nanoid(), type, name: `${name} ${layers.length + 1}`, x: 50, y: 50, width: 150, height: 150, rotation: 0, opacity: 1, ...props };
-    setLayers([...layers, newL]);
-    setSelectedId(newL.id);
-  };
-
-  const selectedLayer = layers.find(l => l.id === selectedId);
+  const selectedLayer = layers.find(l => l.id === selectedLayerId);
+  const canvasWidth = (spineCount * 100) + ((spineCount - 1) * spineGap);
 
   return (
-    // Altura calculada para no romper la página general (asumiendo que tienes una navbar arriba)
-    <div style={{ height: 'calc(100vh - 80px)', minHeight: '600px', display: 'flex', flexDirection: 'column', backgroundColor: theme.bgApp, color: theme.text, fontFamily: 'sans-serif', border: `1px solid ${theme.border}` }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: 'flex', flexDirection: 'column', backgroundColor: theme.bgApp, color: theme.text, fontFamily: 'sans-serif' }}>
       
       {/* TOOLBAR SUPERIOR */}
-      <div style={{ flex: '0 0 50px', backgroundColor: theme.bgPanel, borderBottom: `1px solid ${theme.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
+      <div style={{ flex: '0 0 50px', backgroundColor: theme.bgPanel, borderBottom: `1px solid ${theme.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <h2 style={{ margin: 0, fontSize: '14px', color: 'white' }}>SPINE STUDIO PRO (CANVAS)</h2>
-          <select value={template} onChange={e => setTemplate(e.target.value)} style={{ background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '4px 8px', borderRadius: '4px' }}>
-            <option value="switch1">Switch V1</option>
-            <option value="switch2">Switch V2</option>
+          <h2 style={{ margin: 0, fontSize: '14px', color: 'white', letterSpacing: '1px' }}>SPINE STUDIO PRO</h2>
+          
+          <select value={template} onChange={e => setTemplate(e.target.value)} style={{ background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px 12px', borderRadius: '4px', outline: 'none' }}>
+            <option value="switch1">Template: Switch V1</option>
+            <option value="switch2">Template: Switch V2</option>
           </select>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', borderLeft: `1px solid ${theme.border}`, paddingLeft: '15px' }}>
-            <span style={{ fontSize: '12px' }}>Spines:</span>
-            <select value={spineCount} onChange={e => setSpineCount(parseInt(e.target.value))} style={{ background: theme.bgApp, color: theme.text, padding: '4px' }}>{[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}</select>
-            {spineCount > 1 && <><span style={{ fontSize: '12px', marginLeft: '10px' }}>Gap: {spineGap}px</span><input type="range" min="0" max="100" value={spineGap} onChange={e => setSpineGap(parseInt(e.target.value))} style={{ width: '60px' }}/></>}
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', borderLeft: `1px solid ${theme.border}`, paddingLeft: '15px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ fontSize: '12px', color: theme.textMuted }}>Spines:</span>
+              <select value={spineCount} onChange={e => setSpineCount(parseInt(e.target.value))} style={{ background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px', borderRadius: '4px', outline: 'none' }}>
+                {[1, 2, 3, 4, 5].map(num => <option key={num} value={num}>{num}</option>)}
+              </select>
+            </div>
+            
+            {spineCount > 1 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ fontSize: '12px', color: theme.textMuted }}>Gap: {spineGap}px</span>
+                <input type="range" min="0" max="100" value={spineGap} onChange={e => setSpineGap(parseInt(e.target.value))} style={{ width: '80px' }} />
+              </div>
+            )}
           </div>
         </div>
-        <span style={{ fontSize: '12px', color: theme.textMuted }}>Zoom: {Math.round(zoom * 100)}% (Ctrl+Rueda)</span>
+
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <span style={{ fontSize: '12px', color: theme.textMuted }}>Zoom: {Math.round(zoom * 100)}%</span>
+          <button onClick={() => {setPreviewMode(!previewMode); setCroppingLayerId(null);}} style={{ padding: '8px 15px', background: previewMode ? theme.accent : 'transparent', color: 'white', border: `1px solid ${theme.accent}`, borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>
+            {previewMode ? '✏️ VOLVER A EDITAR' : '👁️ VISTA PREVIA (CROP)'}
+          </button>
+        </div>
       </div>
 
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         
-        {/* HERRAMIENTAS (IZQUIERDA) */}
-        <div style={{ width: '60px', backgroundColor: theme.bgPanel, borderRight: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '15px 0', gap: '15px' }}>
+        {/* BARRA LATERAL (HERRAMIENTAS) */}
+        <div style={{ width: '60px', backgroundColor: theme.bgPanel, borderRight: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '15px 0', gap: '15px', zIndex: 50 }}>
           <input type="file" ref={fileInputRef} onChange={e => { if(e.target.files[0]) addLayer('image', { url: URL.createObjectURL(e.target.files[0]) }, 'Image'); e.target.value=null; }} style={{ display: 'none' }} />
-          <button onClick={() => setSelectedId(null)} style={{ width: '40px', height: '40px', background: !selectedId ? '#333' : 'transparent', border: 'none', borderRadius: '4px', color: 'white', fontSize: '18px', cursor: 'pointer' }}>↖</button>
-          <button onClick={() => fileInputRef.current.click()} style={{ width: '40px', height: '40px', background: 'transparent', border: 'none', color: 'white', fontSize: '18px', cursor: 'pointer' }}>🖼️</button>
-          <button onClick={() => addLayer('text', { text: 'TEXTO', fill: '#000000', fontSize: 40, width: 200, height: 50 }, 'Text')} style={{ width: '40px', height: '40px', background: 'transparent', border: 'none', color: 'white', fontSize: '18px', cursor: 'pointer', fontWeight: 'bold' }}>T</button>
+          
+          <button onClick={() => {setSelectedLayerId(null); setCroppingLayerId(null);}} title="Select Tool (V)" style={{ width: '40px', height: '40px', background: !selectedLayerId ? '#333' : 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer' }}>↖</button>
+          <button onClick={() => fileInputRef.current.click()} title="Import Image (I)" style={{ width: '40px', height: '40px', background: 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer' }}>🖼️</button>
+          <button onClick={() => addLayer('text', { text: 'NUEVO TEXTO', color: '#000', fontSize: 32, fontFamily: 'sans-serif' }, 'Text')} title="Add Text (T)" style={{ width: '40px', height: '40px', background: 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer', fontWeight: 'bold' }}>T</button>
+          <button onClick={() => addLayer('shape', { shapeType: 'rect', fill: '#d40000' }, 'Rect')} title="Add Rectangle (U)" style={{ width: '40px', height: '40px', background: 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer' }}>⬛</button>
+          <button onClick={() => addLayer('shape', { shapeType: 'circle', fill: '#007fd4' }, 'Circle')} title="Add Circle (O)" style={{ width: '40px', height: '40px', background: 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer' }}>⚫</button>
         </div>
 
-        {/* WORKSPACE (EL CANVAS) */}
-        <div ref={containerRef} onDragOver={e => e.preventDefault()} onDrop={handleDrop} style={{ flex: 1, backgroundColor: theme.bgCanvas, overflow: 'auto', position: 'relative' }}>
-          
-          {/* El Stage de Konva dibuja el motor gráfico */}
-          <Stage 
-            width={window.innerWidth} 
-            height={2000} // Altura generosa para el scroll interno
-            scaleX={zoom} scaleY={zoom}
-            ref={stageRef}
-            onMouseDown={(e) => {
-              // Si clicamos en el fondo (Stage), deseleccionamos
-              if (e.target === e.target.getStage()) setSelectedId(null);
-            }}
-            style={{ margin: '50px' }}
-          >
-            <Layer>
-              {/* 1. DIBUJAR LOS FONDOS DE LOS LOMOS */}
-              {[...Array(spineCount)].map((_, i) => (
-                <Rect key={`bg-${i}`} x={i * (100 + spineGap)} y={0} width={100} height={1533} fill={bgColor} shadowColor="black" shadowBlur={20} shadowOpacity={0.8} />
-              ))}
-
-              {/* 2. DIBUJAR LAS CAPAS DEL USUARIO */}
-              {layers.map((layer, i) => {
-                if (!layer.visible) return null;
-                const props = {
-                  ...layer,
-                  opacity: layer.opacity,
-                  draggable: true,
-                  onClick: () => setSelectedId(layer.id),
-                  onTap: () => setSelectedId(layer.id),
-                  onDragEnd: (e) => {
-                    const newLayers = layers.slice();
-                    newLayers[i] = { ...layer, x: e.target.x(), y: e.target.y() };
-                    setLayers(newLayers);
-                  }
-                };
-
-                if (layer.type === 'image') {
-                  return <DesignImage key={layer.id} shapeProps={layer} isSelected={layer.id === selectedId} onSelect={() => setSelectedId(layer.id)} onChange={(newProps) => { const newLayers = layers.slice(); newLayers[i] = newProps; setLayers(newLayers); }} />;
-                }
-                if (layer.type === 'text') {
-                  // Textos en Konva
-                  return <KonvaText key={layer.id} {...props} text={layer.text} fontSize={layer.fontSize} fill={layer.fill} />;
-                }
-                return null;
+        {/* LIENZO (WORKSPACE) - AHORA CENTRADO PERFECTAMENTE */}
+        <div 
+          ref={workspaceRef} 
+          onClick={(e) => { if(e.target.id==='workspace-bg') {setSelectedLayerId(null); setCroppingLayerId(null);} }} 
+          id="workspace-bg" 
+          onDragOver={e=>e.preventDefault()} 
+          onDrop={handleDrop} 
+          style={{ flex: 1, backgroundColor: theme.bgCanvas, overflow: 'auto', display: 'flex', position: 'relative' }}
+        >
+          {/* Este div margin: auto es el que hace que el lomo esté en el centro exacto */}
+          <div style={{ margin: 'auto', padding: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            
+            <div style={{ transform: `scale(${zoom})`, transformOrigin: 'center center', width: `${canvasWidth}px`, height: '1533px', position: 'relative', overflow: previewMode ? 'hidden' : 'visible' }}>
+              
+              {/* FONDOS Y PLANTILLAS DE CADA LOMO */}
+              {[...Array(spineCount)].map((_, i) => {
+                const leftPos = i * (100 + spineGap);
+                return (
+                  <div key={`bg-${i}`} style={{ position: 'absolute', top: 0, left: `${leftPos}px`, width: '100px', height: '100%', backgroundColor: bgColor, boxShadow: '0 0 40px rgba(0,0,0,0.8)' }}>
+                    {!previewMode && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, border: '1px dashed rgba(255,255,255,0.2)', pointerEvents: 'none', zIndex: 99998 }} />}
+                  </div>
+                );
               })}
 
-              {/* 3. DIBUJAR LAS PLANTILLAS ENCIMA DE TODO (Solo lectura) */}
-              {templateImg && [...Array(spineCount)].map((_, i) => (
-                <KonvaImage key={`tpl-${i}`} image={templateImg} x={i * (100 + spineGap)} y={0} width={100} height={1533} listening={false} />
+              {/* RENDERIZADO DE LAS CAPAS */}
+              {[...layers].sort((a,b) => a.zIndex - b.zIndex).map((layer) => layer.visible && (
+                <Rnd key={layer.id} size={{ width: layer.width, height: layer.height }} position={{ x: layer.x, y: layer.y }}
+                  onDragStop={(e, d) => updateLayer(layer.id, { x: d.x, y: d.y })}
+                  onResizeStop={(e, dir, ref, delta, pos) => updateLayer(layer.id, { width: parseInt(ref.style.width), height: parseInt(ref.style.height), ...pos })}
+                  disableDragging={previewMode || croppingLayerId === layer.id} 
+                  enableResizing={selectedLayerId === layer.id && !previewMode && croppingLayerId !== layer.id} 
+                  lockAspectRatio={layer.lockRatio}
+                  resizeHandleStyles={selectedLayerId === layer.id ? resizeHandleStyles : {}}
+                  style={{ zIndex: layer.zIndex, opacity: layer.opacity / 100, outline: (selectedLayerId === layer.id && !previewMode && croppingLayerId !== layer.id) ? `2px solid ${theme.accent}` : 'none' }}
+                  onClick={(e) => { e.stopPropagation(); if (!previewMode) setSelectedLayerId(layer.id); }}
+                >
+                  <div id={`layer-content-${layer.id}`} style={{ position: 'relative', width: '100%', height: '100%', transform: `rotate(${layer.rotation}deg)` }}>
+                    
+                    {layer.type === 'image' && (
+                      <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+                        <img src={layer.url} style={{ width: '100%', height: '100%', objectFit: 'fill', clipPath: (layer.cropMask && croppingLayerId !== layer.id) ? `inset(${layer.cropMask.y}px ${layer.width - (layer.cropMask.x + layer.cropMask.width)}px ${layer.height - (layer.cropMask.y + layer.cropMask.height)}px ${layer.cropMask.x}px)` : 'none', opacity: croppingLayerId === layer.id ? 0.4 : 1 }} draggable="false" alt="" />
+                        
+                        {croppingLayerId === layer.id && (
+                          <Rnd bounds="parent" size={{ width: cropBox.width, height: cropBox.height }} position={{ x: cropBox.x, y: cropBox.y }} onDrag={(e, d) => setCropBox({ ...cropBox, x: d.x, y: d.y })} onResize={(e, dir, ref, delta, pos) => setCropBox({ width: parseInt(ref.style.width), height: parseInt(ref.style.height), ...pos })} style={{ border: '2px dashed #ff0000', backgroundColor: 'rgba(255,0,0,0.1)', zIndex: 10 }}>
+                             <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
+                               <img src={layer.url} style={{ position: 'absolute', top: -cropBox.y, left: -cropBox.x, width: layer.width, height: layer.height, objectFit: 'fill' }} alt="" />
+                             </div>
+                          </Rnd>
+                        )}
+                        
+                        {(selectedLayerId === layer.id && !previewMode && croppingLayerId !== layer.id) && (
+                          <>
+                            <div style={{ position: 'absolute', top: '-25px', left: '50%', transform: 'translateX(-50%)', width: '2px', height: '25px', backgroundColor: theme.accent }} />
+                            <div onMouseDown={(e) => handleRotateStart(e, layer)} style={{ position: 'absolute', top: '-35px', left: '50%', transform: 'translateX(-50%)', width: '16px', height: '16px', backgroundColor: 'white', border: `3px solid ${theme.accent}`, borderRadius: '50%', cursor: 'grab' }} />
+                          </>
+                        )}
+                      </div>
+                    )}
+                    
+                    {layer.type === 'text' && (
+                      <>
+                        <textarea value={layer.text} onChange={e => updateLayer(layer.id, { text: e.target.value })} style={{ width: '100%', height: '100%', background: 'transparent', border: 'none', color: layer.color, fontSize: `${layer.fontSize}px`, fontFamily: layer.fontFamily, resize: 'none', textAlign: 'center', outline: 'none' }} />
+                        {(selectedLayerId === layer.id && !previewMode) && (<div onMouseDown={(e) => handleRotateStart(e, layer)} style={{ position: 'absolute', top: '-35px', left: '50%', transform: 'translateX(-50%)', width: '16px', height: '16px', backgroundColor: 'white', border: `3px solid ${theme.accent}`, borderRadius: '50%', cursor: 'grab' }} />)}
+                      </>
+                    )}
+
+                    {layer.type === 'shape' && (
+                      <>
+                        <div style={{ width: '100%', height: '100%', backgroundColor: layer.fill, borderRadius: layer.shapeType === 'circle' ? '50%' : '0' }} />
+                        {(selectedLayerId === layer.id && !previewMode) && (<div onMouseDown={(e) => handleRotateStart(e, layer)} style={{ position: 'absolute', top: '-35px', left: '50%', transform: 'translateX(-50%)', width: '16px', height: '16px', backgroundColor: 'white', border: `3px solid ${theme.accent}`, borderRadius: '50%', cursor: 'grab' }} />)}
+                      </>
+                    )}
+                  </div>
+                </Rnd>
               ))}
-            </Layer>
-          </Stage>
+              
+              {/* MÁSCARAS DE PLANTILLA POR CADA LOMO */}
+              {[...Array(spineCount)].map((_, i) => (
+                <img key={`tpl-${i}`} src={`/${template}-template.png`} style={{ position: 'absolute', top: 0, left: `${i * (100 + spineGap)}px`, width: '100px', height: '100%', zIndex: 99999, pointerEvents: 'none' }} alt="" />
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* PANEL DERECHO (PROPIEDADES) */}
+        {/* PANEL DERECHO (PROPIEDADES Y CAPAS) */}
         <div style={{ width: '320px', backgroundColor: theme.bgPanel, borderLeft: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', zIndex: 50 }}>
-          
-          <div style={{ flex: 1, borderBottom: `1px solid ${theme.border}`, padding: '15px', overflowY: 'auto' }}>
-            <h3 style={{ margin: '0 0 15px 0', fontSize: '11px', color: theme.textMuted }}>CAPAS</h3>
-            {/* Lista invertida para que la más nueva salga arriba */}
-            {[...layers].reverse().map(l => (
-              <div key={l.id} onClick={() => setSelectedId(l.id)} style={{ padding: '8px', marginBottom: '5px', backgroundColor: selectedId === l.id ? theme.accent : '#333', borderRadius: '4px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '12px' }}>{l.name}</span>
-                {selectedId === l.id && <button onClick={(e) => { e.stopPropagation(); setLayers(layers.filter(x => x.id !== l.id)); setSelectedId(null); }} style={{ background: '#b30000', border: 'none', color: 'white', borderRadius: '3px', cursor: 'pointer' }}>X</button>}
-              </div>
-            ))}
+          <div style={{ flex: 1, borderBottom: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '15px' }}><h3 style={{ margin: 0, fontSize: '11px', color: theme.textMuted }}>LAYERS</h3></div>
+            <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}>
+              {[...layers].sort((a,b) => b.zIndex - a.zIndex).map((layer) => (
+                <div key={layer.id} onClick={() => {setSelectedLayerId(layer.id); setCroppingLayerId(null);}} style={{ display: 'flex', alignItems: 'center', padding: '10px', marginBottom: '5px', backgroundColor: selectedLayerId === layer.id ? theme.accent : theme.bgApp, borderRadius: '4px', cursor: 'pointer' }}>
+                  <button onClick={(e) => { e.stopPropagation(); updateLayer(layer.id, { visible: !layer.visible }); }} style={{ background: 'transparent', border: 'none', color: layer.visible ? '#fff' : '#555', cursor: 'pointer', padding: '0 5px' }}>{layer.visible ? '👁️' : '🕶️'}</button>
+                  <span style={{ fontSize: '16px', margin: '0 10px' }}>{layer.type === 'image' ? '🖼️' : layer.type === 'text' ? 'T' : '⬛'}</span>
+                  <span style={{ fontSize: '12px', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#fff' }}>{layer.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div style={{ height: '350px', padding: '15px' }}>
-            <h3 style={{ margin: '0 0 15px 0', fontSize: '11px', color: theme.textMuted }}>PROPIEDADES</h3>
-            {!selectedId ? (
-              <div>
-                <label style={{ fontSize: '12px' }}>Color Fondo Lomo</label><br/>
-                <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} style={{ marginTop: '10px' }}/>
+          <div style={{ height: '400px', padding: '15px', overflowY: 'auto' }}>
+            <h3 style={{ margin: '0 0 15px 0', fontSize: '11px', color: theme.textMuted }}>PROPERTIES</h3>
+            {!selectedLayerId ? (
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} style={{ width: '40px', height: '30px', border: 'none', background: 'transparent', cursor: 'pointer' }} />
+                <span style={{ fontSize: '12px' }}>Color del Lomo</span>
               </div>
             ) : selectedLayer && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {selectedLayer.type === 'text' && (
-                  <>
-                    <input type="text" value={selectedLayer.text} onChange={e => { const n = layers.slice(); n.find(x => x.id === selectedId).text = e.target.value; setLayers(n); }} style={{ padding: '8px', background: '#111', color: 'white', border: '1px solid #444' }} />
-                    <input type="color" value={selectedLayer.fill} onChange={e => { const n = layers.slice(); n.find(x => x.id === selectedId).fill = e.target.value; setLayers(n); }} />
-                  </>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <label style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px', color: theme.text }}>
+                  <input type="checkbox" checked={selectedLayer.lockRatio} onChange={e => updateLayer(selectedLayer.id, { lockRatio: e.target.checked })} />
+                  Mantener Proporciones
+                </label>
+                {selectedLayer.type === 'image' && (
+                  <button onClick={() => croppingLayerId === selectedLayer.id ? applyCrop() : startCropMode(selectedLayer)} style={{ padding: '12px', background: croppingLayerId === selectedLayer.id ? '#00ff00' : '#444', color: croppingLayerId === selectedLayer.id ? '#000' : '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+                    {croppingLayerId === selectedLayer.id ? '✅ APLICAR CROP' : '✂️ ACTIVAR RECORTE VISUAL'}
+                  </button>
                 )}
-                
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '10px' }}>
-                  <div>
-                    <label style={{ fontSize: '10px', color: theme.textMuted }}>Opacidad (0-1)</label>
-                    <input type="number" step="0.1" min="0" max="1" value={selectedLayer.opacity} onChange={e => { const n = layers.slice(); n.find(x => x.id === selectedId).opacity = parseFloat(e.target.value); setLayers(n); }} style={{ width: '100%', background: '#111', color: 'white', border: '1px solid #444', padding: '4px' }} />
-                  </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <div>
                     <label style={{ fontSize: '10px', color: theme.textMuted }}>Rotación (°)</label>
-                    <input type="number" value={Math.round(selectedLayer.rotation)} onChange={e => { const n = layers.slice(); n.find(x => x.id === selectedId).rotation = parseInt(e.target.value); setLayers(n); }} style={{ width: '100%', background: '#111', color: 'white', border: '1px solid #444', padding: '4px' }} />
+                    <input type="number" value={selectedLayer.rotation} onChange={e => updateLayer(selectedLayer.id, { rotation: parseInt(e.target.value) || 0 })} style={{ width: '100%', background: theme.bgApp, color: theme.text, padding: '6px', borderRadius: '4px', border: `1px solid ${theme.border}` }} />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '10px', color: theme.textMuted }}>Opacidad (%)</label>
+                    <input type="number" min="0" max="100" value={selectedLayer.opacity} onChange={e => updateLayer(selectedLayer.id, { opacity: parseInt(e.target.value) || 0 })} style={{ width: '100%', background: theme.bgApp, color: theme.text, padding: '6px', borderRadius: '4px', border: `1px solid ${theme.border}` }} />
                   </div>
                 </div>
-                
-                <p style={{ fontSize: '11px', color: '#888', marginTop: '20px' }}>Usa los controles directamente en la imagen para escalar y rotar con precisión milimétrica.</p>
               </div>
             )}
           </div>
