@@ -15,8 +15,9 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-konva": "^19.2.2",
-    "use-image": "^1.1.4",
-    "redis": "^4.7.0" 
+    "react-rnd": "^10.5.3",
+    "redis": "^4.7.0",
+    "use-image": "^1.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
