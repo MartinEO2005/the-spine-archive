@@ -149,17 +149,17 @@ const GeneratorView = () => {
               <label style={{ display: 'block', marginBottom: '12px', fontWeight: 'bold', color: '#ccc', fontSize: '12px', textTransform: 'uppercase' }}>3. Layer Manager (Stack Order)</label>
               <div style={{ display: 'flex', flexDirection: 'column-reverse', gap: '8px' }}>
                 {assets.map((asset, index) => (
-                  <div key={asset.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#111', padding: '10px 15px', borderRadius: '6px', border: '1px solid #333' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ fontSize: '12px', color: '#aaa', width: '20px' }}>#{index + 1}</span>
-                      <img src={asset.url} alt="Asset" style={{ width: '25px', height: '25px', objectFit: 'contain', background: '#333', borderRadius: '4px' }} />
+                    <div key={asset.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#111', padding: '10px 15px', borderRadius: '6px', border: '1px solid #333' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{ fontSize: '12px', color: '#aaa', width: '20px' }}>#{index + 1}</span>
+                        <img src={asset.url} alt="Asset" style={{ width: '25px', height: '25px', objectFit: 'contain', background: '#333', borderRadius: '4px' }} />
+                      </div>
+                      <div style={{ display: 'flex', gap: '5px' }}>
+                        <button onClick={() => reorderAssets(asset.id, 'down')} title="Send Backward" style={{ background: '#333', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '5px 10px' }}>▼</button>
+                        <button onClick={() => reorderAssets(asset.id, 'up')} title="Bring Forward" style={{ background: '#333', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '5px 10px' }}>▲</button>
+                        <button onClick={() => removeAsset(asset.id)} title="Remove" style={{ background: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '5px 10px' }}>X</button>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '5px' }}>
-                      <button onClick={() => reorderAssets(asset.id, 'down')} title="Send Backward" style={{ background: '#333', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '5px 10px' }}>▼</button>
-                      <button onClick={() => reorderAssets(asset.id, 'up')} title="Bring Forward" style={{ background: '#333', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '5px 10px' }}>▲</button>
-                      <button onClick={() => removeAsset(asset.id)} title="Remove" style={{ background: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '5px 10px' }}>X</button>
-                    </div>
-                  </div>
                 ))}
               </div>
             </div>
@@ -170,11 +170,10 @@ const GeneratorView = () => {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h3 style={{ margin: '0 0 15px 0', color: '#888', textTransform: 'uppercase', fontSize: '12px' }}>Spine Live Preview</h3>
           
-          {/* EL LIENZO - Dimensiones corregidas y relación de aspecto real */}
+          {/* EL LIENZO - Dimensiones corregidas y relación de aspecto real (~1:11.36) */}
           <div ref={canvasRef} style={{ 
             position: 'relative', 
-            // Dimensiones fijas basadas en la relación de aspecto de un lomo de Switch real (~1:11.36).
-            // Esto evita que se vea "achicado".
+            // Dimensiones fijas basadas en la relación de aspecto de un lomo de Switch real.
             width: '60px', 
             height: '682px', 
             // CAPA 0: Color de fondo y/o Imagen de fondo
@@ -196,10 +195,10 @@ const GeneratorView = () => {
                 bounds="parent" // Mantiene la imagen dentro de los límites del lomo
                 style={{ zIndex: asset.zIndex }}
                 onDragStop={(e, d) => {
-                  setAssets(assets.map(a => a.id === asset.id ? { ...a, x: d.x, y: d.y } : a));
+                    setAssets(assets.map(a => a.id === asset.id ? { ...a, x: d.x, y: d.y } : a));
                 }}
                 onResizeStop={(e, direction, ref, delta, position) => {
-                  setAssets(assets.map(a => a.id === asset.id ? { ...a, width: ref.style.width, height: ref.style.height, ...position } : a));
+                    setAssets(assets.map(a => a.id === asset.id ? { ...a, width: ref.style.width, height: ref.style.height, ...position } : a));
                 }}
               >
                 <img 
