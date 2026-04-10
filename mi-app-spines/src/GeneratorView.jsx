@@ -2,93 +2,91 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import { nanoid } from 'nanoid';
 
-// --- ESTILOS UI TIPO PHOTOSHOP / FIGMA ---
+// Tema UI estilo Photoshop / Figma Dark
 const theme = {
-  bgApp: '#1e1e1e',       // Fondo general
-  bgPanel: '#252526',     // Fondo de los paneles laterales
-  bgCanvas: '#0e0e0e',    // Fondo de la zona de trabajo
-  border: '#3c3c3c',      // Bordes sutiles
-  accent: '#007fd4',      // Azul tipo VS Code/Photoshop
-  text: '#cccccc',        // Texto principal
-  textMuted: '#888888',   // Texto secundario
+  bgApp: '#1e1e1e',
+  bgPanel: '#252526',
+  bgCanvas: '#090909',
+  border: '#3c3c3c',
+  accent: '#007fd4',
+  accentHover: '#0065a9',
+  text: '#cccccc',
+  textMuted: '#888888',
+  handle: '#ffffff',
 };
 
 const GeneratorView = () => {
   const [template, setTemplate] = useState('switch1');
-  const [zoom, setZoom] = useState(0.8); // Nivel de zoom inicial para que se vea completo
-  const [layers, setLayers] = useState([]); // Capas (Assets y Fondo)
-  const [selectedLayerId, setSelectedLayerId] = useState(null); // Capa activa
+  const [zoom, setZoom] = useState(0.4); // Zoom inicial al 40% para que quepa la espina de 1533px
+  const [bgColor, setBgColor] = useState('#ffffff');
+  const [layers, setLayers] = useState([]);
+  const [selectedLayerId, setSelectedLayerId] = useState(null);
 
   const workspaceRef = useRef(null);
+  const fileInputRef = useRef(null);
 
-  // --- LÓGICA DE DRAG & DROP (ARCHIVOS E INTERNET) ---
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.dropEffect = 'copy';
-  };
+  // --- ZOOM CON LA RUEDA DEL RATÓN (Ctrl + Scroll) ---
+  useEffect(() => {
+    const workspace = workspaceRef.current;
+    const handleWheel = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const zoomChange = e.deltaY * -0.002;
+        setZoom(prev => Math.min(Math.max(0.1, prev + zoomChange), 4)); // Limite entre 10% y 400%
+      }
+    };
+    if (workspace) workspace.addEventListener('wheel', handleWheel, { passive: false });
+    return () => workspace && workspace.removeEventListener('wheel', handleWheel);
+  }, []);
 
+  // --- LÓGICA DE IMPORTACIÓN DE IMÁGENES ---
   const addImageToCanvas = (src, name = 'Image') => {
     const newLayer = {
       id: nanoid(),
       name: `${name} ${layers.length + 1}`,
       url: src,
-      x: 0, y: 300, 
-      width: 80, height: 80,
-      visible: true,
-      opacity: 100
+      x: 0, y: 500, 
+      width: 100, height: 100,
+      rotation: 0, // Nueva propiedad de rotación
+      opacity: 100,
+      visible: true
     };
-    setLayers(prev => [newLayer, ...prev]); // Añade arriba de la lista
+    setLayers(prev => [newLayer, ...prev]);
     setSelectedLayerId(newLayer.id);
   };
+
+  const handleFileUpload = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      addImageToCanvas(URL.createObjectURL(e.target.files[0]), 'Upload');
+      e.target.value = null; // Resetear input
+    }
+  };
+
+  const handleDragOver = (e) => { e.preventDefault(); e.stopPropagation(); };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // 1. Si es un archivo local (escritorio)
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       Array.from(e.dataTransfer.files).forEach(file => {
-        if (file.type.startsWith('image/')) {
-          addImageToCanvas(URL.createObjectURL(file), 'Local Image');
-        }
+        if (file.type.startsWith('image/')) addImageToCanvas(URL.createObjectURL(file), 'Local');
       });
       return;
     }
-
-    // 2. Si es una imagen arrastrada desde otra pestaña de internet
     const html = e.dataTransfer.getData('text/html');
     if (html) {
-      // Intentamos extraer el src del html que envía el navegador
       const match = html.match(/src\s*=\s*"([^"]+)"/);
-      if (match) {
-        addImageToCanvas(match[1], 'Web Image');
-        return;
-      }
+      if (match) { addImageToCanvas(match[1], 'Web'); return; }
     }
-
-    // 3. Fallback: URL pura
     const url = e.dataTransfer.getData('URL') || e.dataTransfer.getData('text/plain');
-    if (url && (url.match(/^http/) || url.match(/^data:image/))) {
-      addImageToCanvas(url, 'URL Image');
-    }
+    if (url && (url.match(/^http/) || url.match(/^data:image/))) addImageToCanvas(url, 'URL');
   };
 
-  // --- GESTIÓN DE CAPAS ---
-  const removeLayer = (id) => {
-    setLayers(layers.filter(l => l.id !== id));
-    if (selectedLayerId === id) setSelectedLayerId(null);
+  // --- GESTIÓN DE CAPAS Y PROPIEDADES ---
+  const updateLayer = (id, newProps) => {
+    setLayers(layers.map(l => l.id === id ? { ...l, ...newProps } : l));
   };
 
-  const toggleVisibility = (id) => {
-    setLayers(layers.map(l => l.id === id ? { ...l, visible: !l.visible } : l));
-  };
-
-  const updateLayerOpacity = (id, opacity) => {
-    setLayers(layers.map(l => l.id === id ? { ...l, opacity: opacity } : l));
-  };
-
-  // Truco para "subir" o "bajar" capas en el array
   const moveLayer = (index, direction) => {
     const newLayers = [...layers];
     if (direction === 'up' && index > 0) {
@@ -99,162 +97,240 @@ const GeneratorView = () => {
     setLayers(newLayers);
   };
 
-  // Deseleccionar al hacer clic en el fondo vacío
-  const handleWorkspaceClick = (e) => {
-    if (e.target.id === 'workspace-bg') setSelectedLayerId(null);
+  const removeLayer = (id) => {
+    setLayers(layers.filter(l => l.id !== id));
+    if (selectedLayerId === id) setSelectedLayerId(null);
   };
 
-  // --- RENDERIZADO ---
+  // Clic en el fondo deselecciona la capa actual para mostrar las propiedades del lienzo
+  const handleWorkspaceClick = (e) => {
+    if (e.target.id === 'workspace-bg' || e.target.id === 'workspace-container') {
+      setSelectedLayerId(null);
+    }
+  };
+
+  const selectedLayer = layers.find(l => l.id === selectedLayerId);
+
+  // Estilos visuales para los cuadritos de redimensión (Handles)
+  const resizeHandleStyles = {
+    bottomRight: { width: '10px', height: '10px', background: theme.handle, border: `2px solid ${theme.accent}`, right: '-5px', bottom: '-5px' },
+    bottomLeft: { width: '10px', height: '10px', background: theme.handle, border: `2px solid ${theme.accent}`, left: '-5px', bottom: '-5px' },
+    topRight: { width: '10px', height: '10px', background: theme.handle, border: `2px solid ${theme.accent}`, right: '-5px', top: '-5px' },
+    topLeft: { width: '10px', height: '10px', background: theme.handle, border: `2px solid ${theme.accent}`, left: '-5px', top: '-5px' },
+  };
+
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: theme.bgApp, color: theme.text, fontFamily: 'sans-serif', overflow: 'hidden' }}>
       
       {/* TOOLBAR SUPERIOR */}
-      <div style={{ height: '50px', backgroundColor: theme.bgPanel, borderBottom: `1px solid ${theme.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold', color: 'white' }}>Spine Studio Pro</h2>
-          <select value={template} onChange={e => setTemplate(e.target.value)} style={{ background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '5px 10px', borderRadius: '4px', fontSize: '12px' }}>
-            <option value="switch1">Template: Switch V1</option>
-            <option value="switch2">Template: Switch V2</option>
+      <div style={{ height: '50px', backgroundColor: theme.bgPanel, borderBottom: `1px solid ${theme.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <h2 style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: 'white', letterSpacing: '1px' }}>SPINE STUDIO</h2>
+          <select value={template} onChange={e => setTemplate(e.target.value)} style={{ background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px 12px', borderRadius: '4px', fontSize: '12px', outline: 'none' }}>
+            <option value="switch1">Template: Switch Original</option>
+            <option value="switch2">Template: Switch 2</option>
           </select>
         </div>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <span style={{ fontSize: '12px', color: theme.textMuted }}>Zoom:</span>
-          <input type="range" min="0.3" max="2" step="0.1" value={zoom} onChange={(e) => setZoom(e.target.value)} style={{ width: '100px' }} />
-          <button style={{ padding: '8px 20px', background: theme.accent, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px', marginLeft: '10px' }}>
-            Export PDF
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <span style={{ fontSize: '12px', color: theme.textMuted }}>Zoom: {Math.round(zoom * 100)}% (Ctrl+Wheel)</span>
+          <button style={{ padding: '8px 25px', background: theme.accent, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px' }}>
+            EXPORT PDF
           </button>
         </div>
       </div>
 
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO: HERRAMIENTAS (Simulando barra lateral) */}
-        <div style={{ width: '60px', backgroundColor: theme.bgPanel, borderRight: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 0' }}>
-          <div title="Drag images directly to the canvas" style={{ width: '40px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: theme.bgApp, borderRadius: '6px', marginBottom: '10px', cursor: 'help' }}>
-            🖱️
-          </div>
-          {/* Aquí podrías añadir botones para Herramienta Texto, Color, etc. */}
+        {/* BARRA LATERAL IZQUIERDA (HERRAMIENTAS) */}
+        <div style={{ width: '60px', backgroundColor: theme.bgPanel, borderRight: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '15px 0', zIndex: 50 }}>
+          
+          <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" style={{ display: 'none' }} />
+          
+          <button 
+            onClick={() => setSelectedLayerId(null)}
+            title="Move Tool (V)"
+            style={{ width: '40px', height: '40px', backgroundColor: !selectedLayerId ? theme.bgApp : 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer', marginBottom: '10px' }}
+          >
+            ↗
+          </button>
+
+          <button 
+            onClick={() => fileInputRef.current.click()}
+            title="Import Image"
+            style={{ width: '40px', height: '40px', backgroundColor: 'transparent', border: 'none', borderRadius: '6px', color: 'white', fontSize: '18px', cursor: 'pointer' }}
+            onMouseEnter={e => e.currentTarget.style.backgroundColor = theme.bgApp}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+          >
+            🖼️
+          </button>
         </div>
 
-        {/* ÁREA CENTRAL: EL LIENZO (WORKSPACE) */}
+        {/* ÁREA CENTRAL: LIENZO INFINITO */}
         <div 
           id="workspace-bg"
+          ref={workspaceRef}
           onClick={handleWorkspaceClick}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          style={{ flex: 1, backgroundColor: theme.bgCanvas, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'auto' }}
+          style={{ flex: 1, backgroundColor: theme.bgCanvas, position: 'relative', overflow: 'auto', display: 'flex' }}
         >
-          {/* Instrucciones flotantes si está vacío */}
-          {layers.length === 0 && (
-            <div style={{ position: 'absolute', color: theme.textMuted, textAlign: 'center', pointerEvents: 'none' }}>
-              <p style={{ fontSize: '24px', margin: 0 }}>📁</p>
-              <p>Drag & Drop images here (Files or from Web)</p>
-            </div>
-          )}
-
-          {/* CONTENEDOR DEL LOMO (Se escala con el zoom) */}
-          <div style={{ 
-            transform: `scale(${zoom})`, 
-            transformOrigin: 'center center', 
-            transition: 'transform 0.1s ease-out',
-            // Medidas exactas proporcionales (Ej: 80px ancho x 912px alto = 1:11.4)
-            width: '80px', 
-            height: '912px', 
-            backgroundColor: '#ffffff', // Fondo base del papel
-            boxShadow: '0 0 50px rgba(0,0,0,0.8)',
-            position: 'relative',
-            overflow: 'hidden' // Corta lo que sobra
-          }}>
+          {/* Contenedor Flex para centrar el lienzo dinámicamente */}
+          <div id="workspace-container" style={{ margin: 'auto', padding: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             
-            {/* CAPAS DE USUARIO (Ordenadas invertidas para que el índice 0 sea arriba visualmente) */}
-            {[...layers].reverse().map((layer) => layer.visible && (
-              <Rnd
-                key={layer.id}
-                size={{ width: layer.width, height: layer.height }}
-                position={{ x: layer.x, y: layer.y }}
-                onDragStop={(e, d) => setLayers(layers.map(l => l.id === layer.id ? { ...l, x: d.x, y: d.y } : l))}
-                onResizeStop={(e, direction, ref, delta, position) => {
-                  setLayers(layers.map(l => l.id === layer.id ? { ...l, width: ref.style.width, height: ref.style.height, ...position } : l));
-                }}
-                // Solo activamos los tiradores si la capa está seleccionada
-                disableDragging={selectedLayerId !== layer.id}
-                enableResizing={selectedLayerId === layer.id}
-                style={{
-                  zIndex: 10 + layers.findIndex(l => l.id === layer.id), // Respetar orden
-                  opacity: layer.opacity / 100,
-                  // Bordes azules tipo Photoshop al seleccionar
-                  border: selectedLayerId === layer.id ? `1px solid ${theme.accent}` : 'none' 
-                }}
-                onClick={(e) => { e.stopPropagation(); setSelectedLayerId(layer.id); }}
-              >
-                <img src={layer.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
-              </Rnd>
-            ))}
+            {/* LOMO EXACTO (Proporción 1:15.33 -> 100px x 1533px) */}
+            <div style={{ 
+              transform: `scale(${zoom})`, 
+              transformOrigin: 'center center',
+              width: '100px', 
+              height: '1533px', 
+              backgroundColor: bgColor,
+              boxShadow: '0 0 20px rgba(0,0,0,1)',
+              position: 'relative',
+              overflow: 'hidden' // Todo lo que salga del lomo se corta
+            }}>
+              
+              {/* CAPAS DE IMÁGENES */}
+              {[...layers].reverse().map((layer) => layer.visible && (
+                <Rnd
+                  key={layer.id}
+                  size={{ width: layer.width, height: layer.height }}
+                  position={{ x: layer.x, y: layer.y }}
+                  onDragStop={(e, d) => updateLayer(layer.id, { x: d.x, y: d.y })}
+                  onResizeStop={(e, direction, ref, delta, position) => {
+                    updateLayer(layer.id, { width: parseInt(ref.style.width), height: parseInt(ref.style.height), ...position });
+                  }}
+                  disableDragging={selectedLayerId !== layer.id}
+                  enableResizing={selectedLayerId === layer.id}
+                  resizeHandleStyles={selectedLayerId === layer.id ? resizeHandleStyles : {}}
+                  style={{
+                    zIndex: 10 + layers.findIndex(l => l.id === layer.id),
+                    opacity: layer.opacity / 100,
+                    // Borde de selección
+                    outline: selectedLayerId === layer.id ? `1px solid ${theme.accent}` : 'none',
+                  }}
+                  onClick={(e) => { e.stopPropagation(); setSelectedLayerId(layer.id); }}
+                >
+                  {/* Contenedor interno para la rotación */}
+                  <div style={{ width: '100%', height: '100%', transform: `rotate(${layer.rotation}deg)` }}>
+                    <img src={layer.url} alt="" draggable="false" style={{ width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+                  </div>
+                </Rnd>
+              ))}
 
-            {/* LA PLANTILLA TRANSPARENTE (Siempre encima de todo) */}
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999, pointerEvents: 'none' }}>
-              <img src={`/${template}-template.png`} alt="Template" style={{ width: '100%', height: '100%' }} />
+              {/* PLANTILLA TRANSPARENTE (Encima de todo) */}
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999, pointerEvents: 'none' }}>
+                <img src={`/${template}-template.png`} alt="Template" style={{ width: '100%', height: '100%' }} />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* PANEL DERECHO: PROPIEDADES Y CAPAS (Layers) */}
-        <div style={{ width: '280px', backgroundColor: theme.bgPanel, borderLeft: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column' }}>
+        {/* PANEL DERECHO: CAPAS Y PROPIEDADES */}
+        <div style={{ width: '300px', backgroundColor: theme.bgPanel, borderLeft: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', zIndex: 50 }}>
           
-          <div style={{ padding: '15px', borderBottom: `1px solid ${theme.border}` }}>
-            <h3 style={{ margin: '0 0 15px 0', fontSize: '13px', textTransform: 'uppercase', color: theme.textMuted }}>Layers</h3>
+          {/* PANEL DE CAPAS (Mitad superior) */}
+          <div style={{ flex: 1, borderBottom: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '15px 15px 10px', borderBottom: `1px solid ${theme.border}` }}>
+              <h3 style={{ margin: 0, fontSize: '11px', textTransform: 'uppercase', color: theme.textMuted, letterSpacing: '1px' }}>LAYERS</h3>
+            </div>
             
-            {/* LISTA DE CAPAS */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+            <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}>
               {layers.map((layer, index) => (
                 <div 
                   key={layer.id} 
                   onClick={() => setSelectedLayerId(layer.id)}
                   style={{ 
-                    display: 'flex', alignItems: 'center', padding: '8px', 
+                    display: 'flex', alignItems: 'center', padding: '8px', marginBottom: '4px',
                     backgroundColor: selectedLayerId === layer.id ? theme.accent : theme.bgApp, 
-                    borderRadius: '4px', cursor: 'pointer',
-                    border: selectedLayerId === layer.id ? `1px solid #4a90e2` : `1px solid transparent`
+                    borderRadius: '4px', cursor: 'pointer'
                   }}
                 >
-                  {/* Botón Visibilidad */}
-                  <button onClick={(e) => { e.stopPropagation(); toggleVisibility(layer.id); }} style={{ background: 'transparent', border: 'none', color: layer.visible ? 'white' : '#555', cursor: 'pointer', padding: '0 5px' }}>
+                  <button onClick={(e) => { e.stopPropagation(); updateLayer(layer.id, { visible: !layer.visible }); }} style={{ background: 'transparent', border: 'none', color: layer.visible ? '#fff' : '#444', cursor: 'pointer', padding: '0 5px', fontSize: '14px' }}>
                     {layer.visible ? '👁️' : '🕶️'}
                   </button>
+                  <div style={{ width: '24px', height: '24px', backgroundColor: '#111', marginLeft: '5px', backgroundImage: `url(${layer.url})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}></div>
+                  <span style={{ fontSize: '12px', marginLeft: '10px', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: selectedLayerId === layer.id ? '#fff' : theme.text }}>{layer.name}</span>
                   
-                  {/* Miniatura y Nombre */}
-                  <div style={{ width: '20px', height: '20px', backgroundColor: '#333', marginLeft: '5px', backgroundImage: `url(${layer.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-                  <span style={{ fontSize: '12px', marginLeft: '10px', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{layer.name}</span>
-                  
-                  {/* Botones de Orden y Borrar */}
                   {selectedLayerId === layer.id && (
-                    <div style={{ display: 'flex', gap: '5px' }}>
-                      <button onClick={(e) => { e.stopPropagation(); moveLayer(index, 'up'); }} style={{ background: '#333', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '3px' }}>▲</button>
-                      <button onClick={(e) => { e.stopPropagation(); moveLayer(index, 'down'); }} style={{ background: '#333', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '3px' }}>▼</button>
-                      <button onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} style={{ background: '#d40000', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '3px' }}>✖</button>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      <button onClick={(e) => { e.stopPropagation(); moveLayer(index, 'up'); }} style={{ background: 'rgba(0,0,0,0.3)', border: 'none', color: 'white', cursor: 'pointer', padding: '4px 6px', borderRadius: '3px' }}>▲</button>
+                      <button onClick={(e) => { e.stopPropagation(); moveLayer(index, 'down'); }} style={{ background: 'rgba(0,0,0,0.3)', border: 'none', color: 'white', cursor: 'pointer', padding: '4px 6px', borderRadius: '3px' }}>▼</button>
+                      <button onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} style={{ background: '#b30000', border: 'none', color: 'white', cursor: 'pointer', padding: '4px 6px', borderRadius: '3px', marginLeft: '4px' }}>✖</button>
                     </div>
                   )}
                 </div>
               ))}
-              {layers.length === 0 && <p style={{ fontSize: '12px', color: '#666', textAlign: 'center', margin: '20px 0' }}>No layers yet.</p>}
+              {layers.length === 0 && <div style={{ fontSize: '12px', color: '#555', textAlign: 'center', marginTop: '20px' }}>No layers yet. Drag images here.</div>}
             </div>
           </div>
 
-          {/* PANEL DE PROPIEDADES (Solo si hay capa seleccionada) */}
-          {selectedLayerId && (
-            <div style={{ padding: '15px' }}>
-              <h3 style={{ margin: '0 0 15px 0', fontSize: '13px', textTransform: 'uppercase', color: theme.textMuted }}>Properties</h3>
-              {layers.map(layer => layer.id === selectedLayerId && (
-                <div key="props">
-                  <div style={{ marginBottom: '15px' }}>
-                    <label style={{ fontSize: '11px', color: theme.textMuted, display: 'block', marginBottom: '5px' }}>Opacity: {layer.opacity}%</label>
-                    <input type="range" min="0" max="100" value={layer.opacity} onChange={(e) => updateLayerOpacity(layer.id, e.target.value)} style={{ width: '100%' }} />
-                  </div>
-                  <p style={{ fontSize: '11px', color: '#666' }}>Use the corner handles on the canvas to resize, and click/drag to move.</p>
+          {/* PANEL DE PROPIEDADES (Mitad inferior) */}
+          <div style={{ height: '320px', padding: '15px', overflowY: 'auto' }}>
+            <h3 style={{ margin: '0 0 15px 0', fontSize: '11px', textTransform: 'uppercase', color: theme.textMuted, letterSpacing: '1px' }}>PROPERTIES</h3>
+            
+            {/* Si NO hay capa seleccionada, muestra las propiedades del CANVAS */}
+            {!selectedLayerId && (
+              <div>
+                <label style={{ fontSize: '12px', color: theme.text, display: 'block', marginBottom: '8px' }}>Background Color</label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} style={{ width: '50px', height: '30px', border: 'none', cursor: 'pointer', padding: 0, background: 'transparent' }} />
+                  <input type="text" value={bgColor} onChange={e => setBgColor(e.target.value)} style={{ background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px', width: '80px', fontSize: '12px', borderRadius: '4px' }} />
                 </div>
-              ))}
-            </div>
-          )}
+                <p style={{ fontSize: '11px', color: theme.textMuted, marginTop: '20px', lineHeight: '1.5' }}>
+                  Click on a layer to edit its properties (Size, Position, Rotation, Opacity).<br/><br/>
+                  Hold <b>Ctrl</b> and use the <b>Mouse Wheel</b> to Zoom.
+                </p>
+              </div>
+            )}
+
+            {/* Si HAY una capa seleccionada, muestra sus propiedades */}
+            {selectedLayer && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                
+                {/* POSITION */}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '10px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>X</label>
+                    <input type="number" value={Math.round(selectedLayer.x)} onChange={e => updateLayer(selectedLayer.id, { x: parseInt(e.target.value) || 0 })} style={{ width: '100%', background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px', fontSize: '12px', borderRadius: '4px', boxSizing: 'border-box' }} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '10px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>Y</label>
+                    <input type="number" value={Math.round(selectedLayer.y)} onChange={e => updateLayer(selectedLayer.id, { y: parseInt(e.target.value) || 0 })} style={{ width: '100%', background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px', fontSize: '12px', borderRadius: '4px', boxSizing: 'border-box' }} />
+                  </div>
+                </div>
+
+                {/* SIZE */}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '10px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>Width</label>
+                    <input type="number" value={Math.round(selectedLayer.width)} onChange={e => updateLayer(selectedLayer.id, { width: parseInt(e.target.value) || 10 })} style={{ width: '100%', background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px', fontSize: '12px', borderRadius: '4px', boxSizing: 'border-box' }} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '10px', color: theme.textMuted, display: 'block', marginBottom: '4px' }}>Height</label>
+                    <input type="number" value={Math.round(selectedLayer.height)} onChange={e => updateLayer(selectedLayer.id, { height: parseInt(e.target.value) || 10 })} style={{ width: '100%', background: theme.bgApp, color: theme.text, border: `1px solid ${theme.border}`, padding: '6px', fontSize: '12px', borderRadius: '4px', boxSizing: 'border-box' }} />
+                  </div>
+                </div>
+
+                {/* ROTATION & OPACITY */}
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <label style={{ fontSize: '10px', color: theme.textMuted }}>Rotation</label>
+                    <span style={{ fontSize: '10px', color: theme.text }}>{selectedLayer.rotation}°</span>
+                  </div>
+                  <input type="range" min="-180" max="180" value={selectedLayer.rotation} onChange={e => updateLayer(selectedLayer.id, { rotation: parseInt(e.target.value) })} style={{ width: '100%' }} />
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <label style={{ fontSize: '10px', color: theme.textMuted }}>Opacity</label>
+                    <span style={{ fontSize: '10px', color: theme.text }}>{selectedLayer.opacity}%</span>
+                  </div>
+                  <input type="range" min="0" max="100" value={selectedLayer.opacity} onChange={e => updateLayer(selectedLayer.id, { opacity: parseInt(e.target.value) })} style={{ width: '100%' }} />
+                </div>
+
+              </div>
+            )}
+          </div>
         </div>
 
       </div>
