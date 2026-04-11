@@ -4,12 +4,12 @@ import jsPDF from 'jspdf';
 const DEFAULT_SPINE_WIDTH = 10.5;
 
 const PrinterView = ({ initialSpines, onBack }) => {
-  const [images, setImages] = useState(initialSpines);
+  const [images, setImages] = useState(initialSpines || []);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // ESTADO: Control del Modal de Descarga / Donaciones
-  const [supportModal, setSupportModal] = useState({ show: false });
+  // ESTADO: Modal de Donaciones
+  const [showSupportModal, setShowSupportModal] = useState(false);
 
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
@@ -90,33 +90,38 @@ const PrinterView = ({ initialSpines, onBack }) => {
     return () => clearTimeout(timer);
   }, [generatePreview]);
 
-  // FUNCIÓN DE DESCARGA Y MODAL
+  // LA MAGIA DE LA DESCARGA Y EL MODAL SIMULTÁNEO
   const handleDownloadClick = () => {
     if (!pdfUrl) return;
     
-    // 1. Abrimos el PDF en una pestaña nueva inmediatamente
-    // Hacerlo sin setTimeout evita que los bloqueadores de popups (AdBlock, etc) lo frenen
-    window.open(pdfUrl, '_blank');
+    // 1. Mostrar el modal de soporte inmediatamente en esta pantalla
+    setShowSupportModal(true);
 
-    // 2. Mostramos el modal de apoyo al instante en la pestaña actual
-    setSupportModal({ show: true });
+    // 2. Forzar la descarga del PDF usando un enlace invisible (A prueba de bloqueadores)
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = 'The_Spine_Archive_Print.pdf';
+    link.target = '_blank'; // Intenta abrirlo en pestaña nueva (depende del navegador)
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', position: 'relative' }}>
       
-      {/* Importar la fuente Pixel Art de Google Fonts */}
+      {/* FUENTE PIXEL ART IMPORTADA */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         `}
       </style>
 
-      {/* HEADER */}
+      {/* HEADER ROJO */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <button onClick={onBack} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK</button>
         
-        {/* NUEVO TÍTULO CON FUENTE PIXELADA */}
+        {/* TÍTULO CON FUENTE PIXELADA */}
         <div style={{ 
           color: 'white', 
           fontFamily: '"Press Start 2P", monospace', 
@@ -137,11 +142,12 @@ const PrinterView = ({ initialSpines, onBack }) => {
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        {/* BARRA LATERAL IZQUIERDA (IMÁGENES) */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
               <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
+                <img src={img.image || img.src} alt="spine" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                 <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <input 
                     type="number" 
@@ -160,9 +166,9 @@ const PrinterView = ({ initialSpines, onBack }) => {
           </div>
         </div>
 
+        {/* ZONA CENTRAL (IFRAME Y CONFIG) */}
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
           
-          {/* CAJA DE CONFIGURACIÓN */}
           <div style={{ 
             position: 'absolute', top: '20px', right: '20px', zIndex: 1000, 
             backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', width: '280px', 
@@ -185,15 +191,17 @@ const PrinterView = ({ initialSpines, onBack }) => {
           {pdfUrl ? (
             <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '100%', height: '100%', border: 'none' }} title="preview" />
           ) : (
-            <div style={{ color: 'white', marginTop: '100px' }}><h2>Generating preview...</h2></div>
+            <div style={{ color: 'white', marginTop: '100px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px' }}>
+              GENERATING PREVIEW...
+            </div>
           )}
         </div>
       </div>
 
       {/* ============================================================== */}
-      {/* MODAL DE DESCARGA Y DONACIÓN */}
+      {/* MODAL DE DONACIÓN (TU LINK EXACTO) */}
       {/* ============================================================== */}
-      {supportModal.show && (
+      {showSupportModal && (
         <div style={{ 
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
           backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
@@ -204,25 +212,29 @@ const PrinterView = ({ initialSpines, onBack }) => {
             textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #b30000' 
           }}>
             <div style={{ fontSize: '50px', marginBottom: '20px' }}>📄</div>
-            <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>PDF OPENED IN NEW TAB!</h2>
+            
+            {/* TÍTULO CON TU FUENTE GAMER */}
+            <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>
+              ¡PDF DESCARGADO!
+            </h2>
             
             <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginTop: '25px', marginBottom: '25px', border: '1px solid #444' }}>
               <p style={{ color: '#ddd', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
                 Mantener <b>The Spine Archive</b> es completamente gratuito para la comunidad, pero los costes de los servidores y la base de datos aumentan mes a mes.
                 <br/><br/>
-                Si esta herramienta te ha sido útil, <b>considera ayudarnos a pagar la factura del servidor</b> para que el proyecto pueda seguir creciendo. ❤️
+                Si esta herramienta te ha sido útil para tu colección, <b>considera ayudarnos a pagar la factura del servidor</b> para que el proyecto pueda seguir creciendo. ❤️
               </p>
             </div>
 
             <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginBottom: '25px' }}>
-              {/* ENLACE KO-FI DEL USUARIO */}
-              <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '12px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+              {/* TU ENLACE REAL */}
+              <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '15px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '16px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                 ☕ Apoyar en Ko-fi
               </a>
             </div>
 
             <button 
-              onClick={() => setSupportModal({ show: false })} 
+              onClick={() => setShowSupportModal(false)} 
               style={{ background: 'transparent', color: '#888', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px' }}
             >
               Cerrar y volver a la aplicación
