@@ -79,8 +79,39 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '50px', color: 'white', backgroundColor: '#111' }}>
+      
+      {/* Importamos la fuente Pixelada / Gamer desde Google Fonts */}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        `}
+      </style>
+
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <h1 style={{ borderBottom: '2px solid #b30000', paddingBottom: '10px' }}>Project Statistics</h1>
+        
+        {/* LOGO CENTRADO Y GRANDE */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <img 
+            src="/logo.jpg" 
+            alt="The Spine Archive Logo" 
+            style={{ height: '160px', objectFit: 'contain', filter: 'drop-shadow(0px 0px 10px rgba(179,0,0,0.5))' }} 
+          />
+        </div>
+
+        {/* TÍTULO ESTILO GAMER PIXELADO */}
+        <h1 style={{ 
+          fontFamily: '"Press Start 2P", monospace', 
+          textAlign: 'center', 
+          borderBottom: '4px solid #b30000', 
+          paddingBottom: '25px', 
+          marginBottom: '40px',
+          color: '#fff',
+          textShadow: '3px 3px 0px #b30000',
+          fontSize: '2rem',
+          letterSpacing: '2px'
+        }}>
+          STATISTICS
+        </h1>
         
         {/* --- CONTADORES PRINCIPALES --- */}
         <div style={{ display: 'flex', gap: '20px', margin: '40px 0' }}>
@@ -95,7 +126,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
         </div>
 
         {/* --- TRENDING CREATORS (REDIS) --- */}
-        <h2 style={{ color: '#ffcc00', marginBottom: '15px' }}>🔥 Trending Creators (Top 5 by clicks)</h2>
+        <h2 style={{ color: '#ffcc00', marginBottom: '15px', fontFamily: 'sans-serif' }}>🔥 Trending Creators (Top 5 by clicks)</h2>
         <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '8px', border: '1px solid #ffcc00', marginBottom: '40px' }}>
           {loadingTrending ? (
             <div style={{ color: '#666' }}>Loading real-time data...</div>
@@ -112,7 +143,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
         </div>
 
         {/* --- FRANQUICIAS --- */}
-        <h2 style={{ fontSize: '1.2rem', color: '#aaa', marginBottom: '15px' }}>Spines by Franchise</h2>
+        <h2 style={{ fontSize: '1.2rem', color: '#aaa', marginBottom: '15px', fontFamily: 'sans-serif' }}>Spines by Franchise</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '50px' }}>
           {franchiseStats.map(([name, count]) => (
             <div key={name} style={{ backgroundColor: '#1a1a1a', padding: '10px 20px', borderRadius: '20px', border: '1px solid #b30000', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -123,7 +154,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
         </div>
 
         {/* --- LISTADO DE TODOS LOS CONTRIBUYENTES --- */}
-        <h2 style={{ color: 'white' }}>All Contributors</h2>
+        <h2 style={{ color: 'white', fontFamily: 'sans-serif' }}>All Contributors</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333', marginBottom: '100px' }}>
           {stats.topAuthors.map(([author, count], index) => {
             const isExpanded = expandedAuthor === author;
