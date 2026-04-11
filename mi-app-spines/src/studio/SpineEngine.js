@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 
 export class SpineEngine {
   constructor(canvasElementId, width, height) {
