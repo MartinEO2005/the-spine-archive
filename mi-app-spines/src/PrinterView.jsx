@@ -9,7 +9,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   
   // ESTADO: Control del Modal de Descarga / Donaciones
-  const [supportModal, setSupportModal] = useState({ show: false, status: 'processing' });
+  const [supportModal, setSupportModal] = useState({ show: false });
 
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
@@ -94,20 +94,12 @@ const PrinterView = ({ initialSpines, onBack }) => {
   const handleDownloadClick = () => {
     if (!pdfUrl) return;
     
-    // 1. Mostrar modal de carga
-    setSupportModal({ show: true, status: 'processing' });
+    // 1. Abrimos el PDF en una pestaña nueva inmediatamente
+    // Hacerlo sin setTimeout evita que los bloqueadores de popups (AdBlock, etc) lo frenen
+    window.open(pdfUrl, '_blank');
 
-    // 2. Esperar 2 segundos y forzar la descarga del archivo sin abrir pestañas nuevas
-    setTimeout(() => {
-      setSupportModal({ show: true, status: 'ready' });
-      
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = 'The_Spine_Archive_Print.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }, 2000);
+    // 2. Mostramos el modal de apoyo al instante en la pestaña actual
+    setSupportModal({ show: true });
   };
 
   return (
@@ -117,11 +109,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-          
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
         `}
       </style>
 
@@ -216,40 +203,30 @@ const PrinterView = ({ initialSpines, onBack }) => {
             backgroundColor: '#222', padding: '40px', borderRadius: '12px', width: '480px', 
             textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #b30000' 
           }}>
-            {supportModal.status === 'processing' ? (
-              <>
-                <div style={{ fontSize: '50px', marginBottom: '20px', display: 'inline-block', animation: 'spin 2s linear infinite' }}>⏳</div>
-                <h2 style={{ color: 'white', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>PREPARING YOUR PDF...</h2>
-                <p style={{ color: '#aaa', fontSize: '14px' }}>Ajustando resoluciones para una alta calidad de impresión.</p>
-              </>
-            ) : (
-              <>
-                <div style={{ fontSize: '50px', marginBottom: '20px' }}>✅</div>
-                <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>DOWNLOAD STARTED!</h2>
-                
-                <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginTop: '25px', marginBottom: '25px', border: '1px solid #444' }}>
-                  <p style={{ color: '#ddd', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
-                    Mantener <b>The Spine Archive</b> es completamente gratuito para la comunidad, pero los costes de los servidores y la base de datos aumentan mes a mes.
-                    <br/><br/>
-                    Si esta herramienta te ha sido útil, <b>considera ayudarnos a pagar la factura del servidor</b> para que el proyecto pueda seguir creciendo. ❤️
-                  </p>
-                </div>
+            <div style={{ fontSize: '50px', marginBottom: '20px' }}>📄</div>
+            <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>PDF OPENED IN NEW TAB!</h2>
+            
+            <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginTop: '25px', marginBottom: '25px', border: '1px solid #444' }}>
+              <p style={{ color: '#ddd', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
+                Mantener <b>The Spine Archive</b> es completamente gratuito para la comunidad, pero los costes de los servidores y la base de datos aumentan mes a mes.
+                <br/><br/>
+                Si esta herramienta te ha sido útil, <b>considera ayudarnos a pagar la factura del servidor</b> para que el proyecto pueda seguir creciendo. ❤️
+              </p>
+            </div>
 
-                <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginBottom: '25px' }}>
-                  {/* ENLACE KO-FI DEL USUARIO */}
-                  <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '12px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                    ☕ Apoyar en Ko-fi
-                  </a>
-                </div>
+            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginBottom: '25px' }}>
+              {/* ENLACE KO-FI DEL USUARIO */}
+              <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '12px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                ☕ Apoyar en Ko-fi
+              </a>
+            </div>
 
-                <button 
-                  onClick={() => setSupportModal({ show: false, status: 'processing' })} 
-                  style={{ background: 'transparent', color: '#888', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px' }}
-                >
-                  Cerrar y volver a la aplicación
-                </button>
-              </>
-            )}
+            <button 
+              onClick={() => setSupportModal({ show: false })} 
+              style={{ background: 'transparent', color: '#888', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px' }}
+            >
+              Cerrar y volver a la aplicación
+            </button>
           </div>
         </div>
       )}
