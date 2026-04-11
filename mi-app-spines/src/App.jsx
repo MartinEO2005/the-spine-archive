@@ -10,6 +10,9 @@ function App() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
+  // NUEVO ESTADO: Control del modal de donaciones
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
     pageWidth: 11.0,
@@ -123,6 +126,13 @@ function App() {
     return () => clearTimeout(timeoutId);
   }, [generatePreview]);
 
+  // FUNCIÓN: Maneja la apertura del PDF en pestaña nueva y muestra el modal
+  const handleDownloadClick = () => {
+    if (!pdfUrl) return;
+    window.open(pdfUrl, '_blank');
+    setShowSupportModal(true);
+  };
+
   if (view === 'catalog') {
     return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
   }
@@ -130,15 +140,33 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
+      {/* Importar la fuente Pixel Art de Google Fonts */}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        `}
+      </style>
+
       {/* HEADER */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
-          <div style={{ color: 'white', fontWeight: 'bold' }}>SPINES PREVIEW (MULTI-PAGE)</div>
+          
+          {/* TÍTULO CON FUENTE PIXELADA */}
+          <div style={{ 
+            color: 'white', 
+            fontFamily: '"Press Start 2P", monospace', 
+            fontSize: '12px', 
+            textShadow: '2px 2px 0px #000',
+            letterSpacing: '1px',
+            marginTop: '3px' // Pequeño ajuste para centrar la fuente
+          }}>
+            {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW (MULTI-PAGE)"}
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
              <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
-             <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+             <button onClick={handleDownloadClick} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
         </div>
       </div>
 
@@ -246,6 +274,51 @@ function App() {
           )}
         </div>
       </div>
+
+      {/* ============================================================== */}
+      {/* MODAL DE DESCARGA Y DONACIÓN (ESTUDIANTE) */}
+      {/* ============================================================== */}
+      {showSupportModal && (
+        <div style={{ 
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+          backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
+          display: 'flex', justifyContent: 'center', alignItems: 'center' 
+        }}>
+          <div style={{ 
+            backgroundColor: '#222', padding: '40px', borderRadius: '12px', width: '500px', 
+            textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #b30000' 
+          }}>
+            <div style={{ fontSize: '50px', marginBottom: '20px' }}>📄</div>
+            
+            {/* TÍTULO CON LA FUENTE GAMER */}
+            <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>
+              PDF DOWNLOADED!
+            </h2>
+            
+            <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginTop: '25px', marginBottom: '25px', border: '1px solid #444' }}>
+              <p style={{ color: '#ddd', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
+                Maintaining <b>The Spine Archive</b> is completely free for the community, but as a student, I cannot afford the server and database costs alone.
+                <br/><br/>
+                If this tool has been useful for your collection, <b>consider helping me pay the server bill</b> so the project can keep growing. ❤️
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginBottom: '25px' }}>
+              <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '15px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '16px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                ☕ Support on Ko-fi
+              </a>
+            </div>
+
+            <button 
+              onClick={() => setShowSupportModal(false)} 
+              style={{ background: 'transparent', color: '#888', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px' }}
+            >
+              Close and return to the application
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
