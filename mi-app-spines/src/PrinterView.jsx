@@ -7,6 +7,10 @@ const PrinterView = ({ initialSpines, onBack }) => {
   const [images, setImages] = useState(initialSpines);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  // NUEVO ESTADO: Control del Modal de Descarga / Donaciones
+  const [supportModal, setSupportModal] = useState({ show: false, status: 'processing' });
+
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
     pageWidth: 11.0,
@@ -86,8 +90,29 @@ const PrinterView = ({ initialSpines, onBack }) => {
     return () => clearTimeout(timer);
   }, [generatePreview]);
 
+  // NUEVA FUNCIÓN: Maneja la descarga forzada y la visualización del modal
+  const handleDownloadClick = () => {
+    if (!pdfUrl) return;
+    
+    // Mostrar modal en estado "procesando"
+    setSupportModal({ show: true, status: 'processing' });
+
+    // Simulamos un pequeño tiempo de carga para que el usuario preste atención a la pantalla
+    setTimeout(() => {
+      setSupportModal({ show: true, status: 'ready' });
+      
+      // Creamos un enlace invisible para forzar la descarga sin que el navegador bloquee el popup
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = 'The_Spine_Archive_Print.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 2000);
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', position: 'relative' }}>
       
       {/* HEADER */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
@@ -95,7 +120,14 @@ const PrinterView = ({ initialSpines, onBack }) => {
         <div style={{ color: 'white', fontWeight: 'bold' }}>
           {isGenerating ? "⏳ GENERATING..." : "PRINT EDITOR"}
         </div>
-        <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+        {/* Cambiamos la llamada del botón de descarga */}
+        <button 
+          onClick={handleDownloadClick} 
+          disabled={!pdfUrl} 
+          style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000', cursor: pdfUrl ? 'pointer' : 'not-allowed', opacity: pdfUrl ? 1 : 0.5 }}
+        >
+          DOWNLOAD PDF
+        </button>
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
@@ -115,7 +147,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
                     }} 
                     style={{ width: '50px', color: '#000000', WebkitTextFillColor: '#000000', background: 'white', border: '1px solid #ccc' }} 
                   />
-                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', width: '24px', height: '24px', borderRadius: '4px' }}>✕</button>
+                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', width: '24px', height: '24px', borderRadius: '4px', cursor: 'pointer' }}>✕</button>
                 </div>
               </div>
             ))}
@@ -124,7 +156,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
           
-          {/* CAJA DE CONFIGURACIÓN - PROTECCIÓN MÁXIMA CONTRA TEXTO BLANCO */}
+          {/* CAJA DE CONFIGURACIÓN */}
           <div style={{ 
             position: 'absolute', top: '20px', right: '20px', zIndex: 1000, 
             backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', width: '280px', 
@@ -134,24 +166,16 @@ const PrinterView = ({ initialSpines, onBack }) => {
               <div key={k}>
                 <label style={{ 
                   fontSize: '11px', fontWeight: 'bold', display: 'block', 
-                  color: '#000000', // FORZADO NEGRO
-                  WebkitTextFillColor: '#000000', // ANTI-BUG NAVEGADOR
-                  marginBottom: '4px'
+                  color: '#000000', WebkitTextFillColor: '#000000', marginBottom: '4px'
                 }}>
                   {k.toUpperCase()}
                 </label>
                 <input 
-                  type="number" 
-                  step="0.1" 
-                  value={config[k]} 
+                  type="number" step="0.1" value={config[k]} 
                   onChange={e => setConfig({...config, [k]: parseFloat(e.target.value) || 0})} 
                   style={{ 
-                    width: '100%', 
-                    color: '#000000', // FORZADO NEGRO
-                    WebkitTextFillColor: '#000000', // ANTI-BUG NAVEGADOR
-                    backgroundColor: '#ffffff', 
-                    border: '2px solid #333333', // BORDE MÁS OSCURO PARA VERLO BIEN
-                    borderRadius: '4px', padding: '5px', boxSizing: 'border-box'
+                    width: '100%', color: '#000000', WebkitTextFillColor: '#000000', backgroundColor: '#ffffff', 
+                    border: '2px solid #333333', borderRadius: '4px', padding: '5px', boxSizing: 'border-box'
                   }} 
                 />
               </div>
@@ -165,6 +189,61 @@ const PrinterView = ({ initialSpines, onBack }) => {
           )}
         </div>
       </div>
+
+      {/* ============================================================== */}
+      {/* MODAL DE DESCARGA Y DONACIÓN */}
+      {/* ============================================================== */}
+      {supportModal.show && (
+        <div style={{ 
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+          backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
+          display: 'flex', justifyContent: 'center', alignItems: 'center' 
+        }}>
+          <div style={{ 
+            backgroundColor: '#222', padding: '40px', borderRadius: '12px', width: '450px', 
+            textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '1px solid #b30000' 
+          }}>
+            {supportModal.status === 'processing' ? (
+              <>
+                <div style={{ fontSize: '50px', marginBottom: '20px', animation: 'spin 2s linear infinite' }}>⏳</div>
+                <h2 style={{ color: 'white', marginBottom: '10px' }}>Preparando tu PDF...</h2>
+                <p style={{ color: '#aaa', fontSize: '14px' }}>Ajustando márgenes y resoluciones para una alta calidad de impresión.</p>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: '50px', marginBottom: '20px' }}>✅</div>
+                <h2 style={{ color: 'white', marginBottom: '10px' }}>¡Tu descarga ha comenzado!</h2>
+                
+                <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginTop: '25px', marginBottom: '25px', border: '1px solid #333' }}>
+                  <p style={{ color: '#ddd', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
+                    Mantener <b>The Spine Archive</b> es completamente gratuito para la comunidad, pero los costes de los servidores y la enorme base de datos de imágenes aumentan mes a mes.
+                    <br/><br/>
+                    Si esta herramienta te ha ahorrado tiempo, <b>considera ayudarnos a pagar la factura del servidor</b> para que el proyecto pueda seguir vivo. ❤️
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginBottom: '25px' }}>
+                  {/* CAMBIA ESTOS ENLACES POR TUS LINKS REALES DE DONACIÓN */}
+                  <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '12px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', flex: 1 }}>
+                    ☕ Donar en Ko-fi
+                  </a>
+                  <a href="https://paypal.me/" target="_blank" rel="noreferrer" style={{ background: '#00457C', color: 'white', padding: '12px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px', flex: 1 }}>
+                    💙 PayPal
+                  </a>
+                </div>
+
+                <button 
+                  onClick={() => setSupportModal({ show: false, status: 'processing' })} 
+                  style={{ background: 'transparent', color: '#888', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px' }}
+                >
+                  Cerrar y volver a la aplicación
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+      
     </div>
   );
 };
