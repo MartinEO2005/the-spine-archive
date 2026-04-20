@@ -82,6 +82,7 @@ const RequestsView = () => {
 
       <p style={{ margin: '0 0 30px 0', fontSize: '0.85rem', color: '#888', fontStyle: 'italic' }}>
         If your request was removed, it's because it has already been added to the catalog :)
+        Pls dont remove the requests after they are fulfilled, as I should be aware of what spines I need to scrape.
       </p>
 
       {showForm && (
