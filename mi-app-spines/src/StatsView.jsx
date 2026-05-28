@@ -1,24 +1,32 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 
 const StatsView = ({ stats: propStats, spines = [] }) => {
-  const [trendingAuthors, setTrendingAuthors] = useState([]);
-  const [loadingTrending, setLoadingTrending] = useState(true);
   const [expandedAuthor, setExpandedAuthor] = useState(null);
-  
-  // Estados para el top 5 de spines del autor expandido
   const [authorTopSpines, setAuthorTopSpines] = useState([]);
-  const [loadingAuthorSpines, setLoadingAuthorSpines] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/stats')
-      .then(res => res.json())
-      .then(data => {
-        setTrendingAuthors(data.ranking || []);
-        setLoadingTrending(false);
-      })
-      .catch(() => setLoadingTrending(false));
-  }, []);
+  // --- CÁLCULO: TOP UPLOADERS (ÚLTIMOS 30 DÍAS) ---
+  const topUploaders30Days = useMemo(() => {
+    if (!spines.length) return [];
+    
+    const now = Date.now() / 1000; // Tiempo actual en segundos (Unix)
+    const thirtyDays = 30 * 24 * 60 * 60;
+    const counts = {};
 
+    spines.forEach(s => {
+      // Solo contamos si tiene fecha y fue en los últimos 30 días
+      if (s.created_utc && (now - s.created_utc) <= thirtyDays) {
+        const author = s.author ? s.author.replace('u/', '') : 'Unknown';
+        counts[author] = (counts[author] || 0) + 1;
+      }
+    });
+
+    // Ordenamos de mayor a menor y sacamos el Top 5
+    return Object.entries(counts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5);
+  }, [spines]);
+
+  // --- CÁLCULO: ESTADÍSTICAS GLOBALES ---
   const stats = useMemo(() => {
     if (propStats) return propStats;
     if (!spines.length) return null;
@@ -31,6 +39,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
     return { totalSpines: spines.length, totalAuthors: Object.keys(counts).length, topAuthors: sorted };
   }, [propStats, spines]);
 
+  // --- CÁLCULO: FRANQUICIAS ---
   const franchiseStats = useMemo(() => {
     const counts = { Zelda: 0, Mario: 0, Xenoblade: 0, Pokemon: 0, Metroid: 0, Kirby: 0, DragonQuest: 0, AnimalCrossing: 0 };
     spines.forEach(s => {
@@ -53,26 +62,11 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
       return;
     }
     setExpandedAuthor(author);
-    setLoadingAuthorSpines(true);
-    
-    fetch(`/api/top-spines?author=${author}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.topSpines && data.topSpines.length > 0) {
-          const populated = data.topSpines.map(ts => {
-            const found = spines.find(s => String(s.id) === String(ts.spineId));
-            return found ? { ...found, clicks: ts.clicks } : null;
-          }).filter(Boolean);
-          setAuthorTopSpines(populated);
-        } else {
-          setAuthorTopSpines(spines.filter(s => (s.author || '').replace('u/', '') === author).slice(0, 5));
-        }
-        setLoadingAuthorSpines(false);
-      })
-      .catch(() => {
-        setAuthorTopSpines(spines.filter(s => (s.author || '').replace('u/', '') === author).slice(0, 5));
-        setLoadingAuthorSpines(false);
-      });
+    // Como ya no usamos Redis para los clicks, simplemente mostramos los 5 lomos más recientes de este autor
+    const authorSpines = spines
+        .filter(s => (s.author || '').replace('u/', '') === author)
+        .slice(0, 5);
+    setAuthorTopSpines(authorSpines);
   };
 
   if (!stats) return <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>No data available.</div>;
@@ -80,7 +74,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '50px', color: 'white', backgroundColor: '#111' }}>
       
-      {/* Importamos la fuente Pixelada / Gamer desde Google Fonts */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -89,7 +82,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* LOGO CENTRADO Y GRANDE */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
           <img 
             src="/logo.jpg" 
@@ -98,7 +90,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           />
         </div>
 
-        {/* TÍTULO ESTILO GAMER PIXELADO */}
         <h1 style={{ 
           fontFamily: '"Press Start 2P", monospace', 
           textAlign: 'center', 
@@ -113,7 +104,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           STATISTICS
         </h1>
         
-        {/* --- CONTADORES PRINCIPALES --- */}
         <div style={{ display: 'flex', gap: '20px', margin: '40px 0' }}>
           <div style={{ flex: 1, backgroundColor: '#222', padding: '20px', borderRadius: '8px', textAlign: 'center', border: '1px solid #333' }}>
             <div style={{ fontSize: '40px', fontWeight: 'bold', color: '#b30000' }}>{stats.totalSpines}</div>
@@ -125,24 +115,21 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           </div>
         </div>
 
-        {/* --- TRENDING CREATORS (REDIS) --- */}
-        <h2 style={{ color: '#ffcc00', marginBottom: '15px', fontFamily: 'sans-serif' }}>🔥 Trending Creators (Top 5 by clicks)</h2>
+        {/* --- NUEVA SECCIÓN: TOP UPLOADERS (30 DAYS) --- */}
+        <h2 style={{ color: '#ffcc00', marginBottom: '15px', fontFamily: 'sans-serif' }}>🔥 Top Uploaders (Last 30 Days)</h2>
         <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '8px', border: '1px solid #ffcc00', marginBottom: '40px' }}>
-          {loadingTrending ? (
-            <div style={{ color: '#666' }}>Loading real-time data...</div>
-          ) : trendingAuthors.length > 0 ? (
-            trendingAuthors.slice(0, 5).map((entry, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < 4 ? '1px solid #333' : 'none' }}>
-                <span style={{ fontWeight: 'bold' }}>#{i+1} u/{entry.author}</span>
-                <span style={{ color: '#ffcc00' }}>{entry.clicks} clicks</span>
+          {topUploaders30Days.length > 0 ? (
+            topUploaders30Days.map(([author, count], i) => (
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < topUploaders30Days.length - 1 ? '1px solid #333' : 'none' }}>
+                <span style={{ fontWeight: 'bold' }}>#{i+1} u/{author}</span>
+                <span style={{ color: '#ffcc00' }}>{count} spines uploaded</span>
               </div>
             ))
           ) : (
-            <div style={{ color: '#666' }}>No clicks recorded yet. Be the first!</div>
+            <div style={{ color: '#666' }}>No new spines uploaded in the last 30 days. Be the first!</div>
           )}
         </div>
 
-        {/* --- FRANQUICIAS --- */}
         <h2 style={{ fontSize: '1.2rem', color: '#aaa', marginBottom: '15px', fontFamily: 'sans-serif' }}>Spines by Franchise</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '50px' }}>
           {franchiseStats.map(([name, count]) => (
@@ -153,7 +140,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           ))}
         </div>
 
-        {/* --- LISTADO DE TODOS LOS CONTRIBUYENTES --- */}
         <h2 style={{ color: 'white', fontFamily: 'sans-serif' }}>All Contributors</h2>
         <div style={{ backgroundColor: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333', marginBottom: '100px' }}>
           {stats.topAuthors.map(([author, count], index) => {
@@ -169,12 +155,11 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                     <span style={{ fontWeight: 'bold', color: index < 3 ? '#b30000' : 'white' }}>u/{author}</span>
-                    {/* ENLACE RECUPERADO A REDDIT */}
                     <a 
                       href={`https://www.reddit.com/user/${author}`} 
                       target="_blank" 
                       rel="noreferrer" 
-                      onClick={(e) => e.stopPropagation()} // Importante para que no abra el desplegable al clicar
+                      onClick={(e) => e.stopPropagation()} 
                       style={{ fontSize: '11px', color: '#ccc', textDecoration: 'none', backgroundColor: '#444', padding: '2px 8px', borderRadius: '4px' }}
                     >
                       Reddit ↗
@@ -187,9 +172,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
                 {isExpanded && (
                   <div style={{ padding: '40px 20px', backgroundColor: '#0a0a0a', borderTop: '1px solid #333', display: 'flex', gap: '40px', overflowX: 'auto', alignItems: 'center' }}>
-                    {loadingAuthorSpines ? (
-                      <div style={{ color: '#666', fontSize: '13px' }}>Loading top spines...</div>
-                    ) : authorTopSpines.length > 0 ? (
+                    {authorTopSpines.length > 0 ? (
                       authorTopSpines.map((spine, i) => (
                         <div key={i} style={{ flexShrink: 0, width: '220px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                           <div style={{ width: '220px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '25px' }}>
@@ -209,15 +192,10 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
                           <div style={{ color: '#aaa', fontSize: '11px', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
                             {spine.title}
                           </div>
-                          {spine.clicks !== undefined && (
-                             <div style={{ color: '#ffcc00', fontSize: '10px', marginTop: '5px', fontWeight: 'bold' }}>
-                               🔥 {spine.clicks} clicks
-                             </div>
-                          )}
                         </div>
                       ))
                     ) : (
-                      <div style={{ color: '#666', fontSize: '13px' }}>No spines recorded yet.</div>
+                      <div style={{ color: '#666', fontSize: '13px' }}>No spines found.</div>
                     )}
                   </div>
                 )}
