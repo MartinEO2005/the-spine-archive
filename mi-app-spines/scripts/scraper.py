@@ -27,7 +27,10 @@ DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 # Generamos términos: a-z, A-Z y franquicias clave (cumpliendo tu regla de variaciones)
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = ["Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176"] #+ list(letras)
+#SEARCH_TERMS = ["Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176","Remarkable", "SemiColin73", "Josarbe333", "HomoSnakexual", "ppmax008"] + list(letras)
+SEARCH_TERMS = [ "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176",
+                "Rain Code", "The World Ends With", "Gal Guardians Demon Purge", "Sims", "demon", "demon slayer", "Steins", "Yu-No"
+                  ]   + list(letras)
 
 # Límite alto para producción (básicamente sin límite)
 MAX_UPLOADS = 10000 
