@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 original_terms = [ "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176","Remarkable",
- "SemiColin73", "Josarbe333", "HomoSnakexual", "ppmax008", "Tokyo Chronos"] 
+ "SemiColin73", "Josarbe333", "HomoSnakexual", "ppmax008", "Tokyo Chronos"] + list("abcdefghijklmnopqrstuvwxyz")
 
 # Mantenemos el orden original eliminando duplicados manualmente
 raw_terms = [t for term in original_terms for t in (term.lower(), term.capitalize(), term)]
@@ -55,9 +55,7 @@ def save_db(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 def update_database():
-    # ---------------------------------------------------------
     # PARTE 1: CARGA DE BASE DE DATOS (100% SEGURA E INTACTA)
-    # ---------------------------------------------------------
     if os.path.exists(DB_JSON_PATH):
         with open(DB_JSON_PATH, 'r', encoding='utf-8') as f:
             existing_data = json.load(f)
@@ -78,9 +76,7 @@ def update_database():
 
             print(f"🔍 Buscando (Vía RSS): '{term}'")
 
-            # ---------------------------------------------------------
             # PARTE 2: EL LOOPHOLE - LECTURA DEL CANAL RSS
-            # ---------------------------------------------------------
             url = f"https://www.reddit.com/r/SwitchSpines/search.rss?q={term}&restrict_sr=1&sort=new&limit=50"
             
             try:
@@ -126,12 +122,18 @@ def update_database():
                 author_node = entry.find('atom:author/atom:name', namespaces)
                 p_author = author_node.text.replace('/u/', 'u/') if author_node is not None else "deleted"
 
-                # Extraer URLs limpias de imágenes usando Regex desde el contenido HTML
                 content_node = entry.find('atom:content', namespaces)
                 content = content_node.text if content_node is not None else ""
 
-                # 1. Buscamos PRIMERO las imágenes originales de alta calidad (i.redd.it)
-                image_urls = re.findall(r'https://i\.redd\.it/[a-zA-Z0-9]+\.(?:jpg|jpeg|png|webp)', content)
+                # MEJORA: Regex extendido para capturar formatos de galería de Reddit
+                # Captura tanto i.redd.it como preview.redd.it y enlaces dentro de etiquetas de imagen
+                urls_found = re.findall(r'https://(?:i|preview)\.redd\.it/[a-zA-Z0-9]+\.(?:jpg|jpeg|png|webp)', content)
+                
+                # Si sospechamos que es una galería, intentamos buscar enlaces adicionales 
+                # que a veces Reddit esconde en el atributo 'href' dentro del HTML del RSS
+                more_urls = re.findall(r'href="(https://i\.redd\.it/[^"]+\.(?:jpg|jpeg|png|webp))"', content)
+                
+                image_urls = list(dict.fromkeys(urls_found + more_urls))
                 
                 # 2. Si no hay originales (pasa en algunos posts viejos), buscamos los previews
                 if not image_urls:
@@ -140,12 +142,13 @@ def update_database():
                 image_urls = list(dict.fromkeys(image_urls)) # Eliminar urls duplicadas
 
                 # ---------------------------------------------------------
-                # PARTE 3: TU LÓGICA DE PROCESAMIENTO (100% INTACTA)
+                # PARTE 3: PROCESAMIENTO MULTI-IMAGEN BLINDADO
                 # ---------------------------------------------------------
                 for idx, img_url in enumerate(image_urls):
                     if total_new >= MAX_UPLOADS: break
 
-                    u_id = f"{p_id}" if len(image_urls) == 1 else f"{p_id}_{idx}"
+                    # ID único por cada imagen del post (postID_0, postID_1, etc.)
+                    u_id = f"{p_id}_{idx}"
                     
                     if u_id in existing_ids: continue
 
@@ -153,15 +156,15 @@ def update_database():
                         time.sleep(0.4)
                         img_res = session.get(img_url, timeout=10)
                         
-                        # FILTRO NUEVO: Si el enlace está roto o bloqueado, saltamos silenciosamente
+                        # Filtro: Si el enlace está roto o bloqueado, saltamos
                         if img_res.status_code != 200:
                             continue
                             
-                        # FILTRO NUEVO: Intentamos abrir la imagen de forma segura
+                        # Filtro: Intentamos abrir la imagen de forma segura
                         try:
                             img = Image.open(BytesIO(img_res.content))
                         except Exception:
-                            continue # Si no es una imagen válida, la ignoramos sin ensuciar la terminal
+                            continue # Si no es una imagen válida, la ignoramos
                         
                         if img.height > 12000:
                             aspect = img.width / img.height
@@ -171,7 +174,7 @@ def update_database():
                             h = get_image_hash(img)
                             if h in existing_hashes: continue
 
-                            print(f"✅ Nuevo lomo encontrado: {clean_title(p_title)}")
+                            print(f"✅ Nuevo lomo encontrado: {clean_title(p_title)} (Imagen {idx+1})")
 
                             buffer = BytesIO()
                             img.convert("RGBA").save(buffer, format="WEBP", quality=85)
@@ -187,7 +190,7 @@ def update_database():
 
                             entry_data = {
                                 "id": u_id,
-                                "title": clean_title(p_title) + (f" (Alt {idx+1})" if len(image_urls)>1 else ""),
+                                "title": f"{clean_title(p_title)} (Parte {idx+1})",
                                 "author": f"{p_author}",
                                 "src": f"/spines/{u_id}.webp",
                                 "hash": h,
@@ -204,7 +207,7 @@ def update_database():
                                 save_db(existing_data)
                             
                     except Exception as e:
-                        print(f"⚠️ Error con {u_id}: {e}")
+                        print(f"⚠️ Error procesando imagen {idx} de {p_id}: {e}")
                         continue
                         
     except KeyboardInterrupt:
