@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 original_terms = [ "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176","Remarkable",
- "SemiColin73", "Josarbe333", "HomoSnakexual", "ppmax008", "Tokyo Chronos"] + list("abcdefghijklmnopqrstuvwxyz")
+ "SemiColin73", "Josarbe333", "HomoSnakexual", "ppmax008", "Tokyo Chronos", "ArgyleMonkey", "Onimusha Warlords", "Fatal Frame Maiden"] + list("abcdefghijklmnopqrstuvwxyz")
 
 # Mantenemos el orden original eliminando duplicados manualmente
 raw_terms = [t for term in original_terms for t in (term.lower(), term.capitalize(), term)]
