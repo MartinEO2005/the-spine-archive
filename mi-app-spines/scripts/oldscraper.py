@@ -27,7 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = ["SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176", "Rain Code", "The World Ends With", "Gal Guardians Demon Purge", "Sims", "demon", "demon slayer", "Steins", "Yu-No"] + list(letras)
+SEARCH_TERMS = ["SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
+                 "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No", "Onimusha Warlords", "Reymedy", "oranguy", "Jujutsu kaisen cursed clash",
+                   "Fatal Frame", "Maiden of", "Mask of the Lunar" ] + list(letras)
 
 MAX_UPLOADS = 10000 
 
@@ -149,7 +151,8 @@ def update_database():
                                 h = get_image_hash(img)
                                 if h in existing_hashes: continue
 
-                                print(f"✅ Nuevo lomo encontrado en galería: {clean_title(p['title'])}")
+                                # 1. Para que tu consola te avise del número de imagen
+                                print(f"✅ Nuevo lomo encontrado: {clean_title(p['title'])}" + (f" (Imagen {idx+1})" if len(image_urls) > 1 else ""))
 
                                 buffer = BytesIO()
                                 img.convert("RGBA").save(buffer, format="WEBP", quality=85)
@@ -163,15 +166,16 @@ def update_database():
                                     overwrite=True
                                 )
 
+                                # 2. Estructura con fecha y nombre correcto de galería
                                 entry = {
                                     "id": u_id,
-                                    "title": clean_title(p['title']) + (f" (Alt {idx+1})" if len(image_urls)>1 else ""),
+                                    "title": f"{clean_title(p['title'])} (Parte {idx+1})" if len(image_urls) > 1 else clean_title(p['title']),
                                     "author": f"u/{p['author']}",
                                     "src": f"/spines/{u_id}.webp",
                                     "hash": h,
-                                    "image": upload_result['secure_url']
+                                    "image": upload_result['secure_url'],
+                                    "created_utc": int(time.time()) 
                                 }
-
                                 existing_data.append(entry)
                                 existing_ids.add(u_id)
                                 existing_hashes.add(h)
