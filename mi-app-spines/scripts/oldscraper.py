@@ -1,15 +1,17 @@
 import os
-import requests
 import json
 import time
 import re
 import hashlib
-import sys
 import cloudinary
 import cloudinary.uploader
 from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv
+
+# Importamos AMBOS clientes para la estrategia de doble sesión
+from curl_cffi import requests as curl_requests 
+import requests as normal_requests
 
 load_dotenv()
 
@@ -20,25 +22,30 @@ cloudinary.config(
   api_secret = os.getenv('CLOUDINARY_API_SECRET')
 )
 
-# Volvemos a la carpeta original de producción
 CLOUDINARY_FOLDER = 'spines_archive' 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
-# Generamos términos: a-z, A-Z y franquicias clave (cumpliendo tu regla de variaciones)
 letras = "abcdefghijklmnopqrstuvwxyz"
-#SEARCH_TERMS = ["Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176","Remarkable", "SemiColin73", "Josarbe333", "HomoSnakexual", "ppmax008"] + list(letras)
-SEARCH_TERMS = [ "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176",
-                "Rain Code", "The World Ends With", "Gal Guardians Demon Purge", "Sims", "demon", "demon slayer", "Steins", "Yu-No"
-                  ]   + list(letras)
+SEARCH_TERMS = ["SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden", "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "LadyRaye176", "Rain Code", "The World Ends With", "Gal Guardians Demon Purge", "Sims", "demon", "demon slayer", "Steins", "Yu-No"] + list(letras)
 
-# Límite alto para producción (básicamente sin límite)
 MAX_UPLOADS = 10000 
 
-session = requests.Session()
-session.headers.update({
+# -----------------------------------------------------------------
+# CONFIGURACIÓN DE DOBLE SESIÓN
+# -----------------------------------------------------------------
+# Sesión 1: Solo para el JSON de Reddit (Evita el 403 de la API)
+api_session = curl_requests.Session(impersonate="chrome120")
+api_session.cookies.update({
+    'reddit_session': 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpsVFdYNlFVUEloWktaRG1rR0pVd1gvdWNFK01BSjBYRE12RU1kNzVxTXQ4IiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0Ml9iYms5ZzY1ZSIsImV4cCI6MTc5NjMxNzI4MC43OTUxMzksImlhdCI6MTc4MDY3ODg4MC43OTUxMzksImp0aSI6ImluN3hpWjcybkJvVGJnUUwtRVN4RkRMSEtmUlVkUSIsImF0IjoxLCJjaWQiOiJjb29raWUiLCJsY2EiOjE2MTc0ODgwOTEwMDAsInNjcCI6ImVKeUtqZ1VFQUFEX193RVZBTGsiLCJmbG8iOjF9.mJ0LZLS2OSEE91XdtYHm2jhucDgUxtyW8SAsdzJlsUN19k3Xh3qq41P603Wf1FYgcxY6o_GfDApFtyQJsjwcqru4vla63brewAUBWWHTD4HceSC4EIRVc5Nb4BCmNspBR0ZV4Decuay76cNyij4QDskFFmrejY4ELmYiiuTFUimvatP6GZjgzBfZahjf_W_EDUb6KOMlc77Kpyif6VG0-mmkjdVDoliwr5dd0mxoc5H7ejYziZrPgCIO_yZim6RtaU_whBIMV24Fhud99WHdDaZ55XjVUhWQ6zgfUZZ-5nh69KDQr5jzhrv-9w5K28mjzD-PDv6koJOESLchIXiJlA', # Cámbiame por tu cookie real
+})
+
+# Sesión 2: Solo para descargar las imágenes (Evita el "cannot identify image file")
+img_session = normal_requests.Session()
+img_session.headers.update({
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
 })
+# -----------------------------------------------------------------
 
 def get_image_hash(img):
     img_small = img.convert("L").resize((16, 16), Image.Resampling.LANCZOS)
@@ -60,21 +67,19 @@ def update_database():
     else:
         existing_data = []
 
-    # Diccionarios para evitar duplicados por ID o por Imagen
     existing_ids = {item['id'] for item in existing_data}
     existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
 
-    print(f"\n🚀 Iniciando actualización masiva en: {CLOUDINARY_FOLDER}")
+    print(f"\n🚀 Iniciando actualización masiva HÍBRIDA (Doble Sesión) en: {CLOUDINARY_FOLDER}")
     print(f"📊 Base de datos actual: {len(existing_data)} entradas.")
 
     total_new = 0
 
     try:
         for term in SEARCH_TERMS:
-            if total_new >= MAX_UPLOADS:
-                break
+            if total_new >= MAX_UPLOADS: break
 
-            print(f"🔍 Buscando: '{term}'")
+            print(f"🔍 Buscando en JSON: '{term}'")
             after = None
 
             while True:
@@ -84,15 +89,19 @@ def update_database():
                 if after: url += f"&after={after}"
 
                 try:
-                    res = session.get(url, timeout=15)
-                except Exception:
+                    # PASO A: Buscamos usando la sesión camuflada contra el 403
+                    res = api_session.get(url, timeout=15)
+                except Exception as e:
+                    print(f"   ⚠️ Error de conexión en API: {e}")
                     time.sleep(5); continue
 
                 if res.status_code == 429:
-                    print("⏳ Esperando por Rate Limit...")
+                    print("   ⏳ Esperando por Rate Limit (API)...")
                     time.sleep(30); continue
 
-                if res.status_code != 200: break
+                if res.status_code != 200: 
+                    print(f"   ❌ Error {res.status_code} al acceder a la API")
+                    break
 
                 data = res.json().get('data', {})
                 posts = data.get('children', [])
@@ -120,33 +129,32 @@ def update_database():
 
                         u_id = f"{p['id']}" if len(image_urls) == 1 else f"{p['id']}_{idx}"
 
-                        # FILTRO 1: Evitar duplicar el mismo post
                         if u_id in existing_ids: continue
 
                         try:
-                            time.sleep(0.4)
-                            img_res = session.get(img_url, timeout=10)
+                            time.sleep(0.5)
+                            # PASO B: Descargamos la imagen usando la sesión LIMPIA de requests
+                            img_res = img_session.get(img_url, timeout=10)
+                            
+                            if img_res.status_code != 200: continue
+                            
+                            # Ahora los bytes serán una imagen real identificable
                             img = Image.open(BytesIO(img_res.content))
 
-                            # Redimensionar si es excesivamente grande para evitar errores de WebP
                             if img.height > 12000:
                                 aspect = img.width / img.height
                                 img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
 
-                            # Validar que parezca un lomo (ratio alto)
                             if (img.height / img.width) >= 2.6:
-
-                                # FILTRO 2: Evitar duplicar la misma imagen (aunque el post sea distinto)
                                 h = get_image_hash(img)
                                 if h in existing_hashes: continue
 
-                                print(f"✅ Nuevo lomo encontrado: {clean_title(p['title'])}")
+                                print(f"✅ Nuevo lomo encontrado en galería: {clean_title(p['title'])}")
 
                                 buffer = BytesIO()
                                 img.convert("RGBA").save(buffer, format="WEBP", quality=85)
                                 buffer.seek(0)
 
-                                # Subida a la carpeta de PRODUCCIÓN
                                 upload_result = cloudinary.uploader.upload(
                                     buffer,
                                     folder=CLOUDINARY_FOLDER,
@@ -169,7 +177,6 @@ def update_database():
                                 existing_hashes.add(h)
                                 total_new += 1
 
-                                # Guardar progreso frecuentemente
                                 if total_new % 5 == 0:
                                     save_db(existing_data)
 
