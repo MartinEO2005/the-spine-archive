@@ -28,8 +28,9 @@ DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 letras = "abcdefghijklmnopqrstuvwxyz"
 SEARCH_TERMS = ["SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
-                 "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No", "Onimusha Warlords", "Reymedy", "oranguy", "Jujutsu kaisen cursed clash",
-                   "Fatal Frame", "Maiden of", "Mask of the Lunar" ] + list(letras)
+                 "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No", "Onimusha", "Reymedy", "oranguy", "Jujutsu kaisen cursed clash",
+                   "Fatal Frame", "Maiden of", "Mask of the Lunar", "Wargroove", "Vampyr", "Undertale", "Subnautica", "Sphinx", "Moving Out", "Portal Knights", 
+                   "Disco Elysium", "Bomber"] + list(letras)
 
 MAX_UPLOADS = 10000 
 
