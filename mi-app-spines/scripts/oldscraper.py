@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = [" ", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
+SEARCH_TERMS = [" ","nascar", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
                  "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames",
                    "zumba burn it up!", "Ultra Mega Xtra Party", "Ultra Kaiju Monster", "Dairoku: Agentes de Sakuratani", "Lafister", "Gal Metal", "Geminose: Animal Popstars",
                    "Sp4den", "Instant Chef Party"] + list(letras)
