@@ -25,7 +25,7 @@ load_dotenv(ENV_PATH)
 print(f"📁 Buscando archivo de configuración en: {ENV_PATH}")
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 BUCKET_NAME = "spines"
 
 # 4. Buscamos la carpeta 'public/spines' saliendo de /scripts y entrando en /public/spines
@@ -48,19 +48,24 @@ if os.path.exists(FOLDER_PATH):
         storage_path = f"{filename}" 
         
         try:
+            # 1. Hacemos una lectura rápida en crudo de los bytes
             with open(local_file_path, 'rb') as f:
-                supabase.storage.from_(BUCKET_NAME).upload(
-                    path=storage_path,
-                    file=f,
-                    file_options={"content-type": "image/webp"}
-                )
+                file_data = f.read()
+
+            # 2. Intentamos la subida a Supabase
+            supabase.storage.from_(BUCKET_NAME).upload(
+                path=storage_path,
+                file=file_data,
+                file_options={"content-type": "image/webp"}
+            )
             print(f"[{index}/{total}] ✅ ¡Subido!: {filename}")
+            
         except Exception as e:
-            if "Duplicate" in str(e) or "already exists" in str(e).lower():
+            # Convertimos el error a cadena de texto para analizarlo de forma segura
+            error_str = str(e).lower()
+            
+            # Si el error nos dice que ya existe el archivo, lo reportamos como un aviso y seguimos
+            if "duplicate" in error_str or "already exists" in error_str or "resource_already_exists" in error_str:
                 print(f"[{index}/{total}] 🟡 Ya existía en la nube: {filename}")
             else:
                 print(f"❌ Error con {filename}: {e}")
-                
-    print("\n🎉 ¡Proceso terminado con éxito!")
-else:
-    print(f"❌ Error: No se encontró la carpeta en {FOLDER_PATH}.")
