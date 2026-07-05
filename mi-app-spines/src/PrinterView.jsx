@@ -21,7 +21,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const loadImageSafe = (url) => {
     return new Promise((resolve) => {
-      if (!url || !url.startsWith('http')) return resolve(null);
+      if (!url) return resolve(null);
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
       img.onload = () => {
@@ -59,8 +59,8 @@ const PrinterView = ({ initialSpines, onBack }) => {
       let curY = mTop;
       const urlList = [];
       images.forEach(imgObj => {
-        if (imgObj.image) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.image);
+        if (imgObj.src) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.src);
         }
       });
 
@@ -103,7 +103,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
               <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
+                <img src={img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                 <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <input 
                     type="number" 

@@ -31,7 +31,7 @@ function App() {
 
   const getSafeImageData = (url) => {
     return new Promise((resolve) => {
-      if (!url || !url.startsWith('http')) return resolve(null);
+      if (!url) return resolve(null);
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
       img.src = url;
@@ -80,8 +80,8 @@ function App() {
 
       const urlList = [];
       images.forEach(imgObj => {
-        if (imgObj.image) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.image);
+        if (imgObj.source) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.source);
         }
       });
 
@@ -176,9 +176,9 @@ function App() {
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
-              <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.image ? '2px solid orange' : 'none' }}>
+              <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.src ? '2px solid orange' : 'none' }}>
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={imgObj.image || imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
                     <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
