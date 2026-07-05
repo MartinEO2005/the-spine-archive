@@ -80,8 +80,8 @@ function App() {
 
       const urlList = [];
       images.forEach(imgObj => {
-        if (imgObj.source) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.source);
+        if (imgObj.src) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.src);
         }
       });
 
