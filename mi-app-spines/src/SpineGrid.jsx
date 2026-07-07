@@ -7,15 +7,16 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
         const isSelected = selectedSpines.find(s => s.id === spine.id);
         const isHovered = hoveredId === spine.id;
         
+        // --- LA LÓGICA QUE SOLUCIONA EL 404 ---
+        // Priorizamos 'spine.image' (Backblaze). Si no existe, usamos 'spine.src'.
+        const imageUrl = spine.image || spine.src;
+
         return (
           <div 
             key={spine.id} 
             onMouseEnter={() => setHoveredId(spine.id)} 
             onMouseLeave={() => setHoveredId(null)} 
-            onClick={() => {
-              // Ahora pasamos el objeto spine completo a CatalogView
-              toggleSpine(spine);
-            }}
+            onClick={() => toggleSpine(spine)}
             style={{ 
               position: 'relative', 
               height: '500px', 
@@ -25,7 +26,8 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
               zIndex: isHovered ? 10 : 1 
             }}
           >
-           <img src={spine.src} alt={spine.title} loading="lazy" 
+           {/* Usamos imageUrl aquí en lugar de spine.src directamente */}
+           <img src={imageUrl} alt={spine.title} loading="lazy" 
               style={{ 
                 height: '100%', 
                 width: 'auto', 
