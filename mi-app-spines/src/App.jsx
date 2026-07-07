@@ -180,7 +180,7 @@ function App() {
             {images.map((imgObj, i) => (
               <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.src ? '2px solid orange' : 'none' }}>
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
                     <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
