@@ -6,7 +6,7 @@ export default function handler(req, res) {
     const host = req.headers.host || '';
     const referer = req.headers.referer || '';
 
-    // Filtros de acceso (permitiendo previews y tu dominio)
+    // Filtros de acceso para Previews y Localhost
     const isLocal = host.includes('localhost') || referer.includes('localhost');
     const isVercelPreview = host.includes('vercel.app') || referer.includes('vercel.app');
     const isProduction = referer.includes('thespinearchive.xyz');
@@ -15,12 +15,11 @@ export default function handler(req, res) {
       return res.status(403).json({ error: "Acceso denegado." });
     }
 
-    // Ruta absoluta usando el directorio de trabajo actual (process.cwd())
-    // Esto es robusto para Vercel
-    const filePath = path.join(process.cwd(), 'data', 'database.json');
+    // AL ESTAR EN LA MISMA CARPETA, LA RUTA NUNCA FALLA:
+    const filePath = path.join(__dirname, 'database.json');
     
     if (!fs.existsSync(filePath)) {
-      return res.status(500).json({ error: `Archivo no encontrado en: ${filePath}` });
+      return res.status(500).json({ error: `Archivo no encontrado en la ruta interna de la API.` });
     }
 
     const fileContent = fs.readFileSync(filePath, 'utf8');

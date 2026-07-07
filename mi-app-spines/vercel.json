@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/get-spines.js": {
-      "includeFiles": "data/database.json"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
