@@ -10,7 +10,7 @@ function App() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // NUEVO ESTADO: Control del modal de donaciones
+  // CONTROL DEL MODAL DE DONACIONES
   const [showSupportModal, setShowSupportModal] = useState(false);
   
   const [config, setConfig] = useState({
@@ -56,7 +56,6 @@ function App() {
     setIsGenerating(true);
     
     try {
-      // Calculamos orientación: si el ancho es menor que el alto, es Portrait ('p')
       const isPortrait = config.pageWidth < config.pageHeight;
       const orientation = isPortrait ? 'p' : 'l';
 
@@ -80,7 +79,6 @@ function App() {
 
       const urlList = [];
       images.forEach(imgObj => {
-        // Priorizamos la nube, si no, local
         const targetUrl = imgObj.image || imgObj.src; 
         if (targetUrl) {
           for (let i = 0; i < imgObj.count; i++) urlList.push(targetUrl);
@@ -98,13 +96,11 @@ function App() {
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
 
-        // Si no cabe en el ancho restante, saltamos de fila
         if (curX + sW > pW - mRight) {
           curX = mLeft;
           curY += sH + 2;
         }
         
-        // Si no cabe en el alto restante (usamos margen de seguridad de 2mm), nueva página
         if (curY + sH > pH - 2) {
           pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
           curX = mLeft;
@@ -128,7 +124,6 @@ function App() {
     return () => clearTimeout(timeoutId);
   }, [generatePreview]);
 
-  // FUNCIÓN: Maneja la apertura del PDF en pestaña nueva y muestra el modal
   const handleDownloadClick = () => {
     if (!pdfUrl) return;
     window.open(pdfUrl, '_blank');
@@ -142,7 +137,6 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
-      {/* Importar la fuente Pixel Art de Google Fonts */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -154,14 +148,13 @@ function App() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
           
-          {/* TÍTULO CON FUENTE PIXELADA */}
           <div style={{ 
             color: 'white', 
             fontFamily: '"Press Start 2P", monospace', 
             fontSize: '12px', 
             textShadow: '2px 2px 0px #000',
             letterSpacing: '1px',
-            marginTop: '3px' // Pequeño ajuste para centrar la fuente
+            marginTop: '3px'
           }}>
             {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW (MULTI-PAGE)"}
           </div>
@@ -180,7 +173,8 @@ function App() {
             {images.map((imgObj, i) => (
               <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.src ? '2px solid orange' : 'none' }}>
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={imgObj.src} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {/* CORREGIDO AQUÍ: Usamos imgObj en lugar de img */}
+                    <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
                     <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
@@ -214,7 +208,6 @@ function App() {
                         if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
                         if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
                         if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
-                        // NUEVA OPCIÓN TIGHT: Márgenes mínimos y spacing casi nulo para que entren 12
                         if (val === '7x5-tight') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.1, marginLeft: 0.01, marginRight: 0.01, spineSpacing: 0.0});
                     }}
                     style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
@@ -277,9 +270,7 @@ function App() {
         </div>
       </div>
 
-      {/* ============================================================== */}
-      {/* MODAL DE DESCARGA Y DONACIÓN (ESTUDIANTE) */}
-      {/* ============================================================== */}
+      {/* MODAL DE DESCARGA Y DONACIÓN */}
       {showSupportModal && (
         <div style={{ 
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
@@ -292,7 +283,6 @@ function App() {
           }}>
             <div style={{ fontSize: '50px', marginBottom: '20px' }}>📄</div>
             
-            {/* TÍTULO CON LA FUENTE GAMER */}
             <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>
               PDF DOWNLOADED!
             </h2>
