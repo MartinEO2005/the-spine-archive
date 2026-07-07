@@ -1,12 +1,17 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url'; // <-- Línea nueva para arreglar el error
+
+// ESTO SOLUCIONA EL ERROR "__dirname is not defined" EN ES MODULES
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default function handler(req, res) {
   try {
     const host = req.headers.host || '';
     const referer = req.headers.referer || '';
 
-    // Filtros de acceso para Previews y Localhost
+    // Filtros de acceso para Previews de Vercel y Localhost
     const isLocal = host.includes('localhost') || referer.includes('localhost');
     const isVercelPreview = host.includes('vercel.app') || referer.includes('vercel.app');
     const isProduction = referer.includes('thespinearchive.xyz');
@@ -15,11 +20,11 @@ export default function handler(req, res) {
       return res.status(403).json({ error: "Acceso denegado." });
     }
 
-    // AL ESTAR EN LA MISMA CARPETA, LA RUTA NUNCA FALLA:
+    // Ahora que __dirname funciona, la ruta al JSON que está a su lado es infalible
     const filePath = path.join(__dirname, 'database.json');
     
     if (!fs.existsSync(filePath)) {
-      return res.status(500).json({ error: `Archivo no encontrado en la ruta interna de la API.` });
+      return res.status(500).json({ error: "El archivo database.json no se encuentra dentro de la carpeta api/." });
     }
 
     const fileContent = fs.readFileSync(filePath, 'utf8');
