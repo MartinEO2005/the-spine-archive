@@ -25,10 +25,7 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
               zIndex: isHovered ? 10 : 1 
             }}
           >
-           <img 
-              src={spine.image || spine.src} 
-              alt={spine.title} 
-              loading="lazy" 
+           <img src={spine.src} alt={spine.title} loading="lazy" 
               style={{ 
                 height: '100%', 
                 width: 'auto', 
@@ -36,8 +33,8 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
                 borderRadius: '4px', 
                 border: isSelected ? '4px solid #00ff00' : '1px solid #333' 
               }} 
-/>
-     
+            />
+            
             {isHovered && (
               <div style={{ 
                 position: 'absolute', 
