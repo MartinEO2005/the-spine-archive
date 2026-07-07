@@ -20,7 +20,7 @@ const RequestsView = () => {
 
   useEffect(() => { fetchRequests(); }, []);
 
-  // AGRUPACIÓN POR USUARIO: Transforma la lista plana en un objeto estructurado por solicitante
+  // AGRUPACIÓN POR USUARIO
   const groupedRequests = useMemo(() => {
     const groups = {};
     requests.forEach(req => {
@@ -84,9 +84,7 @@ const RequestsView = () => {
   return (
     <div style={{ color: 'white', maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
       
-      {/* HEADER PRINCIPAL */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #b30000', paddingBottom: '15px', marginBottom: '20px' }}>
-        {/* HEADER PRINCIPAL - ESTILO GAMER RETRO */}
+      {/* HEADER PRINCIPAL - ESTILO GAMER RETRO */}
       <h1 style={{ 
         fontFamily: '"Press Start 2P", monospace', 
         textAlign: 'center', 
@@ -100,44 +98,44 @@ const RequestsView = () => {
       }}>
         ⚔️ BOUNTY BOARD
       </h1>
-        <button onClick={() => setShowForm(!showForm)} style={{ backgroundColor: showForm ? '#444' : '#b30000', color: 'white', border: 'none', borderRadius: '5px', padding: '10px 20px', fontWeight: 'bold', fontSize: '0.9rem', cursor: 'pointer', transition: '0.2s' }}>
-          {showForm ? '✕ CLOSE FORM' : '+ NEW REQUEST'}
-        </button>
-      </div>
 
-      {/* TEXTO DE CONTROL DE SCRAPEO CONSERVA DE FORMA INTACTA TU FRASE ANTERIOR */}
+      {/* TEXTO DE CONTROL DE SCRAPEO */}
       <div style={{ backgroundColor: '#1a1a1a', borderLeft: '4px solid #b30000', padding: '15px', borderRadius: '4px', marginBottom: '20px' }}>
         <p style={{ margin: 0, fontSize: '0.9rem', color: '#ccc', lineHeight: '1.5' }}>
           If your request was removed, it's because it has already been added to the catalog :) Pls dont remove the requests after they are fulfilled, as I should be aware of what spines I need to scrape.
         </p>
       </div>
 
-      {/* NUEVO AVISO DE BÚSQUEDA OBLIGATORIA DE DUPLICADOS */}
-      <div style={{ backgroundColor: 'rgba(255, 204, 0, 0.1)', border: '1px solid #ffcc00', padding: '15px', borderRadius: '6px', marginBottom: '30px' }}>
-        <h4 style={{ margin: '0 0 5px 0', color: '#ffcc00', display: 'flex', alignItems: 'center', gap: '8px' }}>⚠️ ALWAYS SEARCH THE WEBSITE FIRST!</h4>
-        <p style={{ margin: 0, fontSize: '0.85rem', color: '#ddd', lineHeight: '1.4' }}>
+      {/* AVISO DE BÚSQUEDA OBLIGATORIA */}
+      <div style={{ backgroundColor: 'rgba(255, 204, 0, 0.1)', border: '1px solid #ffcc00', padding: '15px', borderRadius: '6px', marginBottom: '30px', boxShadow: '4px 4px 0px rgba(255, 204, 0, 0.2)' }}>
+        <h4 style={{ margin: '0 0 5px 0', color: '#ffcc00', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Press Start 2P", monospace', fontSize: '0.75rem', lineHeight: '1.4' }}>
+          ⚠️ ALWAYS SEARCH THE WEBSITE FIRST!
+        </h4>
+        <p style={{ margin: 0, fontSize: '0.85rem', color: '#ddd', lineHeight: '1.4', marginTop: '10px' }}>
           Please do a thorough search on the catalog before submitting a new bounty. The board is flooded with requests for titles that <strong>have already been completed and uploaded</strong>. Check deep before you type!
         </p>
       </div>
 
-      {/* SECCIÓN DE CUADRANTES DE REDIRECCIÓN (REDDIT / DISCORD) */}
+      {/* CUADRANTES DE REDIRECCIÓN (REDDIT / DISCORD) */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '20px', marginBottom: '40px' }}>
         
-        {/* CUADRANTE SUBREDDIT */}
         <a href="https://www.reddit.com/r/SwitchSpines/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <div style={{ backgroundColor: '#222', border: '1px solid #ff4500', borderRadius: '8px', padding: '25px', cursor: 'pointer', transition: 'transform 0.2s, background-color 0.2s', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }} onMouseEnter={e => e.currentTarget.style.backgroundColor = '#292929'} onMouseLeave={e => e.currentTarget.style.backgroundColor = '#222'}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ff4500', display: 'flex', alignItems: 'center', gap: '10px' }}>🛸 SUBMIT VIA SUBREDDIT</h3>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: '#bbb', lineHeight: '1.4' }}>
+          <div style={{ backgroundColor: '#222', border: '2px solid #ff4500', borderRadius: '8px', padding: '25px', cursor: 'pointer', transition: 'transform 0.2s, background-color 0.2s', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box', boxShadow: '4px 4px 0px #ff4500' }} onMouseEnter={e => {e.currentTarget.style.backgroundColor = '#292929'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={e => {e.currentTarget.style.backgroundColor = '#222'; e.currentTarget.style.transform = 'translateY(0)';}}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ff4500', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '0.85rem', lineHeight: '1.4' }}>
+              🛸 SUBMIT VIA SUBREDDIT
+            </h3>
+            <p style={{ margin: 0, fontSize: '0.9rem', color: '#bbb', lineHeight: '1.4', marginTop: '10px' }}>
               Want your spines faster? Post your request on our official Subreddit community. Active community artists respond and fulfill bounties directly here significantly quicker!
             </p>
           </div>
         </a>
 
-        {/* CUADRANTE DISCORD */}
         <a href="https://discord.gg/YrVvT3kR7Q" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <div style={{ backgroundColor: '#222', border: '1px solid #5865F2', borderRadius: '8px', padding: '25px', cursor: 'pointer', transition: 'transform 0.2s, background-color 0.2s', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }} onMouseEnter={e => e.currentTarget.style.backgroundColor = '#292929'} onMouseLeave={e => e.currentTarget.style.backgroundColor = '#222'}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#5865F2', display: 'flex', alignItems: 'center', gap: '10px' }}>💬 JOIN THE DISCORD SERVER</h3>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: '#bbb', lineHeight: '1.4' }}>
+          <div style={{ backgroundColor: '#222', border: '2px solid #5865F2', borderRadius: '8px', padding: '25px', cursor: 'pointer', transition: 'transform 0.2s, background-color 0.2s', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box', boxShadow: '4px 4px 0px #5865F2' }} onMouseEnter={e => {e.currentTarget.style.backgroundColor = '#292929'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={e => {e.currentTarget.style.backgroundColor = '#222'; e.currentTarget.style.transform = 'translateY(0)';}}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#5865F2', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '0.85rem', lineHeight: '1.4' }}>
+              💬 JOIN THE DISCORD SERVER
+            </h3>
+            <p style={{ margin: 0, fontSize: '0.9rem', color: '#bbb', lineHeight: '1.4', marginTop: '10px' }}>
               Want your spines faster? Post your request on the discord community. Submit requests and get real-time status updates with the artists.
             </p>
           </div>
@@ -147,7 +145,7 @@ const RequestsView = () => {
 
       {/* REGLAS DE USO */}
       <div style={{ backgroundColor: '#161616', border: '1px solid #333', borderRadius: '8px', padding: '20px', marginBottom: '40px' }}>
-        <h4 style={{ margin: '0 0 12px 0', color: '#b30000', fontSize: '1rem', letterSpacing: '0.5px' }}>📋 REQUEST BOARD RULES</h4>
+        <h4 style={{ margin: '0 0 12px 0', color: '#b30000', fontSize: '0.8rem', letterSpacing: '0.5px', fontFamily: '"Press Start 2P", monospace' }}>📋 REQUEST BOARD RULES</h4>
         <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.85rem', color: '#aaa', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <li>Always input your consistent username (e.g., Reddit u/username) so all your items gather into your unique profile box below.</li>
           <li>Clearly specify the language (English, Spanish, etc.) and style preferences inside the details area.</li>
@@ -155,25 +153,35 @@ const RequestsView = () => {
         </ul>
       </div>
 
-      {/* FORMULARIO DE SOLICITUD */}
+      {/* SECCIÓN DE USUARIOS Y BOTÓN AÑADIR JUNTOS */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #333', paddingBottom: '15px', marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
+        <h3 style={{ margin: 0, color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '1rem', textShadow: '2px 2px 0px #b30000', lineHeight: '1.4' }}>
+          👥 ACTIVE REQUESTS BY USER
+        </h3>
+        <button onClick={() => setShowForm(!showForm)} style={{ backgroundColor: showForm ? '#444' : '#b30000', color: 'white', border: '2px solid #fff', borderRadius: '0px', padding: '12px 20px', fontWeight: 'bold', fontSize: '0.7rem', cursor: 'pointer', transition: '0.2s', fontFamily: '"Press Start 2P", monospace', boxShadow: '3px 3px 0px #000' }}>
+          {showForm ? '✕ CLOSE FORM' : '+ ADD REQUEST'}
+        </button>
+      </div>
+
+      {/* FORMULARIO DE SOLICITUD (AHORA APARECE AQUÍ ABAJO) */}
       {showForm && (
-        <div style={{ backgroundColor: '#222', padding: '25px', borderRadius: '8px', marginBottom: '40px', border: '1px solid #444' }}>
-          <h3 style={{ margin: '0 0 15px 0' }}>Post a New Request</h3>
+        <div style={{ backgroundColor: '#222', padding: '25px', border: '2px solid #444', marginBottom: '40px', boxShadow: '6px 6px 0px #111' }}>
+          <h3 style={{ margin: '0 0 20px 0', fontFamily: '"Press Start 2P", monospace', fontSize: '0.9rem', color: '#fff' }}>POST A NEW REQUEST</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             
             <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-              <input placeholder="Your Username (e.g. u/Martineo)" value={requester} onChange={e => setRequester(e.target.value)} style={{ flex: 1, minWidth: '250px', padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} required />
-              <input placeholder="Game Title" value={gameTitle} onChange={e => setGameTitle(e.target.value)} style={{ flex: 1, minWidth: '250px', padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} required />
+              <input placeholder="Your Username (e.g. u/Martineo)" value={requester} onChange={e => setRequester(e.target.value)} style={{ flex: 1, minWidth: '250px', padding: '12px', background: '#333', color: 'white', border: '1px solid #555', fontFamily: 'inherit' }} required />
+              <input placeholder="Game Title" value={gameTitle} onChange={e => setGameTitle(e.target.value)} style={{ flex: 1, minWidth: '250px', padding: '12px', background: '#333', color: 'white', border: '1px solid #555', fontFamily: 'inherit' }} required />
             </div>
 
             <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-              <select value={switchVersion} onChange={e => setSwitchVersion(e.target.value)} style={{ flex: 1, padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }}>
+              <select value={switchVersion} onChange={e => setSwitchVersion(e.target.value)} style={{ flex: 1, padding: '12px', background: '#333', color: 'white', border: '1px solid #555', fontFamily: 'inherit' }}>
                 <option value="Switch 1">Switch 1</option>
                 <option value="Switch 2">Switch 2</option>
                 <option value="Both">Both Versions</option>
               </select>
 
-              <select value={language} onChange={e => setLanguage(e.target.value)} style={{ flex: 1, padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px' }} required>
+              <select value={language} onChange={e => setLanguage(e.target.value)} style={{ flex: 1, padding: '12px', background: '#333', color: 'white', border: '1px solid #555', fontFamily: 'inherit' }} required>
                 <option value="English">English</option>
                 <option value="Spanish">Spanish</option>
                 <option value="French">French</option>
@@ -184,77 +192,69 @@ const RequestsView = () => {
               </select>
             </div>
 
-            <textarea placeholder="Details (Region, specific style, variant...)" value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', borderRadius: '4px', minHeight: '80px' }} />
+            <textarea placeholder="Details (Region, specific style, variant...)" value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '12px', background: '#333', color: 'white', border: '1px solid #555', minHeight: '80px', fontFamily: 'inherit' }} />
             
-            <button type="submit" disabled={loading} style={{ backgroundColor: '#b30000', color: 'white', padding: '14px', fontWeight: 'bold', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>
-              {loading ? 'POSTING...' : 'SUBMIT TO MY QUEUE'}
+            <button type="submit" disabled={loading} style={{ backgroundColor: '#b30000', color: 'white', padding: '14px', fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace', fontSize: '0.8rem', marginTop: '10px', boxShadow: '3px 3px 0px #000' }}>
+              {loading ? 'POSTING...' : 'SUBMIT TO QUEUE'}
             </button>
           </form>
         </div>
       )}
-
-      {/* PANEL DE SOLICITUDES AGRUPADAS POR CUADRANTE DE USUARIO */}
-      <h3 style={{ borderBottom: '1px solid #333', paddingBottom: '10px', marginBottom: '20px', color: '#ffcc00' }}>👥 ACTIVE REQUESTS BY USER</h3>
       
+      {/* PANEL DE SOLICITUDES AGRUPADAS */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
         {Object.keys(groupedRequests).length === 0 ? (
-          <p style={{ color: '#666', gridColumn: '1 / -1', textAlign: 'center', padding: '40px' }}>No active requests found on the board.</p>
+          <p style={{ color: '#666', gridColumn: '1 / -1', textAlign: 'center', padding: '40px', fontFamily: '"Press Start 2P", monospace', fontSize: '0.8rem' }}>NO ACTIVE REQUESTS FOUND.</p>
         ) : (
           Object.entries(groupedRequests).map(([user, userBounties]) => (
-            <div key={user} style={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div key={user} style={{ backgroundColor: '#1a1a1a', border: '2px solid #333', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '4px 4px 0px #000' }}>
               
               <div>
-                {/* CABECERA DEL CUADRANTE: Nombre del usuario */}
-                <div style={{ borderBottom: '1px solid #444', paddingBottom: '10px', marginBottom: '15px' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#888', display: 'block', textTransform: 'uppercase', tracking: '0.5px' }}>REQUESTER Profile</span>
-                  <h3 style={{ margin: 0, color: '#fff', fontSize: '1.15rem' }}>👤 {user}</h3>
+                <div style={{ borderBottom: '2px solid #444', paddingBottom: '10px', marginBottom: '15px' }}>
+                  <span style={{ fontSize: '0.65rem', color: '#888', display: 'block', textTransform: 'uppercase', fontFamily: '"Press Start 2P", monospace', marginBottom: '8px' }}>REQUESTER Profile</span>
+                  <h3 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', wordBreak: 'break-all' }}>👤 {user}</h3>
                 </div>
 
-                {/* LISTA DE SPINES QUE QUIERE ESTE USUARIO ESPECÍFICO */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                   {userBounties.map(item => (
-                    <div key={item.id} style={{ background: '#222', padding: '12px', borderRadius: '6px', border: '1px solid #2e2e2e' }}>
+                    <div key={item.id} style={{ background: '#222', padding: '12px', border: '1px solid #2e2e2e' }}>
                       
-                      <div style={{ fontWeight: 'bold', fontSize: '0.95rem', color: '#fff', marginBottom: '5px' }}>
+                      <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#fff', marginBottom: '8px' }}>
                         {item.gameTitle}
                       </div>
 
-                      {/* TAGS DE IDIOMA Y VERSIÓN */}
-                      <div style={{ display: 'flex', gap: '6px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '0.7rem', backgroundColor: '#332200', color: '#ffcc00', padding: '2px 6px', borderRadius: '3px', fontWeight: 'bold' }}>
+                      <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '0.65rem', backgroundColor: '#332200', color: '#ffcc00', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
                           {item.switchVersion || 'Both'}
                         </span>
-                        <span style={{ fontSize: '0.7rem', backgroundColor: '#002233', color: '#00ccff', padding: '2px 6px', borderRadius: '3px', fontWeight: 'bold' }}>
+                        <span style={{ fontSize: '0.65rem', backgroundColor: '#002233', color: '#00ccff', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
                           {item.language || 'English'}
                         </span>
                       </div>
 
-                      {/* ESTILO / DESCRIPCIÓN */}
                       {item.description && (
-                        <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', color: '#aaa', fontStyle: 'italic', lineHeight: '1.3' }}>
+                        <p style={{ margin: '0 0 12px 0', fontSize: '0.85rem', color: '#aaa', fontStyle: 'italic', lineHeight: '1.4' }}>
                           🎨 {item.description}
                         </p>
                       )}
 
-                      {/* ENLACE DE REFERENCIA */}
                       {item.refLink && (
-                        <div style={{ background: '#002200', padding: '6px 10px', borderRadius: '4px', marginBottom: '10px', border: '1px solid #004400' }}>
-                          <a href={item.refLink} target="_blank" rel="noreferrer" style={{ color: '#00ff00', fontSize: '0.75rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                            🔗 Reference Link
+                        <div style={{ background: '#002200', padding: '6px 10px', marginBottom: '10px', border: '1px solid #004400' }}>
+                          <a href={item.refLink} target="_blank" rel="noreferrer" style={{ color: '#00ff00', fontSize: '0.65rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: '"Press Start 2P", monospace' }}>
+                            🔗 REF LINK
                           </a>
                         </div>
                       )}
 
-                      {/* BOTONES DE ACCIÓN PARA CADA ELEMENTO INDIVIDUAL */}
-                      <div style={{ display: 'flex', gap: '5px', marginTop: '8px' }}>
-                        <button onClick={() => handleClaim(item.id)} style={{ flex: 1, padding: '5px', background: 'transparent', border: '1px solid #b30000', color: '#b30000', borderRadius: '3px', fontSize: '0.7rem', cursor: 'pointer', fontWeight: 'bold' }}>
-                          🛡️ CLAIM
+                      <div style={{ display: 'flex', gap: '5px', marginTop: '12px' }}>
+                        <button onClick={() => handleClaim(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #b30000', color: '#b30000', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
+                          CLAIM
                         </button>
-                        <button onClick={() => handleProvideLink(item.id)} style={{ flex: 1, padding: '5px', background: 'transparent', border: '1px solid #00ccff', color: '#00ccff', borderRadius: '3px', fontSize: '0.7rem', cursor: 'pointer', fontWeight: 'bold' }}>
-                          🔗 LINK
+                        <button onClick={() => handleProvideLink(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #00ccff', color: '#00ccff', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
+                          LINK
                         </button>
                         {item.status === 'in-progress' && (
-                          <button onClick={() => handleComplete(item.id, item.claimedBy)} style={{ padding: '5px 10px', background: '#00ff00', color: 'black', border: 'none', borderRadius: '3px', fontWeight: 'bold', fontSize: '0.7rem', cursor: 'pointer' }}>
+                          <button onClick={() => handleComplete(item.id, item.claimedBy)} style={{ padding: '8px 10px', background: '#00ff00', color: 'black', border: '2px solid #00aa00', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
                             DONE
                           </button>
                         )}
@@ -266,9 +266,8 @@ const RequestsView = () => {
 
               </div>
 
-              {/* CONTADOR DE SOLICITUDES TOTALES DEL USUARIO */}
-              <div style={{ marginTop: '15px', paddingTop: '10px', borderTop: '1px solid #2a2a2a', textAlign: 'right', fontSize: '0.75rem', color: '#666' }}>
-                Total Items in Queue: {userBounties.length}
+              <div style={{ marginTop: '20px', paddingTop: '15px', borderTop: '2px solid #2a2a2a', textAlign: 'right', fontSize: '0.6rem', color: '#666', fontFamily: '"Press Start 2P", monospace' }}>
+                ITEMS IN QUEUE: {userBounties.length}
               </div>
 
             </div>
