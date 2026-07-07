@@ -37,8 +37,8 @@ if not os.path.exists(DB_JSON_PATH):
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = [" ","nascar", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
-                 "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames"] + list(letras)
+SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
+                 "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123"] + list(letras)
 
 MAX_UPLOADS = 10000 
 

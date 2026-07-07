@@ -19,11 +19,15 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const inchToMm = (inch) => inch * 25.4;
 
-  const loadImageSafe = (url) => {
+  const loadImageSafe = (spine) => {
     return new Promise((resolve) => {
+      // Priorizamos el campo 'image', si no existe, 'src'
+      const url = spine.image || spine.src;
       if (!url) return resolve(null);
+      
       const img = new Image();
-      img.setAttribute('crossOrigin', 'anonymous');
+      img.setAttribute('crossOrigin', 'anonymous'); 
+      
       img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
@@ -32,8 +36,13 @@ const PrinterView = ({ initialSpines, onBack }) => {
         ctx.drawImage(img, 0, 0);
         resolve(canvas.toDataURL('image/jpeg', 0.9));
       };
-      img.onerror = () => resolve(null);
-      img.src = url + "?t=" + new Date().getTime();
+      
+      img.onerror = (err) => {
+        console.error("Error cargando imagen para PDF:", url, err);
+        resolve(null); // Resolvemos null para no romper el resto del PDF
+      };
+      
+      img.src = url;
     });
   };
 
