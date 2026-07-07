@@ -3,7 +3,7 @@ const path = require('path');
 
 const BASE_URL = 'https://thespinearchive.vercel.app';
 // process.cwd() apunta a la raíz del proyecto en Vercel
-const DATABASE_PATH = path.join(process.cwd(), 'public', 'database.json');
+const DATABASE_PATH = path.join(process.cwd(), 'data', 'database.json');
 const SITEMAP_PATH = path.join(process.cwd(), 'public', 'sitemap.xml');
 
 try {
