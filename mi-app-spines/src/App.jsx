@@ -80,8 +80,10 @@ function App() {
 
       const urlList = [];
       images.forEach(imgObj => {
-        if (imgObj.src) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.src);
+        // Priorizamos la nube, si no, local
+        const targetUrl = imgObj.image || imgObj.src; 
+        if (targetUrl) {
+          for (let i = 0; i < imgObj.count; i++) urlList.push(targetUrl);
         }
       });
 
