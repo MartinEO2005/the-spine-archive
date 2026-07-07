@@ -37,9 +37,10 @@ if not os.path.exists(DB_JSON_PATH):
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
-                 "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "Dead by", "Paw Patrol", "D4rks4dch4ld"] 
-
+#SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
+ #                "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "Dead by", "Paw Patrol", "D4rks4dch4ld"] 
+SEARCH_TERMS = [" ","SteamWorld Dig 2", "yazeed_0o0", "The Oregon Trail", "Shovel Knight", "Mad rat dead" ,"Spiritfarer ","The Outer Worlds", "Bravely Default", "Adam2906", "HD",
+                "Falcon529", "Barbie Dreamhouse", "Cooking Mama", "inside"] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
