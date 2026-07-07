@@ -13,6 +13,7 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
             onMouseEnter={() => setHoveredId(spine.id)} 
             onMouseLeave={() => setHoveredId(null)} 
             onClick={() => {
+              // Ahora pasamos el objeto spine completo a CatalogView
               toggleSpine(spine);
             }}
             style={{ 
@@ -24,11 +25,7 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
               zIndex: isHovered ? 10 : 1 
             }}
           >
-            {/* AQUÍ ESTÁ EL CAMBIO: Prioriza la imagen de la nube */}
-            <img 
-              src={spine.image || spine.src} 
-              alt={spine.title} 
-              loading="lazy" 
+           <img src={spine.src} alt={spine.title} loading="lazy" 
               style={{ 
                 height: '100%', 
                 width: 'auto', 
@@ -56,6 +53,7 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
                 textAlign: 'center' 
               }}>
                 <div>{spine.title.toUpperCase()}</div>
+                <div style={{ color: '#b30000', fontSize: '10px' }}>BY {spine.author?.toUpperCase() || 'UNKNOWN'}</div>
               </div>
             )}
           </div>
