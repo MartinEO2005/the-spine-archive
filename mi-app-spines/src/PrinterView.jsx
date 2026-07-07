@@ -21,7 +21,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const loadImageSafe = (spine) => {
     return new Promise((resolve) => {
-      // Priorizamos el campo 'image', si no existe, 'src'
+      // AQUÍ LA CORRECCIÓN: Priorizamos 'image' (Backblaze).
       const url = spine.image || spine.src;
       if (!url) return resolve(null);
       
@@ -39,7 +39,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
       
       img.onerror = (err) => {
         console.error("Error cargando imagen para PDF:", url, err);
-        resolve(null); // Resolvemos null para no romper el resto del PDF
+        resolve(null); 
       };
       
       img.src = url;
@@ -66,15 +66,19 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
       let curX = mLeft;
       let curY = mTop;
-      const urlList = [];
+      const objectList = [];
+      
+      // AQUÍ LA CORRECCIÓN: Guardamos el OBJETO entero, no solo el 'src'
       images.forEach(imgObj => {
-        if (imgObj.src) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(imgObj.src);
+        for (let i = 0; i < (imgObj.count || 1); i++) {
+            objectList.push(imgObj);
         }
       });
 
-      if (urlList.length === 0) { setPdfUrl(null); return; }
-      const loadedImages = await Promise.all(urlList.map(url => loadImageSafe(url)));
+      if (objectList.length === 0) { setPdfUrl(null); return; }
+      
+      // Pasamos el objeto entero a loadImageSafe
+      const loadedImages = await Promise.all(objectList.map(obj => loadImageSafe(obj)));
 
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
@@ -112,11 +116,12 @@ const PrinterView = ({ initialSpines, onBack }) => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
               <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                <img src={img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
+                {/* CORRECCIÓN VISUAL: Mostramos la imagen de Backblaze en la miniatura de la izquierda */}
+                <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                 <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <input 
                     type="number" 
-                    value={img.count} 
+                    value={img.count || 1} 
                     onChange={(e) => {
                       const newImages = [...images];
                       newImages[i].count = Math.max(1, parseInt(e.target.value) || 1);
