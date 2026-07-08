@@ -1,8 +1,5 @@
 import React, { useMemo, useState } from 'react';
 
-// META GLOBAL PARA LA BARRA DE PROGRESO
-const MILESTONE = 10000;
-
 const StatsView = ({ stats: propStats, spines = [] }) => {
   const [expandedAuthor, setExpandedAuthor] = useState(null);
   const [authorTopSpines, setAuthorTopSpines] = useState([]);
@@ -11,17 +8,19 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
   const topUploaders30Days = useMemo(() => {
     if (!spines.length) return [];
     
-    const now = Date.now() / 1000; 
+    const now = Date.now() / 1000; // Tiempo actual en segundos (Unix)
     const thirtyDays = 30 * 24 * 60 * 60;
     const counts = {};
 
     spines.forEach(s => {
+      // Solo contamos si tiene fecha y fue en los últimos 30 días
       if (s.created_utc && (now - s.created_utc) <= thirtyDays) {
         const author = s.author ? s.author.replace('u/', '') : 'Unknown';
         counts[author] = (counts[author] || 0) + 1;
       }
     });
 
+    // Ordenamos de mayor a menor y sacamos el Top 5
     return Object.entries(counts)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 5);
@@ -63,6 +62,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
       return;
     }
     setExpandedAuthor(author);
+    // Como ya no usamos Redis para los clicks, simplemente mostramos los 5 lomos más recientes de este autor
     const authorSpines = spines
         .filter(s => (s.author || '').replace('u/', '') === author)
         .slice(0, 5);
@@ -71,220 +71,269 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
   if (!stats) return <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>No data available.</div>;
 
-  // --- LÓGICA DE LA BARRA DE PROGRESO ---
-  const progressPercent = Math.min((stats.totalSpines / MILESTONE) * 100, 100);
-  const isMilestoneReached = stats.totalSpines >= MILESTONE;
+  // --- LÓGICA DE BARRA DE PROGRESO (Rastreador de pasos estilo RPG) ---
+  const progressSteps = [
+    { target: 1000, name: "Lv.1 - INITIATION" },
+    { target: 2500, name: "Lv.2 - APPRENTICE" },
+    { target: 5000, name: "Lv.3 - ARCHIVIST" },
+    { target: 7500, name: "Lv.4 - HERO" },
+    { target: 10000, name: "MAX - MASTER OF SPINES" }
+  ];
+  const maxSpines = stats.totalSpines;
+  const isPartyMode = maxSpines >= 10000;
 
   return (
-    <div style={{ flex: 1, overflowY: 'auto', padding: '50px', color: 'white', backgroundColor: '#0d0d0d' }}>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '40px', color: 'white', backgroundColor: '#111' }}>
       
-      {/* Estilos inyectados para tipografía y animaciones de destello */}
+      {/* ANIMACIONES RETRO & FUENTE */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
           
-          @keyframes glow-pulse {
-            0% { box-shadow: 0 0 10px #b30000, 0 0 20px #b30000; }
-            50% { box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffcc00; }
-            100% { box-shadow: 0 0 10px #b30000, 0 0 20px #b30000; }
+          /* Animación de destellos retro (sparkles) */
+          @keyframes pixel-sparkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
           }
 
-          @keyframes fill-up {
-            from { height: 0%; }
-            to { height: ${progressPercent}%; }
+          /* Modo Fiesta: Colores parpadeantes para texto MAX */
+          @keyframes rainbow-text {
+            0% { color: #ff0000; text-shadow: 2px 2px 0 #ffff00; }
+            33% { color: #00ff00; text-shadow: 2px 2px 0 #ff00ff; }
+            66% { color: #0000ff; text-shadow: 2px 2px 0 #00ffff; }
+            100% { color: #ff0000; text-shadow: 2px 2px 0 #ffff00; }
           }
           
-          .reddit-btn:hover {
-            background-color: #FF4500 !important;
-            color: white !important;
+          /* Estilo retro 8-bits para el botón de Reddit */
+          .retro-reddit-btn {
+            background-color: #FF4500;
+            color: white;
+            font-family: '"Press Start 2P", monospace';
+            font-size: 8px;
+            padding: 8px 12px;
+            border: 2px solid #fff;
+            text-decoration: none;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+          }
+          .retro-reddit-btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0px 0px 0px #000;
           }
         `}
       </style>
 
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      {/* CONTENEDOR PRINCIPAL: DIVIDIDO EN 2 COLUMNAS */}
+      <div style={{ display: 'flex', gap: '50px', maxWidth: '1400px', margin: '0 auto', alignItems: 'flex-start' }}>
         
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img 
-            src="/logo.jpg" 
-            alt="The Spine Archive Logo" 
-            style={{ height: '160px', objectFit: 'contain', filter: 'drop-shadow(0px 0px 10px rgba(179,0,0,0.5))' }} 
-          />
-        </div>
-
-        <h1 style={{ 
-          fontFamily: '"Press Start 2P", monospace', 
-          textAlign: 'center', 
-          borderBottom: '2px solid #333', 
-          paddingBottom: '25px', 
-          marginBottom: '40px',
-          color: '#fff',
-          textShadow: '3px 3px 0px #b30000',
-          fontSize: '2rem',
-          letterSpacing: '2px'
-        }}>
-          STATISTICS
-        </h1>
-        
-        {/* PANEL SUPERIOR: BARRA DE PROGRESO + TARJETAS DE ESTADÍSTICAS */}
-        <div style={{ display: 'flex', gap: '30px', margin: '40px 0', alignItems: 'stretch' }}>
+        {/* ============================================== */}
+        {/* COLUMNA IZQUIERDA: DASHBOARD & BARRA DE PROGRESO */}
+        {/* ============================================== */}
+        <div style={{ flex: '0 0 450px', display: 'flex', flexDirection: 'column', gap: '30px' }}>
           
-          {/* BARRA DE PROGRESO VERTICAL */}
-          <div style={{ 
-            width: '80px', 
-            backgroundColor: '#1a1a1a', 
-            borderRadius: '12px', 
-            border: '2px solid #333',
-            display: 'flex',
-            flexDirection: 'column-reverse', // Llena de abajo hacia arriba
-            overflow: 'hidden',
-            position: 'relative',
-            boxShadow: 'inset 0 0 15px rgba(0,0,0,0.8)'
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+            <img 
+              src="/logo.jpg" 
+              alt="The Spine Archive Logo" 
+              style={{ height: '140px', objectFit: 'contain', filter: 'drop-shadow(0px 0px 10px rgba(179,0,0,0.5))' }}
+            />
+          </div>
+
+          <h1 style={{ 
+            fontFamily: '"Press Start 2P", monospace',
+            textAlign: 'center',
+            borderBottom: '4px solid #b30000',
+            paddingBottom: '15px',
+            color: '#fff',
+            textShadow: '3px 3px 0px #b30000',
+            fontSize: '1.5rem',
+            letterSpacing: '2px'
           }}>
-            <div style={{
-              width: '100%',
-              height: `${progressPercent}%`,
-              background: isMilestoneReached 
-                ? 'linear-gradient(to top, #b30000, #ffcc00)' 
-                : 'linear-gradient(to top, #4a0000, #b30000)',
-              animation: isMilestoneReached ? 'glow-pulse 2s infinite, fill-up 1.5s ease-out' : 'fill-up 1.5s ease-out',
-              borderTopRightRadius: '8px',
-              borderTopLeftRadius: '8px',
-              transition: 'height 1s ease-out'
-            }}></div>
-            {/* Texto superpuesto en la barra */}
-            <div style={{ 
-              position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
-              writingMode: 'vertical-rl', textOrientation: 'mixed', transformOrigin: 'center',
-              fontWeight: 'bold', letterSpacing: '2px', color: 'rgba(255,255,255,0.8)',
-              textShadow: '1px 1px 2px black'
-            }}>
-              {stats.totalSpines} / {MILESTONE}
+            STATS DASHBOARD
+          </h1>
+
+          {/* TOTALES ESTILO ARCADE */}
+          <div style={{ display: 'flex', gap: '15px' }}>
+            <div style={{ flex: 1, backgroundColor: '#222', padding: '15px', border: '4px solid #333', textAlign: 'center', position: 'relative' }}>
+              <div style={{ fontSize: '10px', color: '#aaa', fontFamily: '"Press Start 2P", monospace', marginBottom: '10px' }}>TOTAL SPINES</div>
+              <div style={{ fontSize: '30px', fontWeight: 'bold', color: '#b30000', fontFamily: '"Press Start 2P", monospace' }}>{stats.totalSpines}</div>
+            </div>
+            <div style={{ flex: 1, backgroundColor: '#222', padding: '15px', border: '4px solid #333', textAlign: 'center' }}>
+              <div style={{ fontSize: '10px', color: '#aaa', fontFamily: '"Press Start 2P", monospace', marginBottom: '10px' }}>TOTAL AUTHORS</div>
+              <div style={{ fontSize: '30px', fontWeight: 'bold', color: 'white', fontFamily: '"Press Start 2P", monospace' }}>{stats.totalAuthors}</div>
             </div>
           </div>
 
-          {/* TARJETAS DE TOTALES Y TOP UPLOADERS */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{ display: 'flex', gap: '20px' }}>
-              <div style={{ flex: 1, backgroundColor: '#1a1a1a', padding: '30px 20px', borderRadius: '12px', textAlign: 'center', border: '1px solid #333', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-                <div style={{ fontSize: '45px', fontWeight: 'bold', color: '#b30000' }}>{stats.totalSpines}</div>
-                <div style={{ color: '#888', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '1px', marginTop: '5px' }}>Total Spines</div>
-              </div>
-              <div style={{ flex: 1, backgroundColor: '#1a1a1a', padding: '30px 20px', borderRadius: '12px', textAlign: 'center', border: '1px solid #333', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-                <div style={{ fontSize: '45px', fontWeight: 'bold', color: 'white' }}>{stats.totalAuthors}</div>
-                <div style={{ color: '#888', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '1px', marginTop: '5px' }}>Total Authors</div>
-              </div>
-            </div>
+          {/* NUEVA BARRA DE PROGRESO POR PASOS (QUEST LOG) */}
+          <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333', position: 'relative' }}>
+            <h2 style={{ fontSize: '14px', color: '#fff', fontFamily: '"Press Start 2P", monospace', marginBottom: '25px', textShadow: '2px 2px #b30000' }}>
+              COMMUNITY QUEST
+            </h2>
+            
+            {/* Si hay fiesta, dibujamos destellos aleatorios por el recuadro */}
+            {isPartyMode && (
+              <>
+                <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', animation: 'pixel-sparkle 0.8s infinite alternate' }}>✨</div>
+                <div style={{ position: 'absolute', bottom: '10px', left: '10px', fontSize: '20px', animation: 'pixel-sparkle 1.2s infinite alternate' }}>✨</div>
+              </>
+            )}
 
-            <div style={{ backgroundColor: '#1a1a1a', padding: '25px', borderRadius: '12px', border: '1px solid #333', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-              <h2 style={{ color: '#ffcc00', margin: '0 0 15px 0', fontSize: '1.2rem', fontFamily: 'sans-serif' }}>
-                🔥 Top Uploaders <span style={{ color: '#666', fontSize: '0.9rem' }}>(Last 30 Days)</span>
-              </h2>
-              {topUploaders30Days.length > 0 ? (
-                topUploaders30Days.map(([author, count], i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: i < topUploaders30Days.length - 1 ? '1px solid #2a2a2a' : 'none' }}>
-                    <span style={{ fontWeight: 'bold', color: '#ddd' }}>#{i+1} u/{author}</span>
-                    <span style={{ color: '#ffcc00', fontWeight: 'bold' }}>{count} <span style={{ color: '#666', fontWeight: 'normal' }}>spines</span></span>
-                  </div>
-                ))
-              ) : (
-                <div style={{ color: '#666', fontStyle: 'italic' }}>No new spines uploaded recently. Be the first!</div>
-              )}
-            </div>
-          </div>
-
-        </div>
-
-        <h2 style={{ fontSize: '1.2rem', color: '#aaa', marginBottom: '20px', fontFamily: 'sans-serif', borderBottom: '1px solid #333', paddingBottom: '10px' }}>Spines by Franchise</h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '50px' }}>
-          {franchiseStats.map(([name, count]) => (
-            <div key={name} style={{ backgroundColor: '#1a1a1a', padding: '12px 25px', borderRadius: '25px', border: '1px solid rgba(179,0,0,0.5)', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>
-              <span style={{ fontWeight: 'bold', color: '#eee' }}>{name.toUpperCase()}</span>
-              <span style={{ color: '#ffcc00', fontWeight: 'bold', fontSize: '1.1rem' }}>{count}</span>
-            </div>
-          ))}
-        </div>
-
-        <h2 style={{ color: 'white', fontFamily: 'sans-serif', borderBottom: '1px solid #333', paddingBottom: '10px', marginBottom: '20px' }}>All Contributors</h2>
-        <div style={{ backgroundColor: '#1a1a1a', borderRadius: '12px', overflow: 'hidden', border: '1px solid #333', marginBottom: '100px', boxShadow: '0 5px 20px rgba(0,0,0,0.4)' }}>
-          {stats.topAuthors.map(([author, count], index) => {
-            const isExpanded = expandedAuthor === author;
-            return (
-              <div key={author} style={{ backgroundColor: index % 2 === 0 ? '#1a1a1a' : '#141414', borderBottom: '1px solid #2a2a2a' }}>
+            <div style={{ position: 'relative', paddingLeft: '30px' }}>
+              {/* Línea vertical de fondo */}
+              <div style={{ position: 'absolute', left: '10px', top: '10px', bottom: '10px', width: '4px', backgroundColor: '#111', zIndex: 0 }}></div>
+              
+              {progressSteps.map((step, index) => {
+                const isReached = maxSpines >= step.target;
+                const isMaxParty = isReached && step.target === 10000;
                 
-                <div 
-                  onClick={() => handleExpandAuthor(author)} 
-                  style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 25px', cursor: 'pointer', transition: 'background-color 0.2s', alignItems: 'center' }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#252525'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: index < 3 ? '#b30000' : '#eee' }}>u/{author}</span>
-                  </div>
-                  
-                  {/* BOTÓN DE REDDIT SEPARADO Y VISUAL */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
-                    <div style={{ fontWeight: 'bold', color: isExpanded ? '#b30000' : '#888', minWidth: '100px', textAlign: 'right' }}>
-                      {count} spines <span style={{ marginLeft: '5px' }}>{isExpanded ? '▲' : '▼'}</span>
+                return (
+                  <div key={index} style={{ position: 'relative', marginBottom: '25px', zIndex: 1, display: 'flex', alignItems: 'center' }}>
+                    {/* El nodo (Checkpoint) */}
+                    <div style={{ 
+                      position: 'absolute', 
+                      left: '-28px', 
+                      width: '16px', 
+                      height: '16px', 
+                      backgroundColor: isReached ? '#b30000' : '#111', 
+                      border: isReached ? '4px solid #fff' : '4px solid #444',
+                      boxShadow: isReached ? '0 0 10px #b30000' : 'none'
+                    }}></div>
+                    
+                    {/* Textos del paso */}
+                    <div style={{ marginLeft: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '10px', lineHeight: '1.5' }}>
+                      <div style={{ 
+                        color: isReached ? '#fff' : '#666', 
+                        animation: isMaxParty ? 'rainbow-text 1s infinite' : 'none' 
+                      }}>
+                        {step.name}
+                      </div>
+                      <div style={{ color: isReached ? '#b30000' : '#444' }}>
+                        {isReached ? 'CLEARED!' : `GOAL: ${step.target}`}
+                      </div>
                     </div>
-                    <a 
-                      href={`https://www.reddit.com/user/${author}`} 
-                      target="_blank" 
-                      rel="noreferrer" 
-                      onClick={(e) => e.stopPropagation()} 
-                      className="reddit-btn"
-                      style={{ 
-                        fontSize: '12px', 
-                        fontWeight: 'bold',
-                        color: '#FF4500', 
-                        textDecoration: 'none', 
-                        backgroundColor: 'rgba(255,69,0,0.1)', 
-                        border: '1px solid #FF4500',
-                        padding: '8px 16px', 
-                        borderRadius: '20px',
-                        transition: 'all 0.2s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px'
-                      }}
-                    >
-                      Reddit ↗
-                    </a>
                   </div>
-                </div>
+                );
+              })}
+            </div>
+          </div>
 
-                {isExpanded && (
-                  <div style={{ padding: '40px 25px', backgroundColor: '#0d0d0d', borderTop: '1px solid #333', display: 'flex', gap: '30px', overflowX: 'auto', alignItems: 'center', boxShadow: 'inset 0 5px 15px rgba(0,0,0,0.3)' }}>
-                    {authorTopSpines.length > 0 ? (
-                      authorTopSpines.map((spine, i) => (
-                        <div key={i} style={{ flexShrink: 0, width: '220px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <div style={{ width: '220px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '25px' }}>
-                            <img 
-                              src={spine.image || spine.src} 
-                              alt={spine.title} 
-                              loading="lazy"
-                              style={{ 
-                                height: '220px', 
-                                transform: 'rotate(-90deg)', 
-                                transformOrigin: 'center',
-                                borderRadius: '4px', 
-                                border: '1px solid #555',
-                                boxShadow: '0 0 10px rgba(0,0,0,0.5)'
-                              }} 
-                            />
-                          </div>
-                          <div style={{ color: '#aaa', fontSize: '12px', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', marginTop: '5px' }}>
-                            {spine.title}
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div style={{ color: '#666', fontSize: '13px' }}>No spines found.</div>
-                    )}
+          {/* TOP UPLOADERS */}
+          <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333' }}>
+            <h2 style={{ color: '#ffcc00', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '12px', lineHeight: '1.5' }}>🔥 TOP 5 UPLOADERS<br/><span style={{fontSize: '8px', color: '#aaa'}}>(LAST 30 DAYS)</span></h2>
+            {topUploaders30Days.length > 0 ? (
+              topUploaders30Days.map(([author, count], i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: i < topUploaders30Days.length - 1 ? '2px dashed #444' : 'none', fontFamily: 'monospace', fontSize: '14px' }}>
+                  <span style={{ fontWeight: 'bold', color: '#fff' }}>#{i+1} u/{author}</span>
+                  <span style={{ color: '#ffcc00' }}>{count} SPINES</span>
+                </div>
+              ))
+            ) : (
+              <div style={{ color: '#666', fontFamily: 'monospace' }}>No new spines. Be the first!</div>
+            )}
+          </div>
+
+          {/* FRANQUICIAS */}
+          <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333' }}>
+            <h2 style={{ color: '#aaa', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '12px' }}>FRANCHISES</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {franchiseStats.map(([name, count]) => (
+                <div key={name} style={{ backgroundColor: '#111', padding: '8px 12px', border: '2px solid #555', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'monospace' }}>
+                  <span style={{ color: '#fff', fontWeight: 'bold' }}>{name.toUpperCase()}</span>
+                  <span style={{ color: '#b30000', fontWeight: 'bold' }}>{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ============================================== */}
+        {/* COLUMNA DERECHA: TODOS LOS CONTRIBUIDORES      */}
+        {/* ============================================== */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          
+          <h1 style={{ 
+            fontFamily: '"Press Start 2P", monospace', 
+            textAlign: 'center', 
+            borderBottom: '4px solid #b30000', 
+            paddingBottom: '15px', 
+            marginBottom: '30px',
+            color: '#fff', 
+            textShadow: '3px 3px 0px #b30000', 
+            fontSize: '1.5rem',
+            letterSpacing: '2px' 
+          }}>
+            ALL CONTRIBUTORS
+          </h1>
+
+          <div style={{ backgroundColor: '#222', border: '4px solid #333', marginBottom: '100px' }}>
+            {stats.topAuthors.map(([author, count], index) => {
+              const isExpanded = expandedAuthor === author;
+              return (
+                <div key={author} style={{ backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '2px solid #333' }}>
+                  
+                  <div 
+                    onClick={() => handleExpandAuthor(author)} 
+                    style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', cursor: 'pointer', alignItems: 'center' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#333'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px', width: '50%' }}>
+                      <span style={{ fontWeight: 'bold', fontSize: '18px', fontFamily: 'monospace', color: index < 3 ? '#b30000' : 'white' }}>u/{author}</span>
+                    </div>
+                    
+                    {/* BOTÓN DE REDDIT Y CONTADOR ALINEADOS A LA DERECHA */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+                      <div style={{ fontWeight: 'bold', fontFamily: 'monospace', fontSize: '16px', color: isExpanded ? '#b30000' : 'white' }}>
+                        {count} SPINES {isExpanded ? '▲' : '▼'}
+                      </div>
+                      <a 
+                        href={`https://www.reddit.com/user/${author}`} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        onClick={(e) => e.stopPropagation()} 
+                        className="retro-reddit-btn"
+                      >
+                        REDDIT ↗
+                      </a>
+                    </div>
                   </div>
-                )}
-              </div>
-            );
-          })}
+
+                  {/* VISTA DESPLEGABLE DE LOMOS */}
+                  {isExpanded && (
+                    <div style={{ padding: '40px 20px', backgroundColor: '#0a0a0a', borderTop: '2px dashed #444', display: 'flex', gap: '40px', overflowX: 'auto', alignItems: 'center' }}>
+                      {authorTopSpines.length > 0 ? (
+                        authorTopSpines.map((spine, i) => (
+                          <div key={i} style={{ flexShrink: 0, width: '220px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div style={{ width: '220px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '25px' }}>
+                              <img 
+                                src={spine.image || spine.src} 
+                                alt={spine.title} 
+                                loading="lazy"
+                                style={{ 
+                                  height: '220px', 
+                                  transform: 'rotate(-90deg)', 
+                                  transformOrigin: 'center',
+                                  border: '2px solid #fff',
+                                  boxShadow: '4px 4px 0px #000'
+                                }} 
+                              />
+                            </div>
+                            <div style={{ color: '#aaa', fontFamily: 'monospace', fontSize: '12px', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', marginTop: '10px' }}>
+                              {spine.title}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ color: '#666', fontFamily: 'monospace', fontSize: '14px' }}>No spines found.</div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          
         </div>
       </div>
     </div>
