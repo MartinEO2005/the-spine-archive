@@ -29,6 +29,14 @@ BASE_DIR = r"C:\Users\MartinEO\Desktop\the-spine-archive\mi-app-spines"
 DB_JSON_PATH = os.path.join(BASE_DIR, "api", "database.json")
 EXTRACTIONS_DIR = os.path.join(BASE_DIR, "extractions") 
 
+# --- DETECCIÓN INTELIGENTE DE LA CARPETA EXTRACTIONS ---
+# Si no está dentro de 'mi-app-spines', miramos un nivel arriba (en 'the-spine-archive')
+if not os.path.exists(EXTRACTIONS_DIR):
+    raiz_proyecto = os.path.dirname(BASE_DIR)
+    posible_ruta = os.path.join(raiz_proyecto, "extractions")
+    if os.path.exists(posible_ruta):
+        EXTRACTIONS_DIR = posible_ruta
+
 # Verificación de seguridad antes de empezar
 if not os.path.exists(DB_JSON_PATH):
     print(f"❌ ERROR CRÍTICO: No se encuentra el archivo en: {DB_JSON_PATH}")
@@ -39,8 +47,7 @@ if not os.path.exists(DB_JSON_PATH):
 letras = "abcdefghijklmnopqrstuvwxyz"
 #SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
  #                "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "Dead by", "Paw Patrol", "D4rks4dch4ld"] 
-SEARCH_TERMS = [" ","SteamWorld Dig 2", "yazeed_0o0", "The Oregon Trail", "Shovel Knight", "Mad rat dead" ,"Spiritfarer ","The Outer Worlds", "Bravely Default", "Adam2906", "HD",
-                "Falcon529", "Barbie Dreamhouse", "Cooking Mama", "inside"] 
+SEARCH_TERMS = [" "] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
