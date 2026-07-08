@@ -102,7 +102,7 @@ const RequestsView = () => {
       {/* TEXTO DE CONTROL DE SCRAPEO */}
       <div style={{ backgroundColor: '#1a1a1a', borderLeft: '4px solid #b30000', padding: '15px', borderRadius: '4px', marginBottom: '20px' }}>
         <p style={{ margin: 0, fontSize: '0.9rem', color: '#ccc', lineHeight: '1.5' }}>
-          If your request was removed, it's because it has already been added to the catalog :) Pls dont remove the requests after they are fulfilled, as I should be aware of what spines I need to scrape.
+          Please remove your requests after they have been fulfilled. If you are an artist and have completed a request that has been added to the catalog, please mark it as done so it doesn't saturate the board as well.
         </p>
       </div>
 
