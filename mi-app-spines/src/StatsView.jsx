@@ -1,5 +1,28 @@
 import React, { useMemo, useState } from 'react';
 
+// --- GENERADOR DE PURPURINA CONSTANTE PARA EVITAR RE-RENDERIZADOS ---
+const CONFETTI_PARTICLES = Array.from({ length: 15 }).map(() => ({
+  left: `${Math.random() * 100}%`,
+  color: ['#ffcc00', '#b30000', '#00ff00', '#00ffff'][Math.floor(Math.random() * 4)],
+  duration: `${1 + Math.random() * 1.5}s`,
+  delay: `${Math.random() * 2}s`
+}));
+
+// --- NIVELES (QUEST LOG) ---
+const MILESTONES = [
+  { target: 1000, name: "Lv.1 - INITIATOR" },
+  { target: 2500, name: "Lv.2 - APPRENTICE" },
+  { target: 5000, name: "Lv.3 - ARCHIVIST" },
+  { target: 7500, name: "Lv.4 - HERO" },
+  { target: 10000, name: "Lv.5 - MASTER" },
+  { target: 12500, name: "Lv.6 - LEGEND" },
+  { target: 15000, name: "Lv.7 - MYTHIC" },
+  { target: 17500, name: "Lv.8 - TITAN" },
+  { target: 20000, name: "Lv.9 - GOD TIER" },
+  { target: 30000, name: "Lv.10 - OMNISCIENT" },
+  { target: 50000, name: "MAX - THE ARCHIVE" }
+];
+
 const StatsView = ({ stats: propStats, spines = [] }) => {
   const [expandedAuthor, setExpandedAuthor] = useState(null);
   const [authorTopSpines, setAuthorTopSpines] = useState([]);
@@ -7,20 +30,17 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
   // --- CÁLCULO: TOP UPLOADERS (ÚLTIMOS 30 DÍAS) ---
   const topUploaders30Days = useMemo(() => {
     if (!spines.length) return [];
-    
-    const now = Date.now() / 1000; // Tiempo actual en segundos (Unix)
+    const now = Date.now() / 1000; 
     const thirtyDays = 30 * 24 * 60 * 60;
     const counts = {};
 
     spines.forEach(s => {
-      // Solo contamos si tiene fecha y fue en los últimos 30 días
       if (s.created_utc && (now - s.created_utc) <= thirtyDays) {
         const author = s.author ? s.author.replace('u/', '') : 'Unknown';
         counts[author] = (counts[author] || 0) + 1;
       }
     });
 
-    // Ordenamos de mayor a menor y sacamos el Top 5
     return Object.entries(counts)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 5);
@@ -62,7 +82,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
       return;
     }
     setExpandedAuthor(author);
-    // Como ya no usamos Redis para los clicks, simplemente mostramos los 5 lomos más recientes de este autor
     const authorSpines = spines
         .filter(s => (s.author || '').replace('u/', '') === author)
         .slice(0, 5);
@@ -71,21 +90,20 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
   if (!stats) return <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>No data available.</div>;
 
-  // --- LÓGICA DE BARRA DE PROGRESO (Rastreador de pasos estilo RPG) ---
-  const progressSteps = [
-    { target: 1000, name: "Lv.1 - INITIATION" },
-    { target: 2500, name: "Lv.2 - APPRENTICE" },
-    { target: 5000, name: "Lv.3 - ARCHIVIST" },
-    { target: 7500, name: "Lv.4 - HERO" },
-    { target: 10000, name: "MAX - MASTER OF SPINES" }
-  ];
+  // --- LÓGICA DE BARRA DE PROGRESO DINÁMICA ---
   const maxSpines = stats.totalSpines;
-  const isPartyMode = maxSpines >= 10000;
+  let goalIndex = MILESTONES.findIndex(m => maxSpines < m.target);
+  
+  // Si superó todas las metas, nos quedamos en la última
+  if (goalIndex === -1) goalIndex = MILESTONES.length - 1; 
+
+  // Calculamos una "ventana" de 5 metas alrededor del objetivo actual para no hacer la lista infinita
+  const startIndex = Math.max(0, goalIndex - 2);
+  const visibleSteps = MILESTONES.slice(startIndex, startIndex + 5);
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '40px', color: 'white', backgroundColor: '#111' }}>
       
-      {/* ANIMACIONES RETRO & FUENTE */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -97,12 +115,17 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
             100% { opacity: 0; transform: scale(0.5); }
           }
 
-          /* Modo Fiesta: Colores parpadeantes para texto MAX */
-          @keyframes rainbow-text {
-            0% { color: #ff0000; text-shadow: 2px 2px 0 #ffff00; }
-            33% { color: #00ff00; text-shadow: 2px 2px 0 #ff00ff; }
-            66% { color: #0000ff; text-shadow: 2px 2px 0 #00ffff; }
-            100% { color: #ff0000; text-shadow: 2px 2px 0 #ffff00; }
+          /* Efecto Parpadeo para la meta actual */
+          @keyframes goal-pulse {
+            0% { box-shadow: 0 0 5px #ffcc00; border-color: #ffcc00; }
+            50% { box-shadow: 0 0 20px #ffcc00; border-color: #fff; }
+            100% { box-shadow: 0 0 5px #ffcc00; border-color: #ffcc00; }
+          }
+
+          /* Animación de caída para la purpurina */
+          @keyframes confetti-fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(80px) rotate(360deg); opacity: 0; }
           }
           
           /* Estilo retro 8-bits para el botón de Reddit */
@@ -153,7 +176,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
             STATS DASHBOARD
           </h1>
 
-          {/* TOTALES ESTILO ARCADE */}
           <div style={{ display: 'flex', gap: '15px' }}>
             <div style={{ flex: 1, backgroundColor: '#222', padding: '15px', border: '4px solid #333', textAlign: 'center', position: 'relative' }}>
               <div style={{ fontSize: '10px', color: '#aaa', fontFamily: '"Press Start 2P", monospace', marginBottom: '10px' }}>TOTAL SPINES</div>
@@ -165,60 +187,66 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
             </div>
           </div>
 
-          {/* NUEVA BARRA DE PROGRESO POR PASOS (QUEST LOG) */}
-          <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333', position: 'relative' }}>
+          {/* BARRA DE PROGRESO POR PASOS DINÁMICA (QUEST LOG) */}
+          <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333', position: 'relative', overflow: 'hidden' }}>
             <h2 style={{ fontSize: '14px', color: '#fff', fontFamily: '"Press Start 2P", monospace', marginBottom: '25px', textShadow: '2px 2px #b30000' }}>
               COMMUNITY QUEST
             </h2>
-            
-            {/* Si hay fiesta, dibujamos destellos aleatorios por el recuadro */}
-            {isPartyMode && (
-              <>
-                <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', animation: 'pixel-sparkle 0.8s infinite alternate' }}>✨</div>
-                <div style={{ position: 'absolute', bottom: '10px', left: '10px', fontSize: '20px', animation: 'pixel-sparkle 1.2s infinite alternate' }}>✨</div>
-              </>
-            )}
 
             <div style={{ position: 'relative', paddingLeft: '30px' }}>
               {/* Línea vertical de fondo */}
               <div style={{ position: 'absolute', left: '10px', top: '10px', bottom: '10px', width: '4px', backgroundColor: '#111', zIndex: 0 }}></div>
               
-              {progressSteps.map((step, index) => {
+              {visibleSteps.map((step, index) => {
                 const isReached = maxSpines >= step.target;
-                const isMaxParty = isReached && step.target === 10000;
+                const isCurrentGoal = step.target === MILESTONES[goalIndex].target;
                 
                 return (
                   <div key={index} style={{ position: 'relative', marginBottom: '25px', zIndex: 1, display: 'flex', alignItems: 'center' }}>
+                    
                     {/* El nodo (Checkpoint) */}
                     <div style={{ 
                       position: 'absolute', 
                       left: '-28px', 
                       width: '16px', 
                       height: '16px', 
-                      backgroundColor: isReached ? '#b30000' : '#111', 
+                      backgroundColor: isReached ? '#b30000' : (isCurrentGoal ? '#ffcc00' : '#111'), 
                       border: isReached ? '4px solid #fff' : '4px solid #444',
-                      boxShadow: isReached ? '0 0 10px #b30000' : 'none'
+                      animation: isCurrentGoal ? 'goal-pulse 1.5s infinite' : 'none',
                     }}></div>
                     
+                    {/* Lluvia de purpurina SOLO en el objetivo actual */}
+                    {isCurrentGoal && (
+                      <div style={{ position: 'absolute', top: '-10px', left: '-40px', right: 0, bottom: 0, pointerEvents: 'none', zIndex: 10 }}>
+                        {CONFETTI_PARTICLES.map((particle, i) => (
+                          <div key={i} style={{
+                            position: 'absolute',
+                            left: particle.left,
+                            width: '4px', height: '4px',
+                            backgroundColor: particle.color,
+                            animation: `confetti-fall ${particle.duration} infinite linear`,
+                            animationDelay: particle.delay
+                          }}></div>
+                        ))}
+                      </div>
+                    )}
+
                     {/* Textos del paso */}
-                    <div style={{ marginLeft: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '10px', lineHeight: '1.5' }}>
-                      <div style={{ 
-                        color: isReached ? '#fff' : '#666', 
-                        animation: isMaxParty ? 'rainbow-text 1s infinite' : 'none' 
-                      }}>
+                    <div style={{ marginLeft: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '10px', lineHeight: '1.5', zIndex: 2 }}>
+                      <div style={{ color: isReached ? '#fff' : (isCurrentGoal ? '#ffcc00' : '#666') }}>
                         {step.name}
                       </div>
-                      <div style={{ color: isReached ? '#b30000' : '#444' }}>
-                        {isReached ? 'CLEARED!' : `GOAL: ${step.target}`}
+                      <div style={{ color: isReached ? '#b30000' : (isCurrentGoal ? '#fff' : '#444') }}>
+                        {isReached ? 'CLEARED!' : (isCurrentGoal ? `CURRENT GOAL: ${step.target}` : `LOCKED: ${step.target}`)}
                       </div>
                     </div>
+
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* TOP UPLOADERS */}
           <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333' }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '12px', lineHeight: '1.5' }}>🔥 TOP 5 UPLOADERS<br/><span style={{fontSize: '8px', color: '#aaa'}}>(LAST 30 DAYS)</span></h2>
             {topUploaders30Days.length > 0 ? (
@@ -233,7 +261,6 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
             )}
           </div>
 
-          {/* FRANQUICIAS */}
           <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333' }}>
             <h2 style={{ color: '#aaa', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '12px' }}>FRANCHISES</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
@@ -249,8 +276,9 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
         {/* ============================================== */}
         {/* COLUMNA DERECHA: TODOS LOS CONTRIBUIDORES      */}
+        {/* LA CLAVE DEL BUG FIX ESTÁ AQUÍ: minWidth: 0     */}
         {/* ============================================== */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
           
           <h1 style={{ 
             fontFamily: '"Press Start 2P", monospace', 
@@ -266,14 +294,15 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
             ALL CONTRIBUTORS
           </h1>
 
-          <div style={{ backgroundColor: '#222', border: '4px solid #333', marginBottom: '100px' }}>
+          {/* Se añade maxWidth 100% para respetar el límite */}
+          <div style={{ backgroundColor: '#222', border: '4px solid #333', marginBottom: '100px', maxWidth: '100%', overflow: 'hidden' }}>
             {stats.topAuthors.map(([author, count], index) => {
               const isExpanded = expandedAuthor === author;
               return (
                 <div key={author} style={{ backgroundColor: index % 2 === 0 ? '#222' : '#1a1a1a', borderBottom: '2px solid #333' }}>
                   
                   <div 
-                    onClick={() => handleExpandAuthor(author)} 
+                    onClick={() => handleExpandAuthor(author)}
                     style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', cursor: 'pointer', alignItems: 'center' }}
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#333'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -282,16 +311,15 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
                       <span style={{ fontWeight: 'bold', fontSize: '18px', fontFamily: 'monospace', color: index < 3 ? '#b30000' : 'white' }}>u/{author}</span>
                     </div>
                     
-                    {/* BOTÓN DE REDDIT Y CONTADOR ALINEADOS A LA DERECHA */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
                       <div style={{ fontWeight: 'bold', fontFamily: 'monospace', fontSize: '16px', color: isExpanded ? '#b30000' : 'white' }}>
                         {count} SPINES {isExpanded ? '▲' : '▼'}
                       </div>
                       <a 
-                        href={`https://www.reddit.com/user/${author}`} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        onClick={(e) => e.stopPropagation()} 
+                        href={`https://www.reddit.com/user/${author}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="retro-reddit-btn"
                       >
                         REDDIT ↗
@@ -301,18 +329,18 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
 
                   {/* VISTA DESPLEGABLE DE LOMOS */}
                   {isExpanded && (
-                    <div style={{ padding: '40px 20px', backgroundColor: '#0a0a0a', borderTop: '2px dashed #444', display: 'flex', gap: '40px', overflowX: 'auto', alignItems: 'center' }}>
+                    <div style={{ padding: '40px 20px', backgroundColor: '#0a0a0a', borderTop: '2px dashed #444', display: 'flex', gap: '40px', overflowX: 'auto', width: '100%', boxSizing: 'border-box', alignItems: 'center' }}>
                       {authorTopSpines.length > 0 ? (
                         authorTopSpines.map((spine, i) => (
                           <div key={i} style={{ flexShrink: 0, width: '220px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <div style={{ width: '220px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '25px' }}>
                               <img 
-                                src={spine.image || spine.src} 
-                                alt={spine.title} 
+                                src={spine.image || spine.src}
+                                alt={spine.title}
                                 loading="lazy"
                                 style={{ 
-                                  height: '220px', 
-                                  transform: 'rotate(-90deg)', 
+                                  height: '220px',
+                                  transform: 'rotate(-90deg)',
                                   transformOrigin: 'center',
                                   border: '2px solid #fff',
                                   boxShadow: '4px 4px 0px #000'
