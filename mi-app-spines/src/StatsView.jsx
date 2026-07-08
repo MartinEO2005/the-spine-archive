@@ -59,21 +59,49 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
     return { totalSpines: spines.length, totalAuthors: Object.keys(counts).length, topAuthors: sorted };
   }, [propStats, spines]);
 
-  // --- CÁLCULO: FRANQUICIAS ---
   const franchiseStats = useMemo(() => {
-    const counts = { Zelda: 0, Mario: 0, Xenoblade: 0, Pokemon: 0, Metroid: 0, Kirby: 0, DragonQuest: 0, AnimalCrossing: 0 };
+    const counts = { 
+      Zelda: 0, Mario: 0, Pokemon: 0, Metroid: 0, Kirby: 0, 
+      FinalFantasy: 0, FireEmblem: 0, Xenoblade: 0, Persona: 0, 
+      DragonQuest: 0, AnimalCrossing: 0, Splatoon: 0, 
+      AceAttorney: 0, Lego: 0, Luigi: 0, Sonic: 0, 
+      MegaMan: 0, DonkeyKong: 0, StreetFighter: 0, ResidentEvil: 0,
+      StarFox: 0, Pikmin: 0, MonsterHunter: 0, KingdomHearts: 0 
+    };
+
     spines.forEach(s => {
       const title = s.title?.toLowerCase() || "";
-      if (title.includes('zelda')) counts.Zelda++;
+      
+      if (title.includes('zelda') || title.includes('link')) counts.Zelda++;
       if (title.includes('mario')) counts.Mario++;
-      if (title.includes('xenoblade')) counts.Xenoblade++;
       if (title.includes('pokemon') || title.includes('pokémon')) counts.Pokemon++;
-      if (title.includes('metroid')) counts.Metroid++;
+      if (title.includes('metroid') || title.includes('samus')) counts.Metroid++;
       if (title.includes('kirby')) counts.Kirby++;
+      if (title.includes('final fantasy')) counts.FinalFantasy++;
+      if (title.includes('fire emblem')) counts.FireEmblem++;
+      if (title.includes('xenoblade')) counts.Xenoblade++;
+      if (title.includes('persona') || title.includes('shin megami')) counts.Persona++;
       if (title.includes('dragon quest')) counts.DragonQuest++;
       if (title.includes('animal crossing')) counts.AnimalCrossing++;
+      if (title.includes('splatoon')) counts.Splatoon++;
+      if (title.includes('ace attorney') || title.includes('phoenix wright')) counts.AceAttorney++;
+      if (title.includes('lego')) counts.Lego++;
+      if (title.includes('luigi')) counts.Luigi++;
+      if (title.includes('sonic')) counts.Sonic++;
+      if (title.includes('mega man') || title.includes('megaman')) counts.MegaMan++;
+      if (title.includes('donkey kong')) counts.DonkeyKong++;
+      if (title.includes('street fighter')) counts.StreetFighter++;
+      if (title.includes('resident evil')) counts.ResidentEvil++;
+      if (title.includes('star fox')) counts.StarFox++;
+      if (title.includes('pikmin')) counts.Pikmin++;
+      if (title.includes('monster hunter')) counts.MonsterHunter++;
+      if (title.includes('kingdom hearts')) counts.KingdomHearts++;
     });
-    return Object.entries(counts).sort(([, a], [, b]) => b - a);
+
+    // Filtramos los que tengan al menos 1 ocurrencia para no ensuciar la UI
+    return Object.entries(counts)
+      .filter(([, count]) => count > 0)
+      .sort(([, a], [, b]) => b - a);
   }, [spines]);
 
   const handleExpandAuthor = (author) => {
@@ -248,7 +276,7 @@ const StatsView = ({ stats: propStats, spines = [] }) => {
           </div>
 
           <div style={{ backgroundColor: '#222', padding: '20px', border: '4px solid #333' }}>
-            <h2 style={{ color: '#ffcc00', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '12px', lineHeight: '1.5' }}>🔥 TOP 5 UPLOADERS<br/><span style={{fontSize: '8px', color: '#aaa'}}>(LAST 30 DAYS)</span></h2>
+            <h2 style={{ color: '#ffcc00', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '12px', lineHeight: '1.5' }}>🔥 TOP 5 LAST UPLOADERS<br/><span style={{fontSize: '8px', color: '#aaa'}}>(LAST 30 DAYS)</span></h2>
             {topUploaders30Days.length > 0 ? (
               topUploaders30Days.map(([author, count], i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: i < topUploaders30Days.length - 1 ? '2px dashed #444' : 'none', fontFamily: 'monospace', fontSize: '14px' }}>
