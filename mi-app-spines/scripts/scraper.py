@@ -46,8 +46,8 @@ if not os.path.exists(DB_JSON_PATH):
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
 #SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
- #                "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "Dead by", "Paw Patrol", "D4rks4dch4ld"] 
-SEARCH_TERMS = [" ", "Mad Rat Dead by Dienomight9"] 
+#                "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld"] 
+SEARCH_TERMS = [" ", "erydion", "dragon quest", "yngames", "zumba", "it up!", "Yo-Kai Watch"] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
