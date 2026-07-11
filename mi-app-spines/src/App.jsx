@@ -4,6 +4,9 @@ import CatalogView from './CatalogView';
 
 const DEFAULT_SPINE_WIDTH = 10.5;
 
+// CLAVE: Objeto global para guardar las imágenes ya convertidas a Base64 y no volver a descargarlas
+const globalImageCache = {};
+
 function App() {
   const [view, setView] = useState('catalog');
   const [images, setImages] = useState([]);
@@ -32,6 +35,12 @@ function App() {
   const getSafeImageData = (url) => {
     return new Promise((resolve) => {
       if (!url) return resolve(null);
+      
+      // Si ya la descargamos en esta sesión, la devolvemos de la caché instantáneamente
+      if (globalImageCache[url]) {
+        return resolve(globalImageCache[url]);
+      }
+
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
       img.src = url;
@@ -41,7 +50,11 @@ function App() {
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/jpeg', 0.95));
+        
+        // Reducimos la calidad a 0.85 para ahorrar aún más memoria sin pérdida visible en impresión
+        const base64Data = canvas.toDataURL('image/jpeg', 0.85); 
+        globalImageCache[url] = base64Data; // Guardamos en la caché global
+        resolve(base64Data);
       };
       img.onerror = () => resolve(null);
     });
@@ -59,10 +72,18 @@ function App() {
       const isPortrait = config.pageWidth < config.pageHeight;
       const orientation = isPortrait ? 'p' : 'l';
 
+      // Determinamos el formato correcto para evitar el bug de escala de impresión
+      let pdfFormat = [inchToMm(config.pageWidth), inchToMm(config.pageHeight)];
+      if (config.pageWidth === 11.0 && config.pageHeight === 8.5) {
+        pdfFormat = 'letter';
+      } else if (config.pageWidth === 11.69 && config.pageHeight === 8.27) {
+        pdfFormat = 'a4';
+      }
+
       const pdf = new jsPDF({
         orientation: orientation,
         unit: 'mm',
-        format: [inchToMm(config.pageWidth), inchToMm(config.pageHeight)]
+        format: pdfFormat
       });
 
       const sW = parseFloat(config.spineWidthMM);
@@ -120,7 +141,8 @@ function App() {
   }, [images, config, view]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => generatePreview(), 400);
+    // Aumentado a 1500ms para evitar peticiones masivas mientras el usuario mueve controles
+    const timeoutId = setTimeout(() => generatePreview(), 1500);
     return () => clearTimeout(timeoutId);
   }, [generatePreview]);
 
@@ -173,7 +195,6 @@ function App() {
             {images.map((imgObj, i) => (
               <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.src ? '2px solid orange' : 'none' }}>
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {/* CORREGIDO AQUÍ: Usamos imgObj en lugar de img */}
                     <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>

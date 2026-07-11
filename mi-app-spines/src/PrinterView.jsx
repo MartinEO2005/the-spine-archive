@@ -3,6 +3,9 @@ import jsPDF from 'jspdf';
 
 const DEFAULT_SPINE_WIDTH = 10.5;
 
+// CLAVE: Objeto global para guardar las imágenes y evitar que se descarguen en bucle
+const printerImageCache = {};
+
 const PrinterView = ({ initialSpines, onBack }) => {
   const [images, setImages] = useState(initialSpines);
   const [pdfUrl, setPdfUrl] = useState(null);
@@ -25,6 +28,11 @@ const PrinterView = ({ initialSpines, onBack }) => {
       const url = spine.image || spine.src;
       if (!url) return resolve(null);
       
+      // Verificamos si la imagen ya está en la memoria caché
+      if (printerImageCache[url]) {
+        return resolve(printerImageCache[url]);
+      }
+      
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous'); 
       
@@ -34,7 +42,11 @@ const PrinterView = ({ initialSpines, onBack }) => {
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/jpeg', 0.9));
+        
+        // Reducimos a 0.85 para ahorrar memoria
+        const base64 = canvas.toDataURL('image/jpeg', 0.85);
+        printerImageCache[url] = base64; // Guardamos en la caché
+        resolve(base64);
       };
       
       img.onerror = (err) => {
@@ -95,7 +107,8 @@ const PrinterView = ({ initialSpines, onBack }) => {
   }, [images, config]);
 
   useEffect(() => {
-    const timer = setTimeout(() => generatePreview(), 800);
+    // Aumentado a 1500ms para calmar el bucle de peticiones a la nube
+    const timer = setTimeout(() => generatePreview(), 1500);
     return () => clearTimeout(timer);
   }, [generatePreview]);
 
