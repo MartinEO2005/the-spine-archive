@@ -57,28 +57,14 @@ const RequestsView = () => {
     fetchRequests();
   };
 
-  const handleClaim = async (requestId) => {
-    const artistName = prompt("Enter your Artist Name (u/name):");
-    if (!artistName) return;
-    await fetch('/api/requests', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ requestId, artistName }),
-    });
-    fetchRequests();
-  };
-
-  const handleComplete = async (requestId, currentClaims) => {
-    const artistName = prompt("To close this request, enter your Artist Name (u/name):");
-    if (!artistName) return;
-    if (!currentClaims?.includes(artistName)) {
-      alert("Unauthorized.");
-      return;
-    }
+  // BORRADO INMEDIATO A UN SOLO CLICK
+  const handleDelete = async (requestId) => {
     try {
       await fetch(`/api/requests?requestId=${requestId}&password=TU_CONTRASEÑA_AQUI`, { method: 'DELETE' });
       fetchRequests();
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+      console.error("Error deleting request", e); 
+    }
   };
 
   return (
@@ -163,7 +149,7 @@ const RequestsView = () => {
         </button>
       </div>
 
-      {/* FORMULARIO DE SOLICITUD (AHORA APARECE AQUÍ ABAJO) */}
+      {/* FORMULARIO DE SOLICITUD */}
       {showForm && (
         <div style={{ backgroundColor: '#222', padding: '25px', border: '2px solid #444', marginBottom: '40px', boxShadow: '6px 6px 0px #111' }}>
           <h3 style={{ margin: '0 0 20px 0', fontFamily: '"Press Start 2P", monospace', fontSize: '0.9rem', color: '#fff' }}>POST A NEW REQUEST</h3>
@@ -246,18 +232,14 @@ const RequestsView = () => {
                         </div>
                       )}
 
+                      {/* BOTONES DE ACCIÓN: CON DELETE INSTANTÁNEO */}
                       <div style={{ display: 'flex', gap: '5px', marginTop: '12px' }}>
-                        <button onClick={() => handleClaim(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #b30000', color: '#b30000', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
-                          CLAIM
+                        <button onClick={() => handleDelete(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #b30000', color: '#ff4d4d', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace', fontWeight: 'bold' }}>
+                          DELETE
                         </button>
                         <button onClick={() => handleProvideLink(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #00ccff', color: '#00ccff', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
                           LINK
                         </button>
-                        {item.status === 'in-progress' && (
-                          <button onClick={() => handleComplete(item.id, item.claimedBy)} style={{ padding: '8px 10px', background: '#00ff00', color: 'black', border: '2px solid #00aa00', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
-                            DONE
-                          </button>
-                        )}
                       </div>
 
                     </div>
