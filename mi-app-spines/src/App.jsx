@@ -8,6 +8,18 @@ const DEFAULT_SPINE_WIDTH = 10.5;
 const globalImageCache = {};
 
 function App() {
+  // Detector de móvil (bloqueo temprano para ahorrar recursos)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Escuchador para cuando cambian el tamaño de la ventana
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [view, setView] = useState('catalog');
   const [images, setImages] = useState([]);
   const [pdfUrl, setPdfUrl] = useState(null);
@@ -152,10 +164,40 @@ function App() {
     setShowSupportModal(true);
   };
 
+  // Pantalla exclusiva para móviles: aborta el renderizado de la app para no consumir base de datos ni descargas
+  if (isMobile) {
+    return (
+      <div style={{ 
+        display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', 
+        backgroundColor: '#222', color: 'white', justifyContent: 'center', 
+        alignItems: 'center', textAlign: 'center', padding: '30px', boxSizing: 'border-box',
+        fontFamily: '"Press Start 2P", monospace, sans-serif' 
+      }}>
+        <style>
+          {`@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');`}
+        </style>
+        
+        <div style={{ fontSize: '40px', marginBottom: '20px' }}>🖥️</div>
+        
+        <h2 style={{ color: '#FF5E5B', lineHeight: '1.5', fontSize: '16px', marginBottom: '20px' }}>
+          DESKTOP REQUIRED
+        </h2>
+        
+        <p style={{ fontFamily: 'sans-serif', fontSize: '16px', lineHeight: '1.6', color: '#ccc', maxWidth: '400px' }}>
+          <b>The Spine Archive</b> is a high-precision printing tool designed for larger screens. 
+          <br/><br/>
+          To ensure the best experience and generate accurate PDFs without layout issues, please visit this website from your computer.
+        </p>
+      </div>
+    );
+  }
+
+  // Si no es móvil, carga el catálogo normalmente
   if (view === 'catalog') {
     return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
   }
 
+  // Render principal (Vista PDF / Editor)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
