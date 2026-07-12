@@ -45,9 +45,12 @@ if not os.path.exists(DB_JSON_PATH):
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
-               "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld", "Areckusu", "KEGINUS", "PSX_Ramitas", "by"]
-#SEARCH_TERMS = [" ", "erydion", "dragon quest", "yngames", "zumba", "it up!", "Yo-Kai Watch"] 
+#SEARCH_TERMS = [" ","The Eternal Comet", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
+ #              "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld", "Areckusu", "KEGINUS", "PSX_Ramitas", "by"
+   #            "LatchHyena"]
+SEARCH_TERMS = [" ", "erydion", "Yeah, You Want “Those Games” 1 + 2 [V1]", "V1", "V2", "FeBo", "Renmant From The Ashes", "LatchHyena", "DEEEER Simulator", "SirDvolution",
+                "Terra Memoria", "Mercenaries Saga Chronicles", "WishIWereAGhost", "Bendy and the Ink Machine", "FlippingSweet", "Requested", "LoveKami Trilogy Spine", "Knuckles316"
+                 , "DLCgamer", "oobedoob", "Godstrike [Multiple Versions]", "Blade Runner: Enhanced Edition", "wavvydev", "Zachmax1864", "Zombieland: Road Trip" ] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
