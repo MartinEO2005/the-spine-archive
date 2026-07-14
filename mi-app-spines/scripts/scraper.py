@@ -48,7 +48,7 @@ letras = "abcdefghijklmnopqrstuvwxyz"
 #SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
  #             "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld", "Areckusu", "KEGINUS", "PSX_Ramitas", "by"
   #            "LatchHyena", "TRIGGERSHAFT"]
-SEARCH_TERMS = ["PixelSag", "妖怪ウォッチ1", "pterrydactyl", "Yadi", "Rainbow Billy:", "Telltale", "pand_ashh", "Fyreant", "millionaire"] 
+SEARCH_TERMS = ["Mutant Mudds", " Sisters Party ", "Teen", "Teenage Mutant Ninja Turtles", "Madden", "eridyon", "DNN", "Construction Simulator", "deltarune"] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
