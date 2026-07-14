@@ -4,7 +4,7 @@ const path = require('path');
 const BASE_URL = 'https://thespinearchive.xyz'; 
 // // process.cwd() apunta a la raíz del proyecto en Vercel
 // Dentro de mi-app-spines/generate-sitemap.cjs cambia la ruta a:
-const DATABASE_PATH = path.join(process.cwd(), 'api', 'database.json');
+const DATABASE_PATH = path.join(process.cwd(), 'public', 'database.json');
 const SITEMAP_PATH = path.join(process.cwd(), 'public', 'sitemap.xml');
 
 try {
