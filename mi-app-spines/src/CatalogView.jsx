@@ -15,7 +15,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [visibleCount, setVisibleCount] = useState(60); 
 
   useEffect(() => {
-    fetch('/api/get-spines')
+    fetch('/database.json')
       .then(res => res.json())
       .then(data => { setSpines(data); setLoading(false); });
   }, []);
