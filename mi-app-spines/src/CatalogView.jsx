@@ -14,6 +14,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [currentView, setCurrentView] = useState('catalog');
   const [visibleCount, setVisibleCount] = useState(60); 
   const [sortOrder, setSortOrder] = useState('newest'); 
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   useEffect(() => {
     fetch('/database.json')
@@ -52,7 +53,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // LÓGICA DEL BANNER DE NOVEDADES (Últimos 7 días usando el created_utc del scraper)
+  // LÓGICA DE NOVEDADES (Últimos 7 días)
   const recentData = useMemo(() => {
     if (!spines.length) return { count: 0, authors: [] };
 
@@ -68,6 +69,14 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       authors: uniqueAuthors
     };
   }, [spines]);
+
+  // DISPARADOR DEL POP-UP (Solo 1 vez por sesión)
+  useEffect(() => {
+    if (recentData.count > 0 && !sessionStorage.getItem('updateModalSeen')) {
+      setShowUpdateModal(true);
+      sessionStorage.setItem('updateModalSeen', 'true');
+    }
+  }, [recentData]);
 
   // FILTRADO Y ORDENAMIENTO
   const filteredSpines = useMemo(() => {
@@ -113,6 +122,49 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111' }}>
       
+      {/* POP-UP DE NOVEDADES */}
+      {showUpdateModal && (
+        <div style={{ 
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+          backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
+          display: 'flex', justifyContent: 'center', alignItems: 'center' 
+        }}>
+          <div style={{ 
+            backgroundColor: '#222', padding: '35px', borderRadius: '12px', width: '450px', 
+            textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #b30000' 
+          }}>
+            <div style={{ fontSize: '50px', marginBottom: '15px' }}>🔥</div>
+            
+            <h2 style={{ color: '#ffcc00', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>
+              LATEST UPDATE
+            </h2>
+            
+            <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginBottom: '25px', border: '1px solid #444' }}>
+              <p style={{ color: '#ddd', fontSize: '15px', lineHeight: '1.6', margin: 0, fontFamily: 'sans-serif' }}>
+                <strong>{recentData.count}</strong> new spines were added this week!
+                <br/><br/>
+                Huge thanks to our contributors:<br/>
+                <span style={{ color: '#ff4d4d', fontWeight: 'bold' }}>
+                  {recentData.authors.slice(0, 8).join(', ')}{recentData.authors.length > 8 ? ' and more!' : ''}
+                </span>
+              </p>
+            </div>
+
+            <button 
+              onClick={() => setShowUpdateModal(false)} 
+              style={{ 
+                background: '#b30000', color: 'white', border: 'none', cursor: 'pointer', 
+                padding: '12px 30px', borderRadius: '5px', fontWeight: 'bold', 
+                fontFamily: '"Press Start 2P", monospace', fontSize: '10px',
+                boxShadow: '3px 3px 0px rgba(0,0,0,0.3)'
+              }}
+            >
+              AWESOME!
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* HEADER PRINCIPAL */}
       <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
         <img src="/logo.jpg" alt="Logo" onClick={() => setCurrentView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
@@ -178,25 +230,25 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       <div style={{ flex: 1, backgroundColor: '#111', position: 'relative' }}>
         {currentView === 'catalog' ? (
           <>
-            {/* BOTÓN FLOTANTE PARA ORDENAR */}
+            {/* BOTÓN FLOTANTE PARA ORDENAR (Posición absoluta pura, no rompe el grid) */}
             <button 
               onClick={() => setSortOrder(prev => prev === 'newest' ? 'az' : 'newest')}
               title={sortOrder === 'newest' ? 'Viewing Newest. Click for A-Z' : 'Viewing A-Z. Click for Newest'}
               style={{
                 position: 'absolute',
-                top: '30px',
-                left: '30px',
+                top: '15px',
+                left: '15px',
                 backgroundColor: '#222',
                 color: '#fff',
                 border: '2px solid #444',
                 borderRadius: '50%',
-                width: '45px',
-                height: '45px',
+                width: '40px',
+                height: '40px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '18px',
+                fontSize: '16px',
                 zIndex: 50,
                 boxShadow: '2px 2px 0px #000',
                 transition: 'transform 0.2s'
@@ -207,24 +259,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
               {sortOrder === 'newest' ? '🔄' : '🔤'}
             </button>
 
-            {/* BANNER DE ÚLTIMAS ACTUALIZACIONES INTEGRADO */}
-            {recentData.count > 0 && !debouncedTerm && (
-              <div style={{
-                padding: '45px 30px 10px 90px', 
-                color: '#999',
-                fontSize: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                fontFamily: '"Press Start 2P", monospace',
-              }}>
-                <span style={{ color: '#ffcc00', marginRight: '10px', fontSize: '14px' }}>🔥</span>
-                <div>
-                  <span style={{ color: '#fff' }}>LATEST UPDATE: </span>
-                  {recentData.count} new spines this week by <span style={{ color: '#ff4d4d' }}>{recentData.authors.slice(0, 5).join(', ')}{recentData.authors.length > 5 ? ' and more!' : ''}</span>
-                </div>
-              </div>
-            )}
-
+            {/* SE RESTAURA EL GRID LIMPIO SIN PADDINGS EXTRAÑOS */}
             <SpineGrid 
               spines={filteredSpines.slice(0, visibleCount)} 
               selectedSpines={selectedSpines} 
