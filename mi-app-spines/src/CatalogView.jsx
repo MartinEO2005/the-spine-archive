@@ -13,7 +13,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState('catalog');
   const [visibleCount, setVisibleCount] = useState(60); 
-  const [sortOrder, setSortOrder] = useState('newest'); // Controla el orden visual
+  const [sortOrder, setSortOrder] = useState('newest'); 
 
   useEffect(() => {
     fetch('/database.json')
@@ -52,19 +52,15 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // --- LÓGICA DEL BANNER DE NOVEDADES (Últimos 7 días) ---
+  // LÓGICA DEL BANNER DE NOVEDADES (Últimos 7 días usando el created_utc del scraper)
   const recentData = useMemo(() => {
     if (!spines.length) return { count: 0, authors: [] };
 
-    // Obtenemos el timestamp de hace 7 días (en segundos)
     const sevenDaysAgo = Math.floor(Date.now() / 1000) - (7 * 24 * 60 * 60);
-    
-    // Filtramos las añadidas recientemente
     const recentSpines = spines.filter(s => s.created_utc && s.created_utc >= sevenDaysAgo);
 
     if (recentSpines.length === 0) return { count: 0, authors: [] };
 
-    // Extraemos autores únicos
     const uniqueAuthors = [...new Set(recentSpines.map(s => s.author))].filter(Boolean);
     
     return {
@@ -73,11 +69,10 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     };
   }, [spines]);
 
-  // --- FILTRADO Y ORDENAMIENTO EN LA MEMORIA DEL NAVEGADOR ---
+  // FILTRADO Y ORDENAMIENTO
   const filteredSpines = useMemo(() => {
     let result = [...spines];
 
-    // 1. Aplicamos la búsqueda de texto si existe
     const term = debouncedTerm.toLowerCase().trim();
     if (term) {
       result = result.filter(s => 
@@ -86,9 +81,8 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       );
     }
 
-    // 2. Aplicamos el ordenamiento seleccionado
     if (sortOrder === 'newest') {
-      result.reverse(); // Rápido y no consume servidor
+      result.reverse(); 
     } else if (sortOrder === 'az') {
       result.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
     }
@@ -131,7 +125,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         </div>
         
         {currentView === 'catalog' && (
-          <div style={{ flex: 1, maxWidth: '550px', display: 'flex', gap: '10px' }}>
+          <div style={{ flex: 1, maxWidth: '400px', display: 'flex', gap: '10px' }}>
              <input 
                 type="text" 
                 placeholder="Search by name, author..." 
@@ -139,14 +133,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
                 onChange={(e) => setSearchTerm(e.target.value)} 
                 style={{ flex: 1, padding: '10px 20px', borderRadius: '5px', border: 'none' }} 
               />
-              <select 
-                value={sortOrder} 
-                onChange={(e) => setSortOrder(e.target.value)}
-                style={{ padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#fff', cursor: 'pointer', fontWeight: 'bold', color: '#333' }}
-              >
-                <option value="newest">Newest First</option>
-                <option value="az">A-Z</option>
-              </select>
           </div>
         )}
         
@@ -189,30 +175,52 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         </button>
       </div>
 
-      <div style={{ flex: 1, backgroundColor: '#111' }}>
+      <div style={{ flex: 1, backgroundColor: '#111', position: 'relative' }}>
         {currentView === 'catalog' ? (
           <>
-            {/* BANNER DE ÚLTIMAS ACTUALIZACIONES */}
-            {recentData.count > 0 && !debouncedTerm && (
-              <div style={{
-                backgroundColor: '#1a1a1a',
-                borderBottom: '1px solid #333',
-                padding: '12px 30px',
-                color: '#ddd',
-                fontSize: '12px',
+            {/* BOTÓN FLOTANTE PARA ORDENAR */}
+            <button 
+              onClick={() => setSortOrder(prev => prev === 'newest' ? 'az' : 'newest')}
+              title={sortOrder === 'newest' ? 'Viewing Newest. Click for A-Z' : 'Viewing A-Z. Click for Newest'}
+              style={{
+                position: 'absolute',
+                top: '30px',
+                left: '30px',
+                backgroundColor: '#222',
+                color: '#fff',
+                border: '2px solid #444',
+                borderRadius: '50%',
+                width: '45px',
+                height: '45px',
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                fontSize: '18px',
+                zIndex: 50,
+                boxShadow: '2px 2px 0px #000',
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              {sortOrder === 'newest' ? '🔄' : '🔤'}
+            </button>
+
+            {/* BANNER DE ÚLTIMAS ACTUALIZACIONES INTEGRADO */}
+            {recentData.count > 0 && !debouncedTerm && (
+              <div style={{
+                padding: '45px 30px 10px 90px', 
+                color: '#999',
+                fontSize: '10px',
+                display: 'flex',
+                alignItems: 'center',
                 fontFamily: '"Press Start 2P", monospace',
-                lineHeight: '1.6'
               }}>
-                <span style={{ color: '#00ff00', marginRight: '15px', fontSize: '18px' }}>🔥</span>
-                <div style={{ textAlign: 'center' }}>
+                <span style={{ color: '#ffcc00', marginRight: '10px', fontSize: '14px' }}>🔥</span>
+                <div>
                   <span style={{ color: '#fff' }}>LATEST UPDATE: </span>
-                  <strong>{recentData.count}</strong> new spines added this week! Huge thanks to:
-                  <span style={{ color: '#b30000', marginLeft: '8px' }}>
-                    {recentData.authors.slice(0, 5).join(', ')}{recentData.authors.length > 5 ? ' and more!' : ''}
-                  </span>
+                  {recentData.count} new spines this week by <span style={{ color: '#ff4d4d' }}>{recentData.authors.slice(0, 5).join(', ')}{recentData.authors.length > 5 ? ' and more!' : ''}</span>
                 </div>
               </div>
             )}
