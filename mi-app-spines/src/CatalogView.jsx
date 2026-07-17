@@ -290,27 +290,27 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         
         <div style={{ flex: 1 }}></div>
 
-        <a 
-          href="https://ko-fi.com/martineo" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            backgroundColor: '#000',
-            color: '#ffcc00', 
-            padding: '10px 15px',
-            border: '2px solid #ffcc00',
-            fontWeight: 'bold',
-            textDecoration: 'none',
-            fontSize: '13px',
-            marginRight: '15px',
-            borderRadius: '5px',
-            boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
-            fontFamily: 'sans-serif'
-          }}
-        >
-          ⭐ SUPPORT THE PROJECT
-        </a>
-
+      <a 
+      href="https://ko-fi.com/martineo" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      style={{
+        backgroundColor: '#000',
+        color: '#ffcc00', 
+        padding: '10px 15px',
+        border: '2px solid #ffcc00',
+        fontWeight: 'bold',
+        textDecoration: 'none',
+        fontSize: '13px',
+        marginRight: '15px',
+        borderRadius: '5px',
+        boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
+        display: 'inline-block', // Esto asegura que el padding y la sombra se calculen igual que en HTML puro
+        fontFamily: 'inherit'    // Hereda la fuente del header, eliminando discrepancias
+      }}
+    >
+      ⭐ SUPPORT THE PROJECT
+    </a>
         <button 
           onClick={() => onConfirm(selectedSpines)} 
           disabled={selectedSpines.length === 0} 
