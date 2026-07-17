@@ -18,7 +18,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
   useEffect(() => {
-    // 1. Cargamos base de datos estática desde /public/database.json[cite: 12]
+    // 1. Cargamos base de datos estática desde /public/database.json
     fetch('/database.json')
       .then(res => res.json())
       .then(data => { 
@@ -108,12 +108,12 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     padding: '5px 0'
   });
 
-  if (loading) return <div style={{color: 'white', textAlign: 'center', marginTop: '20%'}}>LOADING...</div>;
+  if (loading) return <div style={{color: 'white', textAlign: 'center', marginTop: '20%', fontFamily: '"Press Start 2P", monospace', fontSize: '14px'}}>LOADING...</div>;
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111' }}>
       
-      {/* POP-UP RETRO PIXEL CON ESTILO DE STATS */}
+      {/* POP-UP RETRO PIXEL RE-DISEÑADO (MÁS GRANDE Y LEGIBLE) */}
       {showUpdateModal && (
         <div style={{ 
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
@@ -123,22 +123,34 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         }}>
           <div style={{ 
             backgroundColor: '#222', 
-            padding: '30px', 
-            width: '460px', 
+            padding: '40px', 
+            width: '680px', // Aumentado para dar espacio a los textos y nombres
             textAlign: 'center', 
             border: '4px solid #b30000', 
             boxShadow: '8px 8px 0px #000',
             boxSizing: 'border-box'
           }}>
-            <div style={{ fontSize: '32px', marginBottom: '20px', textShadow: '2px 2px 0px #000' }}>🔥</div>
+            
+            {/* Bowser de fuego reemplazando el emoji */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '25px' }}>
+              <img 
+                src="/Imagen_fuego.jpg" 
+                alt="Bowser Fire" 
+                style={{ 
+                  width: '320px', 
+                  height: 'auto', 
+                  display: 'block'
+                }} 
+              />
+            </div>
             
             <h2 style={{ 
               color: '#fff', 
-              fontSize: '12px', 
-              marginBottom: '20px', 
+              fontSize: '18px', // Fuente más grande y legible
+              marginBottom: '25px', 
               borderBottom: '4px solid #b30000',
-              paddingBottom: '15px',
-              textShadow: '2px 2px 0px #b30000',
+              paddingBottom: '20px',
+              textShadow: '3px 3px 0px #b30000',
               letterSpacing: '1px'
             }}>
               LATEST SCRAPE
@@ -146,24 +158,36 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
             
             <div style={{ 
               backgroundColor: '#111', 
-              padding: '15px', 
+              padding: '25px', 
               border: '4px solid #333', 
-              marginBottom: '25px',
+              marginBottom: '30px',
               textAlign: 'left',
               lineHeight: '1.8'
             }}>
-              <p style={{ color: '#fff', fontSize: '8px', margin: '0 0 10px 0' }}>
-                <span style={{ color: '#ffcc00' }}>{scrapeInfo.count}</span> NEW SPINES DETECTED!
+              <p style={{ color: '#fff', fontSize: '11px', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
+                💥 <span style={{ color: '#ffcc00' }}>{scrapeInfo.count}</span> NEW SPINES DETECTED!
               </p>
-              <p style={{ color: '#888', fontSize: '7px', margin: '0 0 15px 0' }}>
+              
+              <p style={{ color: '#888', fontSize: '10px', margin: '0 0 20px 0' }}>
                 SCRAPE DATE: {scrapeInfo.date}
               </p>
-              <p style={{ color: '#aaa', fontSize: '7px', margin: 0 }}>
-                CONTRIBUTORS:<br/>
-                <span style={{ color: '#ff4d4d' }}>
-                  {scrapeInfo.authors?.slice(0, 6).join(', ')}{scrapeInfo.authors?.length > 6 ? ' and more!' : ''}
-                </span>
-              </p>
+              
+              <div style={{ borderTop: '2px dashed #333', paddingTop: '15px' }}>
+                <p style={{ color: '#aaa', fontSize: '10px', margin: '0 0 10px 0', textDecoration: 'underline' }}>
+                  CONTRIBUTORS:
+                </p>
+                <p style={{ 
+                  color: '#ff4d4d', 
+                  fontSize: '9px', 
+                  margin: 0, 
+                  lineHeight: '1.8',
+                  wordBreak: 'break-word', // Asegura que no se salgan de los bordes del cuadro
+                  whiteSpace: 'normal'
+                }}>
+                  {scrapeInfo.authors?.slice(0, 30).join(', ')}
+                  {scrapeInfo.authors?.length > 30 ? ' and more!' : ''}
+                </p>
+              </div>
             </div>
 
             <button 
@@ -171,13 +195,13 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
               style={{ 
                 background: '#b30000', 
                 color: 'white', 
-                border: '2px solid #fff', 
+                border: '3px solid #fff', 
                 cursor: 'pointer', 
-                padding: '10px 20px', 
+                padding: '12px 30px', 
                 fontWeight: 'bold', 
                 fontFamily: '"Press Start 2P", monospace', 
-                fontSize: '8px',
-                boxShadow: '3px 3px 0px #000',
+                fontSize: '11px', // Botón más grande y fácil de clickear
+                boxShadow: '4px 4px 0px #000',
                 transition: 'transform 0.1s'
               }}
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
