@@ -26,11 +26,11 @@ B2_BUCKET_NAME = os.getenv('B2_BUCKET_NAME')
 B2_PUBLIC_URL_PREFIX = os.getenv('B2_PUBLIC_URL_PREFIX', '').strip()
 
 BASE_DIR = r"C:\Users\MartinEO\Desktop\the-spine-archive\mi-app-spines"
-DB_JSON_PATH = os.path.join(BASE_DIR, "api", "database.json")
+# DB_JSON_PATH se actualiza a public/ para que React lo lea de forma estática en producción
+DB_JSON_PATH = os.path.join(BASE_DIR, "public", "database.json")
 EXTRACTIONS_DIR = os.path.join(BASE_DIR, "extractions") 
 
 # --- DETECCIÓN INTELIGENTE DE LA CARPETA EXTRACTIONS ---
-# Si no está dentro de 'mi-app-spines', miramos un nivel arriba (en 'the-spine-archive')
 if not os.path.exists(EXTRACTIONS_DIR):
     raiz_proyecto = os.path.dirname(BASE_DIR)
     posible_ruta = os.path.join(raiz_proyecto, "extractions")
@@ -40,15 +40,15 @@ if not os.path.exists(EXTRACTIONS_DIR):
 # Verificación de seguridad antes de empezar
 if not os.path.exists(DB_JSON_PATH):
     print(f"❌ ERROR CRÍTICO: No se encuentra el archivo en: {DB_JSON_PATH}")
-    print("Por favor, verifica que la carpeta 'api' existe dentro de 'mi-app-spines'.")
+    print("Por favor, verifica que la base de datos existe en tu directorio public.")
     sys.exit(1)
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-#SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont", "TheKosmicKollector", "WarioPunk",
- #             "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld", "Areckusu", "KEGINUS", "PSX_Ramitas", "by"
-  #            "LatchHyena", "TRIGGERSHAFT"]
-SEARCH_TERMS = ["Mutant Mudds", " Sisters Party ", "Teen", "Teenage Mutant Ninja Turtles", "Madden", "eridyon", "DNN", "Construction Simulator", "deltarune"] 
+SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
+                "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
+                  "Areckusu", "KEGINUS", "PSX_Ramitas", "by" "LatchHyena", "TRIGGERSHAFT", "RukeyzZ"]
+#SEARCH_TERMS = ["Mutant Mudds", " Sisters Party ", "Teen", "Teenage Mutant Ninja Turtles", "Madden", "eridyon", "DNN", "Construction Simulator", "deltarune"] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
@@ -82,7 +82,7 @@ else:
 # --- CONFIGURACIÓN DE DOBLE SESIÓN ---
 api_session = curl_requests.Session(impersonate="chrome120")
 api_session.cookies.update({
-    'reddit_session': 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpsVFdYNlFVUEloWktaRG1rR0pVd1gvdWNFK01BSjBYRE12RU1kNzVxTXQ4IiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0Ml9iYms5ZzY1ZSIsImV4cCI6MTc5NjMxNzI4MC43OTUxMzksImlhdCI6MTc4MDY3ODg4MC43OTUxMzksImp0aSI6ImluN3hpWjcybkJvVGJnUUwtRVN4RkRMSEtmUlVkUSIsImF0IjoxLCJjaWQiOiJjb29raWUiLCJsY2EiOjE2MTc0ODgwOTEwMDAsInNjcCI6ImVKeUtqZ1VFQUFEX193RVZBTGsiLCJmbG8iOjF9.mJ0LZLS2OSEE91XdtYHm2jhucDgUxtyW8SAsdzJlsUN19k3Xh3qq41P603Wf1FYgcxY6o_GfDApFtyQJsjwcqru4vla63brewAUBWWHTD4HceSC4EIRVc5Nb4BCmNspBR0ZV4Decuay76cNyij4QDskFFmrejY4ELmYiiuTFUimvatP6GZjgzBfZahjf_W_EDUb6KOMlc77Kpyif6VG0-mmkjdVDoliwr5dd0mxoc5H7ejYziZrPgCIO_yZim6RtaU_whBIMV24Fhud99WHdDaZ55XjVUhWQ6zgfUZZ-5nh69KDQr5jzhrv-9w5K28mjzD-PDv6koJOESLchIXiJlA', 
+    'reddit_session': 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpsVFdYNlFVUEloWktaRG1rR0pVd1gvdWNFK01BSjBYRE12RU1kNzVxTXQ4IiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0Ml9iYms5ZzY1ZSIsImV4cCI6MTc5NjMxNzI4MC43OTUxMzksImlhdCI6MTc4MDY3ODg4MC43OTUxMzksImp0aSI6ImluN3hpWjcybkJvVGJnUUwtRVN4RkRMSEtmUlVkUSIsImF0IjoxLCJjaWQiOiJjb29raWUiLCJsY2AiOjE2MTc0ODgwOTEwMDAsInNjcCI6ImVKeUtqZ1VFQUFEX_wRVZBTGsiLCJmbG8iOjF9.mJ0LZLS2OSEE91XdtYHm2jhucDgUxtyW8SAsdzJlsUN19k3Xh3qq41P603Wf1FYgcxY6o_GfDApFtyQJsjwcqru4vla63brewAUBWWHTD4HceSC4EIRVc5Nb4BCmNspBR0ZV4Decuay76cNyij4QDskFFmrejY4ELmYiiuTFUimvatP6GZjgzBfZahjf_W_EDUb6KOMlc77Kpyif6VG0-mmkjdVDoliwr5dd0mxoc5H7ejYziZrPgCIO_yZim6RtaU_whBIMV24Fhud99WHdDaZ55XjVUhWQ6zgfUZZ-5nh69KDQr5jzhrv-9w5K28mjzD-PDv6koJOESLchIXiJlA', 
 })
 
 img_session = normal_requests.Session()
@@ -118,7 +118,7 @@ def update_database():
         with open(DB_JSON_PATH, 'r', encoding='utf-8') as f:
             existing_data = json.load(f)
     except json.JSONDecodeError:
-        print("⚠️ El database.json en /api tenía error de formato. Iniciando limpio.")
+        print("⚠️ El database.json tenía error de formato. Iniciando limpio.")
         existing_data = []
 
     existing_ids = {item['id'] for item in existing_data}
@@ -128,6 +128,7 @@ def update_database():
     print(f"📊 Base de datos actual: {len(existing_data)} entradas.")
 
     total_new = 0
+    new_authors = [] # Guardará los autores del scrape actual
 
     try:
         for term in SEARCH_TERMS:
@@ -204,12 +205,11 @@ def update_database():
                                 img.convert("RGBA").save(buffer, format="WEBP", quality=85)
                                 buffer.seek(0)
 
-                                # --- NUEVO: GUARDADO LOCAL EN PUBLIC/SPINES ---
+                                # --- GUARDADO LOCAL EN PUBLIC/SPINES ---
                                 local_dir = os.path.join(BASE_DIR, "public", "spines")
                                 os.makedirs(local_dir, exist_ok=True)
                                 local_filepath = os.path.join(local_dir, f"{u_id}.webp")
                                 
-                                # Extraemos los bytes del buffer y los guardamos
                                 with open(local_filepath, 'wb') as f:
                                     f.write(buffer.getvalue())
                                 
@@ -224,10 +224,8 @@ def update_database():
                                     ExtraArgs={'ContentType': 'image/webp'}
                                 )
 
-                                # --- CONSTRUCCIÓN INFALIBLE DE LA URL PÚBLICA ---
                                 prefix = B2_PUBLIC_URL_PREFIX
                                 if not prefix: 
-                                    # Fallback automático por si el .env falla
                                     prefix = f"https://f005.backblazeb2.com/file/{B2_BUCKET_NAME}"
 
                                 public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
@@ -244,7 +242,10 @@ def update_database():
                                 existing_data.append(entry)
                                 existing_ids.add(u_id)
                                 existing_hashes.add(h)
+                                
+                                # Guardamos estadísticas para la UI
                                 total_new += 1
+                                new_authors.append(f"u/{p['author']}")
 
                                 if total_new % 5 == 0:
                                     save_db(existing_data)
@@ -259,6 +260,24 @@ def update_database():
 
     save_db(existing_data)
     print(f"\n✨ Proceso finalizado. {total_new} lomos añadidos correctamente.")
+
+    # --- AUTOMATIZACIÓN DE METADATOS DEL LOTE NUEVO ---
+    if total_new > 0:
+        scrape_info_path = os.path.join(BASE_DIR, "public", "scrape_info.json")
+        unique_authors = sorted(list(set(new_authors)))
+        
+        info_payload = {
+            "count": total_new,
+            "date": time.strftime("%Y-%m-%d %H:%M"),
+            "authors": unique_authors
+        }
+        
+        try:
+            with open(scrape_info_path, 'w', encoding='utf-8') as f_info:
+                json.dump(info_payload, f_info, indent=2, ensure_ascii=False)
+            print(f"💾 Metadatos del scrape actualizados en: {scrape_info_path}")
+        except Exception as e:
+            print(f"⚠️ No se pudo escribir automáticamente scrape_info.json: {e}")
 
 if __name__ == "__main__":
     update_database()

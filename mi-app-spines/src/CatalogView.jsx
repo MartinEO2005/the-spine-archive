@@ -15,14 +15,22 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [visibleCount, setVisibleCount] = useState(60); 
   const [sortOrder, setSortOrder] = useState('newest'); 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
   useEffect(() => {
+    // 1. Cargamos base de datos estática desde /public/database.json[cite: 12]
     fetch('/database.json')
       .then(res => res.json())
       .then(data => { 
         setSpines(data); 
         setLoading(false); 
       });
+
+    // 2. Cargamos metadatos de scrape_info.json generados automáticamente por Python
+    fetch('/scrape_info.json')
+      .then(res => res.json())
+      .then(data => setScrapeInfo(data))
+      .catch(() => {}); // Evitamos romper la web si el archivo aún no existe
   }, []);
 
   useEffect(() => {
@@ -53,30 +61,13 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // LÓGICA DE NOVEDADES (Últimos 7 días)
-  const recentData = useMemo(() => {
-    if (!spines.length) return { count: 0, authors: [] };
-
-    const sevenDaysAgo = Math.floor(Date.now() / 1000) - (7 * 24 * 60 * 60);
-    const recentSpines = spines.filter(s => s.created_utc && s.created_utc >= sevenDaysAgo);
-
-    if (recentSpines.length === 0) return { count: 0, authors: [] };
-
-    const uniqueAuthors = [...new Set(recentSpines.map(s => s.author))].filter(Boolean);
-    
-    return {
-      count: recentSpines.length,
-      authors: uniqueAuthors
-    };
-  }, [spines]);
-
-  // DISPARADOR DEL POP-UP (Solo 1 vez por sesión)
+  // DISPARADOR DEL POP-UP (Solo se muestra 1 vez por sesión del navegador)
   useEffect(() => {
-    if (recentData.count > 0 && !sessionStorage.getItem('updateModalSeen')) {
+    if (scrapeInfo.count > 0 && !sessionStorage.getItem('updateModalSeen')) {
       setShowUpdateModal(true);
       sessionStorage.setItem('updateModalSeen', 'true');
     }
-  }, [recentData]);
+  }, [scrapeInfo]);
 
   // FILTRADO Y ORDENAMIENTO
   const filteredSpines = useMemo(() => {
@@ -122,30 +113,55 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111' }}>
       
-      {/* POP-UP DE NOVEDADES */}
+      {/* POP-UP RETRO PIXEL CON ESTILO DE STATS */}
       {showUpdateModal && (
         <div style={{ 
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-          backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
-          display: 'flex', justifyContent: 'center', alignItems: 'center' 
+          backgroundColor: 'rgba(0,0,0,0.9)', zIndex: 9999, 
+          display: 'flex', justifyContent: 'center', alignItems: 'center',
+          fontFamily: '"Press Start 2P", monospace'
         }}>
           <div style={{ 
-            backgroundColor: '#222', padding: '35px', borderRadius: '12px', width: '450px', 
-            textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #b30000' 
+            backgroundColor: '#222', 
+            padding: '30px', 
+            width: '460px', 
+            textAlign: 'center', 
+            border: '4px solid #b30000', 
+            boxShadow: '8px 8px 0px #000',
+            boxSizing: 'border-box'
           }}>
-            <div style={{ fontSize: '50px', marginBottom: '15px' }}>🔥</div>
+            <div style={{ fontSize: '32px', marginBottom: '20px', textShadow: '2px 2px 0px #000' }}>🔥</div>
             
-            <h2 style={{ color: '#ffcc00', marginBottom: '20px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>
-              LATEST UPDATE
+            <h2 style={{ 
+              color: '#fff', 
+              fontSize: '12px', 
+              marginBottom: '20px', 
+              borderBottom: '4px solid #b30000',
+              paddingBottom: '15px',
+              textShadow: '2px 2px 0px #b30000',
+              letterSpacing: '1px'
+            }}>
+              LATEST SCRAPE
             </h2>
             
-            <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginBottom: '25px', border: '1px solid #444' }}>
-              <p style={{ color: '#ddd', fontSize: '15px', lineHeight: '1.6', margin: 0, fontFamily: 'sans-serif' }}>
-                <strong>{recentData.count}</strong> new spines were added this week!
-                <br/><br/>
-                Huge thanks to our contributors:<br/>
-                <span style={{ color: '#ff4d4d', fontWeight: 'bold' }}>
-                  {recentData.authors.slice(0, 8).join(', ')}{recentData.authors.length > 8 ? ' and more!' : ''}
+            <div style={{ 
+              backgroundColor: '#111', 
+              padding: '15px', 
+              border: '4px solid #333', 
+              marginBottom: '25px',
+              textAlign: 'left',
+              lineHeight: '1.8'
+            }}>
+              <p style={{ color: '#fff', fontSize: '8px', margin: '0 0 10px 0' }}>
+                <span style={{ color: '#ffcc00' }}>{scrapeInfo.count}</span> NEW SPINES DETECTED!
+              </p>
+              <p style={{ color: '#888', fontSize: '7px', margin: '0 0 15px 0' }}>
+                SCRAPE DATE: {scrapeInfo.date}
+              </p>
+              <p style={{ color: '#aaa', fontSize: '7px', margin: 0 }}>
+                CONTRIBUTORS:<br/>
+                <span style={{ color: '#ff4d4d' }}>
+                  {scrapeInfo.authors?.slice(0, 6).join(', ')}{scrapeInfo.authors?.length > 6 ? ' and more!' : ''}
                 </span>
               </p>
             </div>
@@ -153,11 +169,19 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
             <button 
               onClick={() => setShowUpdateModal(false)} 
               style={{ 
-                background: '#b30000', color: 'white', border: 'none', cursor: 'pointer', 
-                padding: '12px 30px', borderRadius: '5px', fontWeight: 'bold', 
-                fontFamily: '"Press Start 2P", monospace', fontSize: '10px',
-                boxShadow: '3px 3px 0px rgba(0,0,0,0.3)'
+                background: '#b30000', 
+                color: 'white', 
+                border: '2px solid #fff', 
+                cursor: 'pointer', 
+                padding: '10px 20px', 
+                fontWeight: 'bold', 
+                fontFamily: '"Press Start 2P", monospace', 
+                fontSize: '8px',
+                boxShadow: '3px 3px 0px #000',
+                transition: 'transform 0.1s'
               }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
               AWESOME!
             </button>
@@ -169,7 +193,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
         <img src="/logo.jpg" alt="Logo" onClick={() => setCurrentView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
         
-        <div style={{ display: 'flex', marginRight: '30px' }}>
+        <div style={{ display: 'flex', marginRight: '30px', fontFamily: 'sans-serif' }}>
           <button onClick={() => setCurrentView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
           <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
           <button onClick={() => setCurrentView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
@@ -183,7 +207,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
                 placeholder="Search by name, author..." 
                 value={searchTerm} 
                 onChange={(e) => setSearchTerm(e.target.value)} 
-                style={{ flex: 1, padding: '10px 20px', borderRadius: '5px', border: 'none' }} 
+                style={{ flex: 1, padding: '10px 20px', borderRadius: '5px', border: 'none', fontFamily: 'sans-serif' }} 
               />
           </div>
         )}
@@ -204,7 +228,8 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
             fontSize: '13px',
             marginRight: '15px',
             borderRadius: '5px',
-            boxShadow: '3px 3px 0px rgba(0,0,0,0.2)'
+            boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
+            fontFamily: 'sans-serif'
           }}
         >
           ⭐ SUPPORT THE PROJECT
@@ -220,7 +245,8 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
             padding: '10px 25px', 
             borderRadius: '5px', 
             fontWeight: 'bold', 
-            cursor: 'pointer' 
+            cursor: 'pointer',
+            fontFamily: 'sans-serif'
           }}
         >
           GENERATE PDF ({selectedSpines.length})
@@ -230,7 +256,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       <div style={{ flex: 1, backgroundColor: '#111', position: 'relative' }}>
         {currentView === 'catalog' ? (
           <>
-            {/* BOTÓN FLOTANTE PARA ORDENAR (Posición absoluta pura, no rompe el grid) */}
+            {/* BOTÓN FLOTANTE PARA ORDENAR */}
             <button 
               onClick={() => setSortOrder(prev => prev === 'newest' ? 'az' : 'newest')}
               title={sortOrder === 'newest' ? 'Viewing Newest. Click for A-Z' : 'Viewing A-Z. Click for Newest'}
@@ -240,23 +266,23 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
                 left: '15px',
                 backgroundColor: '#222',
                 color: '#fff',
-                border: '2px solid #444',
+                border: '3px solid #444',
                 borderRadius: '50%',
-                width: '40px',
-                height: '40px',
+                width: '45px',
+                height: '45px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '16px',
+                fontSize: '18px',
                 zIndex: 50,
-                boxShadow: '2px 2px 0px #000',
+                boxShadow: '3px 3px 0px #000',
                 transition: 'transform 0.2s'
               }}
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-              {sortOrder === 'newest' ? '🔄' : '🔤'}
+              {sortOrder === 'newest' ? '🔥' : '🔤'}
             </button>
 
             {/* SE RESTAURA EL GRID LIMPIO SIN PADDINGS EXTRAÑOS */}
