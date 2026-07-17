@@ -221,30 +221,26 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
                   ★ TOP CONTRIBUTORS ★
                 </p>
                 <div style={{ 
-                  display: 'flex', 
-                  flexWrap: 'wrap', 
-                  justifyContent: 'center', 
-                  gap: '10px' 
-                }}>
-                  {scrapeInfo.authors?.slice(0, 30).map((author, idx) => (
-                    <span key={idx} style={{
-                      backgroundColor: '#222',
-                      color: '#ff4d4d',
-                      padding: '8px 12px',
-                      border: '2px solid #555',
-                      fontSize: '9px',
-                      boxShadow: '2px 2px 0px #000'
+                      display: 'flex', 
+                      flexWrap: 'wrap', 
+                      justifyContent: 'center', 
+                      gap: '10px' 
                     }}>
-                      {author}
-                    </span>
-                  ))}
-                  {scrapeInfo.authors?.length > 30 && (
-                    <span style={{ color: '#888', fontSize: '9px', padding: '8px' }}>...and more!</span>
-                  )}
-                </div>
+                      {scrapeInfo.authors?.map((author, idx) => (
+                        <span key={idx} style={{
+                          backgroundColor: '#222',
+                          color: '#ff4d4d',
+                          padding: '8px 12px',
+                          border: '2px solid #555',
+                          fontSize: '9px',
+                          boxShadow: '2px 2px 0px #000'
+                        }}>
+                          {author}
+                        </span>
+                      ))}
+                    </div>
               </div>
             </div>
-
             <button 
               onClick={() => setShowUpdateModal(false)} 
               style={{ 
