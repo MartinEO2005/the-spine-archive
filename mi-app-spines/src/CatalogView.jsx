@@ -4,6 +4,14 @@ import StatsView from './StatsView';
 import AboutView from './AboutView';
 import RequestsView from './RequestsView';
 
+// --- GENERADOR DE PURPURINA PARA EL POP-UP ---
+const CONFETTI_PARTICLES = Array.from({ length: 30 }).map(() => ({
+  left: `${Math.random() * 100}%`,
+  color: ['#ffcc00', '#b30000', '#00ff00', '#00ffff'][Math.floor(Math.random() * 4)],
+  duration: `${1 + Math.random() * 1.5}s`,
+  delay: `${Math.random() * 2}s`
+}));
+
 const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,7 +26,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
   useEffect(() => {
-    // 1. Cargamos base de datos estática desde /public/database.json
     fetch('/database.json')
       .then(res => res.json())
       .then(data => { 
@@ -26,11 +33,10 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         setLoading(false); 
       });
 
-    // 2. Cargamos metadatos de scrape_info.json generados automáticamente por Python
     fetch('/scrape_info.json')
       .then(res => res.json())
       .then(data => setScrapeInfo(data))
-      .catch(() => {}); // Evitamos romper la web si el archivo aún no existe
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -61,7 +67,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  // DISPARADOR DEL POP-UP (Solo se muestra 1 vez por sesión del navegador)
   useEffect(() => {
     if (scrapeInfo.count > 0 && !sessionStorage.getItem('updateModalSeen')) {
       setShowUpdateModal(true);
@@ -69,7 +74,6 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     }
   }, [scrapeInfo]);
 
-  // FILTRADO Y ORDENAMIENTO
   const filteredSpines = useMemo(() => {
     let result = [...spines];
 
@@ -113,80 +117,131 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111' }}>
       
-      {/* POP-UP RETRO PIXEL RE-DISEÑADO (MÁS GRANDE Y LEGIBLE) */}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+          
+          @keyframes confetti-fall {
+            0% { transform: translateY(-40px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+          }
+
+          @keyframes pulse-border {
+            0% { border-color: #b30000; box-shadow: 0 0 10px #b30000; }
+            50% { border-color: #ffcc00; box-shadow: 0 0 30px #ffcc00; }
+            100% { border-color: #b30000; box-shadow: 0 0 10px #b30000; }
+          }
+        `}
+      </style>
+
+      {/* POP-UP RETRO PIXEL CON EFECTOS VISUALES */}
       {showUpdateModal && (
         <div style={{ 
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-          backgroundColor: 'rgba(0,0,0,0.9)', zIndex: 9999, 
+          backgroundColor: 'rgba(0,0,0,0.92)', zIndex: 9999, 
           display: 'flex', justifyContent: 'center', alignItems: 'center',
           fontFamily: '"Press Start 2P", monospace'
         }}>
+          
+          {/* Lluvia de confeti de fondo */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+            {CONFETTI_PARTICLES.map((particle, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                top: '-10px',
+                left: particle.left,
+                width: '6px', height: '6px',
+                backgroundColor: particle.color,
+                animation: `confetti-fall ${particle.duration} infinite linear`,
+                animationDelay: particle.delay
+              }}></div>
+            ))}
+          </div>
+
           <div style={{ 
-            backgroundColor: '#222', 
+            backgroundColor: '#1a1a1a', 
             padding: '40px', 
-            width: '680px', // Aumentado para dar espacio a los textos y nombres
+            width: '750px', 
             textAlign: 'center', 
             border: '4px solid #b30000', 
-            boxShadow: '8px 8px 0px #000',
-            boxSizing: 'border-box'
+            animation: 'pulse-border 2s infinite',
+            boxSizing: 'border-box',
+            position: 'relative',
+            zIndex: 10
           }}>
             
-            {/* Bowser de fuego reemplazando el emoji */}
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '25px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img 
                 src="/Imagen_fuego.jpg" 
                 alt="Bowser Fire" 
                 style={{ 
-                  width: '320px', 
+                  width: '380px', 
                   height: 'auto', 
-                  display: 'block'
+                  display: 'block',
+                  filter: 'drop-shadow(0px 0px 15px rgba(255, 100, 0, 0.4))'
                 }} 
               />
             </div>
             
             <h2 style={{ 
               color: '#fff', 
-              fontSize: '18px', // Fuente más grande y legible
+              fontSize: '22px', 
               marginBottom: '25px', 
               borderBottom: '4px solid #b30000',
               paddingBottom: '20px',
-              textShadow: '3px 3px 0px #b30000',
-              letterSpacing: '1px'
+              textShadow: '4px 4px 0px #b30000',
+              letterSpacing: '2px'
             }}>
               LATEST SCRAPE
             </h2>
             
             <div style={{ 
               backgroundColor: '#111', 
-              padding: '25px', 
+              padding: '30px', 
               border: '4px solid #333', 
-              marginBottom: '30px',
-              textAlign: 'left',
-              lineHeight: '1.8'
+              marginBottom: '35px',
+              textAlign: 'center'
             }}>
-              <p style={{ color: '#fff', fontSize: '11px', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
-                💥 <span style={{ color: '#ffcc00' }}>{scrapeInfo.count}</span> NEW SPINES DETECTED!
-              </p>
+              <div style={{ 
+                color: '#fff', 
+                fontSize: '14px', 
+                marginBottom: '15px', 
+                lineHeight: '1.8' 
+              }}>
+                <span style={{ color: '#ffcc00', fontSize: '24px', textShadow: '2px 2px #000' }}>{scrapeInfo.count}</span><br/> 
+                NEW SPINES DETECTED!
+              </div>
               
-              <p style={{ color: '#888', fontSize: '10px', margin: '0 0 20px 0' }}>
-                SCRAPE DATE: {scrapeInfo.date}
-              </p>
+              <div style={{ color: '#888', fontSize: '9px', marginBottom: '25px', fontFamily: 'monospace' }}>
+                [ SYSTEM DATE: {scrapeInfo.date} ]
+              </div>
               
-              <div style={{ borderTop: '2px dashed #333', paddingTop: '15px' }}>
-                <p style={{ color: '#aaa', fontSize: '10px', margin: '0 0 10px 0', textDecoration: 'underline' }}>
-                  CONTRIBUTORS:
+              <div style={{ borderTop: '2px dashed #444', paddingTop: '20px' }}>
+                <p style={{ color: '#ffcc00', fontSize: '10px', margin: '0 0 15px 0' }}>
+                  ★ TOP CONTRIBUTORS ★
                 </p>
-                <p style={{ 
-                  color: '#ff4d4d', 
-                  fontSize: '9px', 
-                  margin: 0, 
-                  lineHeight: '1.8',
-                  wordBreak: 'break-word', // Asegura que no se salgan de los bordes del cuadro
-                  whiteSpace: 'normal'
+                <div style={{ 
+                  display: 'flex', 
+                  flexWrap: 'wrap', 
+                  justifyContent: 'center', 
+                  gap: '10px' 
                 }}>
-                  {scrapeInfo.authors?.slice(0, 30).join(', ')}
-                  {scrapeInfo.authors?.length > 30 ? ' and more!' : ''}
-                </p>
+                  {scrapeInfo.authors?.slice(0, 30).map((author, idx) => (
+                    <span key={idx} style={{
+                      backgroundColor: '#222',
+                      color: '#ff4d4d',
+                      padding: '8px 12px',
+                      border: '2px solid #555',
+                      fontSize: '9px',
+                      boxShadow: '2px 2px 0px #000'
+                    }}>
+                      {author}
+                    </span>
+                  ))}
+                  {scrapeInfo.authors?.length > 30 && (
+                    <span style={{ color: '#888', fontSize: '9px', padding: '8px' }}>...and more!</span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -195,14 +250,15 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
               style={{ 
                 background: '#b30000', 
                 color: 'white', 
-                border: '3px solid #fff', 
+                border: '4px solid #fff', 
                 cursor: 'pointer', 
-                padding: '12px 30px', 
+                padding: '15px 40px', 
                 fontWeight: 'bold', 
                 fontFamily: '"Press Start 2P", monospace', 
-                fontSize: '11px', // Botón más grande y fácil de clickear
-                boxShadow: '4px 4px 0px #000',
-                transition: 'transform 0.1s'
+                fontSize: '14px', 
+                boxShadow: '6px 6px 0px #000',
+                transition: 'transform 0.1s',
+                letterSpacing: '1px'
               }}
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
