@@ -9,3 +9,4 @@ mi-app-spines/public/spines/
 dist/
 .DS_Store
 .env
+extractions/
