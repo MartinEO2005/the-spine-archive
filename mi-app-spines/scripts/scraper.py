@@ -47,8 +47,11 @@ if not os.path.exists(DB_JSON_PATH):
 letras = "abcdefghijklmnopqrstuvwxyz"
 SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
                 "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
-                  "Areckusu", "KEGINUS", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Madden", "V-Rally 4"]
-#SEARCH_TERMS = ["Mutant Mudds", " Sisters Party ", "Teen", "Teenage Mutant Ninja Turtles", "Madden", "eridyon", "DNN", "Construction Simulator", "deltarune"] 
+                  "Areckusu", "KEGINUS", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
+                  "#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9", "#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19", "#20", "#21", "#22",
+                    "#23", "#24", "#25", "#26", "#27", "#28", "#29", "#30", "#31", "#32", "#33", "#34", "#35", "#36", "#37", "#38", "#39", "#40", 
+                    "#41", "#42", "#43", "#44", "#45", "#46", "#47", "#48", "#49", "#50", "#51", "#52", "#53", "#54", "#55", "#56", "#57", "#58", "#59",]
+#SEARCH_TERMS = ["Mutant Mudds", " Sisters Party ", "Teen", "Teenage Mutant Ninja Turtles", "Madden", "eridyon", "DNN", "Construction Simulator", "deltarune", "DieNoNintySet212"] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
