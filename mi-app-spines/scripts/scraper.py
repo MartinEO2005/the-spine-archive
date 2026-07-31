@@ -48,9 +48,10 @@ letras = "abcdefghijklmnopqrstuvwxyz"
 SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
                 "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
                   "Areckusu", "KEGINUS", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
-                  "#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9", "#10", "#11", "#12", "#13", "#14", "#15", "#16", "#17", "#18", "#19", "#20", "#21", "#22",
-                    "#23", "#24", "#25", "#26", "#27", "#28", "#29", "#30", "#31", "#32", "#33", "#34", "#35", "#36", "#37", "#38", "#39", "#40", 
-                    "#41", "#42", "#43", "#44", "#45", "#46", "#47", "#48", "#49", "#50", "#51", "#52", "#53", "#54", "#55", "#56", "#57", "#58", "#59",]
+                  "DieNoNintySet#1", "DieNoNintySet#2", "DieNoNintySet#3", "DieNoNintySet#4", "DieNoNintySet#5", "DieNoNintySet#6", "DieNoNintySet#7", "DieNoNintySet#8", "DieNoNintySet#9", "DieNoNintySet#10", "DieNoNintySet#11", "DieNoNintySet#12", "DieNoNintySet#13", "DieNoNintySet#14", "DieNoNintySet#15", "DieNoNintySet#16", "DieNoNintySet#17", "DieNoNintySet#18", "DieNoNintySet#19", "DieNoNintySet#20", "DieNoNintySet#21", "DieNoNintySet#22",
+                    "DieNoNintySet#23", "DieNoNintySet#24", "DieNoNintySet#25", "DieNoNintySet#26", "DieNoNintySet#27", "DieNoNintySet#28", "DieNoNintySet#29", " DieNoNintySet#30", " DieNoNintySet#31", " DieNoNintySet#32", " DieNoNintySet#33", " DieNoNintySet#34", " DieNoNintySet#35", " DieNoNintySet#36", " DieNoNintySet#37", " DieNoNintySet#38", " DieNoNintySet#39", " DieNoNintySet#40",
+                    "DieNoNintySet#41", " DieNoNintySet#42", " DieNoNintySet#43", " DieNoNintySet#44", " DieNoNintySet#45", " DieNoNintySet#46", " DieNoNintySet#47", " DieNoNintySet#48", " DieNoNintySet#49", " DieNoNintySet#50"]
+
 #SEARCH_TERMS = ["Mutant Mudds", " Sisters Party ", "Teen", "Teenage Mutant Ninja Turtles", "Madden", "eridyon", "DNN", "Construction Simulator", "deltarune", "DieNoNintySet212"] 
 MAX_UPLOADS = 10000 
 
