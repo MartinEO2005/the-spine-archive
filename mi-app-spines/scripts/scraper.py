@@ -45,14 +45,14 @@ if not os.path.exists(DB_JSON_PATH):
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-#SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
-    #            "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
-      #            "Areckusu", "KEGINUS", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
-   #                " DieNoNintySet#49", " DieNoNintySet#50"]
+SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
+                "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
+                  "Areckusu", "KEGINUS", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
+                  " DieNoNintySet#49", " DieNoNintySet#50", "N80378"]
 
-SEARCH_TERMS = ["by","DieNoNintySet260", "DieNoMight9", "The Sexy Brutale","xangelo117x" ,"DieNoNintySet", "DieNoNintySet#2", "DieNoNintySet#3", "DieNoNintySet#4", "DieNoNintySet#5", "DieNoNintySet#6", "DieNoNintySet#7", "DieNoNintySet#8", "DieNoNintySet#9", "DieNoNintySet#10", "DieNoNintySet#11", "DieNoNintySet#12", "DieNoNintySet#13", "DieNoNintySet#14", "DieNoNintySet#15", "DieNoNintySet#16", "DieNoNintySet#17", "DieNoNintySet#18", "DieNoNintySet#19", "DieNoNintySet#20", "DieNoNintySet#21", "DieNoNintySet#22",
-                    "DieNoNintySet#23", "DieNoNintySet#24", "DieNoNintySet#25", "DieNoNintySet#26", "DieNoNintySet#27", "DieNoNintySet#28", "DieNoNintySet#29", " DieNoNintySet#30", " DieNoNintySet#31", " DieNoNintySet#32", " DieNoNintySet#33", " DieNoNintySet#34", " DieNoNintySet#35", " DieNoNintySet#36", " DieNoNintySet#37", " DieNoNintySet#38", " DieNoNintySet#39", " DieNoNintySet#40",
-                    "DieNoNintySet#41", " DieNoNintySet#42", " DieNoNintySet#43", " DieNoNintySet#44", " DieNoNintySet#45", " DieNoNintySet#46", " DieNoNintySet#47", " DieNoNintySet#48",] 
+#SEARCH_TERMS = ["by", "DieNoNintySet#13", "DieNoNintySet#14", "DieNoNintySet#15", "DieNoNintySet#16", "DieNoNintySet#17", "DieNoNintySet#18", "DieNoNintySet#19", "DieNoNintySet#20", "DieNoNintySet#21", "DieNoNintySet#22",
+  #                  "DieNoNintySet#23", "DieNoNintySet#24", "DieNoNintySet#25", "DieNoNintySet#26", "DieNoNintySet#27", "DieNoNintySet#28", "DieNoNintySet#29", " DieNoNintySet#30", " DieNoNintySet#31", " DieNoNintySet#32", " DieNoNintySet#33", " DieNoNintySet#34", " DieNoNintySet#35", " DieNoNintySet#36", " DieNoNintySet#37", " DieNoNintySet#38", " DieNoNintySet#39", " DieNoNintySet#40",
+    #                "DieNoNintySet#41", " DieNoNintySet#42", " DieNoNintySet#43", " DieNoNintySet#44", " DieNoNintySet#45", " DieNoNintySet#46", " DieNoNintySet#47", " DieNoNintySet#48",] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
