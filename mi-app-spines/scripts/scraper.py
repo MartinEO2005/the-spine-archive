@@ -45,10 +45,11 @@ if not os.path.exists(DB_JSON_PATH):
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = [" ","The Eternal Comet", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
+SEARCH_TERMS = [" ","The Eternal Comet","Drosanator", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
                 "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
-                  "Areckusu", "KEGINUS", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
-                  " DieNoNintySet#49", " DieNoNintySet#50", "N80378"]
+                  "Areckusu", "KEGINUS","ArgyleMonkey", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
+                  "N80378", "Into the Breach by LatchHyena", "gaymersaurio_rex", "WishIWereAGhost", "SirDvolution", "thedustud", "Knuckles316" ,"spamgal6969", "pokeguy64", "MTPPY2",
+                  "Toskotadi"]
 
 #SEARCH_TERMS = ["by", "DieNoNintySet#13", "DieNoNintySet#14", "DieNoNintySet#15", "DieNoNintySet#16", "DieNoNintySet#17", "DieNoNintySet#18", "DieNoNintySet#19", "DieNoNintySet#20", "DieNoNintySet#21", "DieNoNintySet#22",
   #                  "DieNoNintySet#23", "DieNoNintySet#24", "DieNoNintySet#25", "DieNoNintySet#26", "DieNoNintySet#27", "DieNoNintySet#28", "DieNoNintySet#29", " DieNoNintySet#30", " DieNoNintySet#31", " DieNoNintySet#32", " DieNoNintySet#33", " DieNoNintySet#34", " DieNoNintySet#35", " DieNoNintySet#36", " DieNoNintySet#37", " DieNoNintySet#38", " DieNoNintySet#39", " DieNoNintySet#40",
