@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 
 const DEFAULT_SPINE_WIDTH = 10.5;
 
-// CLAVE: Objeto global para guardar las imágenes y evitar que se descarguen en bucle
+// Objeto global para guardar las imágenes ya convertidas a Base64 y evitar descargas en bucle
 const printerImageCache = {};
 
 const PrinterView = ({ initialSpines, onBack }) => {
@@ -11,7 +11,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // NUEVOS ESTADOS PARA DRAG & DROP
+  // Estados para Drag & Drop
   const [draggedItemIndex, setDraggedItemIndex] = useState(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState(null);
 
@@ -26,6 +26,10 @@ const PrinterView = ({ initialSpines, onBack }) => {
   });
 
   const inchToMm = (inch) => inch * 25.4;
+
+  const resetSpineWidth = () => {
+    setConfig({ ...config, spineWidthMM: DEFAULT_SPINE_WIDTH });
+  };
 
   const loadImageSafe = (spine) => {
     return new Promise((resolve) => {
@@ -64,11 +68,22 @@ const PrinterView = ({ initialSpines, onBack }) => {
     if (images.length === 0) { setPdfUrl(null); return; }
     setIsGenerating(true);
     try {
+      const isPortrait = config.pageWidth < config.pageHeight;
+      const orientation = isPortrait ? 'p' : 'l';
+
+      let pdfFormat = [inchToMm(config.pageWidth), inchToMm(config.pageHeight)];
+      if (config.pageWidth === 11.0 && config.pageHeight === 8.5) {
+        pdfFormat = 'letter';
+      } else if (config.pageWidth === 11.69 && config.pageHeight === 8.27) {
+        pdfFormat = 'a4';
+      }
+
       const pdf = new jsPDF({
-        orientation: 'l',
+        orientation: orientation,
         unit: 'mm',
-        format: [inchToMm(config.pageWidth), inchToMm(config.pageHeight)]
+        format: pdfFormat
       });
+
       const sW = parseFloat(config.spineWidthMM);
       const sH = 161; 
       const gap = inchToMm(config.spineSpacing);
@@ -94,9 +109,9 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
       loadedImages.forEach((imgData) => {
         if (!imgData) return;
-        if (curX + sW > pW - mRight) { curX = mLeft; curY += sH + 5; }
-        if (curY + sH > pH - mTop) {
-          pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], 'l');
+        if (curX + sW > pW - mRight) { curX = mLeft; curY += sH + 2; }
+        if (curY + sH > pH - 2) {
+          pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
           curX = mLeft; curY = mTop;
         }
         pdf.addImage(imgData, 'JPEG', curX, curY, sW, sH, undefined, 'NONE');
@@ -111,7 +126,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
     return () => clearTimeout(timer);
   }, [generatePreview]);
 
-  // FUNCIONES DE DRAG & DROP
+  // Funciones de Drag & Drop
   const handleDragStart = (e, index) => {
     setDraggedItemIndex(index);
     e.dataTransfer.effectAllowed = "move";
@@ -143,21 +158,26 @@ const PrinterView = ({ initialSpines, onBack }) => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
       {/* HEADER */}
       <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
-        <button onClick={onBack} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK</button>
+        <button onClick={onBack} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
         <div style={{ color: 'white', fontWeight: 'bold' }}>
-          {isGenerating ? "⏳ GENERATING..." : "PRINT EDITOR"}
+          {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW (MULTI-PAGE)"}
         </div>
-        <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 20px', borderRadius: '4px', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
+          <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+        </div>
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-            {images.map((img, i) => (
+        
+        {/* PANEL IZQUIERDO CON DRAG & DROP */}
+        <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+            {images.map((imgObj, i) => (
               <div 
                 key={i} 
                 draggable
@@ -168,81 +188,127 @@ const PrinterView = ({ initialSpines, onBack }) => {
                 onDrop={(e) => handleDrop(e, i)}
                 onDragEnd={handleDragEnd}
                 style={{ 
+                  position: 'relative', 
                   background: 'white', 
-                  borderRadius: '4px', 
+                  borderRadius: '8px', 
                   overflow: 'hidden', 
-                  position: 'relative',
+                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)', 
+                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #b30000' : (!imgObj.src ? '2px solid orange' : 'none'),
                   cursor: 'grab',
-                  opacity: draggedItemIndex === i ? 0.4 : 1, // Hace semi-transparente el que estás moviendo
-                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #007bff' : '3px solid transparent', // Indicador visual de destino
+                  opacity: draggedItemIndex === i ? 0.5 : 1,
                   transform: dragOverItemIndex === i && draggedItemIndex !== i ? 'scale(1.02)' : 'scale(1)',
                   transition: 'all 0.2s ease',
                   boxSizing: 'border-box'
                 }}
               >
-                {/* BARRA VISUAL PARA ARRASTRAR */}
-                <div style={{ backgroundColor: '#444', color: 'white', textAlign: 'center', fontSize: '12px', padding: '4px 0', fontWeight: 'bold' }}>
-                  ☰ 
+                <div style={{ backgroundColor: '#444', color: 'white', textAlign: 'center', fontSize: '10px', padding: '3px 0', cursor: 'grab' }}>
+                  ☰ DRAG
                 </div>
 
-                <img src={img.image || img.src} alt="spine" style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} />
+                <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} />
+                </div>
                 
-                <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
                   <input 
                     type="number" 
-                    value={img.count || 1} 
+                    value={imgObj.count} 
                     onChange={(e) => {
-                      const newImages = [...images];
-                      newImages[i].count = Math.max(1, parseInt(e.target.value) || 1);
-                      setImages(newImages);
+                      const newImgs = [...images];
+                      newImgs[i].count = Math.max(1, parseInt(e.target.value) || 1);
+                      setImages(newImgs);
                     }} 
-                    style={{ width: '50px', color: '#000000', WebkitTextFillColor: '#000000', background: 'white', border: '1px solid #ccc' }} 
+                    style={{ width: '45px', textAlign: 'center', border: '1px solid #ccc', color: '#000', background: 'white' }} 
                   />
-                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', width: '24px', height: '24px', borderRadius: '4px', cursor: 'pointer' }}>✕</button>
                 </div>
+                
+                <button 
+                  onClick={() => setImages(images.filter((_, idx) => idx !== i))} 
+                  style={{ position: 'absolute', top: '22px', right: '5px', backgroundColor: 'rgba(230, 0, 18, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer', zIndex: 10 }}
+                > 
+                  × 
+                </button>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
+        {/* ÁREA CENTRAL Y CONTROLES */}
+        <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
+          
           <div style={{ 
-            position: 'absolute', top: '20px', right: '20px', zIndex: 1000, 
-            backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', width: '280px', 
-            boxShadow: '0 10px 25px rgba(0,0,0,0.5)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px'
+              position: 'absolute', top: '15px', right: '15px', zIndex: 10, 
+              backgroundColor: 'white', padding: '15px', borderRadius: '8px', 
+              boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'flex', 
+              flexDirection: 'column', gap: '12px', color: '#000000' 
           }}>
-            {['spineSpacing', 'pageWidth', 'pageHeight', 'marginTop', 'marginLeft', 'marginRight'].map(k => (
-              <div key={k}>
-                <label style={{ 
-                  fontSize: '11px', fontWeight: 'bold', display: 'block', 
-                  color: '#000000', 
-                  WebkitTextFillColor: '#000000', 
-                  marginBottom: '4px'
-                }}>
-                  {k.toUpperCase()}
-                </label>
+            <div>
+              <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
+              <select 
+                onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                    if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                    if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
+                    if (val === '7x5-tight') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.1, marginLeft: 0.01, marginRight: 0.01, spineSpacing: 0.0});
+                }}
+                style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
+              >
+                <option value="Letter">Letter (𝐫𝐞𝐜𝐨𝐦𝐦𝐞𝐧𝐝𝐞𝐝) - 11" x 8.5"</option>
+                <option value="A4">A4 (EU) - 297 x 210mm</option>
+                <option value="7x5">7 x 5 inch (Standard)</option>
+                <option value="7x5-tight">7 x 5 inch (Tight)</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+              {[
+                { label: 'Spacing', key: 'spineSpacing' },
+                { label: 'Page W', key: 'pageWidth' },
+                { label: 'Page H', key: 'pageHeight' },
+                { label: 'M. Top', key: 'marginTop' },
+                { label: 'M. Left', key: 'marginLeft' },
+                { label: 'M. Right', key: 'marginRight' }
+              ].map(item => (
+                <div key={item.key}>
+                  <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block', color: '#333' }}>{item.label}</label>
+                  <input 
+                    type="number" step="0.01" 
+                    value={config[item.key]} 
+                    onChange={e => setConfig({...config, [item.key]: parseFloat(e.target.value) || 0})} 
+                    style={{ width: '55px', color: '#000', border: '1px solid #ccc', background: 'white' }} 
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div style={{ borderTop: '1px solid #eee', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <label style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>Spine (mm): </label>
                 <input 
-                  type="number" 
-                  step="0.1" 
-                  value={config[k]} 
-                  onChange={e => setConfig({...config, [k]: parseFloat(e.target.value) || 0})} 
-                  style={{ 
-                    width: '100%', 
-                    color: '#000000', 
-                    WebkitTextFillColor: '#000000', 
-                    backgroundColor: '#ffffff', 
-                    border: '2px solid #333333', 
-                    borderRadius: '4px', padding: '5px', boxSizing: 'border-box'
-                  }} 
+                  type="range" min={DEFAULT_SPINE_WIDTH - 5} max={DEFAULT_SPINE_WIDTH + 10} step="0.1"
+                  value={config.spineWidthMM} 
+                  onChange={e => setConfig({...config, spineWidthMM: parseFloat(e.target.value)})} 
+                  style={{ width: '100px', verticalAlign: 'middle' }} 
                 />
+                <span style={{ marginLeft: '8px', fontSize: '12px', color: '#000' }}>{config.spineWidthMM}</span>
               </div>
-            ))}
+              <button 
+                onClick={resetSpineWidth}
+                style={{ backgroundColor: '#eee', color: '#333', border: '1px solid #ccc', borderRadius: '3px', fontSize: '10px', padding: '2px 5px', cursor: 'pointer' }}
+              >
+                RESET
+              </button>
+            </div>
           </div>
 
           {pdfUrl ? (
-            <iframe src={`${pdfUrl}#view=FitH`} style={{ width: '100%', height: '100%', border: 'none' }} title="preview" />
+            <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview" style={{ width: '100%', height: '100%', border: 'none' }} />
           ) : (
-            <div style={{ color: 'white', marginTop: '100px' }}><h2>Generating preview...</h2></div>
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
+              <p>{isGenerating ? "📥 Generating PDF..." : "Generating preview..."}</p>
+            </div>
           )}
         </div>
       </div>
