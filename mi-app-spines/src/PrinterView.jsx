@@ -10,6 +10,11 @@ const PrinterView = ({ initialSpines, onBack }) => {
   const [images, setImages] = useState(initialSpines);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  // NUEVOS ESTADOS PARA DRAG & DROP
+  const [draggedItemIndex, setDraggedItemIndex] = useState(null);
+  const [dragOverItemIndex, setDragOverItemIndex] = useState(null);
+
   const [config, setConfig] = useState({
     spineSpacing: 0.1,
     pageWidth: 11.0,
@@ -24,11 +29,9 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
   const loadImageSafe = (spine) => {
     return new Promise((resolve) => {
-      // AQUÍ LA CORRECCIÓN: Priorizamos 'image' (Backblaze).
       const url = spine.image || spine.src;
       if (!url) return resolve(null);
       
-      // Verificamos si la imagen ya está en la memoria caché
       if (printerImageCache[url]) {
         return resolve(printerImageCache[url]);
       }
@@ -43,9 +46,8 @@ const PrinterView = ({ initialSpines, onBack }) => {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
         
-        // Reducimos a 0.85 para ahorrar memoria
         const base64 = canvas.toDataURL('image/jpeg', 0.85);
-        printerImageCache[url] = base64; // Guardamos en la caché
+        printerImageCache[url] = base64; 
         resolve(base64);
       };
       
@@ -80,7 +82,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
       let curY = mTop;
       const objectList = [];
       
-      // AQUÍ LA CORRECCIÓN: Guardamos el OBJETO entero, no solo el 'src'
       images.forEach(imgObj => {
         for (let i = 0; i < (imgObj.count || 1); i++) {
             objectList.push(imgObj);
@@ -89,7 +90,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
 
       if (objectList.length === 0) { setPdfUrl(null); return; }
       
-      // Pasamos el objeto entero a loadImageSafe
       const loadedImages = await Promise.all(objectList.map(obj => loadImageSafe(obj)));
 
       loadedImages.forEach((imgData) => {
@@ -107,10 +107,40 @@ const PrinterView = ({ initialSpines, onBack }) => {
   }, [images, config]);
 
   useEffect(() => {
-    // Aumentado a 1500ms para calmar el bucle de peticiones a la nube
     const timer = setTimeout(() => generatePreview(), 1500);
     return () => clearTimeout(timer);
   }, [generatePreview]);
+
+  // FUNCIONES DE DRAG & DROP
+  const handleDragStart = (e, index) => {
+    setDraggedItemIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragEnter = (index) => {
+    setDragOverItemIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItemIndex(null);
+    setDragOverItemIndex(null);
+  };
+
+  const handleDrop = (e, targetIndex) => {
+    e.preventDefault();
+    if (draggedItemIndex === null || draggedItemIndex === targetIndex) {
+      handleDragEnd();
+      return;
+    }
+
+    const newImages = [...images];
+    const draggedItem = newImages[draggedItemIndex];
+    newImages.splice(draggedItemIndex, 1);
+    newImages.splice(targetIndex, 0, draggedItem);
+    
+    setImages(newImages);
+    handleDragEnd();
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden' }}>
@@ -128,9 +158,35 @@ const PrinterView = ({ initialSpines, onBack }) => {
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {images.map((img, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                {/* CORRECCIÓN VISUAL: Mostramos la imagen de Backblaze en la miniatura de la izquierda */}
-                <img src={img.image || img.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
+              <div 
+                key={i} 
+                draggable
+                onDragStart={(e) => handleDragStart(e, i)}
+                onDragOver={(e) => { e.preventDefault(); }}
+                onDragEnter={() => handleDragEnter(i)}
+                onDragLeave={() => { if(dragOverItemIndex === i) setDragOverItemIndex(null); }}
+                onDrop={(e) => handleDrop(e, i)}
+                onDragEnd={handleDragEnd}
+                style={{ 
+                  background: 'white', 
+                  borderRadius: '4px', 
+                  overflow: 'hidden', 
+                  position: 'relative',
+                  cursor: 'grab',
+                  opacity: draggedItemIndex === i ? 0.4 : 1, // Hace semi-transparente el que estás moviendo
+                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #007bff' : '3px solid transparent', // Indicador visual de destino
+                  transform: dragOverItemIndex === i && draggedItemIndex !== i ? 'scale(1.02)' : 'scale(1)',
+                  transition: 'all 0.2s ease',
+                  boxSizing: 'border-box'
+                }}
+              >
+                {/* BARRA VISUAL PARA ARRASTRAR */}
+                <div style={{ backgroundColor: '#444', color: 'white', textAlign: 'center', fontSize: '12px', padding: '4px 0', fontWeight: 'bold' }}>
+                  ☰ 
+                </div>
+
+                <img src={img.image || img.src} alt="spine" style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} />
+                
                 <div style={{ padding: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <input 
                     type="number" 
@@ -142,7 +198,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
                     }} 
                     style={{ width: '50px', color: '#000000', WebkitTextFillColor: '#000000', background: 'white', border: '1px solid #ccc' }} 
                   />
-                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', width: '24px', height: '24px', borderRadius: '4px' }}>✕</button>
+                  <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ background: 'red', color: 'white', border: 'none', width: '24px', height: '24px', borderRadius: '4px', cursor: 'pointer' }}>✕</button>
                 </div>
               </div>
             ))}
@@ -150,8 +206,6 @@ const PrinterView = ({ initialSpines, onBack }) => {
         </div>
 
         <div style={{ flex: 1, position: 'relative', backgroundColor: '#525659', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: '20px' }}>
-          
-          {/* CAJA DE CONFIGURACIÓN - PROTECCIÓN MÁXIMA CONTRA TEXTO BLANCO */}
           <div style={{ 
             position: 'absolute', top: '20px', right: '20px', zIndex: 1000, 
             backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', width: '280px', 
@@ -161,8 +215,8 @@ const PrinterView = ({ initialSpines, onBack }) => {
               <div key={k}>
                 <label style={{ 
                   fontSize: '11px', fontWeight: 'bold', display: 'block', 
-                  color: '#000000', // FORZADO NEGRO
-                  WebkitTextFillColor: '#000000', // ANTI-BUG NAVEGADOR
+                  color: '#000000', 
+                  WebkitTextFillColor: '#000000', 
                   marginBottom: '4px'
                 }}>
                   {k.toUpperCase()}
@@ -174,10 +228,10 @@ const PrinterView = ({ initialSpines, onBack }) => {
                   onChange={e => setConfig({...config, [k]: parseFloat(e.target.value) || 0})} 
                   style={{ 
                     width: '100%', 
-                    color: '#000000', // FORZADO NEGRO
-                    WebkitTextFillColor: '#000000', // ANTI-BUG NAVEGADOR
+                    color: '#000000', 
+                    WebkitTextFillColor: '#000000', 
                     backgroundColor: '#ffffff', 
-                    border: '2px solid #333333', // BORDE MÁS OSCURO PARA VERLO BIEN
+                    border: '2px solid #333333', 
                     borderRadius: '4px', padding: '5px', boxSizing: 'border-box'
                   }} 
                 />
