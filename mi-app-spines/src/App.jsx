@@ -25,6 +25,10 @@ function App() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   
+  // NUEVOS ESTADOS PARA DRAG & DROP
+  const [draggedItemIndex, setDraggedItemIndex] = useState(null);
+  const [dragOverItemIndex, setDragOverItemIndex] = useState(null);
+  
   // CONTROL DEL MODAL DE DONACIONES
   const [showSupportModal, setShowSupportModal] = useState(false);
   
@@ -164,6 +168,40 @@ function App() {
     setShowSupportModal(true);
   };
 
+  // --------------------------------------------------
+  // FUNCIONES DE DRAG & DROP PARA EL REORDENAMIENTO
+  // --------------------------------------------------
+  const handleDragStart = (e, index) => {
+    setDraggedItemIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragEnter = (index) => {
+    setDragOverItemIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItemIndex(null);
+    setDragOverItemIndex(null);
+  };
+
+  const handleDrop = (e, targetIndex) => {
+    e.preventDefault();
+    if (draggedItemIndex === null || draggedItemIndex === targetIndex) {
+      handleDragEnd();
+      return;
+    }
+
+    const newImages = [...images];
+    const draggedItem = newImages[draggedItemIndex];
+    newImages.splice(draggedItemIndex, 1);
+    newImages.splice(targetIndex, 0, draggedItem);
+    
+    setImages(newImages);
+    handleDragEnd();
+  };
+  // --------------------------------------------------
+
   // Pantalla exclusiva para móviles: aborta el renderizado de la app para no consumir base de datos ni descargas
   if (isMobile) {
     return (
@@ -231,14 +269,42 @@ function App() {
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO */}
+        {/* PANEL IZQUIERDO CON DRAG AND DROP APLICADO */}
         <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
-              <div key={i} style={{ position: 'relative', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', border: !imgObj.src ? '2px solid orange' : 'none' }}>
-                <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
+              <div 
+                key={i} 
+                draggable
+                onDragStart={(e) => handleDragStart(e, i)}
+                onDragOver={(e) => { e.preventDefault(); }}
+                onDragEnter={() => handleDragEnter(i)}
+                onDragLeave={() => { if(dragOverItemIndex === i) setDragOverItemIndex(null); }}
+                onDrop={(e) => handleDrop(e, i)}
+                onDragEnd={handleDragEnd}
+                style={{ 
+                  position: 'relative', 
+                  background: 'white', 
+                  borderRadius: '8px', 
+                  overflow: 'hidden', 
+                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)', 
+                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #b30000' : (!imgObj.src ? '2px solid orange' : 'none'),
+                  cursor: 'grab',
+                  opacity: draggedItemIndex === i ? 0.5 : 1,
+                  transform: dragOverItemIndex === i && draggedItemIndex !== i ? 'scale(1.02)' : 'scale(1)',
+                  transition: 'all 0.2s ease',
+                  boxSizing: 'border-box'
+                }}
+              >
+                {/* BARRA SUPERIOR PARA ARRASTRAR */}
+                <div style={{ backgroundColor: '#444', color: 'white', textAlign: 'center', fontSize: '10px', padding: '3px 0', cursor: 'grab' }}>
+                  ☰ ARRASTRAR
                 </div>
+
+                <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} />
+                </div>
+                
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
                     <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
                     <input type="number" value={imgObj.count} onChange={(e) => {
@@ -247,7 +313,8 @@ function App() {
                       setImages(newImgs);
                     }} style={{ width: '45px', textAlign: 'center', border: '1px solid #ccc', color: '#000', background: 'white' }} />
                 </div>
-                <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(230, 0, 18, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer' }}> × </button>
+                
+                <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '22px', right: '5px', backgroundColor: 'rgba(230, 0, 18, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer', zIndex: 10 }}> × </button>
               </div>
             ))}
           </div>
