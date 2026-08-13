@@ -216,6 +216,46 @@ def process_single_reddit_post(post_url_or_id):
     except Exception as e:
         print(f"❌ Error procesando el post individual: {e}")
 
+# --- OPCIÓN 3: PROCESAR ENLACES DEL TABLERO ---
+def process_bounty_links_from_file():
+    """
+    Busca el archivo JSON más reciente de links extraídos en la carpeta
+    extractions y los procesa uno por uno.
+    """
+    print("\n📁 Buscando archivos de enlaces en /extractions...")
+    if not os.path.exists(EXTRACTIONS_DIR):
+        print("❌ No se encontró la carpeta extractions.")
+        return
+
+    # Buscar archivos que empiecen por 'links-' para diferenciarlos de los juegos
+    archivos_links = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if f.startswith('links-') and f.endswith('.json')])
+    
+    if not archivos_links:
+        print("🤷 No se encontraron archivos de enlaces (links-*.json). ¡Ejecuta primero el script de Node para extraerlos!")
+        return
+    
+    ultimo_json = os.path.join(EXTRACTIONS_DIR, archivos_links[-1])
+    print(f"📄 Leyendo archivo: {archivos_links[-1]}")
+    
+    try:
+        with open(ultimo_json, 'r', encoding='utf-8') as f:
+            links = json.load(f)
+            
+        if not links:
+            print("⚠️ El archivo está vacío.")
+            return
+            
+        print(f"🎯 ¡Se han encontrado {len(links)} links para procesar!")
+        
+        for link in links:
+            print(f"\n-------------------------------------------------")
+            print(f"🔗 Procesando Link de la comunidad: {link}")
+            print(f"-------------------------------------------------")
+            process_single_reddit_post(link)
+            
+    except Exception as e:
+        print(f"❌ Error al leer el archivo de links: {e}")
+
 def update_database():
     try:
         with open(DB_JSON_PATH, 'r', encoding='utf-8') as f:
@@ -392,10 +432,13 @@ if __name__ == "__main__":
     print("=============================================")
     print("1. Scraping general por términos y cola de Node")
     print("2. Forzar scraping de un post específico por URL/ID de Reddit")
+    print("3. Procesar archivo de enlaces extraídos (links-*.json)")
     
-    opcion = input("\nSelecciona una opción (1 o 2, por defecto 1): ").strip()
+    opcion = input("\nSelecciona una opción (1, 2 o 3, por defecto 1): ").strip()
 
-    if opcion == "2":
+    if opcion == "3":
+        process_bounty_links_from_file()
+    elif opcion == "2":
         target_post = input("Pega la URL o ID del post de Reddit: ").strip()
         if target_post:
             process_single_reddit_post(target_post)
@@ -407,7 +450,8 @@ if __name__ == "__main__":
         if respuesta == 's':
             try:
                 if os.path.exists(EXTRACTIONS_DIR):
-                    archivos = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if f.endswith('.json')])
+                    # IMPORTANTE: Filtrar los archivos que NO empiecen por 'links-' para buscar los títulos de juegos
+                    archivos = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if not f.startswith('links-') and f.endswith('.json')])
                     if archivos:
                         ultimo_json = os.path.join(EXTRACTIONS_DIR, archivos[-1])
                         with open(ultimo_json, 'r', encoding='utf-8') as f:
@@ -417,7 +461,7 @@ if __name__ == "__main__":
                             SEARCH_TERMS = peticiones_limpias + SEARCH_TERMS
                             print(f"✅ ¡Éxito! Se han sumado {len(peticiones_limpias)} términos prioritarios desde {archivos[-1]}")
                     else:
-                        print("⚠️ No hay archivos JSON en la carpeta /extractions. Usando solo tu lista fija.")
+                        print("⚠️ No hay archivos JSON de títulos en la carpeta /extractions. Usando solo tu lista fija.")
                 else:
                     print("⚠️ No se encontró la carpeta /extractions. Usando solo tu lista fija.")
             except Exception as e:
