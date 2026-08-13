@@ -45,15 +45,13 @@ if not os.path.exists(DB_JSON_PATH):
 
 # --- TU LISTA DE TÉRMINOS EXACTA E INTOCABLE ---
 letras = "abcdefghijklmnopqrstuvwxyz"
-SEARCH_TERMS = [" ","The Eternal Comet","Drosanator", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
-                "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
-                  "Areckusu", "KEGINUS","ArgyleMonkey", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
-                  "N80378", "Into the Breach by LatchHyena", "gaymersaurio_rex", "WishIWereAGhost", "SirDvolution", "thedustud", "Knuckles316" ,"spamgal6969", "pokeguy64", "MTPPY2",
-                  "Toskotadi"]
+#SEARCH_TERMS = [" ","The Eternal Comet","Drosanator", "shizoid_man", "SemiColin73", "Josarbe333", "Lewcifer820", "Mii203" ,"eridyon","pand_ashh","Olivigarden","KelvinBelmont",
+ #               "TheKosmicKollector", "WarioPunk", "Smirkytrick", "rroneaa", "DukeLeto10191", "Yu-No","HomoSnakexual", "yngames", "Commander_Shepard123", "D4rks4dch4ld",
+  #                "Areckusu", "KEGINUS","ArgyleMonkey", "PSX_Ramitas", "by","LatchHyena", "TRIGGERSHAFT", "RukeyzZ", "version", "AriKage", ":", "Veyle", "DieNoMight9", "DieNoNintySet",
+   #               "N80378", "Into the Breach by LatchHyena", "gaymersaurio_rex", "WishIWereAGhost", "SirDvolution", "thedustud", "Knuckles316" ,"spamgal6969", "pokeguy64", "MTPPY2",
+    #              "Toskotadi"]
 
-#SEARCH_TERMS = ["by", "DieNoNintySet#13", "DieNoNintySet#14", "DieNoNintySet#15", "DieNoNintySet#16", "DieNoNintySet#17", "DieNoNintySet#18", "DieNoNintySet#19", "DieNoNintySet#20", "DieNoNintySet#21", "DieNoNintySet#22",
-  #                  "DieNoNintySet#23", "DieNoNintySet#24", "DieNoNintySet#25", "DieNoNintySet#26", "DieNoNintySet#27", "DieNoNintySet#28", "DieNoNintySet#29", " DieNoNintySet#30", " DieNoNintySet#31", " DieNoNintySet#32", " DieNoNintySet#33", " DieNoNintySet#34", " DieNoNintySet#35", " DieNoNintySet#36", " DieNoNintySet#37", " DieNoNintySet#38", " DieNoNintySet#39", " DieNoNintySet#40",
-    #                "DieNoNintySet#41", " DieNoNintySet#42", " DieNoNintySet#43", " DieNoNintySet#44", " DieNoNintySet#45", " DieNoNintySet#46", " DieNoNintySet#47", " DieNoNintySet#48",] 
+SEARCH_TERMS = ["by", "Xeodrifter", "American Fugitive"] 
 MAX_UPLOADS = 10000 
 
 # --- PREGUNTA INICIAL: ¿SUMAR COLA DE NODE? ---
@@ -235,15 +233,19 @@ def update_database():
 
                                 public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
 
+                                # Manejo seguro de autores borrados o anónimos
+                                raw_author = p.get('author')
+                                author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
+
                                 entry = {
                                     "id": u_id,
                                     "title": f"{clean_title(p['title'])} (Parte {idx+1})" if len(image_urls) > 1 else clean_title(p['title']),
-                                    "author": f"u/{p['author']}",
+                                    "author": author_name,
                                     "src": f"/spines/{u_id}.webp",
                                     "hash": h,
                                     "image": public_image_url,
                                     "created_utc": int(p.get('created_utc', time.time())) 
-                                }
+}
                                 existing_data.append(entry)
                                 existing_ids.add(u_id)
                                 existing_hashes.add(h)
