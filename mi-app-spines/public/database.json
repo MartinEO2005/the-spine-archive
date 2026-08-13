@@ -86355,5 +86355,23 @@
     "hash": "9e3ed3778d6965b23edac00bddd11758",
     "image": "https://f005.backblazeb2.com/file/the-spine-archive-storage/spines/gb82z1.webp",
     "created_utc": 1588293316
+  },
+  {
+    "id": "qax938",
+    "title": "American Fugitive",
+    "author": "u/DeletedUser",
+    "src": "/spines/qax938.webp",
+    "hash": "b8b8cb408462c0317bc572a11849e755",
+    "image": "https://f005.backblazeb2.com/file/the-spine-archive-storage/spines/qax938.webp",
+    "created_utc": 1634595020
+  },
+  {
+    "id": "x1xdfb",
+    "title": "Into the Breach by LatchHyena",
+    "author": "u/DeletedUser",
+    "src": "/spines/x1xdfb.webp",
+    "hash": "04ca4163a89308978471059373ddc0ff",
+    "image": "https://f005.backblazeb2.com/file/the-spine-archive-storage/spines/x1xdfb.webp",
+    "created_utc": 1661900666
   }
 ]
