@@ -88,25 +88,33 @@ def save_db(data):
         print(f"❌ ERROR CRÍTICO AL GUARDAR DATABASE.JSON: {e}")
 
 # --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
+# --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
 def process_single_reddit_post(post_url_or_id):
     """
     Forzar el scraping de un post específico de Reddit omitiendo 
-    los filtros estrictos de búsqueda general.
+    los filtros estrictos de búsqueda general. Soporta enlaces cortos (/s/).
     """
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+    }
+
+    # 1. Si es un enlace corto de Reddit (compartido desde móvil), resolvemos la redirección
+    if '/s/' in post_url_or_id:
+        try:
+            r = normal_requests.get(post_url_or_id, headers=headers, allow_redirects=True, timeout=10)
+            post_url_or_id = r.url
+        except Exception as e:
+            print(f"❌ Error al resolver el enlace corto ({post_url_or_id}): {e}")
+            return
+
     match = re.search(r'comments/([a-z0-9]+)', post_url_or_id)
     post_id = match.group(1) if match else post_url_or_id.strip()
 
     print(f"\n🎯 Intentando forzar scraping del post ID: {post_id}")
 
     json_url = f"https://www.reddit.com/r/SwitchSpines/comments/{post_id}.json"
-    
-    # ENCABEZADO PERSONALIZADO PARA EVITAR EL BLOQUEO 403
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
-    }
 
     try:
-        # Pasamos headers=headers en la petición
         res = api_session.get(json_url, headers=headers, timeout=15)
     except Exception as e:
         print(f"❌ Error de conexión al consultar el post: {e}")
@@ -116,11 +124,12 @@ def process_single_reddit_post(post_url_or_id):
         print(f"❌ No se pudo obtener el post de Reddit. Status HTTP: {res.status_code}")
         return
 
-    data = res.json()
+    # Captura segura de respuesta JSON para evitar crasheos si Reddit responde con HTML
     try:
+        data = res.json()
         post_data = data[0]['data']['children'][0]['data']
     except Exception as e:
-        print(f"❌ Error al interpretar el formato JSON del post: {e}")
+        print(f"❌ Error al interpretar la respuesta JSON del post (posible respuesta no-JSON): {e}")
         return
 
     img_url = None
