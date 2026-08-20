@@ -89,16 +89,18 @@ def save_db(data):
 
 # --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
 # --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
+# --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
 def process_single_reddit_post(post_url_or_id):
     """
     Forzar el scraping de un post específico de Reddit omitiendo 
-    los filtros estrictos de búsqueda general. Soporta enlaces cortos (/s/).
+    los filtros estrictos de búsqueda general. Soporta enlaces cortos (/s/),
+    crossposts, galerías, links de Imgur e imágenes embebidas.
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
     }
 
-    # 1. Si es un enlace corto de Reddit (compartido desde móvil), resolvemos la redirección
+    # 1. Resolver enlaces cortos de móvil (/s/)
     if '/s/' in post_url_or_id:
         try:
             r = normal_requests.get(post_url_or_id, headers=headers, allow_redirects=True, timeout=10)
@@ -120,25 +122,42 @@ def process_single_reddit_post(post_url_or_id):
         print(f"❌ Error de conexión al consultar el post: {e}")
         return
 
+    # Manejo del Rate Limit 429
+    if res.status_code == 429:
+        print("⏳ Rate limit alcanzado en API de Reddit (429). Esperando 15 segundos...")
+        time.sleep(15)
+        return
+
     if res.status_code != 200:
         print(f"❌ No se pudo obtener el post de Reddit. Status HTTP: {res.status_code}")
         return
 
-    # Captura segura de respuesta JSON para evitar crasheos si Reddit responde con HTML
     try:
         data = res.json()
         post_data = data[0]['data']['children'][0]['data']
     except Exception as e:
-        print(f"❌ Error al interpretar la respuesta JSON del post (posible respuesta no-JSON): {e}")
+        print(f"❌ Error al interpretar la respuesta JSON del post: {e}")
         return
 
-    img_url = None
-    if 'url_overridden_by_dest' in post_data:
-        img_url = post_data['url_overridden_by_dest']
-    elif 'url' in post_data:
-        img_url = post_data['url']
+    # Soporte para Crossposts (publicaciones re-compartidas)
+    if 'crosspost_parent_list' in post_data and post_data['crosspost_parent_list']:
+        post_data = post_data['crosspost_parent_list'][0]
 
-    if not img_url or not any(ext in img_url.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+    # --- EXTRACCIÓN ROBUSTA DE LA URL DE IMAGEN ---
+    img_url = None
+
+    # Prioridad 1: Imágen(es) en media_metadata (Galerías o imágenes incrustadas)
+    if post_data.get('media_metadata'):
+        meta = post_data.get('media_metadata', {})
+        for k in sorted(meta.keys()):
+            if meta[k].get('e') == 'Image':
+                u = meta[k].get('s', {}).get('u') or meta[k].get('s', {}).get('gif')
+                if u:
+                    img_url = u.replace('&amp;', '&')
+                    break
+
+    # Prioridad 2: Previsualización de CDN de Reddit (Preview)
+    if not img_url:
         try:
             images = post_data.get('preview', {}).get('images', [])
             if images:
@@ -146,8 +165,18 @@ def process_single_reddit_post(post_url_or_id):
         except Exception:
             pass
 
+    # Prioridad 3: URL de destino directo (i.redd.it, imgur, etc.)
     if not img_url:
-        print("❌ No se encontró ninguna URL de imagen válida en el post.")
+        candidate = post_data.get('url_overridden_by_dest') or post_data.get('url', '')
+        if candidate and 'reddit.com/r/' not in candidate and 'reddit.com/comments/' not in candidate:
+            if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+                img_id = candidate.rstrip('/').split('/')[-1]
+                candidate = f"https://i.imgur.com/{img_id}.png"
+            img_url = candidate
+
+    # Validación final anti-HTML
+    if not img_url or 'reddit.com/r/' in img_url or 'reddit.com/comments/' in img_url:
+        print("❌ No se encontró ninguna URL de imagen válida en el post (es un post de solo texto o petición sin imagen).")
         return
 
     print(f"🔗 URL de la imagen detectada: {img_url}")
@@ -185,14 +214,14 @@ def process_single_reddit_post(post_url_or_id):
         img.convert("RGBA").save(buffer, format="WEBP", quality=85)
         buffer.seek(0)
 
-        # Guardado local
+        # Guardado local en public/spines
         local_dir = os.path.join(BASE_DIR, "public", "spines")
         os.makedirs(local_dir, exist_ok=True)
         local_filepath = os.path.join(local_dir, f"{u_id}.webp")
         with open(local_filepath, 'wb') as f:
             f.write(buffer.getvalue())
 
-        # Subida a B2
+        # Subida a Backblaze B2
         filename_b2 = f"spines/{u_id}.webp"
         s3_client.upload_fileobj(
             buffer,
@@ -223,6 +252,49 @@ def process_single_reddit_post(post_url_or_id):
 
     except Exception as e:
         print(f"❌ Error procesando el post individual: {e}")
+
+
+# --- OPCIÓN 3: PROCESAR ENLACES DEL TABLERO ---
+def process_bounty_links_from_file():
+    """
+    Busca el archivo JSON más reciente de links extraídos en la carpeta
+    extractions y los procesa uno por uno con pausas anti-429.
+    """
+    print("\n📁 Buscando archivos de enlaces en /extractions...")
+    if not os.path.exists(EXTRACTIONS_DIR):
+        print("❌ No se encontró la carpeta extractions.")
+        return
+
+    archivos_links = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if f.startswith('links-') and f.endswith('.json')])
+    
+    if not archivos_links:
+        print("🤷 No se encontraron archivos de enlaces (links-*.json). ¡Ejecuta primero el script de Node para extraerlos!")
+        return
+    
+    ultimo_json = os.path.join(EXTRACTIONS_DIR, archivos_links[-1])
+    print(f"📄 Leyendo archivo: {archivos_links[-1]}")
+    
+    try:
+        with open(ultimo_json, 'r', encoding='utf-8') as f:
+            links = json.load(f)
+            
+        if not links:
+            print("⚠️ El archivo está vacío.")
+            return
+            
+        print(f"🎯 ¡Se han encontrado {len(links)} links para procesar!")
+        
+        for idx, link in enumerate(links):
+            print(f"\n-------------------------------------------------")
+            print(f"🔗 [{idx+1}/{len(links)}] Procesando Link de la comunidad: {link}")
+            print(f"-------------------------------------------------")
+            process_single_reddit_post(link)
+            
+            # Pausa de 2 segundos entre peticiones para evitar activar la tasa límite HTTP 429
+            time.sleep(2)
+            
+    except Exception as e:
+        print(f"❌ Error al leer el archivo de links: {e}")
 
 # --- OPCIÓN 3: PROCESAR ENLACES DEL TABLERO ---
 def process_bounty_links_from_file():
