@@ -311,7 +311,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   >
     ✊ #StopKillingGames
   </a>
-
+ <div style={{ flex: 1 }}></div>
   <a 
     href="https://ko-fi.com/martineo" 
     target="_blank" 
