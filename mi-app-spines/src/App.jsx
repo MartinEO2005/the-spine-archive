@@ -243,53 +243,26 @@ function App() {
       </style>
 
       {/* HEADER */}
-<div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
-  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-    <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
-    
-    <div style={{ 
-      color: 'white', 
-      fontFamily: '"Press Start 2P", monospace', 
-      fontSize: '12px', 
-      textShadow: '2px 2px 0px #000',
-      letterSpacing: '1px',
-      marginTop: '3px'
-    }}>
-      {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW (MULTI-PAGE)"}
-    </div>
-  </div>
-
-  {/* BANNER #StopKillingGames */}
-  <a 
-    href="https://www.stopkillinggames.com/" 
-    target="_blank" 
-    rel="noreferrer" 
-    style={{ 
-      color: '#ffcc00', 
-      fontFamily: '"Press Start 2P", monospace', 
-      fontSize: '10px', 
-      textDecoration: 'none', 
-      backgroundColor: 'rgba(0,0,0,0.5)', 
-      padding: '6px 12px', 
-      borderRadius: '4px', 
-      border: '1px solid #ffcc00', 
-      transition: 'all 0.2s ease', 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: '6px',
-      boxShadow: '2px 2px 0px #000'
-    }}
-    onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#000'; e.currentTarget.style.transform = 'scale(1.05)'; }}
-    onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.5)'; e.currentTarget.style.transform = 'scale(1)'; }}
-  >
-    ✊ #StopKillingGames
-  </a>
-
-  <div style={{ display: 'flex', gap: '10px' }}>
-       <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
-       <button onClick={handleDownloadClick} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
-  </div>
-</div>
+      <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
+          
+          <div style={{ 
+            color: 'white', 
+            fontFamily: '"Press Start 2P", monospace', 
+            fontSize: '12px', 
+            textShadow: '2px 2px 0px #000',
+            letterSpacing: '1px',
+            marginTop: '3px'
+          }}>
+            {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW (MULTI-PAGE)"}
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '10px' }}>
+             <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
+             <button onClick={handleDownloadClick} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
+        </div>
+      </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
