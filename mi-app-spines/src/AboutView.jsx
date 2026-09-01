@@ -27,8 +27,6 @@ const AboutView = () => {
         cover: "https://via.placeholder.com/300x450?text=Cargando" 
       };
     }
-    const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-    // return FUN_FACTS[dayOfYear % FUN_FACTS.length];
     return FUN_FACTS[Math.floor(Math.random() * FUN_FACTS.length)];
   }, []);
 
@@ -57,6 +55,14 @@ const AboutView = () => {
       fontFamily: '"Courier New", Courier, monospace' 
     }}>
       
+      {/* Importamos la fuente retro para el título principal */}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+          @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        `}
+      </style>
+
       {/* 1. MENÚ (IZQUIERDA) */}
       <div style={{ width: '250px', marginRight: '40px' }}>
         <RPGBox>
@@ -75,6 +81,7 @@ const AboutView = () => {
       {/* --- CONTENIDO CENTRAL --- */}
       <div style={{ flex: 1, maxWidth: '800px' }}>
         <h1 style={{ 
+          fontFamily: '"Press Start 2P", monospace',
           fontSize: '3.5rem', margin: '0 0 10px 0', color: '#fff',
           textShadow: '4px 4px 0px #000',
           WebkitTextStroke: '1px #fff' 
@@ -163,26 +170,70 @@ const AboutView = () => {
             <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>PRO TIPS</h2>
             <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>Maintain a Consistent Shelf</h3>
             <p style={{ lineHeight: '1.7', color: '#ddd', marginBottom: '20px' }}>
-              Using spines from a single style/creator ensures your physical collection looks unified and professional. Many creators follow specific templates for their series or depending on the franchise. Make sure to explore all available spines before making your final selection!
+              There is an <b>incredible variety of unique styles</b> to choose from! Using spines from a single style/creator ensures your physical collection looks unified and professional. Many of our beloved creators follow specific templates for their series or depending on the franchise. <span style={{color: '#ffcc00', fontWeight: 'bold'}}>Make sure to explore all the amazing creators before making your final selection to find the perfect aesthetic!</span>
             </p>
             
-            {/* Cuadrante para la imagen estilo-dnn */}
+            {/* Contenedor Flex para múltiples imágenes */}
             <div style={{ 
-              backgroundColor: 'rgba(255,255,255,0.05)', 
-              padding: '15px', 
-              border: '2px solid #444',
-              textAlign: 'center',
-              maxWidth: '40%',     // <-- ESTO LO HACE MÁS CHICO (puedes probar con 50%, 40%, o 400px)
-              margin: '0 auto'
+              display: 'flex', 
+              gap: '20px', 
+              justifyContent: 'center',
+              flexWrap: 'wrap' // Permite que caigan a la siguiente línea si la pantalla es pequeña
             }}>
-              <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
-                Example: Consistent series formatting by a reddit creator.
-              </p>
-              <img 
-                src="/ejemplo-estilo-dnn.png" 
-                alt="Example Spines Style" 
-                style={{ maxWidth: '100%', height: 'auto', border: '2px solid #fff' }}
-              />
+              {/* Creador 1 */}
+              <div style={{ 
+                backgroundColor: 'rgba(255,255,255,0.05)', 
+                padding: '15px', 
+                border: '2px solid #444',
+                textAlign: 'center',
+                flex: '1',
+                minWidth: '220px'
+              }}>
+                <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
+                  Example 1: Consistent series formatting
+                </p>
+                <img 
+                  src="/ejemplo-estilo-dnn.png" 
+                  alt="Style Example 1" 
+                  style={{ maxWidth: '100%', height: 'auto', border: '2px solid #fff' }}
+                />
+              </div>
+
+              {/* Creador 2 */}
+              <div style={{ 
+                backgroundColor: 'rgba(255,255,255,0.05)', 
+                padding: '15px', 
+                border: '2px solid #444',
+                textAlign: 'center',
+                flex: '1',
+                minWidth: '220px'
+              }}>
+                <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
+                  Example 2: A different creator's aesthetic
+                </p>
+                <img 
+                  src="/ejemplo-estilo-2.png" 
+                  alt="Style Example 2" 
+                  style={{ maxWidth: '100%', height: 'auto', border: '2px solid #fff' }}
+                />
+              </div>
+              <div style={{ 
+                backgroundColor: 'rgba(255,255,255,0.05)', 
+                padding: '15px', 
+                border: '2px solid #444',
+                textAlign: 'center',
+                flex: '1',
+                minWidth: '220px'
+              }}>
+                <p style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '15px' }}>
+                  Example 3: Título para tu tercera imagen
+                </p>
+                <img 
+                  src="/ejemplo-estilo-3.png" 
+                  alt="Style Example 3" 
+                  style={{ maxWidth: '100%', height: 'auto', border: '2px solid #fff' }}
+                />
+              </div>
             </div>
           </RPGBox>
         )}
@@ -214,7 +265,6 @@ const AboutView = () => {
         </RPGBox>
       </div>
 
-      <style>{`@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }`}</style>
     </div>
   );
 };
