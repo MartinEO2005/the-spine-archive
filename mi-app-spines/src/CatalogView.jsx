@@ -25,17 +25,33 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
+  // --- CARGA INTELIGENTE CON CACHE-BUSTING BASADO EN SCRAPE_INFO ---
   useEffect(() => {
-    fetch(`/database.json?v=${Date.now()}`)      .then(res => res.json())
+    // 1. Carga primero el metadato ligero (~1 KB)
+    fetch(`/scrape_info.json?t=${Date.now()}`)
+      .then(res => res.json())
+      .then(info => {
+        setScrapeInfo(info);
+        
+        // Si hay fecha de scrape la usamos como versión de la BBDD, de lo contrario un timestamp
+        const version = info.date ? encodeURIComponent(info.date) : Date.now();
+
+        // 2. Solo descargará los 4MB si 'version' ha cambiado respecto a la última visita
+        return fetch(`/database.json?v=${version}`);
+      })
+      .catch(() => {
+        // Fallback en caso de que falle la lectura de scrape_info
+        return fetch(`/database.json?v=${Date.now()}`);
+      })
+      .then(res => res.json())
       .then(data => { 
         setSpines(data); 
         setLoading(false); 
+      })
+      .catch(err => {
+        console.error("Error al cargar la base de datos:", err);
+        setLoading(false);
       });
-
-    fetch('/scrape_info.json')
-      .then(res => res.json())
-      .then(data => setScrapeInfo(data))
-      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -265,91 +281,91 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       )}
 
       {/* HEADER PRINCIPAL */}
-<div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
-  <img src="/logo.jpg" alt="Logo" onClick={() => setCurrentView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
-  
-  <div style={{ display: 'flex', marginRight: '30px', fontFamily: 'sans-serif' }}>
-    <button onClick={() => setCurrentView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
-    <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
-    <button onClick={() => setCurrentView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
-    <button onClick={() => setCurrentView('about')} style={navButtonStyle('about')}>ABOUT</button>
-  </div>
-  
-  {currentView === 'catalog' && (
-    <div style={{ flex: 1, maxWidth: '350px', display: 'flex', gap: '10px' }}>
-       <input 
-          type="text" 
-          placeholder="Search by name, author..." 
-          value={searchTerm} 
-          onChange={(e) => setSearchTerm(e.target.value)} 
-          style={{ flex: 1, padding: '10px 20px', borderRadius: '5px', border: 'none', fontFamily: 'sans-serif' }} 
-        />
-    </div>
-  )}
-  
-  <div style={{ flex: 1 }}></div>
+      <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
+        <img src="/logo.jpg" alt="Logo" onClick={() => setCurrentView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
+        
+        <div style={{ display: 'flex', marginRight: '30px', fontFamily: 'sans-serif' }}>
+          <button onClick={() => setCurrentView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
+          <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
+          <button onClick={() => setCurrentView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
+          <button onClick={() => setCurrentView('about')} style={navButtonStyle('about')}>ABOUT</button>
+        </div>
+        
+        {currentView === 'catalog' && (
+          <div style={{ flex: 1, maxWidth: '350px', display: 'flex', gap: '10px' }}>
+             <input 
+                type="text" 
+                placeholder="Search by name, author..." 
+                value={searchTerm} 
+                onChange={(e) => setSearchTerm(e.target.value)} 
+                style={{ flex: 1, padding: '10px 20px', borderRadius: '5px', border: 'none', fontFamily: 'sans-serif' }} 
+              />
+          </div>
+        )}
+        
+        <div style={{ flex: 1 }}></div>
 
-  {/* TEXTO RETRO #StopKillingGames */}
-  <a 
-    href="https://www.stopkillinggames.com/" 
-    target="_blank" 
-    rel="noreferrer" 
-    style={{ 
-      color: '#ffcc00', 
-      fontFamily: '"Press Start 2P", monospace', 
-      fontSize: '11px', 
-      textDecoration: 'none', 
-      textShadow: '2px 2px 0px #000',
-      letterSpacing: '1px',
-      marginRight: '25px',
-      transition: 'all 0.2s ease',
-      display: 'inline-block'
-    }}
-    onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.08)'; }}
-    onMouseLeave={e => { e.currentTarget.style.color = '#ffcc00'; e.currentTarget.style.transform = 'scale(1)'; }}
-  >
-    ✊ #StopKillingGames
-  </a>
- <div style={{ flex: 1 }}></div>
-  <a 
-    href="https://ko-fi.com/martineo" 
-    target="_blank" 
-    rel="noopener noreferrer"
-    style={{
-      backgroundColor: '#000',
-      color: '#ffcc00', 
-      padding: '10px 15px',
-      border: '2px solid #ffcc00',
-      fontWeight: 'bold',
-      textDecoration: 'none',
-      fontSize: '13px',
-      marginRight: '15px',
-      borderRadius: '5px',
-      boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
-      display: 'inline-block',
-      fontFamily: 'inherit'
-    }}
-  >
-    ⭐ SUPPORT THE PROJECT
-  </a>
-  
-  <button 
-    onClick={() => onConfirm(selectedSpines)} 
-    disabled={selectedSpines.length === 0} 
-    style={{ 
-      backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', 
-      color: '#b30000', 
-      border: 'none', 
-      padding: '10px 25px', 
-      borderRadius: '5px', 
-      fontWeight: 'bold', 
-      cursor: 'pointer',
-      fontFamily: 'sans-serif'
-    }}
-  >
-    GENERATE PDF ({selectedSpines.length})
-  </button>
-</div>
+        {/* TEXTO RETRO #StopKillingGames */}
+        <a 
+          href="https://www.stopkillinggames.com/" 
+          target="_blank" 
+          rel="noreferrer" 
+          style={{ 
+            color: '#ffcc00', 
+            fontFamily: '"Press Start 2P", monospace', 
+            fontSize: '11px', 
+            textDecoration: 'none', 
+            textShadow: '2px 2px 0px #000',
+            letterSpacing: '1px',
+            marginRight: '25px',
+            transition: 'all 0.2s ease',
+            display: 'inline-block'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.08)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = '#ffcc00'; e.currentTarget.style.transform = 'scale(1)'; }}
+        >
+          ✊ #StopKillingGames
+        </a>
+       <div style={{ flex: 1 }}></div>
+        <a 
+          href="https://ko-fi.com/martineo" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            backgroundColor: '#000',
+            color: '#ffcc00', 
+            padding: '10px 15px',
+            border: '2px solid #ffcc00',
+            fontWeight: 'bold',
+            textDecoration: 'none',
+            fontSize: '13px',
+            marginRight: '15px',
+            borderRadius: '5px',
+            boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
+            display: 'inline-block',
+            fontFamily: 'inherit'
+          }}
+        >
+          ⭐ SUPPORT THE PROJECT
+        </a>
+        
+        <button 
+          onClick={() => onConfirm(selectedSpines)} 
+          disabled={selectedSpines.length === 0} 
+          style={{ 
+            backgroundColor: selectedSpines.length > 0 ? 'white' : '#666', 
+            color: '#b30000', 
+            border: 'none', 
+            padding: '10px 25px', 
+            borderRadius: '5px', 
+            fontWeight: 'bold', 
+            cursor: 'pointer',
+            fontFamily: 'sans-serif'
+          }}
+        >
+          GENERATE PDF ({selectedSpines.length})
+        </button>
+      </div>
 
       <div style={{ flex: 1, backgroundColor: '#111', position: 'relative' }}>
         {currentView === 'catalog' ? (
