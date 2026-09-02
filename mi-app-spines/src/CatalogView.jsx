@@ -26,8 +26,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
   useEffect(() => {
-    fetch('/database.json')
-      .then(res => res.json())
+    fetch(`/database.json?v=${Date.now()}`)      .then(res => res.json())
       .then(data => { 
         setSpines(data); 
         setLoading(false); 
