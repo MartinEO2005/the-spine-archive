@@ -25,23 +25,23 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
-  // --- CARGA INTELIGENTE CON CACHE-BUSTING BASADO EN SCRAPE_INFO ---
+  // --- CARGA INTELIGENTE Y SEGURA DE BBDD ---
   useEffect(() => {
-    // 1. Carga primero el metadato ligero (~1 KB)
     fetch(`/scrape_info.json?t=${Date.now()}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Fallo al cargar scrape_info");
+        return res.json();
+      })
       .then(info => {
         setScrapeInfo(info);
-        
-        // Si hay fecha de scrape la usamos como versión de la BBDD, de lo contrario un timestamp
-        const version = info.date ? encodeURIComponent(info.date) : Date.now();
-
-        // 2. Solo descargará los 4MB si 'version' ha cambiado respecto a la última visita
+        // Si todo va bien, usamos la fecha para actualizar la caché de los usuarios
+        const version = info.date ? encodeURIComponent(info.date) : "v1";
         return fetch(`/database.json?v=${version}`);
       })
       .catch(() => {
-        // Fallback en caso de que falle la lectura de scrape_info
-        return fetch(`/database.json?v=${Date.now()}`);
+        // EL SALVAVIDAS: Si algo falla, volvemos al método ANTIGUO. 
+        // 0% consumo extra de Vercel. Nada de Date.now().
+        return fetch('/database.json');
       })
       .then(res => res.json())
       .then(data => { 
