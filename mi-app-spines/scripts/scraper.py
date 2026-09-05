@@ -88,8 +88,6 @@ def save_db(data):
         print(f"❌ ERROR CRÍTICO AL GUARDAR DATABASE.JSON: {e}")
 
 # --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
-# --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
-# --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
 def process_single_reddit_post(post_url_or_id):
     """
     Forzar el scraping de un post específico de Reddit omitiendo 
@@ -230,7 +228,7 @@ def process_single_reddit_post(post_url_or_id):
             ExtraArgs={'ContentType': 'image/webp'}
         )
 
-        prefix = B2_PUBLIC_URL_PREFIX or f"https://f005.backblazeb2.com/file/{B2_BUCKET_NAME}"
+        prefix = B2_PUBLIC_URL_PREFIX or f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
         public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
 
         raw_author = post_data.get('author')
@@ -265,10 +263,10 @@ def process_bounty_links_from_file():
         print("❌ No se encontró la carpeta extractions.")
         return
 
-    archivos_links = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if f.startswith('links-') and f.endswith('.json')])
+    archivos_links = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if f.startswith('links') and f.endswith('.json')])
     
     if not archivos_links:
-        print("🤷 No se encontraron archivos de enlaces (links-*.json). ¡Ejecuta primero el script de Node para extraerlos!")
+        print("🤷 No se encontraron archivos de enlaces (links*.json). ¡Ejecuta primero el script de Node para extraerlos!")
         return
     
     ultimo_json = os.path.join(EXTRACTIONS_DIR, archivos_links[-1])
@@ -292,46 +290,6 @@ def process_bounty_links_from_file():
             
             # Pausa de 2 segundos entre peticiones para evitar activar la tasa límite HTTP 429
             time.sleep(2)
-            
-    except Exception as e:
-        print(f"❌ Error al leer el archivo de links: {e}")
-
-# --- OPCIÓN 3: PROCESAR ENLACES DEL TABLERO ---
-def process_bounty_links_from_file():
-    """
-    Busca el archivo JSON más reciente de links extraídos en la carpeta
-    extractions y los procesa uno por uno.
-    """
-    print("\n📁 Buscando archivos de enlaces en /extractions...")
-    if not os.path.exists(EXTRACTIONS_DIR):
-        print("❌ No se encontró la carpeta extractions.")
-        return
-
-    # Buscar archivos que empiecen por 'links-' para diferenciarlos de los juegos
-    archivos_links = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if f.startswith('links-') and f.endswith('.json')])
-    
-    if not archivos_links:
-        print("🤷 No se encontraron archivos de enlaces (links-*.json). ¡Ejecuta primero el script de Node para extraerlos!")
-        return
-    
-    ultimo_json = os.path.join(EXTRACTIONS_DIR, archivos_links[-1])
-    print(f"📄 Leyendo archivo: {archivos_links[-1]}")
-    
-    try:
-        with open(ultimo_json, 'r', encoding='utf-8') as f:
-            links = json.load(f)
-            
-        if not links:
-            print("⚠️ El archivo está vacío.")
-            return
-            
-        print(f"🎯 ¡Se han encontrado {len(links)} links para procesar!")
-        
-        for link in links:
-            print(f"\n-------------------------------------------------")
-            print(f"🔗 Procesando Link de la comunidad: {link}")
-            print(f"-------------------------------------------------")
-            process_single_reddit_post(link)
             
     except Exception as e:
         print(f"❌ Error al leer el archivo de links: {e}")
@@ -449,7 +407,7 @@ def update_database():
 
                                 prefix = B2_PUBLIC_URL_PREFIX
                                 if not prefix: 
-                                    prefix = f"https://f005.backblazeb2.com/file/{B2_BUCKET_NAME}"
+                                    prefix = f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
 
                                 public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
 
@@ -530,8 +488,8 @@ if __name__ == "__main__":
         if respuesta == 's':
             try:
                 if os.path.exists(EXTRACTIONS_DIR):
-                    # IMPORTANTE: Filtrar los archivos que NO empiecen por 'links-' para buscar los títulos de juegos
-                    archivos = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if not f.startswith('links-') and f.endswith('.json')])
+                    # Filtrar los archivos que NO empiecen por 'links' para buscar los títulos de juegos
+                    archivos = sorted([f for f in os.listdir(EXTRACTIONS_DIR) if not f.startswith('links') and f.endswith('.json')])
                     if archivos:
                         ultimo_json = os.path.join(EXTRACTIONS_DIR, archivos[-1])
                         with open(ultimo_json, 'r', encoding='utf-8') as f:
