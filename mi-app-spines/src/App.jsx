@@ -6,6 +6,8 @@ const DEFAULT_SPINE_WIDTH = 10.5;
 
 // CLAVE: Objeto global para guardar las imágenes ya convertidas a Base64 y no volver a descargarlas
 const globalImageCache = {};
+// NUEVO: Objeto global para almacenar promesas de descarga en curso y evitar duplicados simultáneos
+const globalPromiseCache = {};
 
 function App() {
   // Detector de móvil (bloqueo temprano para ahorrar recursos)
@@ -49,32 +51,52 @@ function App() {
     setConfig({ ...config, spineWidthMM: DEFAULT_SPINE_WIDTH });
   };
 
+  // VERSIÓN OPTIMIZADA
   const getSafeImageData = (url) => {
-    return new Promise((resolve) => {
-      if (!url) return resolve(null);
-      
-      // Si ya la descargamos en esta sesión, la devolvemos de la caché instantáneamente
-      if (globalImageCache[url]) {
-        return resolve(globalImageCache[url]);
-      }
+    if (!url) return Promise.resolve(null);
+    
+    // Si ya se descargó y procesó en esta sesión, se devuelve de inmediato
+    if (globalImageCache[url]) {
+      return Promise.resolve(globalImageCache[url]);
+    }
 
+    // Si la imagen ya se está descargando en este preciso instante, reutilizamos su promesa
+    if (globalPromiseCache[url]) {
+      return globalPromiseCache[url];
+    }
+
+    globalPromiseCache[url] = new Promise((resolve) => {
       const img = new Image();
       img.setAttribute('crossOrigin', 'anonymous');
       img.src = url;
+
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        
-        // Reducimos la calidad a 0.85 para ahorrar aún más memoria sin pérdida visible en impresión
-        const base64Data = canvas.toDataURL('image/jpeg', 0.85); 
-        globalImageCache[url] = base64Data; // Guardamos en la caché global
-        resolve(base64Data);
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          
+          const base64Data = canvas.toDataURL('image/jpeg', 0.85); 
+          globalImageCache[url] = base64Data; 
+          delete globalPromiseCache[url];
+          resolve(base64Data);
+        } catch (err) {
+          console.error("❌ Error procesando el canvas para la URL:", url, err);
+          delete globalPromiseCache[url];
+          resolve(null);
+        }
       };
-      img.onerror = () => resolve(null);
+
+      img.onerror = (err) => {
+        console.error("❌ Error de red o CORS al cargar la imagen del CDN:", url, err);
+        delete globalPromiseCache[url];
+        resolve(null);
+      };
     });
+
+    return globalPromiseCache[url];
   };
 
   const generatePreview = useCallback(async () => {
