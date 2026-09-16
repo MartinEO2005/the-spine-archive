@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Categorías extraídas exactamente de tu idea_categor.md
 const CATEGORIAS = {
   Plataforma: ["Switch 1", "Switch 2"],
   "Color Base": ["Rojo", "Azul", "Amarillo", "Verde", "Rosa", "Naranja", "Morado", "Blanco", "Negro", "Gris", "Multicolor"],
@@ -39,19 +38,29 @@ export default function TaggerView({ onExit }) {
   const currentGame = currentIndex !== -1 ? db[currentIndex] : null;
   const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat])).length;
 
-  // NUEVO: Función para resolver la ruta de la imagen correctamente
+  // SUPER FUNCIÓN DE RESOLUCIÓN DE IMAGEN
   const getImageUrl = (game) => {
     if (!game) return "";
-    const rawUrl = game.image || game.imageUrl || game.src;
-    if (!rawUrl) return "";
     
-    // Si ya es un enlace web (Backblaze/Cloudinary), lo devolvemos tal cual
-    if (rawUrl.startsWith('http')) {
-      return rawUrl;
+    // Buscamos en todas las propiedades posibles donde guardes el identificador
+    let rawUrl = game.image || game.imageUrl || game.src || game.url || game.id;
+    if (!rawUrl) return "SIN_URL_EN_JSON";
+    
+    if (rawUrl.startsWith('http')) return rawUrl;
+    
+    // Limpiamos barras iniciales si las hay
+    rawUrl = rawUrl.replace(/^\/+/, '');
+    
+    // Si el rawUrl no tiene punto (ej: es solo un ID como '1cv8sxi'), le probamos la extensión
+    if (!rawUrl.includes('.')) {
+      rawUrl = `${rawUrl}.webp`; // Si tus imágenes locales son png, cambia esto a .png
+    }
+
+    // Evitamos rutas duplicadas
+    if (rawUrl.startsWith('spines/')) {
+      return `/${rawUrl}`;
     }
     
-    // Si es un archivo local, Vite sabe que todo lo de "public/" se sirve desde la raíz "/"
-    // Ajusta esta ruta si tu carpeta local tiene otro nombre exacto
     return `/spines/${rawUrl}`; 
   };
 
@@ -67,13 +76,9 @@ export default function TaggerView({ onExit }) {
     const updatedDb = [...db];
     const game = { ...updatedDb[currentIndex] };
     const currentExtras = game.tags?.Extras || [];
-    
-    let newExtras;
-    if (currentExtras.includes(extra)) {
-      newExtras = currentExtras.filter(e => e !== extra);
-    } else {
-      newExtras = [...currentExtras, extra];
-    }
+    let newExtras = currentExtras.includes(extra) 
+      ? currentExtras.filter(e => e !== extra)
+      : [...currentExtras, extra];
     
     game.tags = { ...game.tags, Extras: newExtras };
     updatedDb[currentIndex] = game;
@@ -137,14 +142,17 @@ export default function TaggerView({ onExit }) {
       <div style={{ display: 'flex', gap: '40px' }}>
         {/* Panel Izquierdo: Imagen */}
         <div style={{ flex: '0 0 300px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ height: '400px', width: '100%', backgroundColor: '#111', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', padding: '10px' }}>
-            {/* AQUÍ ESTÁ EL CAMBIO CLAVE */}
+          <div style={{ height: '400px', width: '100%', backgroundColor: '#111', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', padding: '10px' }}>
             <img 
               src={getImageUrl(currentGame)} 
               alt="spine" 
-              style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} 
-              onError={(e) => { e.target.style.display = 'none'; console.error("No se pudo cargar la imagen:", getImageUrl(currentGame)); }}
+              style={{ maxHeight: '80%', maxWidth: '100%', objectFit: 'contain' }} 
+              onError={(e) => { e.target.style.display = 'none'; }}
             />
+            <div style={{ marginTop: '15px', fontSize: '11px', color: '#ffcc00', wordBreak: 'break-all', textAlign: 'center', borderTop: '1px dashed #444', paddingTop: '10px' }}>
+              Ruta buscada:<br/> 
+              <span style={{ fontWeight: 'bold' }}>{getImageUrl(currentGame)}</span>
+            </div>
           </div>
           <h3 style={{ textAlign: 'center', marginTop: '15px' }}>{currentGame.title || "Sin título"}</h3>
         </div>
@@ -152,7 +160,6 @@ export default function TaggerView({ onExit }) {
         {/* Panel Derecho: Controles */}
         <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
           
-          {/* Selector de Color Hexadecimal */}
           <div style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px', border: '1px solid #4CAF50', gridColumn: '1 / -1' }}>
             <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>Color Hexadecimal (Exacto)</h4>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
@@ -173,7 +180,6 @@ export default function TaggerView({ onExit }) {
             </div>
           </div>
 
-          {/* Categorías de selección única */}
           {Object.entries(CATEGORIAS).map(([categoria, opciones]) => (
             <div key={categoria} style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px' }}>
               <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>{categoria}</h4>
@@ -198,7 +204,6 @@ export default function TaggerView({ onExit }) {
             </div>
           ))}
 
-          {/* Extras (Selección múltiple) */}
           <div style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px', border: '1px solid #b30000' }}>
             <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>Extras (Múltiple)</h4>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
