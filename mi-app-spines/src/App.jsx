@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import jsPDF from 'jspdf';
 import CatalogView from './CatalogView';
+import TaggerView from './TaggerView';
+
 
 const DEFAULT_SPINE_WIDTH = 10.5;
 
@@ -22,7 +24,7 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [view, setView] = useState('catalog');
+  const [view, setView] = useState('tagger');
   const [images, setImages] = useState([]);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -249,7 +251,10 @@ function App() {
       </div>
     );
   }
-
+  // Render principal del etiquetador
+  if (view === 'tagger') {
+    return <TaggerView onExit={() => setView('catalog')} />;
+  }
   // Si no es móvil, carga el catálogo normalmente
   if (view === 'catalog') {
     return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
