@@ -9,14 +9,12 @@ const CATEGORIAS = {
   "Estilo Principal": ["Minimalista", "Escénico / Detallado", "Maximalista (Kitsch)"]
 };
 
-// Extras es multiselección (Array)
 const EXTRAS = ["Estilo DNN", "Personaje Abajo", "Personajes por todo el lomo", "Set / Panorama"];
 
 export default function TaggerView({ onExit }) {
   const [db, setDb] = useState([]);
   const [isFileLoaded, setIsFileLoaded] = useState(false);
 
-  // Cargar el JSON localmente
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -33,7 +31,6 @@ export default function TaggerView({ onExit }) {
     reader.readAsText(file);
   };
 
-  // Buscar el primer juego al que le falte ALGUNA de las categorías base
   const currentIndex = db.findIndex(game => {
     if (!game.tags) return true;
     return Object.keys(CATEGORIAS).some(cat => !game.tags[cat]);
@@ -41,6 +38,22 @@ export default function TaggerView({ onExit }) {
 
   const currentGame = currentIndex !== -1 ? db[currentIndex] : null;
   const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat])).length;
+
+  // NUEVO: Función para resolver la ruta de la imagen correctamente
+  const getImageUrl = (game) => {
+    if (!game) return "";
+    const rawUrl = game.image || game.imageUrl || game.src;
+    if (!rawUrl) return "";
+    
+    // Si ya es un enlace web (Backblaze/Cloudinary), lo devolvemos tal cual
+    if (rawUrl.startsWith('http')) {
+      return rawUrl;
+    }
+    
+    // Si es un archivo local, Vite sabe que todo lo de "public/" se sirve desde la raíz "/"
+    // Ajusta esta ruta si tu carpeta local tiene otro nombre exacto
+    return `/spines/${rawUrl}`; 
+  };
 
   const handleTag = (categoria, valor) => {
     const updatedDb = [...db];
@@ -67,11 +80,9 @@ export default function TaggerView({ onExit }) {
     setDb(updatedDb);
   };
 
-  // NUEVO: Manejar el cambio del color Hexadecimal
   const handleHexChange = (e) => {
     const updatedDb = [...db];
     const game = { ...updatedDb[currentIndex] };
-    // Guardamos el color hexadecimal en la raíz del objeto del juego
     game.hexColor = e.target.value;
     updatedDb[currentIndex] = game;
     setDb(updatedDb);
@@ -127,7 +138,13 @@ export default function TaggerView({ onExit }) {
         {/* Panel Izquierdo: Imagen */}
         <div style={{ flex: '0 0 300px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ height: '400px', width: '100%', backgroundColor: '#111', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', padding: '10px' }}>
-            <img src={currentGame.image || currentGame.imageUrl || currentGame.src} alt="spine" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+            {/* AQUÍ ESTÁ EL CAMBIO CLAVE */}
+            <img 
+              src={getImageUrl(currentGame)} 
+              alt="spine" 
+              style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} 
+              onError={(e) => { e.target.style.display = 'none'; console.error("No se pudo cargar la imagen:", getImageUrl(currentGame)); }}
+            />
           </div>
           <h3 style={{ textAlign: 'center', marginTop: '15px' }}>{currentGame.title || "Sin título"}</h3>
         </div>
@@ -135,7 +152,7 @@ export default function TaggerView({ onExit }) {
         {/* Panel Derecho: Controles */}
         <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
           
-          {/* NUEVO: Selector de Color Hexadecimal */}
+          {/* Selector de Color Hexadecimal */}
           <div style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px', border: '1px solid #4CAF50', gridColumn: '1 / -1' }}>
             <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>Color Hexadecimal (Exacto)</h4>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
