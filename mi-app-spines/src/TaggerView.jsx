@@ -9,20 +9,42 @@ const CATEGORIAS = {
 };
 
 const EXTRAS = ["Estilo DNN", "Personaje Abajo", "Personajes por todo el lomo", "Set / Panorama"];
+const STORAGE_KEY = 'spine_tagger_progress';
 
 export default function TaggerView({ onExit }) {
   const [db, setDb] = useState([]);
   const [isFileLoaded, setIsFileLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  // NUEVO: Detector de móvil para el Tagger
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Intentar cargar progreso guardado al inicio
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
+
+    const savedProgress = localStorage.getItem(STORAGE_KEY);
+    if (savedProgress) {
+      try {
+        const json = JSON.parse(savedProgress);
+        setDb(json);
+        setIsFileLoaded(true);
+        // Ir al primer juego sin etiquetar
+        const firstUntagged = json.findIndex(game => !game.tags || Object.keys(CATEGORIAS).some(cat => !game.tags[cat]));
+        setCurrentIndex(firstUntagged !== -1 ? firstUntagged : 0);
+      } catch (e) {
+        console.error("Error cargando progreso:", e);
+      }
+    }
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Guardar automáticamente en LocalStorage cada vez que la DB cambia
+  useEffect(() => {
+    if (db.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    }
+  }, [db]);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -96,6 +118,14 @@ export default function TaggerView({ onExit }) {
     downloadAnchorNode.remove();
   };
 
+  const handleReset = () => {
+    if (window.confirm("¿Seguro que quieres borrar todo el progreso guardado en el navegador? Esto no borrará tu archivo físico .json, pero reiniciará esta pantalla.")) {
+      localStorage.removeItem(STORAGE_KEY);
+      setDb([]);
+      setIsFileLoaded(false);
+    }
+  };
+
   const nextSpine = () => { if (currentIndex < db.length - 1) setCurrentIndex(currentIndex + 1); };
   const prevSpine = () => { if (currentIndex > 0) setCurrentIndex(currentIndex - 1); };
 
@@ -112,9 +142,11 @@ export default function TaggerView({ onExit }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#1a1a1a', color: 'white', padding: '20px', textAlign: 'center' }}>
         <h2>Herramienta de Etiquetado</h2>
-        <p style={{ marginBottom: '20px' }}>Sube tu archivo database.json para empezar</p>
-        <input type="file" accept=".json" onChange={handleFileUpload} style={{ padding: '10px', backgroundColor: '#333', borderRadius: '5px', maxWidth: '100%' }} />
-        <button onClick={onExit} style={{ marginTop: '20px', padding: '10px', cursor: 'pointer' }}>Volver al Catálogo</button>
+        <p style={{ marginBottom: '20px', color: '#ccc' }}>Sube tu archivo base para empezar.</p>
+        <div style={{ padding: '20px', backgroundColor: '#222', borderRadius: '8px', border: '1px solid #444', marginBottom: '20px' }}>
+          <input type="file" accept=".json" onChange={handleFileUpload} style={{ padding: '10px', backgroundColor: '#333', borderRadius: '5px', maxWidth: '100%', cursor: 'pointer' }} />
+        </div>
+        <button onClick={onExit} style={{ padding: '10px 20px', cursor: 'pointer', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '4px' }}>Volver al Catálogo</button>
       </div>
     );
   }
@@ -125,11 +157,14 @@ export default function TaggerView({ onExit }) {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '10px' : '0' }}>
         <span style={{ fontSize: isMobile ? '14px' : '18px', fontWeight: 'bold' }}>Pendientes: {pendientes}</span>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button onClick={handleDownload} style={{ padding: '8px 12px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: isMobile ? '12px' : '14px' }}>
-            Guardar JSON
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <button onClick={handleDownload} style={{ padding: '8px 12px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: isMobile ? '11px' : '14px' }}>
+            Descargar JSON
           </button>
-          <button onClick={onExit} style={{ padding: '8px 12px', backgroundColor: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '12px' : '14px' }}>
+          <button onClick={handleReset} style={{ padding: '8px 12px', backgroundColor: '#ff9800', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '11px' : '14px' }}>
+            Reiniciar
+          </button>
+          <button onClick={onExit} style={{ padding: '8px 12px', backgroundColor: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '11px' : '14px' }}>
             Salir
           </button>
         </div>
@@ -190,9 +225,16 @@ export default function TaggerView({ onExit }) {
         {/* Panel Derecho: CONTROLES */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '15px', overflowY: 'auto', paddingRight: isMobile ? '0' : '10px', height: isMobile ? 'auto' : '75vh', paddingBottom: isMobile ? '40px' : '0' }}>
           
-          {/* Color Picker (Nativo en móvil funciona genial) */}
+          {/* Advertencia para móviles sobre el cuentagotas */}
           <div style={{ backgroundColor: '#2a2a2a', padding: '15px', borderRadius: '8px', border: '1px solid #4CAF50' }}>
             <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #444', paddingBottom: '5px' }}>Color Hexadecimal</h4>
+            
+            {isMobile && (
+              <p style={{ fontSize: '11px', color: '#ffcc00', marginBottom: '10px', lineHeight: '1.4' }}>
+                ⚠️ Nota: La mayoría de móviles no tienen cuentagotas. Es mejor dejar esta opción para cuando estés en el PC. ¡Avanza con el resto!
+              </p>
+            )}
+
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <input type="color" value={currentGame?.hexColor || "#ffffff"} onChange={handleHexChange} style={{ width: '50px', height: '40px', cursor: 'pointer', padding: '0', border: 'none', backgroundColor: 'transparent' }} />
               <input type="text" value={currentGame?.hexColor || ""} onChange={handleHexChange} placeholder="#FFFFFF" style={{ padding: '10px', borderRadius: '4px', border: '1px solid #555', backgroundColor: '#111', color: 'white', width: '100px', fontWeight: 'bold' }} />
