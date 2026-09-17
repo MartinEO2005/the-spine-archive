@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const CATEGORIAS = {
   Plataforma: ["Switch 1", "Switch 2"],
@@ -13,6 +13,7 @@ const EXTRAS = ["Estilo DNN", "Personaje Abajo", "Personajes por todo el lomo", 
 export default function TaggerView({ onExit }) {
   const [db, setDb] = useState([]);
   const [isFileLoaded, setIsFileLoaded] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -22,6 +23,9 @@ export default function TaggerView({ onExit }) {
       try {
         const json = JSON.parse(event.target.result);
         setDb(json);
+        // Buscar el primero sin etiquetar para empezar ahí
+        const firstUntagged = json.findIndex(game => !game.tags || Object.keys(CATEGORIAS).some(cat => !game.tags[cat]));
+        setCurrentIndex(firstUntagged !== -1 ? firstUntagged : 0);
         setIsFileLoaded(true);
       } catch (error) {
         alert("Error al leer el JSON. Asegúrate de que el formato es correcto.");
@@ -30,39 +34,20 @@ export default function TaggerView({ onExit }) {
     reader.readAsText(file);
   };
 
-  const currentIndex = db.findIndex(game => {
-    if (!game.tags) return true;
-    return Object.keys(CATEGORIAS).some(cat => !game.tags[cat]);
-  });
-
-  const currentGame = currentIndex !== -1 ? db[currentIndex] : null;
-  const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat])).length;
-
-  // SUPER FUNCIÓN DE RESOLUCIÓN DE IMAGEN
   const getImageUrl = (game) => {
     if (!game) return "";
-    
-    // Buscamos en todas las propiedades posibles donde guardes el identificador
     let rawUrl = game.image || game.imageUrl || game.src || game.url || game.id;
     if (!rawUrl) return "SIN_URL_EN_JSON";
-    
     if (rawUrl.startsWith('http')) return rawUrl;
     
-    // Limpiamos barras iniciales si las hay
     rawUrl = rawUrl.replace(/^\/+/, '');
+    if (!rawUrl.includes('.')) rawUrl = `${rawUrl}.webp`;
     
-    // Si el rawUrl no tiene punto (ej: es solo un ID como '1cv8sxi'), le probamos la extensión
-    if (!rawUrl.includes('.')) {
-      rawUrl = `${rawUrl}.webp`; // Si tus imágenes locales son png, cambia esto a .png
-    }
-
-    // Evitamos rutas duplicadas
-    if (rawUrl.startsWith('spines/')) {
-      return `/${rawUrl}`;
-    }
-    
-    return `/spines/${rawUrl}`; 
+    return rawUrl.startsWith('spines/') ? `/${rawUrl}` : `/spines/${rawUrl}`; 
   };
+
+  const currentGame = db[currentIndex] || null;
+  const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat])).length;
 
   const handleTag = (categoria, valor) => {
     const updatedDb = [...db];
@@ -103,34 +88,39 @@ export default function TaggerView({ onExit }) {
     downloadAnchorNode.remove();
   };
 
+  // Navegación
+  const nextSpine = () => { if (currentIndex < db.length - 1) setCurrentIndex(currentIndex + 1); };
+  const prevSpine = () => { if (currentIndex > 0) setCurrentIndex(currentIndex - 1); };
+
+  // Atajos de teclado para avanzar o retroceder más rápido
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight') nextSpine();
+      if (e.key === 'ArrowLeft') prevSpine();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentIndex, db.length]);
+
   if (!isFileLoaded) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#222', color: 'white' }}>
-        <h2>Herramienta de Etiquetado</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#1a1a1a', color: 'white' }}>
+        <h2>Herramienta de Etiquetado de Lomos</h2>
         <p style={{ marginBottom: '20px' }}>Sube tu archivo database.json para empezar</p>
-        <input type="file" accept=".json" onChange={handleFileUpload} style={{ padding: '10px', backgroundColor: '#444', borderRadius: '5px' }} />
+        <input type="file" accept=".json" onChange={handleFileUpload} style={{ padding: '10px', backgroundColor: '#333', borderRadius: '5px' }} />
         <button onClick={onExit} style={{ marginTop: '20px', padding: '10px', cursor: 'pointer' }}>Volver al Catálogo</button>
       </div>
     );
   }
 
-  if (!currentGame) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#222', color: 'white' }}>
-        <h1>¡Todo etiquetado! 🎉</h1>
-        <button onClick={handleDownload} style={{ padding: '15px', marginTop: '20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-          Descargar JSON actualizado
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div style={{ padding: '20px', backgroundColor: '#222', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <span>Pendientes: {pendientes}</span>
+    <div style={{ padding: '15px', backgroundColor: '#1a1a1a', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column' }}>
+      
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Pendientes globales: {pendientes}</span>
         <div>
-          <button onClick={handleDownload} style={{ padding: '8px 15px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' }}>
+          <button onClick={handleDownload} style={{ padding: '8px 15px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px', fontWeight: 'bold' }}>
             Guardar Progreso (.json)
           </button>
           <button onClick={onExit} style={{ padding: '8px 15px', backgroundColor: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
@@ -139,91 +129,140 @@ export default function TaggerView({ onExit }) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '40px' }}>
-        {/* Panel Izquierdo: Imagen */}
-        <div style={{ flex: '0 0 300px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ height: '400px', width: '100%', backgroundColor: '#111', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', padding: '10px' }}>
+      {/* TIRA DE CONTEXTO (Filmstrip) para ver sets y navegar */}
+      <div style={{ 
+        display: 'flex', gap: '8px', overflowX: 'auto', backgroundColor: '#111', 
+        padding: '10px', borderRadius: '8px', marginBottom: '20px', height: '160px', alignItems: 'center',
+        border: '1px solid #333'
+      }}>
+        {db.map((game, i) => {
+          // Renderizamos solo una ventana de 30 lomos (15 antes y 15 después) para que no se congele el navegador
+          if (Math.abs(i - currentIndex) > 15) return null;
+          const isCurrent = i === currentIndex;
+          
+          return (
+            <img 
+              key={i}
+              src={getImageUrl(game)}
+              onClick={() => setCurrentIndex(i)}
+              title={game.title}
+              style={{ 
+                height: isCurrent ? '100%' : '75%', 
+                cursor: 'pointer', 
+                border: isCurrent ? '3px solid #4CAF50' : '2px solid transparent',
+                opacity: isCurrent ? 1 : 0.5,
+                objectFit: 'contain',
+                transition: 'all 0.2s ease',
+                backgroundColor: '#222'
+              }} 
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+          );
+        })}
+      </div>
+
+      <div style={{ display: 'flex', gap: '30px', flex: 1 }}>
+        {/* Panel Izquierdo: IMAGEN GIGANTE Y NAVEGACIÓN */}
+        <div style={{ flex: '0 0 450px', display: 'flex', flexDirection: 'column' }}>
+          
+          <div style={{ 
+            height: '65vh', width: '100%', backgroundColor: '#111', display: 'flex', 
+            justifyContent: 'center', alignItems: 'center', borderRadius: '8px', padding: '10px',
+            border: '2px solid #333', position: 'relative'
+          }}>
             <img 
               src={getImageUrl(currentGame)} 
               alt="spine" 
-              style={{ maxHeight: '80%', maxWidth: '100%', objectFit: 'contain' }} 
-              onError={(e) => { e.target.style.display = 'none'; }}
+              style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} 
             />
-            <div style={{ marginTop: '15px', fontSize: '11px', color: '#ffcc00', wordBreak: 'break-all', textAlign: 'center', borderTop: '1px dashed #444', paddingTop: '10px' }}>
-              Ruta buscada:<br/> 
-              <span style={{ fontWeight: 'bold' }}>{getImageUrl(currentGame)}</span>
-            </div>
           </div>
-          <h3 style={{ textAlign: 'center', marginTop: '15px' }}>{currentGame.title || "Sin título"}</h3>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }}>
+            <button onClick={prevSpine} disabled={currentIndex === 0} style={{ padding: '12px 20px', backgroundColor: '#444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+              &larr; Anterior
+            </button>
+            <div style={{ textAlign: 'center', flex: 1, padding: '0 10px' }}>
+              <h3 style={{ margin: '0 0 5px 0', fontSize: '16px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {currentGame?.title || "Sin título"}
+              </h3>
+              <span style={{ fontSize: '12px', color: '#aaa' }}>Lomo {currentIndex + 1} de {db.length}</span>
+            </div>
+            <button onClick={nextSpine} disabled={currentIndex === db.length - 1} style={{ padding: '12px 20px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
+              Siguiente &rarr;
+            </button>
+          </div>
         </div>
 
-        {/* Panel Derecho: Controles */}
-        <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+        {/* Panel Derecho: Controles de Etiquetado */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '15px', overflowY: 'auto', paddingRight: '10px', height: '75vh' }}>
           
-          <div style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px', border: '1px solid #4CAF50', gridColumn: '1 / -1' }}>
-            <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>Color Hexadecimal (Exacto)</h4>
+          <div style={{ backgroundColor: '#2a2a2a', padding: '15px', borderRadius: '8px', border: '1px solid #4CAF50' }}>
+            <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #444', paddingBottom: '5px' }}>Color Hexadecimal (Exacto)</h4>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <input 
                 type="color" 
-                value={currentGame.hexColor || "#ffffff"} 
+                value={currentGame?.hexColor || "#ffffff"} 
                 onChange={handleHexChange}
                 style={{ width: '60px', height: '40px', cursor: 'pointer', padding: '0', border: 'none', backgroundColor: 'transparent' }}
               />
               <input 
                 type="text" 
-                value={currentGame.hexColor || ""} 
+                value={currentGame?.hexColor || ""} 
                 onChange={handleHexChange}
                 placeholder="#FFFFFF"
-                style={{ padding: '8px', borderRadius: '4px', border: '1px solid #555', backgroundColor: '#222', color: 'white', width: '100px' }}
+                style={{ padding: '10px', borderRadius: '4px', border: '1px solid #555', backgroundColor: '#111', color: 'white', width: '120px', fontWeight: 'bold' }}
               />
-              <span style={{ fontSize: '12px', color: '#aaa' }}>Haz clic en el cuadro de color y usa el cuentagotas para extraer el tono exacto de la imagen.</span>
+              <span style={{ fontSize: '12px', color: '#aaa' }}>Usa el cuentagotas sobre la imagen gigante.</span>
             </div>
           </div>
 
-          {Object.entries(CATEGORIAS).map(([categoria, opciones]) => (
-            <div key={categoria} style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px' }}>
-              <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>{categoria}</h4>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px' }}>
+            {Object.entries(CATEGORIAS).map(([categoria, opciones]) => (
+              <div key={categoria} style={{ backgroundColor: '#2a2a2a', padding: '15px', borderRadius: '8px', border: '1px solid #333' }}>
+                <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #444', paddingBottom: '5px' }}>{categoria}</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {opciones.map(opcion => {
+                    const isSelected = currentGame?.tags && currentGame.tags[categoria] === opcion;
+                    return (
+                      <button
+                        key={opcion}
+                        onClick={() => handleTag(categoria, opcion)}
+                        style={{
+                          padding: '8px 12px', fontSize: '13px', border: 'none', borderRadius: '4px', cursor: 'pointer',
+                          backgroundColor: isSelected ? '#3b82f6' : '#444',
+                          color: 'white', fontWeight: isSelected ? 'bold' : 'normal',
+                          transition: 'background-color 0.1s'
+                        }}
+                      >
+                        {opcion}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+
+            <div style={{ backgroundColor: '#2a2a2a', padding: '15px', borderRadius: '8px', border: '1px solid #b30000' }}>
+              <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #444', paddingBottom: '5px' }}>Extras (Múltiple)</h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {opciones.map(opcion => {
-                  const isSelected = currentGame.tags && currentGame.tags[categoria] === opcion;
+                {EXTRAS.map(extra => {
+                  const currentExtras = currentGame?.tags?.Extras || [];
+                  const isSelected = currentExtras.includes(extra);
                   return (
                     <button
-                      key={opcion}
-                      onClick={() => handleTag(categoria, opcion)}
+                      key={extra}
+                      onClick={() => handleExtraToggle(extra)}
                       style={{
-                        padding: '6px 12px', fontSize: '12px', border: 'none', borderRadius: '4px', cursor: 'pointer',
-                        backgroundColor: isSelected ? '#3b82f6' : '#555',
+                        padding: '8px 12px', fontSize: '13px', border: 'none', borderRadius: '4px', cursor: 'pointer',
+                        backgroundColor: isSelected ? '#ef4444' : '#444',
                         color: 'white', fontWeight: isSelected ? 'bold' : 'normal'
                       }}
                     >
-                      {opcion}
+                      {extra}
                     </button>
                   );
                 })}
               </div>
-            </div>
-          ))}
-
-          <div style={{ backgroundColor: '#333', padding: '15px', borderRadius: '8px', border: '1px solid #b30000' }}>
-            <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #555', paddingBottom: '5px' }}>Extras (Múltiple)</h4>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {EXTRAS.map(extra => {
-                const currentExtras = currentGame.tags?.Extras || [];
-                const isSelected = currentExtras.includes(extra);
-                return (
-                  <button
-                    key={extra}
-                    onClick={() => handleExtraToggle(extra)}
-                    style={{
-                      padding: '6px 12px', fontSize: '12px', border: 'none', borderRadius: '4px', cursor: 'pointer',
-                      backgroundColor: isSelected ? '#ef4444' : '#555',
-                      color: 'white'
-                    }}
-                  >
-                    {extra}
-                  </button>
-                );
-              })}
             </div>
           </div>
 
