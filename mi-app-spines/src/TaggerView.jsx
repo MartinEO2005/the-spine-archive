@@ -16,33 +16,39 @@ export default function TaggerView({ onExit }) {
   const [isFileLoaded, setIsFileLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [storageError, setStorageError] = useState(false); // NUEVO: Estado para controlar errores de memoria
 
   // Intentar cargar progreso guardado al inicio
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
 
-    const savedProgress = localStorage.getItem(STORAGE_KEY);
-    if (savedProgress) {
-      try {
+    try {
+      const savedProgress = localStorage.getItem(STORAGE_KEY);
+      if (savedProgress) {
         const json = JSON.parse(savedProgress);
         setDb(json);
         setIsFileLoaded(true);
-        // Ir al primer juego sin etiquetar
         const firstUntagged = json.findIndex(game => !game.tags || Object.keys(CATEGORIAS).some(cat => !game.tags[cat]));
         setCurrentIndex(firstUntagged !== -1 ? firstUntagged : 0);
-      } catch (e) {
-        console.error("Error cargando progreso:", e);
       }
+    } catch (e) {
+      console.warn("Error leyendo LocalStorage (Probablemente bloqueado por privacidad):", e);
     }
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Guardar automáticamente en LocalStorage cada vez que la DB cambia
+  // Guardar automáticamente en LocalStorage cada vez que la DB cambia, con protección anti-crashes
   useEffect(() => {
     if (db.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+        setStorageError(false);
+      } catch (e) {
+        console.warn("Límite de memoria excedido en el navegador móvil.", e);
+        setStorageError(true); // Activa el aviso visual
+      }
     }
   }, [db]);
 
@@ -120,9 +126,14 @@ export default function TaggerView({ onExit }) {
 
   const handleReset = () => {
     if (window.confirm("¿Seguro que quieres borrar todo el progreso guardado en el navegador? Esto no borrará tu archivo físico .json, pero reiniciará esta pantalla.")) {
-      localStorage.removeItem(STORAGE_KEY);
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        console.warn("No se pudo limpiar LocalStorage", e);
+      }
       setDb([]);
       setIsFileLoaded(false);
+      setStorageError(false);
     }
   };
 
@@ -154,6 +165,13 @@ export default function TaggerView({ onExit }) {
   return (
     <div style={{ padding: isMobile ? '10px' : '15px', backgroundColor: '#1a1a1a', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column' }}>
       
+      {/* AVISO DE ERROR DE MEMORIA */}
+      {storageError && (
+        <div style={{ backgroundColor: '#b30000', color: 'white', padding: '10px', borderRadius: '6px', marginBottom: '10px', textAlign: 'center', fontSize: '12px', fontWeight: 'bold' }}>
+          ⚠️ Tu móvil no permite autoguardar un archivo tan grande. ¡No cierres la pestaña! Usa el botón "Descargar JSON" antes de salir.
+        </div>
+      )}
+
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '10px' : '0' }}>
         <span style={{ fontSize: isMobile ? '14px' : '18px', fontWeight: 'bold' }}>Pendientes: {pendientes}</span>
@@ -225,7 +243,6 @@ export default function TaggerView({ onExit }) {
         {/* Panel Derecho: CONTROLES */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '15px', overflowY: 'auto', paddingRight: isMobile ? '0' : '10px', height: isMobile ? 'auto' : '75vh', paddingBottom: isMobile ? '40px' : '0' }}>
           
-          {/* Advertencia para móviles sobre el cuentagotas */}
           <div style={{ backgroundColor: '#2a2a2a', padding: '15px', borderRadius: '8px', border: '1px solid #4CAF50' }}>
             <h4 style={{ margin: '0 0 10px 0', borderBottom: '1px solid #444', paddingBottom: '5px' }}>Color Hexadecimal</h4>
             
