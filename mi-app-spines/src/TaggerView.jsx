@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// Eliminamos "Plataforma" de aquí porque ahora lo hará el script de Python automáticamente
 const CATEGORIAS = {
+  Plataforma: ["Switch 1", "Switch 2"],
   "Color Base": ["Rojo", "Azul", "Amarillo", "Verde", "Rosa", "Naranja", "Morado", "Blanco", "Negro", "Gris", "Multicolor"],
   "Tipografía del Título": ["Texto Simple", "Logo Original"],
   "Alineación del Texto": ["Centrado Arriba", "Centro Exacto", "Cubre todo (desde arriba)", "Cubre todo (centrado)"],
@@ -17,6 +17,9 @@ export default function TaggerView({ onExit }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [storageError, setStorageError] = useState(false);
+  
+  // NUEVO: Estado para los colores extraídos en tiempo real
+  const [suggestedColors, setSuggestedColors] = useState([]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -49,6 +52,63 @@ export default function TaggerView({ onExit }) {
     }
   }, [db]);
 
+  const getImageUrl = (game) => {
+    if (!game) return "";
+    let rawUrl = game.image || game.imageUrl || game.src || game.url || game.id;
+    if (!rawUrl) return "SIN_URL_EN_JSON";
+    if (rawUrl.startsWith('http')) return rawUrl;
+    
+    rawUrl = rawUrl.replace(/^\/+/, '');
+    if (!rawUrl.includes('.')) rawUrl = `${rawUrl}.webp`;
+    
+    return rawUrl.startsWith('spines/') ? `/${rawUrl}` : `/spines/${rawUrl}`; 
+  };
+
+  const currentGame = db[currentIndex] || null;
+
+  // NUEVO: El motor que lee los píxeles de la imagen dinámicamente
+  useEffect(() => {
+    if (!currentGame) return;
+    
+    setSuggestedColors([]); // Reiniciar al cambiar de imagen
+    
+    const imgUrl = getImageUrl(currentGame);
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // Crítico para poder extraer píxeles
+    img.src = imgUrl;
+
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+
+        // Convertidor de RGB a Hexadecimal (#FFFFFF)
+        const rgbToHex = (r, g, b) => "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase();
+
+        // Extraer pixel exacto
+        const getHexAt = (xPct, yPct) => {
+          const x = Math.floor(img.width * xPct);
+          const y = Math.floor(img.height * yPct);
+          const pixel = ctx.getImageData(x, y, 1, 1).data;
+          return rgbToHex(pixel[0], pixel[1], pixel[2]);
+        };
+
+        // Extraemos en las 3 zonas que dibujaste en tu boceto
+        const c1 = getHexAt(0.80, 0.18); // Arriba derecha (evita el logo Nintendo)
+        const c2 = getHexAt(0.10, 0.50); // Medio izquierda
+        const c3 = getHexAt(0.20, 0.80); // Abajo izquierda
+
+        setSuggestedColors([c1, c2, c3]);
+      } catch (e) {
+        console.warn("No se pudieron extraer los píxeles (Posible bloqueo de CORS):", e);
+        setSuggestedColors([]);
+      }
+    };
+  }, [currentIndex, isFileLoaded]); // Solo se ejecuta al cambiar la imagen, no al etiquetar
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -67,19 +127,6 @@ export default function TaggerView({ onExit }) {
     reader.readAsText(file);
   };
 
-  const getImageUrl = (game) => {
-    if (!game) return "";
-    let rawUrl = game.image || game.imageUrl || game.src || game.url || game.id;
-    if (!rawUrl) return "SIN_URL_EN_JSON";
-    if (rawUrl.startsWith('http')) return rawUrl;
-    
-    rawUrl = rawUrl.replace(/^\/+/, '');
-    if (!rawUrl.includes('.')) rawUrl = `${rawUrl}.webp`;
-    
-    return rawUrl.startsWith('spines/') ? `/${rawUrl}` : `/spines/${rawUrl}`; 
-  };
-
-  const currentGame = db[currentIndex] || null;
   const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat])).length;
 
   const handleTag = (categoria, valor) => {
@@ -103,14 +150,12 @@ export default function TaggerView({ onExit }) {
     setDb(updatedDb);
   };
 
-  // Función para guardar el color sugerido
   const handleColorSelect = (hex) => {
     const updatedDb = [...db];
     updatedDb[currentIndex].hexColor = hex;
     setDb(updatedDb);
   };
 
-  // Función para el cuentagotas manual de respaldo
   const handleHexChange = (e) => {
     const updatedDb = [...db];
     updatedDb[currentIndex].hexColor = e.target.value;
@@ -151,8 +196,8 @@ export default function TaggerView({ onExit }) {
   if (!isFileLoaded) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#1a1a1a', color: 'white', padding: '20px', textAlign: 'center' }}>
-        <h2>Herramienta de Etiquetado Híbrida</h2>
-        <p style={{ marginBottom: '20px', color: '#ccc' }}>Sube tu archivo procesado por Python para empezar.</p>
+        <h2>Herramienta de Etiquetado de Precisión</h2>
+        <p style={{ marginBottom: '20px', color: '#ccc' }}>Sube tu archivo database.json para empezar.</p>
         <div style={{ padding: '20px', backgroundColor: '#222', borderRadius: '8px', border: '1px solid #444', marginBottom: '20px' }}>
           <input type="file" accept=".json" onChange={handleFileUpload} style={{ padding: '10px', backgroundColor: '#333', borderRadius: '5px', maxWidth: '100%', cursor: 'pointer' }} />
         </div>
@@ -173,15 +218,9 @@ export default function TaggerView({ onExit }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '10px' : '0' }}>
         <span style={{ fontSize: isMobile ? '14px' : '18px', fontWeight: 'bold' }}>Pendientes: {pendientes}</span>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <button onClick={handleDownload} style={{ padding: '8px 12px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: isMobile ? '11px' : '14px' }}>
-            Descargar JSON
-          </button>
-          <button onClick={handleReset} style={{ padding: '8px 12px', backgroundColor: '#ff9800', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '11px' : '14px' }}>
-            Reiniciar
-          </button>
-          <button onClick={onExit} style={{ padding: '8px 12px', backgroundColor: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '11px' : '14px' }}>
-            Salir
-          </button>
+          <button onClick={handleDownload} style={{ padding: '8px 12px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: isMobile ? '11px' : '14px' }}>Descargar JSON</button>
+          <button onClick={handleReset} style={{ padding: '8px 12px', backgroundColor: '#ff9800', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '11px' : '14px' }}>Reiniciar</button>
+          <button onClick={onExit} style={{ padding: '8px 12px', backgroundColor: '#b30000', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: isMobile ? '11px' : '14px' }}>Salir</button>
         </div>
       </div>
 
@@ -203,14 +242,7 @@ export default function TaggerView({ onExit }) {
         
         <div style={{ flex: isMobile ? 'none' : '0 0 450px', display: 'flex', flexDirection: 'column' }}>
           <div style={{ height: isMobile ? '40vh' : '65vh', width: '100%', backgroundColor: '#111', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', padding: '10px', border: '2px solid #333', position: 'relative' }}>
-            
-            {/* Indicador visual de la plataforma detectada por el script */}
-            {currentGame?.tags?.Plataforma && (
-              <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: currentGame.tags.Plataforma === 'Switch 2' ? '#b30000' : '#e60012', padding: '5px 10px', borderRadius: '4px', fontWeight: 'bold', fontSize: '14px', zIndex: 10, boxShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-                {currentGame.tags.Plataforma} (IA)
-              </div>
-            )}
-            <img src={getImageUrl(currentGame)} alt="spine" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+            <img id="current-spine-img" src={getImageUrl(currentGame)} alt="spine" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
@@ -230,10 +262,9 @@ export default function TaggerView({ onExit }) {
               Color Hexadecimal <span>{currentGame?.hexColor || "No seleccionado"}</span>
             </h4>
             
-            {/* Bloque de sugerencias del Script */}
-            {currentGame?.suggestedColors && currentGame.suggestedColors.length > 0 ? (
+            {suggestedColors.length > 0 ? (
               <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', flexWrap: 'wrap' }}>
-                {currentGame.suggestedColors.map((hex, idx) => (
+                {suggestedColors.map((hex, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleColorSelect(hex)}
@@ -242,15 +273,16 @@ export default function TaggerView({ onExit }) {
                       border: currentGame?.hexColor === hex ? '4px solid #3b82f6' : '2px solid #555',
                       cursor: 'pointer', boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
                     }}
-                    title={`Sugerencia ${idx + 1}: ${hex}`}
+                    title={`Píxel ${idx + 1}: ${hex}`}
                   />
                 ))}
               </div>
             ) : (
-              <p style={{ fontSize: '12px', color: '#aaa', marginBottom: '15px' }}>El script aún no ha sugerido colores para este lomo.</p>
+              <p style={{ fontSize: '12px', color: '#aaa', marginBottom: '15px' }}>
+                Analizando los 3 píxeles estratégicos de la imagen...
+              </p>
             )}
 
-            {/* Selector manual de respaldo */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px', borderTop: '1px dashed #444', paddingTop: '10px' }}>
               <span style={{ fontSize: '12px', color: '#aaa' }}>Manual (Respaldo):</span>
               <input type="color" value={currentGame?.hexColor || "#ffffff"} onChange={handleHexChange} style={{ width: '40px', height: '40px', cursor: 'pointer', padding: '0', border: 'none', backgroundColor: 'transparent' }} />
