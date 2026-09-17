@@ -3,7 +3,6 @@ import jsPDF from 'jspdf';
 import CatalogView from './CatalogView';
 import TaggerView from './TaggerView';
 
-
 const DEFAULT_SPINE_WIDTH = 10.5;
 
 // CLAVE: Objeto global para guardar las imágenes ya convertidas a Base64 y no volver a descargarlas
@@ -224,7 +223,12 @@ function App() {
     handleDragEnd();
   };
 
-  // Pantalla exclusiva para móviles: aborta el renderizado de la app para no consumir base de datos ni descargas
+  // 1. PRIMERO: Render principal del etiquetador (dejamos pasar siempre, sea móvil o PC)
+  if (view === 'tagger') {
+    return <TaggerView onExit={() => setView('catalog')} />;
+  }
+
+  // 2. SEGUNDO: Pantalla exclusiva para móviles: aborta el renderizado del catálogo para no consumir base de datos ni descargas
   if (isMobile) {
     return (
       <div style={{ 
@@ -251,11 +255,8 @@ function App() {
       </div>
     );
   }
-  // Render principal del etiquetador
-  if (view === 'tagger') {
-    return <TaggerView onExit={() => setView('catalog')} />;
-  }
-  // Si no es móvil, carga el catálogo normalmente
+
+  // 3. TERCERO: Si no es móvil, carga el catálogo normalmente
   if (view === 'catalog') {
     return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
   }
