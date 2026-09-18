@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
+// Mapeo de colores reales para los botones de "Color Base"
+const COLOR_MAP = {
+  "Rojo": "#ef4444", "Azul": "#3b82f6", "Amarillo": "#eab308", "Verde": "#22c55e",
+  "Rosa": "#ec4899", "Naranja": "#f97316", "Morado": "#a855f7", "Blanco": "#ffffff",
+  "Negro": "#000000", "Gris": "#6b7280", "Multicolor": "linear-gradient(45deg, red, yellow, green, blue)"
+};
+
 const CATEGORIAS = {
   Plataforma: ["Switch 1", "Switch 2"],
   "Color Base": ["Rojo", "Azul", "Amarillo", "Verde", "Rosa", "Naranja", "Morado", "Blanco", "Negro", "Gris", "Multicolor"],
   "Tipografía del Título": ["Texto Simple", "Logo Original"],
-  "Alineación del Texto": ["Centrado Arriba", "Centro Exacto", "Cubre todo (desde arriba)", "Cubre todo (centrado)"],
-  "Estilo Principal": ["Minimalista", "Escénico / Detallado", "Maximalista (Kitsch)"]
+  "Alineación del Texto": ["Centrado Arriba","Centrado Arriba con margen","Centro", "Cubre todo (desde arriba)", "Cubre todo (centrado)"],
+  "Estilo Principal": ["Minimalista", "Escénico / Detallado", "Maximalista (Kitsch)"],
+  "Lower logo": ["Nintendo", "other"]
 };
 
 const EXTRAS = ["Estilo DNN", "Personaje Abajo", "Personajes por todo el lomo", "Set / Panorama"];
@@ -18,7 +26,6 @@ export default function TaggerView({ onExit }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [storageError, setStorageError] = useState(false);
   
-  // NUEVO: Estado para los colores extraídos en tiempo real
   const [suggestedColors, setSuggestedColors] = useState([]);
 
   useEffect(() => {
@@ -66,15 +73,14 @@ export default function TaggerView({ onExit }) {
 
   const currentGame = db[currentIndex] || null;
 
-  // NUEVO: El motor que lee los píxeles de la imagen dinámicamente
   useEffect(() => {
     if (!currentGame) return;
     
-    setSuggestedColors([]); // Reiniciar al cambiar de imagen
+    setSuggestedColors([]); 
     
     const imgUrl = getImageUrl(currentGame);
     const img = new Image();
-    img.crossOrigin = 'anonymous'; // Crítico para poder extraer píxeles
+    img.crossOrigin = 'anonymous'; 
     img.src = imgUrl;
 
     img.onload = () => {
@@ -85,10 +91,8 @@ export default function TaggerView({ onExit }) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        // Convertidor de RGB a Hexadecimal (#FFFFFF)
         const rgbToHex = (r, g, b) => "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase();
 
-        // Extraer pixel exacto
         const getHexAt = (xPct, yPct) => {
           const x = Math.floor(img.width * xPct);
           const y = Math.floor(img.height * yPct);
@@ -96,10 +100,9 @@ export default function TaggerView({ onExit }) {
           return rgbToHex(pixel[0], pixel[1], pixel[2]);
         };
 
-        // Extraemos en las 3 zonas que dibujaste en tu boceto
-        const c1 = getHexAt(0.80, 0.18); // Arriba derecha (evita el logo Nintendo)
-        const c2 = getHexAt(0.10, 0.50); // Medio izquierda
-        const c3 = getHexAt(0.20, 0.80); // Abajo izquierda
+        const c1 = getHexAt(0.80, 0.18); 
+        const c2 = getHexAt(0.10, 0.50); 
+        const c3 = getHexAt(0.20, 0.80); 
 
         setSuggestedColors([c1, c2, c3]);
       } catch (e) {
@@ -107,7 +110,7 @@ export default function TaggerView({ onExit }) {
         setSuggestedColors([]);
       }
     };
-  }, [currentIndex, isFileLoaded]); // Solo se ejecuta al cambiar la imagen, no al etiquetar
+  }, [currentIndex, isFileLoaded]); 
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -300,8 +303,19 @@ export default function TaggerView({ onExit }) {
                     return (
                       <button
                         key={opcion} onClick={() => handleTag(categoria, opcion)}
-                        style={{ padding: '10px 12px', fontSize: '13px', border: 'none', borderRadius: '4px', cursor: 'pointer', backgroundColor: isSelected ? '#3b82f6' : '#444', color: 'white', fontWeight: isSelected ? 'bold' : 'normal', flexGrow: isMobile ? 1 : 0 }}
+                        style={{ 
+                          padding: '8px 12px', fontSize: '13px', border: 'none', borderRadius: '4px', cursor: 'pointer', 
+                          backgroundColor: isSelected ? '#3b82f6' : '#444', color: 'white', fontWeight: isSelected ? 'bold' : 'normal', 
+                          flexGrow: isMobile ? 1 : 0, display: 'flex', alignItems: 'center', gap: '8px'
+                        }}
                       >
+                        {categoria === "Color Base" && COLOR_MAP[opcion] && (
+                          <span style={{ 
+                            width: '12px', height: '12px', borderRadius: '2px', 
+                            background: COLOR_MAP[opcion], display: 'inline-block',
+                            border: '1px solid rgba(255,255,255,0.3)'
+                          }}></span>
+                        )}
                         {opcion}
                       </button>
                     );
