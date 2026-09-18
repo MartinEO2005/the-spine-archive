@@ -8,27 +8,43 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 
-# Cargar variables de entorno
+# Cargar variables de entorno buscando de forma inteligente en varias rutas posibles
 current_dir = os.path.dirname(os.path.abspath(__file__))
-env_path = os.path.join(current_dir, '..', '.env')
-load_dotenv(dotenv_path=env_path)
+possible_env_paths = [
+    os.path.join(current_dir, '.env'),
+    os.path.join(current_dir, '..', '.env'),
+    os.path.join(current_dir, '..', '..', '.env')
+]
+
+env_loaded = False
+for path in possible_env_paths:
+    if os.path.exists(path):
+        load_dotenv(dotenv_path=path)
+        env_loaded = True
+        break
 
 api_key = os.environ.get("GEMINI_API_KEY")
 if not api_key:
-    print("❌ ERROR: No se encontró la GEMINI_API_KEY en el archivo .env")
+    print("❌ ERROR: No se encontró la GEMINI_API_KEY. Asegúrate de que el archivo .env existe y contiene GEMINI_API_KEY=tu_clave")
     exit(1)
 
-# Cliente estándar de Google GenAI
 client = genai.Client(api_key=api_key)
 
 input_json_path = os.path.join(current_dir, '..', 'public', 'database.json')
 output_json_path = os.path.join(current_dir, '..', 'public', 'database_ia_taggeada.json')
 
+# Cargar progreso o iniciar desde cero
 try:
-    with open(input_json_path, "r", encoding="utf-8") as f:
-        database = json.load(f)
+    if os.path.exists(output_json_path):
+        print("🔄 Archivo de progreso detectado. Retomando desde database_ia_taggeada.json...")
+        with open(output_json_path, "r", encoding="utf-8") as f:
+            database = json.load(f)
+    else:
+        print("🚀 Iniciando desde cero con database.json...")
+        with open(input_json_path, "r", encoding="utf-8") as f:
+            database = json.load(f)
 except FileNotFoundError:
-    print("❌ ERROR: No se encuentra database.json.")
+    print("❌ ERROR: No se encuentra el archivo JSON.")
     exit(1)
 
 PROMPT = """
@@ -49,6 +65,11 @@ Analiza esta imagen de un lomo de videojuego de Nintendo Switch. Eres un experto
     * "Minimalista": El fondo detrás de las letras es liso, un degradado simple o un patrón sutil. ATENCIÓN: Si hay personajes en la parte inferior pero el fondo central donde está el texto es limpio, SIGUE SIENDO Minimalista.
     * "Escénico / Detallado": El fondo tiene una ilustración compleja, un escenario de fondo o texturas densas que ocupan todo el espacio.
     * "Maximalista (Kitsch)": El diseño es caótico, recargado, saturado de personajes, colores y logotipos por todos lados sin espacio para respirar.
+- "Extras": Esto es un ARRAY de strings (puede estar vacío `[]` si no tiene extras). Selecciona TODAS las que apliquen de esta lista:
+    * "Estilo DNN": El lomo pertenece a este estilo característico que incluye un círculo inferior con un icono o miniatura de personaje situado justo encima del logotipo del fondo.
+    * "Personaje Abajo": Hay un personaje, rostro o figura aislada ubicada en la base inferior del lomo.
+    * "Personajes por todo el lomo": Hay múltiples personajes, caras o figuras distribuidas a lo largo de toda la franja vertical.
+    * "Set / Panorama": El arte del lomo está cortado en los bordes porque forma parte de un mural más grande pensado para unirse con otras cajas.
 """
 
 coste_total_sesion = 0.0
@@ -59,8 +80,8 @@ config = types.GenerateContentConfig(
 )
 
 for i, game in enumerate(database):
-    # Saltar si ya está etiquetado completamente
-    if "tags" in game and all(k in game["tags"] for k in ["Plataforma", "Color Base", "Estilo Principal"]):
+    # Saltar solo si ya tiene TODO (incluyendo Extras)
+    if "tags" in game and all(k in game["tags"] for k in ["Plataforma", "Color Base", "Estilo Principal", "Extras"]):
         continue
 
     raw_url = game.get("image") or game.get("imageUrl") or game.get("src") or game.get("url") or game.get("id")
@@ -78,7 +99,6 @@ for i, game in enumerate(database):
         
         img = Image.open(BytesIO(response.content))
 
-        # Sistema de reintentos con espera progresiva (Backoff Exponencial)
         max_retries = 4
         ai_response = None
         
@@ -93,8 +113,8 @@ for i, game in enumerate(database):
             except Exception as api_err:
                 err_msg = str(api_err)
                 if ("503" in err_msg or "429" in err_msg) and attempt < max_retries - 1:
-                    sleep_time = (attempt + 1) * 5  # 5s, 10s, 15s...
-                    print(f"⏳ Servidor saturado. Reintentando en {sleep_time} segundos... (Intento {attempt + 1}/{max_retries})")
+                    sleep_time = (attempt + 1) * 5
+                    print(f"⏳ Servidor saturado/Sin saldo. Reintentando en {sleep_time} segundos... (Intento {attempt + 1}/{max_retries})")
                     time.sleep(sleep_time)
                 else:
                     raise api_err
@@ -122,17 +142,17 @@ for i, game in enumerate(database):
             coste_img = (tokens_in / 1_000_000 * 0.075) + (tokens_out / 1_000_000 * 0.30)
             coste_total_sesion += coste_img
 
-        # Asignación de tags (sin hexColor)
         game["tags"] = {
             "Plataforma": parsed_data.get("Plataforma", "Switch 1"),
             "Color Base": parsed_data.get("Color Base", "Negro"),
             "Tipografía del Título": parsed_data.get("Tipografía del Título", "Texto Simple"),
             "Alineación del Texto": parsed_data.get("Alineación del Texto", "Centro"),
             "Estilo Principal": parsed_data.get("Estilo Principal", "Minimalista"),
-            "Lower logo": parsed_data.get("Lower logo", "Nintendo")
+            "Lower logo": parsed_data.get("Lower logo", "Nintendo"),
+            "Extras": parsed_data.get("Extras", [])
         }
 
-        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Coste: ${coste_img:.6f} | Acumulado: ${coste_total_sesion:.4f}")
+        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Extras: {game['tags']['Extras']} | Coste: ${coste_img:.6f}")
 
         if (i + 1) % 20 == 0:
             with open(output_json_path, "w", encoding="utf-8") as out:
