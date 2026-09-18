@@ -11,7 +11,7 @@ const CATEGORIAS = {
   Plataforma: ["Switch 1", "Switch 2"],
   "Color Base": ["Rojo", "Azul", "Amarillo", "Verde", "Rosa", "Naranja", "Morado", "Blanco", "Negro", "Gris", "Multicolor"],
   "Tipografía del Título": ["Texto Simple", "Logo Original"],
-  "Alineación del Texto": ["Centrado Arriba","Centrado Arriba con margen","Centro", "Cubre todo (desde arriba)", "Cubre todo (centrado)"],
+  "Alineación del Texto": ["Centrado Arriba","Centrado Arriba con margen","Centro","Abajo", "Cubre todo (desde arriba)", "Cubre todo (centrado)"],
   "Estilo Principal": ["Minimalista", "Escénico / Detallado", "Maximalista (Kitsch)"],
   "Lower logo": ["Nintendo", "other"]
 };
