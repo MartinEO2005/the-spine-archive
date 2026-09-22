@@ -105,7 +105,7 @@ for i, game in enumerate(database):
         for attempt in range(max_retries):
             try:
                 ai_response = client.models.generate_content(
-                    model="gemini-3.6-flash",
+                    model="gemini-2.5-flash-lite",
                     contents=[PROMPT, img],
                     config=config
                 )
@@ -139,7 +139,7 @@ for i, game in enumerate(database):
         if ai_response.usage_metadata:
             tokens_in = ai_response.usage_metadata.prompt_token_count
             tokens_out = ai_response.usage_metadata.candidates_token_count
-            coste_img = (tokens_in / 1_000_000 * 0.075) + (tokens_out / 1_000_000 * 0.30)
+            coste_img = (tokens_in / 1_000_000 * 0.10) + (tokens_out / 1_000_000 * 0.40)
             coste_total_sesion += coste_img
 
         game["tags"] = {
@@ -152,14 +152,14 @@ for i, game in enumerate(database):
             "Extras": parsed_data.get("Extras", [])
         }
 
-        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Extras: {game['tags']['Extras']} | Coste: ${coste_img:.6f}")
+        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Extras: {game['tags']['Extras']} | Coste (si fuera de pago): ${coste_img:.6f}")
 
         if (i + 1) % 20 == 0:
             with open(output_json_path, "w", encoding="utf-8") as out:
                 json.dump(database, out, indent=2, ensure_ascii=False)
             print("💾 Progreso intermedio guardado.")
 
-        time.sleep(1)
+        time.sleep(4.5)
 
     except json.JSONDecodeError:
         print(f"⚠️ Error procesando [{i+1}]: La IA no devolvió un JSON válido. Saltando...")
@@ -170,4 +170,4 @@ for i, game in enumerate(database):
 with open(output_json_path, "w", encoding="utf-8") as out:
     json.dump(database, out, indent=2, ensure_ascii=False)
 
-print(f"🎉 ¡Proceso completado! Coste total de esta sesión: ${coste_total_sesion:.4f}")
+print(f"🎉 ¡Proceso completado! Coste virtual total de esta sesión: ${coste_total_sesion:.4f}")
