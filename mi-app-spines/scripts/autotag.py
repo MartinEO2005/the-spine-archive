@@ -66,7 +66,7 @@ Analiza esta imagen de un lomo de videojuego de Nintendo Switch. Eres un experto
     * "Escénico / Detallado": El fondo tiene una ilustración compleja, un escenario de fondo o texturas densas que ocupan todo el espacio.
     * "Maximalista (Kitsch)": El diseño es caótico, recargado, saturado de personajes, colores y logotipos por todos lados sin espacio para respirar.
 - "Extras": Esto es un ARRAY de strings (puede estar vacío `[]` si no tiene extras). Selecciona TODAS las que apliquen de esta lista:
-    * "Estilo DNN": El lomo pertenece a este estilo característico que incluye un círculo inferior con un icono o miniatura de personaje situado justo encima del logotipo del fondo.
+    * "Estilo DNN": ¡ATENCIÓN ESTRICTA! Solo aplica si hay un CÍRCULO GEOMÉTRICO PERFECTO que funciona como un marco/medalla conteniendo un icono, situado justo encima del logotipo inferior. NO lo marques si solo ves el logo ovalado (pastilla) de Nintendo. NO lo marques si es la cabeza redonda de un personaje o un emblema del propio juego. Ante la mínima duda, OMÍTELO.
     * "Personaje Abajo": Hay un personaje, rostro o figura aislada ubicada en la base inferior del lomo.
     * "Personajes por todo el lomo": Hay múltiples personajes, caras o figuras distribuidas a lo largo de toda la franja vertical.
     * "Set / Panorama": El arte del lomo está cortado en los bordes porque forma parte de un mural más grande pensado para unirse con otras cajas.
