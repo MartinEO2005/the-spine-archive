@@ -48,7 +48,7 @@ except FileNotFoundError:
     exit(1)
 
 PROMPT = """
-Analiza esta imagen de un lomo de videojuego de Nintendo Switch. Eres un experto en diseño. Devuelve EXCLUSIVAMENTE un objeto JSON válido con los siguientes campos y valores exactos permitidos:
+Analiza esta imagen y los metadatos de un lomo de videojuego de Nintendo Switch. Eres un experto en diseño. Devuelve EXCLUSIVAMENTE un objeto JSON válido con los siguientes campos y valores exactos permitidos:
 
 - "Plataforma": "Switch 1" o "Switch 2".
 - "Color Base": "Rojo", "Azul", "Amarillo", "Verde", "Rosa", "Naranja", "Morado", "Blanco", "Negro", "Gris" o "Multicolor".
@@ -66,7 +66,7 @@ Analiza esta imagen de un lomo de videojuego de Nintendo Switch. Eres un experto
     * "Escénico / Detallado": El fondo tiene una ilustración compleja, un escenario de fondo o texturas densas que ocupan todo el espacio.
     * "Maximalista (Kitsch)": El diseño es caótico, recargado, saturado de personajes, colores y logotipos por todos lados sin espacio para respirar.
 - "Extras": Esto es un ARRAY de strings (puede estar vacío `[]` si no tiene extras). Selecciona TODAS las que apliquen de esta lista:
-    * "Estilo DNN": ¡ATENCIÓN ESTRICTA! Para que sea Estilo DNN tiene que haber OBLIGATORIAMENTE DOS COSAS en la parte inferior: 1) El logotipo de la publicadora abajo del todo (Nintendo, Super Rare Games, CC2, etc.) Y ADEMÁS 2) Un CÍRCULO PERFECTO con la cara de un personaje situado JUSTO ENCIMA de ese logo. PROHIBICIÓN: Si el círculo ES el propio logotipo de la publicadora (como el logo rojo redondo de "Super Rare Games" o el logo de "CC2"), NO es Estilo DNN.
+    * "Estilo DNN": "DNN" viene del creador "DieNoMighty". Si los metadatos de texto indican que el creador es "DieNoMighty" o "Mii203", hay una ALTÍSIMA PROBABILIDAD de que sea este estilo, pero NO es obligatorio marcarlo a ciegas. Para marcarlo, DEBES CONFIRMARLO VISUALMENTE: tiene que haber un CÍRCULO PERFECTO con un icono o personaje situado JUSTO ENCIMA del logotipo inferior de la publicadora. PROHIBICIÓN: Si el círculo es el propio logotipo de la publicadora (como los logos redondos de Super Rare Games o CC2), NO lo marques.
     * "Personaje Abajo": Hay un personaje, rostro o figura aislada ubicada en la base inferior del lomo.
     * "Personajes por todo el lomo": Hay múltiples personajes, caras o figuras distribuidas a lo largo de toda la franja vertical.
     * "Set / Panorama": El arte del lomo está cortado en los bordes porque forma parte de un mural más grande pensado para unirse con otras cajas.
@@ -90,6 +90,9 @@ for i, game in enumerate(database):
 
     if not raw_url.startswith("http"):
         raw_url = f"https://thespinearchive.xyz/{raw_url.lstrip('/')}"
+        
+    game_title = game.get("title", "Desconocido")
+    game_author = game.get("author", "Desconocido")
 
     try:
         response = requests.get(raw_url, timeout=10)
@@ -102,11 +105,14 @@ for i, game in enumerate(database):
         max_retries = 4
         ai_response = None
         
+        # Inyectamos los datos del JSON como texto de ayuda para la IA
+        contexto_metadatos = f"METADATOS DEL JUEGO -> Título: {game_title} | Autor/Creador: {game_author}"
+        
         for attempt in range(max_retries):
             try:
                 ai_response = client.models.generate_content(
                     model="gemini-3.5-flash-lite",
-                    contents=[PROMPT, img],
+                    contents=[PROMPT, contexto_metadatos, img],
                     config=config
                 )
                 break 
