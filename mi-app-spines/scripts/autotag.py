@@ -105,7 +105,7 @@ for i, game in enumerate(database):
         for attempt in range(max_retries):
             try:
                 ai_response = client.models.generate_content(
-                    model="gemini-2.5-flash-lite",
+                    model="gemini-3.5-flash-lite",
                     contents=[PROMPT, img],
                     config=config
                 )
@@ -139,7 +139,8 @@ for i, game in enumerate(database):
         if ai_response.usage_metadata:
             tokens_in = ai_response.usage_metadata.prompt_token_count
             tokens_out = ai_response.usage_metadata.candidates_token_count
-            coste_img = (tokens_in / 1_000_000 * 0.10) + (tokens_out / 1_000_000 * 0.40)
+            # Tarifas gemini-3.5-flash-lite: $0.30 / 1M entrada, $2.50 / 1M salida
+            coste_img = (tokens_in / 1_000_000 * 0.30) + (tokens_out / 1_000_000 * 2.50)
             coste_total_sesion += coste_img
 
         game["tags"] = {
