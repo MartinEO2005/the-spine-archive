@@ -193,7 +193,7 @@ for i, game in enumerate(database):
         game["hexColor"] = parsed_data.get("hexColor", c1)
 
         # Actualizado para mostrar el Color Base y el Hex en la terminal
-        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Color: {game['tags']['Base Color']} | Hex: {game['hexColor']} | Coste: ${coste_img:.6f}")
+        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Color: {game['tags']['Base Color']} | Hex: {game['hexColor']} | Extras: {', '.join(game['tags']['Extras'])} | Coste: ${coste_img:.6f}")
 
         if (i + 1) % 20 == 0:
             with open(output_json_path, "w", encoding="utf-8") as out:
