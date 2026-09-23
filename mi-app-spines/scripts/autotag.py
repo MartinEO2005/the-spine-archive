@@ -66,7 +66,10 @@ Analiza esta imagen y los metadatos de un lomo de videojuego de Nintendo Switch.
     * "Escénico / Detallado": El fondo tiene una ilustración compleja, un escenario de fondo o texturas densas que ocupan todo el espacio.
     * "Maximalista (Kitsch)": El diseño es caótico, recargado, saturado de personajes, colores y logotipos por todos lados sin espacio para respirar.
 - "Extras": Esto es un ARRAY de strings (puede estar vacío `[]` si no tiene extras). Selecciona TODAS las que apliquen de esta lista:
-    * "Estilo DNN": "DNN" viene del creador "DieNoMighty". Si los metadatos de texto indican que el creador es "DieNoMighty" o "Mii203", hay una ALTÍSIMA PROBABILIDAD de que sea este estilo, pero NO es obligatorio marcarlo a ciegas. Para marcarlo, DEBES CONFIRMARLO VISUALMENTE: tiene que haber un CÍRCULO PERFECTO con un icono o personaje situado JUSTO ENCIMA del logotipo inferior de la publicadora. PROHIBICIÓN: Si el círculo es el propio logotipo de la publicadora (como los logos redondos de Super Rare Games o CC2), NO lo marques.
+    * "Estilo DNN": Se caracteriza por un CÍRCULO PERFECTO funcionando como un marco que contiene un icono o rostro, posicionado JUSTO ENCIMA del logotipo inferior de la publicadora. 
+      - REGLA DE BLOQUEO (OBLIGATORIA): SOLO puedes aplicar esta etiqueta si en los metadatos el 'Autor/Creador' contiene alguna de estas palabras exactas: "DieNoMighty", "DieNomight9", "DNN", "Mii203" o rara vez "eridyon". 
+      - Si el creador NO está en esa lista, tienes ESTRICTAMENTE PROHIBIDO usar la etiqueta "Estilo DNN", sin importar qué círculo o logotipo veas en la imagen.
+      - PROHIBICIÓN DE LOGOS: Incluso si el autor coincide, el círculo tiene que ser un marco decorativo añadido. NO lo marques si el círculo ES el propio logotipo de la empresa (como Aksys, Super Rare Games, Inti Creates, o CC2).
     * "Personaje Abajo": Hay un personaje, rostro o figura aislada ubicada en la base inferior del lomo.
     * "Personajes por todo el lomo": Hay múltiples personajes, caras o figuras distribuidas a lo largo de toda la franja vertical.
     * "Set / Panorama": El arte del lomo está cortado en los bordes porque forma parte de un mural más grande pensado para unirse con otras cajas.
@@ -95,10 +98,25 @@ for i, game in enumerate(database):
     game_author = game.get("author", "Desconocido")
 
     try:
-        response = requests.get(raw_url, timeout=10)
-        if response.status_code != 200:
-            print(f"❌ Error descargando imagen {i}")
+        # --- NUEVO BLOQUE: Blindaje de descarga contra microcortes de red ---
+        max_descarga_retries = 3
+        response = None
+        for attempt_dl in range(max_descarga_retries):
+            try:
+                response = requests.get(raw_url, timeout=10)
+                if response.status_code == 200:
+                    break
+            except Exception as e_dl:
+                if attempt_dl < max_descarga_retries - 1:
+                    print(f"⚠️ Microcorte de red en imagen {i+1}. Reintentando en 3s...")
+                    time.sleep(3)
+                else:
+                    raise e_dl
+                    
+        if not response or response.status_code != 200:
+            print(f"❌ Error final descargando imagen {i}")
             continue
+        # ----------------------------------------------------------------------
         
         img = Image.open(BytesIO(response.content))
 
@@ -159,7 +177,8 @@ for i, game in enumerate(database):
             "Extras": parsed_data.get("Extras", [])
         }
 
-        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Extras: {game['tags']['Extras']} | Coste (si fuera de pago): ${coste_img:.6f}")
+        # Actualizado para mostrar el Color Base en la terminal
+        print(f"✅ [{i+1}/{len(database)}] {game.get('title', 'Desconocido')} | Color: {game['tags']['Color Base']} | Extras: {game['tags']['Extras']} | Coste: ${coste_img:.6f}")
 
         if (i + 1) % 20 == 0:
             with open(output_json_path, "w", encoding="utf-8") as out:

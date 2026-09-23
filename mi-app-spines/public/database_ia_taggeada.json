@@ -6151,7 +6151,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ol23zi.webp",
     "hash": "431e264d148437671ef847ccc0c07e11",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ol23zi.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ol23zi.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1okdwsa",
@@ -6953,7 +6962,16 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1nqsabb.webp",
     "hash": "0d4db4c730224688c4e2b4a7820b1eb1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1nqsabb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1nqsabb.webp",
+    "tags": {
+      "Plataforma": "Switch 2",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1nqs9u7",
@@ -8154,7 +8172,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1n2ojnm.webp",
     "hash": "8a64ae016646a992f7eb8ad710894dd5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1n2ojnm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1n2ojnm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1n2l4nx",
@@ -8335,7 +8364,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1n1xbiy.webp",
     "hash": "6fb2150f1ad5b1286a9530c7baed1a4a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1n1xbiy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1n1xbiy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1n1xaom",
@@ -10808,7 +10848,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1eepq3l.webp",
     "hash": "1d5d8bd29784836eb11513c942f2679e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eepq3l.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eepq3l.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1ec8hpy",
@@ -11404,7 +11453,18 @@
     "author": "u/WaterColorCloud",
     "src": "/spines/toj1tq.webp",
     "hash": "fe3682fe4ba8c7a09ae3c16b6ddcfd4c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/toj1tq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/toj1tq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "184g935",
@@ -13082,7 +13142,18 @@
     "author": "u/Mikeinoid",
     "src": "/spines/1dlxtrz.webp",
     "hash": "116318bd5837e59ba52cde1781907112",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dlxtrz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dlxtrz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1e1shco",
@@ -13090,7 +13161,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1e1shco.webp",
     "hash": "da75aa9b12f8fec2242db619e6ef3e35",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1e1shco.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1e1shco.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1cjnexz",
@@ -13098,7 +13180,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1cjnexz.webp",
     "hash": "6082deb9f9ddec4fd640ef6dadf90fcd",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1cjnexz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1cjnexz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1bwojx2",
@@ -13106,7 +13199,18 @@
     "author": "u/RyGuy176",
     "src": "/spines/1bwojx2.webp",
     "hash": "7e8c890c1303804d4344493519c77fd3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bwojx2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bwojx2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "195xlkb",
@@ -13114,7 +13218,16 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/195xlkb.webp",
     "hash": "6f6b69c88a7c9f74c4b67d954a3571b4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/195xlkb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/195xlkb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "16nrcsb",
@@ -13122,7 +13235,18 @@
     "author": "u/Areckusu",
     "src": "/spines/16nrcsb.webp",
     "hash": "9520f756ed6e147d1a6830e70a5c17c6",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16nrcsb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16nrcsb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "18ig009",
@@ -13130,7 +13254,16 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/18ig009.webp",
     "hash": "47c5c748d4fcf6ab920a682e1f506137",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18ig009.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18ig009.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "187advm",
@@ -13138,7 +13271,19 @@
     "author": "u/Yadi12345",
     "src": "/spines/187advm.webp",
     "hash": "a4b23b887a1b328b6705ca0afc5c19f0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/187advm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/187advm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Texto Simple",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "173rbj7",
@@ -13146,7 +13291,18 @@
     "author": "u/yngames",
     "src": "/spines/173rbj7.webp",
     "hash": "70646e10fab1385e72554b417a5e4c90",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/173rbj7.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/173rbj7.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "13evoyo",
@@ -13154,7 +13310,18 @@
     "author": "u/yngames",
     "src": "/spines/13evoyo.webp",
     "hash": "6fa0bf11e48d73d2c45c398f05934657",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/13evoyo.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/13evoyo.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "16mgy00",
@@ -13162,7 +13329,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/16mgy00.webp",
     "hash": "aa2ce55d88ba916099ecfe0c0c79741d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16mgy00.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16mgy00.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "15tzxke",
@@ -13170,7 +13348,18 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/15tzxke.webp",
     "hash": "1edd56956ed9fb8315842251f2c45899",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/15tzxke.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/15tzxke.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "15tzwiv",
@@ -13178,7 +13367,18 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/15tzwiv.webp",
     "hash": "2fb0c654c23b0ca3a57fa3732ba4926e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/15tzwiv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/15tzwiv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1g0k8b9",
@@ -13186,7 +13386,16 @@
     "author": "u/OrnateSalmon",
     "src": "/spines/1g0k8b9.webp",
     "hash": "af27fb4a38069a09b70ea90f7ab82f50",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g0k8b9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g0k8b9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1f6lynv",
@@ -13194,7 +13403,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1f6lynv.webp",
     "hash": "df6da4fd0288dcd38f5df06c9f827e51",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f6lynv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f6lynv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1evh1rl",
@@ -13202,7 +13422,18 @@
     "author": "u/cosmicdrewracing",
     "src": "/spines/1evh1rl.webp",
     "hash": "5a748dac4bed7ec20312bd2977fdf5a1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1evh1rl.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1evh1rl.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1evh0su",
@@ -13210,7 +13441,18 @@
     "author": "u/cosmicdrewracing",
     "src": "/spines/1evh0su.webp",
     "hash": "f86faec52719ca1dbb1d165efd4f49d4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1evh0su.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1evh0su.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1kyjhjx",
@@ -13218,7 +13460,18 @@
     "author": "u/__drasi",
     "src": "/spines/1kyjhjx.webp",
     "hash": "3bc893045ac1807f57204d64fc0fc917",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kyjhjx.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kyjhjx.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1jp3f33",
@@ -13226,7 +13479,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1jp3f33.webp",
     "hash": "1d972fa986040ccb14c7609f561e62eb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jp3f33.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jp3f33.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ic77h5",
@@ -13234,7 +13498,18 @@
     "author": "u/Longjumping_Dog7979",
     "src": "/spines/1ic77h5.webp",
     "hash": "d948e2b0bc45d619fb3958c20cfdf3f6",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ic77h5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ic77h5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1i9g6e0",
@@ -13242,7 +13517,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1i9g6e0.webp",
     "hash": "d682c4a4a8a5b3525a888bbff858f61c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1i9g6e0.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1i9g6e0.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1h1r2cj",
@@ -13250,7 +13536,18 @@
     "author": "u/neokanae_gamer",
     "src": "/spines/1h1r2cj.webp",
     "hash": "5c741ac309434372f2bc210a92a56db0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h1r2cj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h1r2cj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Texto Simple",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1f7zzgf",
@@ -13258,7 +13555,18 @@
     "author": "u/branana00",
     "src": "/spines/1f7zzgf.webp",
     "hash": "d44b5f5bcb2dd671ed053d96797038af",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f7zzgf.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f7zzgf.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1gtpu3w",
@@ -13266,7 +13574,16 @@
     "author": "u/neokanae_gamer",
     "src": "/spines/1gtpu3w.webp",
     "hash": "e1c072001bb115a2bf8836b14bdd067f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gtpu3w.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gtpu3w.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1gufuww",
@@ -13274,7 +13591,18 @@
     "author": "u/neokanae_gamer",
     "src": "/spines/1gufuww.webp",
     "hash": "b8c207b9ea24dd8981ee997a34ebc92f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gufuww.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gufuww.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1g9ksr0",
@@ -13282,7 +13610,18 @@
     "author": "u/Sorry_Butterfly9459",
     "src": "/spines/1g9ksr0.webp",
     "hash": "2e85cb3164a336ce909948172aa2eccc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g9ksr0.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g9ksr0.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Naranja",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1eiqbh8",
@@ -13290,7 +13629,16 @@
     "author": "u/LordKamiNiiSama",
     "src": "/spines/1eiqbh8.webp",
     "hash": "0e1a2de19beb0ce7a425c99edaacd8b8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eiqbh8.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eiqbh8.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1faajwg",
@@ -13298,7 +13646,18 @@
     "author": "u/TheKosmicKollector",
     "src": "/spines/1faajwg.webp",
     "hash": "b2df70368037fa834047dd74bdeb7fcf",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1faajwg.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1faajwg.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1eovedm",
@@ -13306,7 +13665,18 @@
     "author": "u/davidcoldwater",
     "src": "/spines/1eovedm.webp",
     "hash": "9446042dbdeb57ec1e8ec79b62864138",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eovedm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eovedm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ewj4lq",
@@ -13314,7 +13684,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1ewj4lq.webp",
     "hash": "4e2f52d8e17e3c6fa2b0ab762699454d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ewj4lq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ewj4lq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ehvokx",
@@ -13322,7 +13703,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ehvokx.webp",
     "hash": "f8132f6d6ea9e2de22d6b204af60243a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ehvokx.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ehvokx.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ehvo2v",
@@ -13330,7 +13722,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ehvo2v.webp",
     "hash": "3851214b195d6464d102ee2108b0e1d0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ehvo2v.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ehvo2v.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1eq1x79",
@@ -13338,7 +13741,18 @@
     "author": "u/bab_screenshots",
     "src": "/spines/1eq1x79.webp",
     "hash": "b14822408d80b79b590040775d923f73",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eq1x79.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eq1x79.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1ek8ysd",
@@ -13346,7 +13760,18 @@
     "author": "u/ArxisOne",
     "src": "/spines/1ek8ysd.webp",
     "hash": "f37fc9d8fb2c76051b57140ec15ff280",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ek8ysd.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ek8ysd.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dts520",
@@ -13354,7 +13779,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1dts520.webp",
     "hash": "e705cc13610ea638d0bfd70b48adb886",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dts520.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dts520.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dw8aw9",
@@ -13362,7 +13798,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1dw8aw9.webp",
     "hash": "8decce1283b13185fa332b7a99dd039f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dw8aw9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dw8aw9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dufprg",
@@ -13370,7 +13817,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1dufprg.webp",
     "hash": "fdeb0a38113f085adca41936da954bdb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dufprg.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dufprg.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1dyujne",
@@ -13378,7 +13834,18 @@
     "author": "u/Ambitious_Opossum",
     "src": "/spines/1dyujne.webp",
     "hash": "885865e1486e818aa774722c16b0365a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyujne.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyujne.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dwpg9v",
@@ -13386,7 +13853,18 @@
     "author": "u/yngames",
     "src": "/spines/1dwpg9v.webp",
     "hash": "4dffe5536506b25079a20002b2f13bd3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dwpg9v.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dwpg9v.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1cy9bk4",
@@ -13394,7 +13872,16 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1cy9bk4.webp",
     "hash": "62074d519626fe8ae30a46a54bc46f30",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1cy9bk4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1cy9bk4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1clknux",
@@ -13402,7 +13889,18 @@
     "author": "u/SweetIll5013",
     "src": "/spines/1clknux.webp",
     "hash": "85d4a139ca0e2007f737ac9507281437",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1clknux.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1clknux.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1bggslw",
@@ -13410,7 +13908,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1bggslw.webp",
     "hash": "d7047cc87feb600cb1bbbcf595e80f64",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bggslw.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bggslw.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1b4iaov",
@@ -13418,7 +13927,16 @@
     "author": "u/Atikal",
     "src": "/spines/1b4iaov.webp",
     "hash": "3cd6d64d7ab4c3671ac92763ebd1f466",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1b4iaov.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1b4iaov.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1bane30",
@@ -13426,7 +13944,16 @@
     "author": "u/yazeed_0o0",
     "src": "/spines/1bane30.webp",
     "hash": "6b55fb235407cfc84fde2ff18daab0c3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bane30.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bane30.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1agxnj4",
@@ -13434,7 +13961,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1agxnj4.webp",
     "hash": "36bfe4e86eec730ac21564bf0bb8196a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1agxnj4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1agxnj4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "18pypu5",
@@ -13442,7 +13980,18 @@
     "author": "u/rroneaa",
     "src": "/spines/18pypu5.webp",
     "hash": "ef1f5a28b872423fdf0cfec91f55b85f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18pypu5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18pypu5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1g9ksk7",
@@ -13450,7 +13999,19 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1g9ksk7.webp",
     "hash": "a69e77523a01c6c6b0eeabce59c2a2f1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g9ksk7.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g9ksk7.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "16jjy0w",
@@ -13458,7 +14019,18 @@
     "author": "u/PinkSuiren",
     "src": "/spines/16jjy0w.webp",
     "hash": "2eb3395e21e1baa76020f40297bc7609",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16jjy0w.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16jjy0w.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "17ygwmy",
@@ -13466,7 +14038,18 @@
     "author": "u/kaz-un",
     "src": "/spines/17ygwmy.webp",
     "hash": "c948913dec5562b757b04181988fa3c5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17ygwmy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17ygwmy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "17ygxcs",
@@ -13474,7 +14057,18 @@
     "author": "u/kaz-un",
     "src": "/spines/17ygxcs.webp",
     "hash": "f629d7f3c58db9c3aa48d8a5ed67da57",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17ygxcs.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17ygxcs.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "ga6l8x",
@@ -13482,7 +14076,16 @@
     "author": "u/Knuckles316",
     "src": "/spines/ga6l8x.webp",
     "hash": "1dddda21783f30e659ed0d9e22524059",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ga6l8x.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ga6l8x.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1kuo5v2",
@@ -13490,7 +14093,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1kuo5v2.webp",
     "hash": "dea8b3b80e6626988c6f8044c4cdd6f3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kuo5v2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kuo5v2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1jsi4q7",
@@ -13498,7 +14112,18 @@
     "author": "u/yngames",
     "src": "/spines/1jsi4q7.webp",
     "hash": "8329566f04e76c7af92b3f4a1cee1760",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jsi4q7.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jsi4q7.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1h6gpij",
@@ -13506,7 +14131,16 @@
     "author": "u/Luyuuri",
     "src": "/spines/1h6gpij.webp",
     "hash": "da35d27e099ea3f9c84736b1d06b6358",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h6gpij.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h6gpij.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1isul87",
@@ -13514,7 +14148,18 @@
     "author": "u/More_Warthog2949",
     "src": "/spines/1isul87.webp",
     "hash": "2c72cb99ddcbb43643a582118fa5a1fc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1isul87.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1isul87.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1idkux2",
@@ -13522,7 +14167,18 @@
     "author": "u/Luyuuri",
     "src": "/spines/1idkux2.webp",
     "hash": "725e922d0632c40a298138efa2a41b39",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1idkux2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1idkux2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ig3j6w",
@@ -13530,7 +14186,18 @@
     "author": "u/Mikey-Insanity",
     "src": "/spines/1ig3j6w.webp",
     "hash": "8ebf68e039144d6b725abd34481276b5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ig3j6w.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ig3j6w.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1hzandg",
@@ -13538,7 +14205,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1hzandg.webp",
     "hash": "23df2a63defdad897d1b0104043750fc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hzandg.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hzandg.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1fsguzs",
@@ -13546,7 +14224,18 @@
     "author": "u/yngames",
     "src": "/spines/1fsguzs.webp",
     "hash": "f1b756d54fb0c352f03842e02bea9d76",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fsguzs.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fsguzs.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1duiwqy",
@@ -13554,7 +14243,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1duiwqy.webp",
     "hash": "49d0ebee7caf973adc4ae6692d360e85",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1duiwqy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1duiwqy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1ejhfii",
@@ -13562,7 +14262,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1ejhfii.webp",
     "hash": "5396c6ffc2cec0383dde9a7d5fb15582",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ejhfii.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ejhfii.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1elnbrj",
@@ -13570,7 +14281,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1elnbrj.webp",
     "hash": "236819578bc40bcb9a71699d3fd2c710",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1elnbrj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1elnbrj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1egxmi3",
@@ -13578,7 +14300,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1egxmi3.webp",
     "hash": "708462ecb3dc87af50fcd7f08da5df3a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1egxmi3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1egxmi3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1etq3rv",
@@ -13586,7 +14317,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1etq3rv.webp",
     "hash": "e7026863182360f1a95f80549055fbcc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq3rv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq3rv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1epsz9b",
@@ -13594,7 +14336,18 @@
     "author": "u/Grand_Cover2718",
     "src": "/spines/1epsz9b.webp",
     "hash": "bdb0c55feeff82d89c5da9a5df83f1de",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1epsz9b.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1epsz9b.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dyibhf",
@@ -13602,7 +14355,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1dyibhf.webp",
     "hash": "93bd42396d4038f922e3eb6ca7433829",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyibhf.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyibhf.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1du02t3",
@@ -13610,7 +14374,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1du02t3.webp",
     "hash": "b5d017dcc390e35c5e44ba351de59ad7",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1du02t3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1du02t3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dj8lzo",
@@ -13618,7 +14393,16 @@
     "author": "u/luiginub1",
     "src": "/spines/1dj8lzo.webp",
     "hash": "2d54c362039ed7a87554d8be8b0affa6",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dj8lzo.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dj8lzo.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1dgmswp",
@@ -13626,7 +14410,18 @@
     "author": "u/Grand_Cover2718",
     "src": "/spines/1dgmswp.webp",
     "hash": "d876ece8a305035fbab40bb93df2691d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dgmswp.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dgmswp.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1bhxl4o",
@@ -13634,7 +14429,18 @@
     "author": "u/yngames",
     "src": "/spines/1bhxl4o.webp",
     "hash": "674209ce7fb5003652373b1c0ffa93ad",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bhxl4o.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bhxl4o.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1b89w6v",
@@ -13642,7 +14448,16 @@
     "author": "u/Varimarthas5",
     "src": "/spines/1b89w6v.webp",
     "hash": "f97fb025dfda16a92766d7388920a6ea",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1b89w6v.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1b89w6v.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1934iqy",
@@ -13650,7 +14465,18 @@
     "author": "u/WarioPunk",
     "src": "/spines/1934iqy.webp",
     "hash": "5d0e4fff51e3fc8ed7ceb9ead896ebc2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1934iqy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1934iqy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "18odunb",
@@ -13658,7 +14484,18 @@
     "author": "u/WarioPunk",
     "src": "/spines/18odunb.webp",
     "hash": "ae3d5845cd11f53bfaf5729c645760f0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18odunb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18odunb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "16a75b8",
@@ -13666,7 +14503,16 @@
     "author": "u/Cheese_Champion",
     "src": "/spines/16a75b8.webp",
     "hash": "787c15efd2defe1144051dc78b7d70f7",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16a75b8.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16a75b8.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "13iig6x",
@@ -13674,7 +14520,18 @@
     "author": "u/yngames",
     "src": "/spines/13iig6x.webp",
     "hash": "94bf6a7f521cccdf2bbe1734a7e7c83a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/13iig6x.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/13iig6x.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "ythadz",
@@ -13682,7 +14539,18 @@
     "author": "u/N80378",
     "src": "/spines/ythadz.webp",
     "hash": "32b75453e5308e1b05c00df8cbf1c627",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ythadz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ythadz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "11n8ey4",
@@ -13690,7 +14558,18 @@
     "author": "u/wavvydev",
     "src": "/spines/11n8ey4.webp",
     "hash": "674e921c6b7c27620da47b03c8d893b4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11n8ey4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11n8ey4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "111x3rf",
@@ -13698,7 +14577,16 @@
     "author": "u/wavvydev",
     "src": "/spines/111x3rf.webp",
     "hash": "8b2ab4cf9fe5b13d4986b1e822aea9d8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/111x3rf.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/111x3rf.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "111x3i6",
@@ -13706,7 +14594,16 @@
     "author": "u/wavvydev",
     "src": "/spines/111x3i6.webp",
     "hash": "3961145e8cc9abc7a8d0c62a9dd22c4b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/111x3i6.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/111x3i6.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "11ni9gb",
@@ -13714,7 +14611,18 @@
     "author": "u/wavvydev",
     "src": "/spines/11ni9gb.webp",
     "hash": "0d6e1f9c9bbe82766e06a60ec2e405ec",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11ni9gb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11ni9gb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "11moh5a",
@@ -13722,7 +14630,16 @@
     "author": "u/wavvydev",
     "src": "/spines/11moh5a.webp",
     "hash": "cf74e1002dad68c8bff472f40f49fc10",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11moh5a.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11moh5a.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "10zvvuh",
@@ -13730,7 +14647,18 @@
     "author": "u/wavvydev",
     "src": "/spines/10zvvuh.webp",
     "hash": "6bc1d54c52beea0e5e65bc5f3d6aae28",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/10zvvuh.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/10zvvuh.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1077xsy",
@@ -13738,7 +14666,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1077xsy.webp",
     "hash": "b51911674b47fbfb910a280de4c4c642",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1077xsy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1077xsy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1bioetn",
@@ -13746,7 +14685,18 @@
     "author": "u/yngames",
     "src": "/spines/1bioetn.webp",
     "hash": "1bd25ad9950ecb5beffe896349fcf295",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bioetn.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bioetn.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1563iud",
@@ -13754,7 +14704,18 @@
     "author": "u/yngames",
     "src": "/spines/1563iud.webp",
     "hash": "ac2374f6fd51ffc1da21ca97eaba2fe5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1563iud.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1563iud.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "u7ce55",
@@ -13762,7 +14723,18 @@
     "author": "u/WaterColorCloud",
     "src": "/spines/u7ce55.webp",
     "hash": "c058b53cd0e82a278606c59aaf3e1a51",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/u7ce55.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/u7ce55.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Naranja",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "sex64u",
@@ -13770,7 +14742,16 @@
     "author": "u/WaterColorCloud",
     "src": "/spines/sex64u.webp",
     "hash": "d04b121051456b47b09c3e88577e58c1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/sex64u.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/sex64u.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "s0bax0",
@@ -13778,7 +14759,16 @@
     "author": "u/DukeLeto10191",
     "src": "/spines/s0bax0.webp",
     "hash": "a7d0362ece5ad1b5baf6d6005646b4ba",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/s0bax0.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/s0bax0.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Abajo",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "r8fj4g",
@@ -13786,7 +14776,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/r8fj4g.webp",
     "hash": "c94906e4ecf35e0eb325981f72c2be89",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/r8fj4g.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/r8fj4g.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "gzeao1",
@@ -13794,7 +14795,18 @@
     "author": "u/xangelo117x",
     "src": "/spines/gzeao1.webp",
     "hash": "a0fc960fdbe03c9eff8cfe370c067cfc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gzeao1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gzeao1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1lb5zo0",
@@ -13802,7 +14814,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1lb5zo0.webp",
     "hash": "057f15e37a857b98d1472df972296c4d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1lb5zo0.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1lb5zo0.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1kji2bs",
@@ -13810,7 +14833,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1kji2bs.webp",
     "hash": "f31b0e9ebc55c5ccc490892937f76e9b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kji2bs.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kji2bs.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1lcjt2s",
@@ -13818,7 +14852,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1lcjt2s.webp",
     "hash": "d7c67c2c8281965f19626e9a8430cb9f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1lcjt2s.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1lcjt2s.webp",
+    "tags": {
+      "Plataforma": "Switch 2",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dixbks",
@@ -13826,7 +14871,18 @@
     "author": "u/yngames",
     "src": "/spines/1dixbks.webp",
     "hash": "019b911a2ae4b42a612af474f2e3cf8e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dixbks.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dixbks.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1etq49t",
@@ -13834,7 +14890,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1etq49t.webp",
     "hash": "dea3dacafbc4d567ec9c2577fba8d7ea",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq49t.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq49t.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dp9lnu",
@@ -13842,7 +14909,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1dp9lnu.webp",
     "hash": "d81dd73225887a929aafd00282ec6774",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dp9lnu.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dp9lnu.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dms280",
@@ -13850,7 +14928,18 @@
     "author": "u/basicmakeupgoals",
     "src": "/spines/1dms280.webp",
     "hash": "4b236cc189ca8e00f681447cb6782587",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dms280.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dms280.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1d0pwc1",
@@ -13858,7 +14947,18 @@
     "author": "u/IanRises",
     "src": "/spines/1d0pwc1.webp",
     "hash": "4bb455ac014213a00c8a221abadcd04c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1d0pwc1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1d0pwc1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1az2t3s",
@@ -13866,7 +14966,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1az2t3s.webp",
     "hash": "ded7e3d8324cd78958546c3b6eff069c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1az2t3s.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1az2t3s.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "17u3kji",
@@ -13874,7 +14985,18 @@
     "author": "u/JIMBOYKELLY",
     "src": "/spines/17u3kji.webp",
     "hash": "8837f5fce77ac4d3bb4167b90b0643a3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17u3kji.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17u3kji.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "17gvmwz",
@@ -13882,7 +15004,16 @@
     "author": "u/Theorema95",
     "src": "/spines/17gvmwz.webp",
     "hash": "a58f6de7846fda23bdb42547495afda7",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17gvmwz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17gvmwz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "152fpwm",
@@ -13890,7 +15021,16 @@
     "author": "u/MyAccountWasBanned7",
     "src": "/spines/152fpwm.webp",
     "hash": "a0b1d3b8688c35a7ba8d256dc803c4fc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/152fpwm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/152fpwm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "11uwrb5",
@@ -13898,7 +15038,18 @@
     "author": "u/wavvydev",
     "src": "/spines/11uwrb5.webp",
     "hash": "665746ed7de3f277fef8045bd6607781",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11uwrb5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11uwrb5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1151wyq",
@@ -13906,7 +15057,18 @@
     "author": "u/wavvydev",
     "src": "/spines/1151wyq.webp",
     "hash": "8b9ee71c5807ca19cedf46669ceb00fd",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1151wyq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1151wyq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "z8ie11",
@@ -13914,7 +15076,18 @@
     "author": "u/kaz-un",
     "src": "/spines/z8ie11.webp",
     "hash": "4d3016ed1fb46ec97ce24e8ca3652d89",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z8ie11.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z8ie11.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "zaatc1",
@@ -13922,7 +15095,18 @@
     "author": "u/CMcCarthy10",
     "src": "/spines/zaatc1.webp",
     "hash": "71534f59685c23729aa2230c05c4f01b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/zaatc1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/zaatc1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "yoyqda",
@@ -13930,7 +15114,18 @@
     "author": "u/MrFunnyPages71",
     "src": "/spines/yoyqda.webp",
     "hash": "2e89ba026c88a8245587d83158461839",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/yoyqda.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/yoyqda.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "11mogtm",
@@ -13938,7 +15133,16 @@
     "author": "u/wavvydev",
     "src": "/spines/11mogtm.webp",
     "hash": "e86a86b2c790b0d10e8f4c38af8aef55",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11mogtm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11mogtm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "tqu3le",
@@ -13946,7 +15150,16 @@
     "author": "u/WaterColorCloud",
     "src": "/spines/tqu3le.webp",
     "hash": "641c41c64dcabec7254c7d1aaa492a1f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/tqu3le.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/tqu3le.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Celeste",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "o9mo3i",
@@ -13954,7 +15167,16 @@
     "author": "u/xangelo117x",
     "src": "/spines/o9mo3i.webp",
     "hash": "e9f0e5611ed32405f1456cfb24ad567d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/o9mo3i.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/o9mo3i.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "m5man7",
@@ -13962,7 +15184,16 @@
     "author": "u/xangelo117x",
     "src": "/spines/m5man7.webp",
     "hash": "61dd17a0267a4f5f2a3fc0cd0527c282",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/m5man7.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/m5man7.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1kyjjkf",
@@ -13970,7 +15201,18 @@
     "author": "u/__drasi",
     "src": "/spines/1kyjjkf.webp",
     "hash": "833cd70efb5a8a145b4470f7df570ae9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kyjjkf.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kyjjkf.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1i4pwm2",
@@ -13978,7 +15220,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1i4pwm2.webp",
     "hash": "cb7e7e4fcdbf3e0c8fbf21bf355c3002",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1i4pwm2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1i4pwm2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1hv4vje",
@@ -13986,7 +15239,16 @@
     "author": "u/keblash",
     "src": "/spines/1hv4vje.webp",
     "hash": "93dd15cd289c1fe6d75346826f950106",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hv4vje.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hv4vje.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1ekgwrg",
@@ -13994,7 +15256,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ekgwrg.webp",
     "hash": "1ad5fd4f2b7f2e4a230b69db12307af9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ekgwrg.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ekgwrg.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1b0ugpq",
@@ -14002,7 +15275,18 @@
     "author": "u/Areckusu",
     "src": "/spines/1b0ugpq.webp",
     "hash": "62e0943922ab3ba52d2ab4e47f54b38d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1b0ugpq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1b0ugpq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "18odv5e",
@@ -14010,7 +15294,18 @@
     "author": "u/WarioPunk",
     "src": "/spines/18odv5e.webp",
     "hash": "119f6a766d98bf2721a5d23aa77c1826",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18odv5e.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18odv5e.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "124n8d6",
@@ -14018,7 +15313,18 @@
     "author": "u/MyAccountWasBanned7",
     "src": "/spines/124n8d6.webp",
     "hash": "4615c6efe1965cbd9db091e583be588c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/124n8d6.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/124n8d6.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "115fxdk",
@@ -14026,7 +15332,18 @@
     "author": "u/yngames",
     "src": "/spines/115fxdk.webp",
     "hash": "8b1ee136c9d297fe98581c9a5754cdf2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/115fxdk.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/115fxdk.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "z9h0ho",
@@ -14034,7 +15351,18 @@
     "author": "u/kaz-un",
     "src": "/spines/z9h0ho.webp",
     "hash": "62eb0942ebd922d533dc02fe8320e06a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z9h0ho.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z9h0ho.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1kqhkfu",
@@ -14042,7 +15370,18 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/1kqhkfu.webp",
     "hash": "8bd6a85fabd8fbac020ad594f2146adb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kqhkfu.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1kqhkfu.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1k7v8bw",
@@ -14050,7 +15389,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1k7v8bw.webp",
     "hash": "1bed8e47797de616c348a4064c2cd24f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1k7v8bw.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1k7v8bw.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1k04w88",
@@ -14058,7 +15408,18 @@
     "author": "u/HazeTheTiredFool",
     "src": "/spines/1k04w88.webp",
     "hash": "e7f15fde8f0459128e6afd9258438429",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1k04w88.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1k04w88.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1h0on27",
@@ -14074,7 +15435,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1gcxgfj.webp",
     "hash": "fd752a2ffdd610b7ac6d6f3d0be0d352",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gcxgfj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gcxgfj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1g1io7u",
@@ -14082,7 +15454,19 @@
     "author": "u/ItsAMii203",
     "src": "/spines/1g1io7u.webp",
     "hash": "dbbb81906c3068262398e7f9c81819ba",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g1io7u.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g1io7u.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1f85c4o",
@@ -14090,7 +15474,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1f85c4o.webp",
     "hash": "c915c619c60e54d59f7c0e797b4569c8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f85c4o.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f85c4o.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1f7rv3s",
@@ -14098,7 +15491,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1f7rv3s.webp",
     "hash": "39357afa50718c875caff5a9a20c85ba",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f7rv3s.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f7rv3s.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (centrado)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1er4qyj",
@@ -14106,7 +15508,18 @@
     "author": "u/Pitiful_Ad_5112",
     "src": "/spines/1er4qyj.webp",
     "hash": "1c950489ecbc522500b456c0765d2af1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1er4qyj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1er4qyj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Celeste",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dsfsdz",
@@ -14114,7 +15527,16 @@
     "author": "u/LordKamiNiiSama",
     "src": "/spines/1dsfsdz.webp",
     "hash": "51565395745b56a02601c02ddd113fe7",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dsfsdz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dsfsdz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1awn5px",
@@ -14122,7 +15544,16 @@
     "author": "u/Areckusu",
     "src": "/spines/1awn5px.webp",
     "hash": "82b60b151ab031b38f627cf8127db64f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1awn5px.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1awn5px.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1ae41sg",
@@ -14130,7 +15561,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1ae41sg.webp",
     "hash": "ec7b5cab2b9d5cd428763f2df76d2283",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ae41sg.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ae41sg.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1774h0v",
@@ -14138,7 +15580,16 @@
     "author": "u/I_hogs_the_hedge",
     "src": "/spines/1774h0v.webp",
     "hash": "9eda097cc648196efb75efedf59a4d82",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1774h0v.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1774h0v.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (centrado)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "12e1ixs",
@@ -14146,7 +15597,16 @@
     "author": "u/BrownBoi117",
     "src": "/spines/12e1ixs.webp",
     "hash": "91bf540f47a2f9624911be7c7504d606",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/12e1ixs.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/12e1ixs.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "116sf7d",
@@ -14154,7 +15614,18 @@
     "author": "u/kaz-un",
     "src": "/spines/116sf7d.webp",
     "hash": "0af59b94368586e266f2dc25ae960658",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/116sf7d.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/116sf7d.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "10y4fhl",
@@ -14162,7 +15633,16 @@
     "author": "u/TheKosmicKollector",
     "src": "/spines/10y4fhl.webp",
     "hash": "1570313e1edd0bb06bb8e1c2b61ec001",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/10y4fhl.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/10y4fhl.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "116psss",
@@ -14170,7 +15650,16 @@
     "author": "u/yngames",
     "src": "/spines/116psss.webp",
     "hash": "d58f7b463d9292af31f3bef3dd8d7ea1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/116psss.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/116psss.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "rpfzdt",
@@ -14178,7 +15667,18 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/rpfzdt.webp",
     "hash": "af80c69ded2bcbecc97da0a95a39ba94",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/rpfzdt.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/rpfzdt.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "k3v7uo",
@@ -14186,7 +15686,16 @@
     "author": "u/DieNoMight9",
     "src": "/spines/k3v7uo.webp",
     "hash": "1a68105663309b5fa3e9fe476a6d3b44",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/k3v7uo.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/k3v7uo.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "l6x43t",
@@ -14202,7 +15711,16 @@
     "author": "u/ShhImTheRealDeadpool",
     "src": "/spines/ju8inf.webp",
     "hash": "e9ec342fe45a8eb273865debfaa7664a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ju8inf.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ju8inf.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "gmxnwz",
@@ -14226,7 +15744,18 @@
     "author": "u/TobyLerone31",
     "src": "/spines/gbzsec.webp",
     "hash": "5f4a709c8abcea0f0e36ff9c1f1cfb0f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gbzsec.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gbzsec.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "gye3qh",
@@ -14234,7 +15763,18 @@
     "author": "u/DieNoMight9",
     "src": "/spines/gye3qh.webp",
     "hash": "7fd66a8d60406761a139bd0cb0c7afb4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gye3qh.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gye3qh.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN"
+      ]
+    }
   },
   {
     "id": "llxp8r",
@@ -14242,7 +15782,18 @@
     "author": "u/DieNoMight9",
     "src": "/spines/llxp8r.webp",
     "hash": "654bda572bb940fdc5eda1652f97a0fd",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/llxp8r.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/llxp8r.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN"
+      ]
+    }
   },
   {
     "id": "1gzrd3e",
@@ -14250,7 +15801,18 @@
     "author": "u/TricycleCheeta",
     "src": "/spines/1gzrd3e.webp",
     "hash": "707544a755c5e5f120bcad8cbb504a84",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gzrd3e.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gzrd3e.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Naranja",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1fymvbz",
@@ -14258,7 +15820,16 @@
     "author": "u/Areckusu",
     "src": "/spines/1fymvbz.webp",
     "hash": "acddf0cd0c155e52d3851035fad42143",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fymvbz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fymvbz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1fjwam5",
@@ -14266,7 +15837,18 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/1fjwam5.webp",
     "hash": "431d6cd054d087324d32cdb32850f1ee",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fjwam5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fjwam5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1eg3dub",
@@ -14274,7 +15856,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1eg3dub.webp",
     "hash": "d8f34f76a15134e38117fa7dc14c7ca8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eg3dub.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eg3dub.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1duf81k",
@@ -14282,7 +15873,18 @@
     "author": "u/yngames",
     "src": "/spines/1duf81k.webp",
     "hash": "4637fcd1027f6e164cfce96bfee16e96",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1duf81k.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1duf81k.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "142xojj",
@@ -14290,7 +15892,16 @@
     "author": "u/Dapper_Phantom_Thief",
     "src": "/spines/142xojj.webp",
     "hash": "ecb1512c59ab8624e7180d57164d8c15",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/142xojj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/142xojj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "124n7i4",
@@ -14298,7 +15909,16 @@
     "author": "u/MyAccountWasBanned7",
     "src": "/spines/124n7i4.webp",
     "hash": "75afa84eef6be9c78afba791362a9edc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/124n7i4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/124n7i4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Abajo",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "1hxckbw",
@@ -14306,7 +15926,16 @@
     "author": "u/rangerj1901",
     "src": "/spines/1hxckbw.webp",
     "hash": "b4abd16d323dbca377127c78f584c90f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hxckbw.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hxckbw.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "11nckbv",
@@ -14314,7 +15943,16 @@
     "author": "u/wavvydev",
     "src": "/spines/11nckbv.webp",
     "hash": "c726de34f470cc8e3e0b3b297825012c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11nckbv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11nckbv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "msk5dl",
@@ -14322,7 +15960,19 @@
     "author": "u/DieNoMight9",
     "src": "/spines/msk5dl.webp",
     "hash": "af3c30c28c302e4801a74cc7fcee0e79",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/msk5dl.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/msk5dl.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "mse939",
@@ -14330,7 +15980,16 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/mse939.webp",
     "hash": "d6f4979d8ad71f59705b78ec3f022e7e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/mse939.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/mse939.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Texto Simple",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1ivn0ke",
@@ -14338,7 +15997,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ivn0ke.webp",
     "hash": "1aa0e7640f785f3b827d9c3b1d9fee90",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ivn0ke.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ivn0ke.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1glyegg",
@@ -14346,7 +16016,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1glyegg.webp",
     "hash": "818ab988705a94bd02ccbc33efca3c98",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1glyegg.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1glyegg.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dobfxj",
@@ -14354,7 +16035,18 @@
     "author": "u/TylerBGaming762Offic",
     "src": "/spines/1dobfxj.webp",
     "hash": "20f3b9f0f09e310f39d567a175892c3d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dobfxj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dobfxj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1ek7aoe",
@@ -14362,7 +16054,16 @@
     "author": "u/Adam2906_",
     "src": "/spines/1ek7aoe.webp",
     "hash": "2f2a8b07699aee137bceff0829d2a924",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ek7aoe.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ek7aoe.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1dvgtw7",
@@ -14370,7 +16071,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1dvgtw7.webp",
     "hash": "e953501c05083b87a49f32038eecd56c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvgtw7.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvgtw7.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dny9f4",
@@ -14378,7 +16090,16 @@
     "author": "u/MarshallPGraham",
     "src": "/spines/1dny9f4.webp",
     "hash": "79e52d516f57e119ea49a71b0d5b87c8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dny9f4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dny9f4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Abajo",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1bzpv4u",
@@ -14386,7 +16107,16 @@
     "author": "u/Quiet_Resolution_355",
     "src": "/spines/1bzpv4u.webp",
     "hash": "6081b510589035432bcbc26eade3c5a7",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bzpv4u.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1bzpv4u.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "wpaxa9",
@@ -14394,7 +16124,16 @@
     "author": "u/WaterColorCloud",
     "src": "/spines/wpaxa9.webp",
     "hash": "d00616dc4274837c2a3669d3c9bd1cea",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/wpaxa9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/wpaxa9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rosa",
+      "Tipografía del Título": "Texto Simple",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "me0h84",
@@ -14402,7 +16141,18 @@
     "author": "u/xangelo117x",
     "src": "/spines/me0h84.webp",
     "hash": "c736aa6e70156ff8f88e6649104da5fe",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/me0h84.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/me0h84.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "m25979",
@@ -14410,7 +16160,19 @@
     "author": "u/DieNoMight9",
     "src": "/spines/m25979.webp",
     "hash": "d2995df66395920bbb1a9329c1ecb9fd",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/m25979.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/m25979.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "g7hb9y",
@@ -14418,7 +16180,16 @@
     "author": "u/greatwave21",
     "src": "/spines/g7hb9y.webp",
     "hash": "1b645a7088dd95e8ae2ab80da88fedfe",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/g7hb9y.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/g7hb9y.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1gecb0i",
@@ -14426,7 +16197,18 @@
     "author": "u/Sorry_Butterfly9459",
     "src": "/spines/1gecb0i.webp",
     "hash": "24f7fb7d9c802a40222d53c54fa80b9f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gecb0i.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gecb0i.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dpfmri",
@@ -14434,7 +16216,18 @@
     "author": "u/yngames",
     "src": "/spines/1dpfmri.webp",
     "hash": "2812f947b4bc83b47762d942174959e9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dpfmri.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dpfmri.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1f2p4t2",
@@ -14442,7 +16235,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1f2p4t2.webp",
     "hash": "4dc5008a5efc2de273e5987768aa5a45",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f2p4t2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f2p4t2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1efk0op",
@@ -14450,7 +16254,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1efk0op.webp",
     "hash": "8aa4204f3efe1f67042d7363a13bea2c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1efk0op.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1efk0op.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (centrado)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1ehvouh",
@@ -14458,7 +16271,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ehvouh.webp",
     "hash": "984c65634e4183730ad9f83f710985e0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ehvouh.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ehvouh.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "17stnup",
@@ -14466,7 +16290,18 @@
     "author": "u/yngames",
     "src": "/spines/17stnup.webp",
     "hash": "359f1a783e624f5a12b78d5c9fbdb6f6",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17stnup.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/17stnup.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Texto Simple",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "14sc7mm",
@@ -14474,7 +16309,18 @@
     "author": "u/yngames",
     "src": "/spines/14sc7mm.webp",
     "hash": "ca9e4d6fad50296ba80bd2d05bdd24fc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14sc7mm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14sc7mm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Gris",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "14bb2qx",
@@ -14482,7 +16328,18 @@
     "author": "u/yngames",
     "src": "/spines/14bb2qx.webp",
     "hash": "a104d4c7f05561066443c5b2461a3395",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14bb2qx.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14bb2qx.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1180ioq",
@@ -14490,7 +16347,18 @@
     "author": "u/wavvydev",
     "src": "/spines/1180ioq.webp",
     "hash": "cf4d4949165173ec153ee2a911028ad5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1180ioq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1180ioq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "zyghiq",
@@ -14498,7 +16366,18 @@
     "author": "u/nomercyvideo",
     "src": "/spines/zyghiq.webp",
     "hash": "5cc73bb44bd476711e863646fe5e1de0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/zyghiq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/zyghiq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "z5nsn9",
@@ -14506,7 +16385,18 @@
     "author": "u/AugustAPC",
     "src": "/spines/z5nsn9.webp",
     "hash": "3dd4337d6e7ff495815af35414f31140",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z5nsn9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z5nsn9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "xdi826",
@@ -14514,7 +16404,18 @@
     "author": "u/WaterColorCloud",
     "src": "/spines/xdi826.webp",
     "hash": "e00476bc5ed94b99fba5da0eefa95e8c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/xdi826.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/xdi826.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ebyim3",
@@ -14522,7 +16423,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ebyim3.webp",
     "hash": "b821e6dfb117f930f759cf00e3fcc857",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ebyim3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ebyim3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1le4m1r",
@@ -14530,7 +16440,16 @@
     "author": "u/Human-00538",
     "src": "/spines/1le4m1r.webp",
     "hash": "64b1b260802e56715232ff65d7bf478f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1le4m1r.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1le4m1r.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "1l8eoet",
@@ -14538,7 +16457,18 @@
     "author": "u/yngames",
     "src": "/spines/1l8eoet.webp",
     "hash": "5cf241a5dba87ca6336615ddcbe414fe",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1l8eoet.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1l8eoet.webp",
+    "tags": {
+      "Plataforma": "Switch 2",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1jniwr1",
@@ -14546,7 +16476,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1jniwr1.webp",
     "hash": "706f03ed73500e6dee64216e9617accc",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jniwr1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jniwr1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1jlanql",
@@ -14554,7 +16495,18 @@
     "author": "u/Longjumping_Dog7979",
     "src": "/spines/1jlanql.webp",
     "hash": "65bf23a757f61903655c44a04598c30c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jlanql.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1jlanql.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1iuu7sm",
@@ -14562,7 +16514,18 @@
     "author": "u/More_Warthog2949",
     "src": "/spines/1iuu7sm.webp",
     "hash": "4e43cc127209ecb2fb302918fd358701",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1iuu7sm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1iuu7sm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1iq1mfj",
@@ -14570,7 +16533,16 @@
     "author": "u/Mikey-Insanity",
     "src": "/spines/1iq1mfj.webp",
     "hash": "8857e2aa5428cd98cec3bc3af52930d1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1iq1mfj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1iq1mfj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1ias2jy",
@@ -14578,7 +16550,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1ias2jy.webp",
     "hash": "b2dbd26b7332e1a93d5c234a194e625a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ias2jy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ias2jy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1h3naee",
@@ -14586,7 +16569,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1h3naee.webp",
     "hash": "435eb9bbaddb89807ae56256b816e4e1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3naee.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3naee.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1frk3pb",
@@ -14594,7 +16588,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1frk3pb.webp",
     "hash": "36993b9f46be6ffbac727741d73fa48d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1frk3pb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1frk3pb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1h3pvue",
@@ -14602,7 +16607,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1h3pvue.webp",
     "hash": "be72b9cb900446cb03c496ca89cd4d33",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3pvue.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3pvue.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1h6avy4",
@@ -14610,7 +16626,18 @@
     "author": "u/neokanae_gamer",
     "src": "/spines/1h6avy4.webp",
     "hash": "2291264e8c57503612ec038e034f39c8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h6avy4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h6avy4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1h3n9bu",
@@ -14618,7 +16645,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1h3n9bu.webp",
     "hash": "037e120cb4dd80fb5edaeb7b468deb5d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3n9bu.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3n9bu.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1getymz",
@@ -14626,7 +16664,18 @@
     "author": "u/yngames",
     "src": "/spines/1getymz.webp",
     "hash": "0733663b07500e7cd6d7bede2d866678",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1getymz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1getymz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1h3n9sy",
@@ -14634,7 +16683,16 @@
     "author": "u/Adam2906_",
     "src": "/spines/1h3n9sy.webp",
     "hash": "bea7d70b465705c603e31538ce8a44fb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3n9sy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3n9sy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "1h3nd4j",
@@ -14642,7 +16700,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1h3nd4j.webp",
     "hash": "cfefda2b2f805959e579e618f90e0b6a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3nd4j.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3nd4j.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1h3nauq",
@@ -14650,7 +16719,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1h3nauq.webp",
     "hash": "f3992ed03cdbb316b8f64690c143687b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3nauq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h3nauq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (centrado)",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1gxhw4l",
@@ -14658,7 +16738,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1gxhw4l.webp",
     "hash": "f107bd940f32c444df2d60a8a32fcbf1",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gxhw4l.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gxhw4l.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dqfwfp",
@@ -14666,7 +16757,18 @@
     "author": "u/Super_MarioHero",
     "src": "/spines/1dqfwfp.webp",
     "hash": "ca729a5c03fc9b8861d58d63e87225ab",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dqfwfp.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dqfwfp.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ej5gut",
@@ -14674,7 +16776,19 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1ej5gut.webp",
     "hash": "7c38d9e2922378c925922b240b8be35e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ej5gut.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ej5gut.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo",
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1figc9e",
@@ -14682,7 +16796,18 @@
     "author": "u/PinkSuiren",
     "src": "/spines/1figc9e.webp",
     "hash": "3c7f3af4b020b168c4359fc7b575f967",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1figc9e.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1figc9e.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1gi6pmp",
@@ -14690,7 +16815,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1gi6pmp.webp",
     "hash": "9f9ce178e528f440f58b3ee0b1207653",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gi6pmp.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gi6pmp.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN"
+      ]
+    }
   },
   {
     "id": "1gert5n",
@@ -14698,7 +16834,16 @@
     "author": "u/Sorry_Butterfly9459",
     "src": "/spines/1gert5n.webp",
     "hash": "acc64798c845d9bef676169d6569850f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gert5n.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gert5n.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1dmqyh2",
@@ -14706,7 +16851,18 @@
     "author": "u/basicmakeupgoals",
     "src": "/spines/1dmqyh2.webp",
     "hash": "0fdafec80df0909285fbfec454314bf4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dmqyh2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dmqyh2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ejm94g",
@@ -14722,7 +16878,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1fbnkpj.webp",
     "hash": "b7ef749147dc4b9a6365392d05c46804",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fbnkpj.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fbnkpj.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1fyjcfe",
@@ -14730,7 +16897,16 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1fyjcfe.webp",
     "hash": "4b11bf0fa02630febe7b5f3fe85f7e07",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fyjcfe.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fyjcfe.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1f9ts2k",
@@ -14738,7 +16914,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1f9ts2k.webp",
     "hash": "13d72499d19d57e225192917d0997f81",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f9ts2k.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f9ts2k.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1fswwww",
@@ -14746,7 +16933,18 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/1fswwww.webp",
     "hash": "3c7af36aa3a3e7ff85af5bd39cb2676f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fswwww.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fswwww.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Gris",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ergxyw",
@@ -14754,7 +16952,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1ergxyw.webp",
     "hash": "a8d814766afe53f25f2421450b23b332",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ergxyw.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ergxyw.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1em4g0g",
@@ -14762,7 +16971,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1em4g0g.webp",
     "hash": "658b349586da323a639df29f7c4717e2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1em4g0g.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1em4g0g.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1eosdnh",
@@ -14770,7 +16988,18 @@
     "author": "u/Grand_Cover2718",
     "src": "/spines/1eosdnh.webp",
     "hash": "6b68408a539d51d4163ec163668a676c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eosdnh.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eosdnh.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1evvp5d",
@@ -14778,7 +17007,18 @@
     "author": "u/cosmicdrewracing",
     "src": "/spines/1evvp5d.webp",
     "hash": "5f355f1f7c65c9507cfacf0a73036f25",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1evvp5d.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1evvp5d.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1f3qeqt",
@@ -14786,7 +17026,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1f3qeqt.webp",
     "hash": "06d5c543896f887ae4abc005f15a1d9d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f3qeqt.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f3qeqt.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dvhwhb",
@@ -14794,7 +17045,18 @@
     "author": "u/kaz-un",
     "src": "/spines/1dvhwhb.webp",
     "hash": "96c6e40066935e86b0c38461dbd879d5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvhwhb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvhwhb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1f3qps6",
@@ -14802,7 +17064,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1f3qps6.webp",
     "hash": "1e07b7399500886148bdf544ccfb8061",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f3qps6.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1f3qps6.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1etq2iv",
@@ -14810,7 +17083,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1etq2iv.webp",
     "hash": "c488f85a96c23e817063cb0f1324a8a4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq2iv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq2iv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Texto Simple",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1etq4qu",
@@ -14818,7 +17102,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1etq4qu.webp",
     "hash": "4d46ed7240158fab252d9e1ab2f168e4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq4qu.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etq4qu.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1esdna3",
@@ -14826,7 +17121,16 @@
     "author": "u/fromcortes",
     "src": "/spines/1esdna3.webp",
     "hash": "4458573dca756970fa46e70a42ea5ae2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1esdna3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1esdna3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Naranja",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1edhhiz",
@@ -14834,7 +17138,18 @@
     "author": "u/yngames",
     "src": "/spines/1edhhiz.webp",
     "hash": "aeeb87169db546583c793d83c35e1dc9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1edhhiz.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1edhhiz.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1erkbc3",
@@ -14842,7 +17157,16 @@
     "author": "u/fromcortes",
     "src": "/spines/1erkbc3.webp",
     "hash": "30393d75a535288e82ab935ec279c752",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1erkbc3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1erkbc3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1elaun8",
@@ -14850,7 +17174,18 @@
     "author": "u/ashuy_",
     "src": "/spines/1elaun8.webp",
     "hash": "abe071cc5425e2231b4ccc8b3f863b0b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1elaun8.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1elaun8.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1emlsff",
@@ -14858,7 +17193,18 @@
     "author": "u/Pitiful_Ad_5112",
     "src": "/spines/1emlsff.webp",
     "hash": "88006fffcf30fccf209c34245345fb79",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1emlsff.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1emlsff.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dyiczv",
@@ -14866,7 +17212,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1dyiczv.webp",
     "hash": "4be7afe54caacc4bd7aedd40a4753b35",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyiczv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyiczv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dq1fk9",
@@ -14874,7 +17231,18 @@
     "author": "u/yngames",
     "src": "/spines/1dq1fk9.webp",
     "hash": "b2bcec968fc0dea022f507bd368c7840",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dq1fk9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dq1fk9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dti51t",
@@ -14882,7 +17250,18 @@
     "author": "u/yngames",
     "src": "/spines/1dti51t.webp",
     "hash": "6d3af19e2232f1f6d46af9dd22dccd4b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dti51t.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dti51t.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dvu61f",
@@ -14890,7 +17269,16 @@
     "author": "u/fluffmcguff33",
     "src": "/spines/1dvu61f.webp",
     "hash": "b46c1ec820daab712b7ed8f543dad3d9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvu61f.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvu61f.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "1dq1zgf",
@@ -14898,7 +17286,18 @@
     "author": "u/basicmakeupgoals",
     "src": "/spines/1dq1zgf.webp",
     "hash": "e72019b362e8263315c9b83b8abc0f49",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dq1zgf.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dq1zgf.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Rojo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dvi1r1",
@@ -14906,7 +17305,18 @@
     "author": "u/yngames",
     "src": "/spines/1dvi1r1.webp",
     "hash": "0e22c2c7fc475f73691a0a19efe1dc5e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvi1r1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dvi1r1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1dl96um",
@@ -14914,7 +17324,18 @@
     "author": "u/yngames",
     "src": "/spines/1dl96um.webp",
     "hash": "399aa2101e43f457ac3cba31250ad0ca",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dl96um.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dl96um.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dgn808",
@@ -14922,7 +17343,18 @@
     "author": "u/Grand_Cover2718",
     "src": "/spines/1dgn808.webp",
     "hash": "ad11c750e4f60f870584b7abeb8febba",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dgn808.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dgn808.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dbzr0l",
@@ -14930,7 +17362,18 @@
     "author": "u/Grand_Cover2718",
     "src": "/spines/1dbzr0l.webp",
     "hash": "e5bb4ece90438477d4212d565816868e",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dbzr0l.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dbzr0l.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1dbzwlk",
@@ -14938,7 +17381,18 @@
     "author": "u/Grand_Cover2718",
     "src": "/spines/1dbzwlk.webp",
     "hash": "edca06a94ad66ffd895343a51de3a2ab",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dbzwlk.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dbzwlk.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1beujvq",
@@ -14946,7 +17400,18 @@
     "author": "u/ArgyleMonkey",
     "src": "/spines/1beujvq.webp",
     "hash": "562c597596476368e40782249e98cd86",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1beujvq.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1beujvq.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1awuzt9",
@@ -14954,7 +17419,16 @@
     "author": "u/KelvinBelmont",
     "src": "/spines/1awuzt9.webp",
     "hash": "235de72805a91c92f39a6c6e36ec4c71",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1awuzt9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1awuzt9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1802yz8",
@@ -14962,7 +17436,18 @@
     "author": "u/yngames",
     "src": "/spines/1802yz8.webp",
     "hash": "0eea56c76bf625372fbefe152fb304ba",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1802yz8.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1802yz8.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "18ncn2z",
@@ -14970,7 +17455,16 @@
     "author": "u/rroneaa",
     "src": "/spines/18ncn2z.webp",
     "hash": "52cb62905f02d8cfabf9c14d83ee7826",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18ncn2z.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/18ncn2z.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1lc2jpw",
@@ -14978,7 +17472,16 @@
     "author": "u/Human-00538",
     "src": "/spines/1lc2jpw.webp",
     "hash": "7f27adbf80e377779e321d252b373bf2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1lc2jpw.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1lc2jpw.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1eqx6xv",
@@ -14986,7 +17489,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1eqx6xv.webp",
     "hash": "a0999f1bc20249bc1018c4c163e13edb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eqx6xv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1eqx6xv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "11re12j",
@@ -14994,7 +17508,18 @@
     "author": "u/yngames",
     "src": "/spines/11re12j.webp",
     "hash": "4cf53320956a5fb902e1ed1965fef28c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11re12j.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11re12j.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "11mtjsv",
@@ -15002,7 +17527,18 @@
     "author": "u/wavvydev",
     "src": "/spines/11mtjsv.webp",
     "hash": "4499b93cba757a6666f9e1adb00103d8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11mtjsv.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11mtjsv.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "lp200z",
@@ -15010,7 +17546,19 @@
     "author": "u/DieNoMight9",
     "src": "/spines/lp200z.webp",
     "hash": "565291bd29e4181eb1e25ef8320a0c89",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/lp200z.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/lp200z.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "ged6rt",
@@ -15018,7 +17566,16 @@
     "author": "u/TobyLerone31",
     "src": "/spines/ged6rt.webp",
     "hash": "5673e8882074f65e380d72df06616860",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ged6rt.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/ged6rt.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "mk3gt1",
@@ -15026,7 +17583,18 @@
     "author": "u/Drosanator",
     "src": "/spines/mk3gt1.webp",
     "hash": "11727d2004dbd935723246ee876740f5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/mk3gt1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/mk3gt1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "m258iw",
@@ -15034,7 +17602,19 @@
     "author": "u/DieNoMight9",
     "src": "/spines/m258iw.webp",
     "hash": "7e501d09c26aca5ee00a43ae258092ca",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/m258iw.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/m258iw.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "g9yfg9",
@@ -15042,7 +17622,16 @@
     "author": "u/xangelo117x",
     "src": "/spines/g9yfg9.webp",
     "hash": "f9e2f3e557afd1d5825fc852b44e5b26",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/g9yfg9.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/g9yfg9.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Abajo",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "i9pp00",
@@ -15050,7 +17639,16 @@
     "author": "u/xangelo117x",
     "src": "/spines/i9pp00.webp",
     "hash": "08422c6e72eb649387f689cd4110a7fb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/i9pp00.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/i9pp00.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "g8h45u",
@@ -15058,7 +17656,18 @@
     "author": "u/greatwave21",
     "src": "/spines/g8h45u.webp",
     "hash": "70dfa9353d36d8a27299310ecab35cf8",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/g8h45u.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/g8h45u.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "gkn44d",
@@ -15066,7 +17675,18 @@
     "author": "u/xangelo117x",
     "src": "/spines/gkn44d.webp",
     "hash": "778781f29088a664b9a4345308cb8de0",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gkn44d.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gkn44d.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (centrado)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1htphz2",
@@ -15074,7 +17694,18 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1htphz2.webp",
     "hash": "7aac8195e8c577aa4734f288d729b9c6",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1htphz2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1htphz2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1hhtfk5",
@@ -15082,7 +17713,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1hhtfk5.webp",
     "hash": "58a9463cb05795267f33306f7e5bb7db",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hhtfk5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hhtfk5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1hhsiev",
@@ -15090,7 +17732,16 @@
     "author": "u/Areckusu",
     "src": "/spines/1hhsiev.webp",
     "hash": "a71e46b3ea05634a1cd3025f5828c9a4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hhsiev.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hhsiev.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1hkr5p5",
@@ -15098,7 +17749,18 @@
     "author": "u/WarioPunk",
     "src": "/spines/1hkr5p5.webp",
     "hash": "77a73aeac5cdc95856acbcb64bbc20cb",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hkr5p5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hkr5p5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "1ghhu2q",
@@ -15106,7 +17768,16 @@
     "author": "u/Adam2906_",
     "src": "/spines/1ghhu2q.webp",
     "hash": "9d0fd0b2b610238acf17724b25e854a7",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ghhu2q.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ghhu2q.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1fth1qs",
@@ -15114,7 +17785,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1fth1qs.webp",
     "hash": "cba582eced487cbe85abe5aca30ae677",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fth1qs.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fth1qs.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1gc29h6",
@@ -15122,7 +17802,18 @@
     "author": "u/Adam2906_",
     "src": "/spines/1gc29h6.webp",
     "hash": "0245d7fa9c59e37e17c1c9e096cdedb5",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gc29h6.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1gc29h6.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ep2gef",
@@ -15130,7 +17821,18 @@
     "author": "u/Pitiful_Ad_5112",
     "src": "/spines/1ep2gef.webp",
     "hash": "85f34953c3d50df308ba9e5dbde07295",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ep2gef.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ep2gef.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1g8upz6",
@@ -15138,7 +17840,18 @@
     "author": "u/Sorry_Butterfly9459",
     "src": "/spines/1g8upz6.webp",
     "hash": "5b71a1c251777dab8bdc20b2df333ec3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g8upz6.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1g8upz6.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1fbioqb",
@@ -15146,7 +17859,18 @@
     "author": "u/SSK_64",
     "src": "/spines/1fbioqb.webp",
     "hash": "3cf61ae04fee299415fd1f15c1ecc435",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fbioqb.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fbioqb.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Gris",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1ep2goh",
@@ -15154,7 +17878,18 @@
     "author": "u/Pitiful_Ad_5112",
     "src": "/spines/1ep2goh.webp",
     "hash": "0ba836295997779efe75ef88ae0f2189",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ep2goh.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ep2goh.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1etylm1",
@@ -15162,7 +17897,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1etylm1.webp",
     "hash": "e8b7af6b118bc4683b1a07ad4696986a",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etylm1.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1etylm1.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1egxedy",
@@ -15170,7 +17916,16 @@
     "author": "u/No-Specific4938",
     "src": "/spines/1egxedy.webp",
     "hash": "70154ec194b4a1eb268e3df168c01f96",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1egxedy.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1egxedy.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "1erk9um",
@@ -15178,7 +17933,16 @@
     "author": "u/fromcortes",
     "src": "/spines/1erk9um.webp",
     "hash": "0e6651fb35045f02deaf98275f7eb9b9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1erk9um.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1erk9um.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1dyic3j",
@@ -15186,7 +17950,18 @@
     "author": "u/Shizoid_Man",
     "src": "/spines/1dyic3j.webp",
     "hash": "1baa35d1f47aa249d087e71a3fe8536f",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyic3j.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1dyic3j.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1buw8s7",
@@ -15194,7 +17969,18 @@
     "author": "u/yngames",
     "src": "/spines/1buw8s7.webp",
     "hash": "5aee393fc9af1919ad6b42bdd150f55b",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1buw8s7.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1buw8s7.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "185m2v5",
@@ -15202,7 +17988,16 @@
     "author": "u/maverick074",
     "src": "/spines/185m2v5.webp",
     "hash": "815ac2b3c6c036d51c69e454747d45f9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/185m2v5.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/185m2v5.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Negro",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "16vq08a",
@@ -15210,7 +18005,18 @@
     "author": "u/NoReaction-",
     "src": "/spines/16vq08a.webp",
     "hash": "e30d1ef90e2d440debe57211044193b9",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16vq08a.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16vq08a.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Naranja",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "15epjj2",
@@ -15218,7 +18024,18 @@
     "author": "u/yngames",
     "src": "/spines/15epjj2.webp",
     "hash": "5b144d291f0b8fd4cfc507f3315aa6a4",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/15epjj2.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/15epjj2.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "16eiz1w",
@@ -15226,7 +18043,18 @@
     "author": "u/Yadi12345",
     "src": "/spines/16eiz1w.webp",
     "hash": "c73fdc4b2040b66c2805c844ddcb90e2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16eiz1w.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/16eiz1w.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Cubre todo (desde arriba)",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "14x975n",
@@ -15234,7 +18062,16 @@
     "author": "u/maverick074",
     "src": "/spines/14x975n.webp",
     "hash": "4f03906620729058393706944eedb565",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14x975n.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14x975n.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "1555nvh",
@@ -15242,7 +18079,16 @@
     "author": "u/JIMBOYKELLY",
     "src": "/spines/1555nvh.webp",
     "hash": "a2d0400d1e0b6edb6e1c1618a319dc3c",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1555nvh.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1555nvh.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Abajo",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "12odqf3",
@@ -15250,7 +18096,18 @@
     "author": "u/yngames",
     "src": "/spines/12odqf3.webp",
     "hash": "e1f6cbfe73c1d4bce07dc3e24c7fcf81",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/12odqf3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/12odqf3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Azul",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "14xjd3n",
@@ -15258,7 +18115,18 @@
     "author": "u/WarioPunk",
     "src": "/spines/14xjd3n.webp",
     "hash": "70b5b23aab6dc908df1a696b6c72cead",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14xjd3n.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14xjd3n.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Blanco",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "14t9e8s",
@@ -15266,7 +18134,18 @@
     "author": "u/taelli",
     "src": "/spines/14t9e8s.webp",
     "hash": "fe5d1f034583e40719779198170317a2",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14t9e8s.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/14t9e8s.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "11cuwwm",
@@ -15274,7 +18153,18 @@
     "author": "u/yngames",
     "src": "/spines/11cuwwm.webp",
     "hash": "a980a7c02fa77145af94d7f16758c507",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11cuwwm.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11cuwwm.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "11chm7m",
@@ -15282,7 +18172,16 @@
     "author": "u/yngames",
     "src": "/spines/11chm7m.webp",
     "hash": "724344b75cf5f24459bbdd54c6fcc75d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11chm7m.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/11chm7m.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Verde",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": []
+    }
   },
   {
     "id": "116aeu3",
@@ -15290,7 +18189,18 @@
     "author": "u/yngames",
     "src": "/spines/116aeu3.webp",
     "hash": "e444d1436ef2f0f681d410dc672bedd3",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/116aeu3.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/116aeu3.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Multicolor",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Personajes por todo el lomo"
+      ]
+    }
   },
   {
     "id": "z9rag8",
@@ -15298,7 +18208,16 @@
     "author": "u/BeatSlayer-Reddit",
     "src": "/spines/z9rag8.webp",
     "hash": "6e6643238eda40cbd45f3d7296e85880",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z9rag8.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z9rag8.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Morado",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    }
   },
   {
     "id": "x7bfz4",
@@ -15306,7 +18225,18 @@
     "author": "u/DieNoMight9",
     "src": "/spines/x7bfz4.webp",
     "hash": "3cfca1eb96f3aab3860d19466b39a38d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/x7bfz4.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/x7bfz4.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Amarillo",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centro",
+      "Estilo Principal": "Minimalista",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN"
+      ]
+    }
   },
   {
     "id": "xa469q",
@@ -15314,7 +18244,19 @@
     "author": "u/DieNoMight9",
     "src": "/spines/xa469q.webp",
     "hash": "98a537d9796cd5132dc307093554245d",
-    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/xa469q.webp"
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/xa469q.webp",
+    "tags": {
+      "Plataforma": "Switch 1",
+      "Color Base": "Naranja",
+      "Tipografía del Título": "Logo Original",
+      "Alineación del Texto": "Centrado Arriba con margen",
+      "Estilo Principal": "Escénico / Detallado",
+      "Lower logo": "other",
+      "Extras": [
+        "Estilo DNN",
+        "Personaje Abajo"
+      ]
+    }
   },
   {
     "id": "1fyo0n5",
