@@ -120,7 +120,7 @@ export default function TaggerView({ onExit }) {
       try {
         const json = JSON.parse(event.target.result);
         setDb(json);
-        const firstUntagged = json.findIndex(game => !game.tags || Object.keys(CATEGORIAS).some(cat => !game.tags[cat]));
+        const firstUntagged = json.findIndex(game => !game.tags || Object.keys(CATEGORIAS).some(cat => !game.tags[cat]) || !game.hexColor);
         setCurrentIndex(firstUntagged !== -1 ? firstUntagged : 0);
         setIsFileLoaded(true);
       } catch (error) {
@@ -130,7 +130,18 @@ export default function TaggerView({ onExit }) {
     reader.readAsText(file);
   };
 
-  const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat])).length;
+const pendientes = db.filter(g => !g.tags || Object.keys(CATEGORIAS).some(cat => !g.tags[cat]) || !g.hexColor).length;
+
+  const checkAndAdvance = (gameToCheck) => {
+    const hasHex = gameToCheck.hexColor && gameToCheck.hexColor.length === 7 && gameToCheck.hexColor.startsWith('#');
+    const hasAllTags = Object.keys(CATEGORIAS).every(cat => gameToCheck.tags && gameToCheck.tags[cat]);
+    
+    if (hasHex && hasAllTags) {
+      setTimeout(() => {
+        setCurrentIndex(prev => (prev < db.length - 1 ? prev + 1 : prev));
+      }, 300);
+    }
+  };
 
   const handleTag = (categoria, valor) => {
     const updatedDb = [...db];
@@ -138,6 +149,7 @@ export default function TaggerView({ onExit }) {
     game.tags = { ...game.tags, [categoria]: valor };
     updatedDb[currentIndex] = game;
     setDb(updatedDb);
+    checkAndAdvance(game);
   };
 
   const handleExtraToggle = (extra) => {
@@ -157,12 +169,14 @@ export default function TaggerView({ onExit }) {
     const updatedDb = [...db];
     updatedDb[currentIndex].hexColor = hex;
     setDb(updatedDb);
+    checkAndAdvance(updatedDb[currentIndex]);
   };
 
   const handleHexChange = (e) => {
     const updatedDb = [...db];
     updatedDb[currentIndex].hexColor = e.target.value;
     setDb(updatedDb);
+    checkAndAdvance(updatedDb[currentIndex]);
   };
 
   const handleDownload = () => {
