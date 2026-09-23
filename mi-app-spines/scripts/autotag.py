@@ -55,8 +55,8 @@ Analiza esta imagen y los metadatos de un lomo de videojuego de Nintendo Switch.
 - "Tipografía del Título": "Texto Simple" o "Logo Original".
 - "Lower logo": "Nintendo" o "other".
 - "Alineación del Texto":
-    * "Centrado Arriba": El texto empieza inmediatamente debajo del banner rojo superior, pegado a él sin dejar hueco.
-    * "Centrado Arriba con margen": Hay un espacio vacío o decorativo claramente visible entre el banner rojo y el inicio del texto.
+    * "Centrado Arriba": El texto empieza inmediatamente debajo del banner rojo superior, casi pegado a él dejando poco espacio.
+    * "Centrado Arriba con margen": Hay un espacio vacío, atmosférico o decorativo claramente visible entre el banner rojo de Nintendo Switch y el inicio del texto del título, con un margen promedio de 60 a 100 píxeles que permite mostrar el fondo, cielo o color característico del juego antes de la tipografía principal.
     * "Centro": El texto flota en la mitad absoluta del lomo, con bastante espacio libre arriba y abajo.
     * "Abajo": El texto está agrupado íntegramente en la mitad inferior del lomo.
     * "Cubre todo (desde arriba)": El texto es muy largo y ocupa casi toda la franja vertical, empezando desde arriba.
@@ -70,9 +70,10 @@ Analiza esta imagen y los metadatos de un lomo de videojuego de Nintendo Switch.
       - REGLA DE BLOQUEO (OBLIGATORIA): SOLO puedes aplicar esta etiqueta si en los metadatos el 'Autor/Creador' contiene alguna de estas palabras exactas: "DieNoMighty", "DieNomight9", "DNN", "Mii203" o rara vez "eridyon". 
       - Si el creador NO está en esa lista, tienes ESTRICTAMENTE PROHIBIDO usar la etiqueta "Estilo DNN", sin importar qué círculo o logotipo veas en la imagen.
       - PROHIBICIÓN DE LOGOS: Incluso si el autor coincide, el círculo tiene que ser un marco decorativo añadido. NO lo marques si el círculo ES el propio logotipo de la empresa (como Aksys, Super Rare Games, Inti Creates, o CC2).
+      - En el caso de que sea estilo DNN no puede tener ningun otro personaje en la parte inferior del lomo, ni siquiera parcialmente. Si hay un personaje, aunque sea pequeño, no es estilo DNN. Si es DNN no tiene que tener ningun otro extra.
     * "Personaje Abajo": Hay un personaje, rostro o figura aislada ubicada en la base inferior del lomo.
     * "Personajes por todo el lomo": Hay múltiples personajes, caras o figuras distribuidas a lo largo de toda la franja vertical.
-    * "Set / Panorama": El arte del lomo está cortado en los bordes porque forma parte de un mural más grande pensado para unirse con otras cajas.
+    * "Set / Panorama": El arte del lomo está cortado en los bordes porque forma parte de un mural más grande pensado para unirse con otras cajas. Tambien puede ser un panorama si el nombre del juego tiene algo como "set", "series" o partes 1, 2, 3 o "Vol. 1", "Vol. 2", etc.
 """
 
 coste_total_sesion = 0.0
