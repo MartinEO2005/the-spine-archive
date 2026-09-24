@@ -201,7 +201,7 @@ for i, game in enumerate(database):
             print("💾 Progreso intermedio guardado.")
 
         # Ajustado a 1.0s para aprovechar la cuenta de pago
-        time.sleep(1.0)
+        time.sleep(0.5)
 
     except json.JSONDecodeError:
         print(f"⚠️ Error procesando [{i+1}]: La IA no devolvió un JSON válido. Saltando...")
