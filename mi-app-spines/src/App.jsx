@@ -23,7 +23,7 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [view, setView] = useState('tagger');
+  const [view, setView] = useState('catalog'); // 'catalog', 'pdf', 'tagger'
   const [images, setImages] = useState([]);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);

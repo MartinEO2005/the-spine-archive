@@ -89,15 +89,32 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     }
   }, [scrapeInfo]);
 
+  // Función auxiliar para limpiar tildes, diéresis y mayúsculas
+  const normalizeText = (text) => {
+    if (!text) return '';
+    return text
+      .normalize("NFD") // Separa las letras de sus acentos/diéresis
+      .replace(/[\u0300-\u036f]/g, "") // Elimina los símbolos de acentuación
+      .toLowerCase();
+  };
+
   const filteredSpines = useMemo(() => {
     let result = [...spines];
 
-    const term = debouncedTerm.toLowerCase().trim();
+    const term = debouncedTerm.trim();
     if (term) {
-      result = result.filter(s => 
-        (s.title && s.title.toLowerCase().includes(term)) || 
-        (s.author && s.author.toLowerCase().includes(term))
-      );
+      // Dividimos la búsqueda en palabras individuales
+      const searchWords = normalizeText(term).split(/\s+/);
+
+      result = result.filter(s => {
+        const normalizedTitle = normalizeText(s.title);
+        const normalizedAuthor = normalizeText(s.author);
+
+        // Validamos que TODAS las palabras escritas existan en el título o autor (sin importar el orden)
+        return searchWords.every(word => 
+          normalizedTitle.includes(word) || normalizedAuthor.includes(word)
+        );
+      });
     }
 
     if (sortOrder === 'newest') {
