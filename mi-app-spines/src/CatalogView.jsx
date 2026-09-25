@@ -449,9 +449,12 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     <button 
       onClick={() => setSortOrder(prev => prev === 'newest' ? 'az' : 'newest')}
       style={{
+        position: "absolute",
+        left: "20px",
         backgroundColor: sortOrder === 'newest' ? '#222' : '#1a1a1a',
         color: '#fff',
         border: '2px solid #333',
+        borderRadius: '25px',
         boxShadow: '4px 4px 0px #000',
         padding: '12px 18px',
         fontFamily: '"Press Start 2P", monospace',
@@ -462,8 +465,8 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         gap: '8px'
       }}
     >
-      🔥 {sortOrder === 'newest' ? 'NEWEST' : 'A-Z'}
-    </button>
+      {sortOrder === 'newest' ? '🔥 NEWEST' : '🔤 A-Z'}    
+      </button>
 
     {/* BOTÓN UPLOAD PDF */}
     <button 
