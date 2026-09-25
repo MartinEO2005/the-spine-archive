@@ -221133,5 +221133,613 @@
       ]
     },
     "hexColor": "#2AA7DF"
+  },
+  {
+    "id": "1wo9613",
+    "title": "Locomoto by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wo9613.webp",
+    "hash": "054e7537f543e36093ea33a3983c61a9",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wo9613.webp",
+    "created_utc": 1790177341,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#328EDA"
+  },
+  {
+    "id": "1e5x1dp",
+    "title": "Arcade Game Zone by ThomasJAshwell",
+    "author": "u/ThomasJAshwell",
+    "src": "/spines/1e5x1dp.webp",
+    "hash": "09972bdee1ea34886212d2153f81ab96",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1e5x1dp.webp",
+    "created_utc": 1721259687,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#027FC7"
+  },
+  {
+    "id": "1e5woor",
+    "title": "Morbid: The Lords of Ire by ThomasJAshwell",
+    "author": "u/ThomasJAshwell",
+    "src": "/spines/1e5woor.webp",
+    "hash": "1d2097ab04db93d832e105e76f8a3d15",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1e5woor.webp",
+    "created_utc": 1721258735,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#16365B"
+  },
+  {
+    "id": "1wnf5f3",
+    "title": "Bratz Rhythm & Style by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wnf5f3.webp",
+    "hash": "d5dbf9cf4e5ac9e5c9f686d02ed356ea",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wnf5f3.webp",
+    "created_utc": 1790096420,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#D148AB"
+  },
+  {
+    "id": "1oir131",
+    "title": "Super Mario Galaxy + Super Mario Galaxy 2 by Leg0Felix64",
+    "author": "u/Leg0_Felix64",
+    "src": "/spines/1oir131.webp",
+    "hash": "75e9e18f224cb3fa5b01e70fb6186014",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1oir131.webp",
+    "created_utc": 1761699450,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (from top)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#05192B"
+  },
+  {
+    "id": "z081fp",
+    "title": "It Takes Two - by Mercurytic",
+    "author": "u/Mercurytic",
+    "src": "/spines/z081fp.webp",
+    "hash": "95bb84d115c9d82ad9fe1d457961a3e0",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/z081fp.webp",
+    "created_utc": 1668960919,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#E8D69F"
+  },
+  {
+    "id": "1wnhal9",
+    "title": "Captain Tsubasa 2 World Fighters by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wnhal9.webp",
+    "hash": "379368e24cd5dddc299114f37fb9e3ac",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wnhal9.webp",
+    "created_utc": 1790100942,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#076CC9"
+  },
+  {
+    "id": "1wn86p8",
+    "title": "Shaq Fu: A Legend Reborn (in the style of DieNoMight9) by Mii203",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wn86p8.webp",
+    "hash": "f474d9619b4f5e5c756cb2eac760871a",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wn86p8.webp",
+    "created_utc": 1790080264,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#55488C"
+  },
+  {
+    "id": "1wnf6uy",
+    "title": "Beyblade Burst: Battle Zero by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wnf6uy.webp",
+    "hash": "ea68bb01e1b50cf36fc5dc7f018ba478",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wnf6uy.webp",
+    "created_utc": 1790096496,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#CE4F73"
+  },
+  {
+    "id": "1wn89nz",
+    "title": "Cars 3: Driven to Win (in the style of DieNoMight9) by Mii203",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wn89nz.webp",
+    "hash": "575bff47a59de646f983cb9fa2afc942",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wn89nz.webp",
+    "created_utc": 1790080484,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#820E0F"
+  },
+  {
+    "id": "1wov99e",
+    "title": "MoonLighter 2 by Frequent_Apartment35",
+    "author": "u/Frequent_Apartment35",
+    "src": "/spines/1wov99e.webp",
+    "hash": "7826c3bb4be20ffb3a262e293c0a5734",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wov99e.webp",
+    "created_utc": 1790235361,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Orange",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#F1893D"
+  },
+  {
+    "id": "1wmmoxl_0",
+    "title": "The Apothecary Diaries The False Imperial Brother by shizoid_man (Parte 1)",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wmmoxl_0.webp",
+    "hash": "e0522994840a22d105f334f0645c9de4",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wmmoxl_0.webp",
+    "created_utc": 1790018739,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#341D15"
+  },
+  {
+    "id": "1wmmoxl_1",
+    "title": "The Apothecary Diaries The False Imperial Brother by shizoid_man (Parte 2)",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wmmoxl_1.webp",
+    "hash": "b3a9efdbbc6471d6d1422522d9659e13",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wmmoxl_1.webp",
+    "created_utc": 1790018739,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style",
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#341D15"
+  },
+  {
+    "id": "1wmmnig_0",
+    "title": "The Grimm Reapress and the Drearytale Monster by shizoid_man (Parte 1)",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wmmnig_0.webp",
+    "hash": "79a0d044779c191e070bc8c0761164cd",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wmmnig_0.webp",
+    "created_utc": 1790018660,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Brown",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom",
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#4C443E"
+  },
+  {
+    "id": "1wmmnig_1",
+    "title": "The Grimm Reapress and the Drearytale Monster by shizoid_man (Parte 2)",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wmmnig_1.webp",
+    "hash": "103a8f5ce5a7ebf4d10ca2cab8b3ccce",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wmmnig_1.webp",
+    "created_utc": 1790018660,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#4F4944"
+  },
+  {
+    "id": "1wmmkbq",
+    "title": "Juufuutei Raden's Guide for Pixel Museum by shizoid_man",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wmmkbq.webp",
+    "hash": "d51ec84a35f6f4a14815a618b7b4eda6",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wmmkbq.webp",
+    "created_utc": 1790018467,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#47644C"
+  },
+  {
+    "id": "1fvvpfy",
+    "title": "Pokémon Shield/Escudo (Spanish Version) TheKosmicKollector's Style by MosseguelloBufat",
+    "author": "u/MosseguelloBufat",
+    "src": "/spines/1fvvpfy.webp",
+    "hash": "63fa1856cdae2c0447a612dc89646999",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1fvvpfy.webp",
+    "created_utc": 1728036795,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#FFFFFF"
+  },
+  {
+    "id": "1wp5gi9",
+    "title": "FATAL FRAME Maiden of Black Water v2 by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wp5gi9.webp",
+    "hash": "57272304a7fbf08099bcc962a51fa040",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wp5gi9.webp",
+    "created_utc": 1790265337,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#182028"
+  },
+  {
+    "id": "1wp4vik",
+    "title": "Fatal Frame II Crimson Butterfly Remake v2 by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wp4vik.webp",
+    "hash": "a3aace546d8bb01dc34cbd6a66df0dd2",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wp4vik.webp",
+    "created_utc": 1790264023,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#17110F"
+  },
+  {
+    "id": "1woa2ys",
+    "title": "Tomb Raider Legacy of Atlantis by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1woa2ys.webp",
+    "hash": "6a46b548ad95c03c60cf65ed7710ec16",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1woa2ys.webp",
+    "created_utc": 1790179367,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#7ACEC1"
+  },
+  {
+    "id": "1wo7rif",
+    "title": "Fatal Frame II Crimson Butterfly Remake by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wo7rif.webp",
+    "hash": "8c193dd2d655e154641d19fdecc6ce9b",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wo7rif.webp",
+    "created_utc": 1790174185,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#0F1319"
+  },
+  {
+    "id": "1wngjbc",
+    "title": "UFO Robot Grendizer The Feast of the Wolves by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wngjbc.webp",
+    "hash": "d9e732ff2d9f235ded9abfaa55b28e35",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wngjbc.webp",
+    "created_utc": 1790099325,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#2B8BCA"
+  },
+  {
+    "id": "1wnfwry",
+    "title": "Touhou: Spell Carnival by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wnfwry.webp",
+    "hash": "b3664a610c17d803d42af70bfdd415e5",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wnfwry.webp",
+    "created_utc": 1790098005,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#94CCEB"
+  },
+  {
+    "id": "1wnakme",
+    "title": "Lego Batman Legacy of the Dark Knight by yngames",
+    "author": "u/yngames",
+    "src": "/spines/1wnakme.webp",
+    "hash": "612c23d9ee307d257667c9f636f1bd3f",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wnakme.webp",
+    "created_utc": 1790086238,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#062379"
+  },
+  {
+    "id": "1woj3aa",
+    "title": "Winx Club: The Magic is Back by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1woj3aa.webp",
+    "hash": "8c725fc186a05b202a955916bcec5d87",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1woj3aa.webp",
+    "created_utc": 1790199558,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#169BD9"
+  },
+  {
+    "id": "1wocoaf",
+    "title": "Stellar Blade by markola",
+    "author": "u/Otaku_fedorento",
+    "src": "/spines/1wocoaf.webp",
+    "hash": "bb6d014aa9eb5e683ce45b11d471114c",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wocoaf.webp",
+    "created_utc": 1790185017,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#000000"
+  },
+  {
+    "id": "1woa5y8",
+    "title": "SD Shin Kamen Rider Rumble by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1woa5y8.webp",
+    "hash": "e3ae6d930e646599fc65ec901d7056ae",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1woa5y8.webp",
+    "created_utc": 1790179549,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Gray",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#999997"
+  },
+  {
+    "id": "1wo84tf",
+    "title": "Kamen Rider: Climax Scramble by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wo84tf.webp",
+    "hash": "99bd86b7f33521cf33808fddbd2083ed",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wo84tf.webp",
+    "created_utc": 1790175030,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#C7EBF8"
+  },
+  {
+    "id": "1wo7yvg",
+    "title": "Power Rangers Battle for the Grid by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wo7yvg.webp",
+    "hash": "63655bcc1780717080cc92f4608fdaf9",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wo7yvg.webp",
+    "created_utc": 1790174655,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#000000"
   }
 ]
