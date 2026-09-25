@@ -126,6 +126,11 @@ function App() {
         format: pdfFormat
       });
 
+      // ADD THIS BLOCK to inject the metadata
+      pdf.setProperties({
+        subject: JSON.stringify(images)
+      });
+
       const sW = parseFloat(config.spineWidthMM);
       const sH = 161; 
       const gap = inchToMm(config.spineSpacing);

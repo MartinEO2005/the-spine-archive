@@ -84,6 +84,19 @@ const PrinterView = ({ initialSpines, onBack }) => {
         format: pdfFormat
       });
 
+      // ADD THIS BLOCK to inject the metadata
+      pdf.setProperties({
+        subject: JSON.stringify(images)
+      });
+      
+      const spineIds = images.map(img => img.id).join(',');  // Extraemos los IDs
+      // Inyectamos los IDs en el campo Keywords (o Subject)
+      pdf.setProperties({
+        title: "My Switch Spines",
+        keywords: spineIds,
+        creator: "The Spine Archive"
+      });
+
       const sW = parseFloat(config.spineWidthMM);
       const sH = 161; 
       const gap = inchToMm(config.spineSpacing);
