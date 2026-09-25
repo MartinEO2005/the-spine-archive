@@ -32,7 +32,40 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [pdfStatusMsg, setPdfStatusMsg] = useState('');
   const [showFiltersMenu, setShowFiltersMenu] = useState(false);
   const fileInputRef = useRef(null);
+// --- ESTADO Y MANEJADORES DE FILTROS ---
+  const [selectedFilters, setSelectedFilters] = useState({
+    "Platform": [],
+    "Main Style": [],
+    "Title Typography": [],
+    "Lower logo": [],
+    "Extras": [],
+    "Text Alignment": [],
+    "Base Color": []
+  });
 
+  const handleFilterChange = (category, value) => {
+    setSelectedFilters(prev => {
+      const current = prev[category] || [];
+      const updated = current.includes(value)
+        ? current.filter(item => item !== value)
+        : [...current, value];
+      return { ...prev, [category]: updated };
+    });
+  };
+
+  const clearFilters = () => {
+    setSelectedFilters({
+      "Platform": [],
+      "Main Style": [],
+      "Title Typography": [],
+      "Lower logo": [],
+      "Extras": [],
+      "Text Alignment": [],
+      "Base Color": []
+    });
+  };
+
+  const totalActiveFilters = Object.values(selectedFilters).flat().length;
   // --- LECTURA REAL DE METADATOS DEL PDF SUBIDO ---
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -143,6 +176,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const filteredSpines = useMemo(() => {
     let result = [...spines];
 
+    // Búsqueda por texto
     const term = debouncedTerm.trim();
     if (term) {
       const searchWords = normalizeText(term).split(/\s+/);
@@ -155,6 +189,28 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       });
     }
 
+    // Filtrado por etiquetas (tags)
+    Object.keys(selectedFilters).forEach(catKey => {
+      const activeValues = selectedFilters[catKey];
+      if (activeValues && activeValues.length > 0) {
+        result = result.filter(spine => {
+          if (!spine.tags) return false;
+
+          const tagValue = spine.tags[catKey] ?? 
+                           spine.tags[catKey.toLowerCase()] ?? 
+                           spine.tags[catKey.charAt(0).toUpperCase() + catKey.slice(1)];
+
+          if (!tagValue) return false;
+
+          if (Array.isArray(tagValue)) {
+            return activeValues.some(val => tagValue.includes(val));
+          }
+          return activeValues.includes(tagValue);
+        });
+      }
+    });
+
+    // Ordenamiento
     if (sortOrder === 'newest') {
       result.reverse(); 
     } else if (sortOrder === 'az') {
@@ -162,7 +218,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
     }
 
     return result;
-  }, [spines, debouncedTerm, sortOrder]);
+  }, [spines, debouncedTerm, sortOrder, selectedFilters]);
 
   const registerClick = (spine) => {
     if (!spine || !spine.author) return;
@@ -510,7 +566,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       />
     </div>
 
-    {/* BOTÓN FILTROS */}
+{/* BOTÓN FILTROS */}
     <div style={{ position: 'relative' }}>
       <button 
         onClick={() => setShowFiltersMenu(!showFiltersMenu)} 
@@ -528,7 +584,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
           gap: '8px'
         }}
       >
-        FILTERS <span style={{ fontSize: '0.6rem', color: '#888' }}>{showFiltersMenu ? '▲' : '▼'}</span>
+        FILTERS {totalActiveFilters > 0 && `(${totalActiveFilters})`} <span style={{ fontSize: '0.6rem', color: '#888' }}>{showFiltersMenu ? '▲' : '▼'}</span>
       </button>
 
       {/* MENÚ DE FILTROS DESPLEGABLE EN 3 COLUMNAS */}
@@ -551,131 +607,113 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
           gap: '20px'
         }}>
 
-          {/* COLUMNA 1: PLATFORM, MAIN STYLE, TITLE TYPOGRAPHY, LOWER LOGO */}
+          {totalActiveFilters > 0 && (
+            <button 
+              onClick={clearFilters}
+              style={{ gridColumn: 'span 3', backgroundColor: '#333', color: '#ffcc00', border: '1px solid #ffcc00', padding: '6px', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace', fontSize: '0.55rem', marginBottom: '5px' }}
+            >
+              🧹 CLEAR ALL FILTERS
+            </button>
+          )}
+
+          {/* COLUMNA 1 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Platform</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Switch 1</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Switch 2</label>
+                {['Switch 1', 'Switch 2'].map(val => (
+                  <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <input type="checkbox" checked={selectedFilters["Platform"]?.includes(val)} onChange={() => handleFilterChange("Platform", val)} /> {val}
+                  </label>
+                ))}
               </div>
             </div>
 
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Main Style</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Minimalist</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Scenic / Detailed</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Maximalist (Kitsch)</label>
+                {['Minimalist', 'Scenic / Detailed', 'Maximalist (Kitsch)'].map(val => (
+                  <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <input type="checkbox" checked={selectedFilters["Main Style"]?.includes(val)} onChange={() => handleFilterChange("Main Style", val)} /> {val}
+                  </label>
+                ))}
               </div>
             </div>
 
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Title Typography</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Simple Text</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Original Logo</label>
+                {['Simple Text', 'Original Logo'].map(val => (
+                  <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <input type="checkbox" checked={selectedFilters["Title Typography"]?.includes(val)} onChange={() => handleFilterChange("Title Typography", val)} /> {val}
+                  </label>
+                ))}
               </div>
             </div>
 
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Lower Logo</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Nintendo</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> other</label>
+                {['Nintendo', 'other'].map(val => (
+                  <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <input type="checkbox" checked={selectedFilters["Lower logo"]?.includes(val)} onChange={() => handleFilterChange("Lower logo", val)} /> {val}
+                  </label>
+                ))}
               </div>
             </div>
-
           </div>
 
-          {/* COLUMNA 2: EXTRAS & TEXT ALIGNMENT */}
+          {/* COLUMNA 2 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Extras</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> DNN Style</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Character Bottom</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Characters throughout the spine</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Set / Panorama</label>
+                {['DNN Style', 'Character Bottom', 'Characters throughout the spine', 'Set / Panorama'].map(val => (
+                  <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <input type="checkbox" checked={selectedFilters["Extras"]?.includes(val)} onChange={() => handleFilterChange("Extras", val)} /> {val}
+                  </label>
+                ))}
               </div>
             </div>
 
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Text Alignment</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Top Centered</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Top Centered with margin</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Center</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Bottom</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Cover all (from top)</label>
-                <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}><input type="checkbox" /> Cover all (centered)</label>
+                {['Top Centered', 'Top Centered with margin', 'Center', 'Bottom', 'Cover all (from top)', 'Cover all (centered)'].map(val => (
+                  <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <input type="checkbox" checked={selectedFilters["Text Alignment"]?.includes(val)} onChange={() => handleFilterChange("Text Alignment", val)} /> {val}
+                  </label>
+                ))}
               </div>
             </div>
-
           </div>
 
-          {/* COLUMNA 3: BASE COLOR */}
+          {/* COLUMNA 3 */}
           <div>
             <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Base Color</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 10px' }}>
-              
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#e60012', border: '1px solid #777', display: 'inline-block' }}></span> Red
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#0066cc', border: '1px solid #777', display: 'inline-block' }}></span> Blue
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#ffcc00', border: '1px solid #777', display: 'inline-block' }}></span> Yellow
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#28a745', border: '1px solid #777', display: 'inline-block' }}></span> Green
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#ff69b4', border: '1px solid #777', display: 'inline-block' }}></span> Pink
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#ff8c00', border: '1px solid #777', display: 'inline-block' }}></span> Orange
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#8a2be2', border: '1px solid #777', display: 'inline-block' }}></span> Purple
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#ffffff', border: '1px solid #777', display: 'inline-block' }}></span> White
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#111111', border: '1px solid #777', display: 'inline-block' }}></span> Black
-              </label>
-
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <input type="checkbox" />
-                <span style={{ width: '12px', height: '12px', backgroundColor: '#888888', border: '1px solid #777', display: 'inline-block' }}></span> Gray
-              </label>
+              {[
+                { name: 'Red', color: '#e60012' },
+                { name: 'Blue', color: '#0066cc' },
+                { name: 'Yellow', color: '#ffcc00' },
+                { name: 'Green', color: '#28a745' },
+                { name: 'Pink', color: '#ff69b4' },
+                { name: 'Orange', color: '#ff8c00' },
+                { name: 'Purple', color: '#8a2be2' },
+                { name: 'White', color: '#ffffff' },
+                { name: 'Black', color: '#111111' },
+                { name: 'Gray', color: '#888888' },
+              ].map(item => (
+                <label key={item.name} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <input type="checkbox" checked={selectedFilters["Base Color"]?.includes(item.name)} onChange={() => handleFilterChange("Base Color", item.name)} />
+                  <span style={{ width: '12px', height: '12px', backgroundColor: item.color, border: '1px solid #777', display: 'inline-block' }}></span> {item.name}
+                </label>
+              ))}
 
               <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', gridColumn: 'span 2' }}>
-                <input type="checkbox" />
+                <input type="checkbox" checked={selectedFilters["Base Color"]?.includes("Multicolor")} onChange={() => handleFilterChange("Base Color", "Multicolor")} />
                 <span style={{ width: '12px', height: '12px', background: 'linear-gradient(45deg, red, yellow, green, cyan, blue, magenta)', border: '1px solid #777', display: 'inline-block' }}></span> Multicolor
               </label>
-
             </div>
           </div>
 
