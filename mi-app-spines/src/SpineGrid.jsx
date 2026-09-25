@@ -2,12 +2,20 @@ import React from 'react';
 
 const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredId }) => {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px', justifyContent: 'center', padding: '50px', width: '100%', boxSizing: 'border-box' }}>
+    <div style={{ 
+      display: 'flex', 
+      flexWrap: 'wrap', 
+      gap: '30px', 
+      justifyContent: 'center', 
+      padding: '30px 20px', 
+      width: '100%', 
+      maxWidth: '100%',
+      boxSizing: 'border-box' 
+    }}>
       {spines.map(spine => {
         const isSelected = selectedSpines.find(s => s.id === spine.id);
         const isHovered = hoveredId === spine.id;
         
-        // --- LA LÓGICA QUE SOLUCIONA EL 404 ---
         // Priorizamos 'spine.image' (Backblaze). Si no existe, usamos 'spine.src'.
         const imageUrl = spine.image || spine.src;
 
@@ -26,8 +34,10 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
               zIndex: isHovered ? 10 : 1 
             }}
           >
-           {/* Usamos imageUrl aquí en lugar de spine.src directamente */}
-           <img src={imageUrl} alt={spine.title} loading="lazy" 
+           <img 
+              src={imageUrl} 
+              alt={spine.title} 
+              loading="lazy" 
               style={{ 
                 height: '100%', 
                 width: 'auto', 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import jsPDF from 'jspdf';
 import CatalogView from './CatalogView';
+import TaggerView from './TaggerView';
 
 const DEFAULT_SPINE_WIDTH = 10.5;
 
@@ -22,7 +23,7 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [view, setView] = useState('catalog');
+  const [view, setView] = useState('catalog'); // 'catalog', 'pdf', 'tagger'
   const [images, setImages] = useState([]);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -125,6 +126,11 @@ function App() {
         format: pdfFormat
       });
 
+      // ADD THIS BLOCK to inject the metadata
+      pdf.setProperties({
+        subject: JSON.stringify(images)
+      });
+
       const sW = parseFloat(config.spineWidthMM);
       const sH = 161; 
       const gap = inchToMm(config.spineSpacing);
@@ -222,7 +228,12 @@ function App() {
     handleDragEnd();
   };
 
-  // Pantalla exclusiva para móviles: aborta el renderizado de la app para no consumir base de datos ni descargas
+  // 1. PRIMERO: Render principal del etiquetador (dejamos pasar siempre, sea móvil o PC)
+  if (view === 'tagger') {
+    return <TaggerView onExit={() => setView('catalog')} />;
+  }
+
+  // 2. SEGUNDO: Pantalla exclusiva para móviles: aborta el renderizado del catálogo para no consumir base de datos ni descargas
   if (isMobile) {
     return (
       <div style={{ 
@@ -250,7 +261,7 @@ function App() {
     );
   }
 
-  // Si no es móvil, carga el catálogo normalmente
+  // 3. TERCERO: Si no es móvil, carga el catálogo normalmente
   if (view === 'catalog') {
     return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
   }
