@@ -73,7 +73,7 @@ Analyze this image and the metadata of a Nintendo Switch game spine. You are a d
       - In the case of DNN style, it cannot have any other characters at the bottom of the spine, not even partially. If there is a character, even a small one, it is not DNN style. If it is DNN, it must not have any other extras.
     * "Character Bottom": There is an isolated character, face, or figure located at the bottom base of the spine that isolatedly forms the main detail of the design.
     * "Characters throughout the spine": There are multiple characters, faces, or figures distributed along the entire vertical strip.
-    * "Set / Panorama": The spine art is cut at the edges because it's part of a larger mural meant to join with other boxes. It can also be a panorama if the game name has something like "set", "series", or parts 1, 2, 3, or "Vol. 1", "Vol. 2", etc.
+    * "Set / Panorama": The spine art is cut at the edges because it's part of a larger mural meant to join with other boxes. It can also be a panorama if the game name has something like "set", "series", "panorama" or parts 1, 2, 3, or "Vol. 1", "Vol. 2", etc.
 - "hexColor": Analyze the 3 candidate colors provided in the metadata (Pixel 1, Pixel 2, or Pixel 3) and strictly return in hexadecimal format (e.g., #4C7497) the one that best matches the background or main color of the spine.
 """
 
