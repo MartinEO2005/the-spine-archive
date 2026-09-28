@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import jsPDF from 'jspdf';
 import CatalogView from './CatalogView';
 import TaggerView from './TaggerView';
+import CookieConsent from 'react-cookie-consent';
 
 const DEFAULT_SPINE_WIDTH = 10.5;
 
@@ -261,9 +262,52 @@ function App() {
     );
   }
 
-  // 3. TERCERO: Si no es móvil, carga el catálogo normalmente
+  // 3. TERCERO: Si no es móvil, carga el catálogo normalmente (CON BANNER DE COOKIES)
   if (view === 'catalog') {
-    return <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />;
+    return (
+      <>
+        <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />
+        <CookieConsent
+          location="bottom"
+          buttonText="ACCEPT"
+          declineButtonText="DECLINE"
+          enableDeclineButton
+          cookieName="thespinearchive_cookie_consent"
+          style={{
+            background: '#111',
+            color: '#fff',
+            borderTop: '2px solid #b30000',
+            fontSize: '12px',
+            alignItems: 'center',
+            fontFamily: 'sans-serif',
+            zIndex: 99999
+          }}
+          buttonStyle={{
+            backgroundColor: '#ffcc00',
+            color: '#000',
+            fontWeight: 'bold',
+            borderRadius: '4px',
+            padding: '8px 16px',
+            fontSize: '10px',
+            fontFamily: '"Press Start 2P", monospace',
+            cursor: 'pointer'
+          }}
+          declineButtonStyle={{
+            backgroundColor: '#333',
+            color: '#fff',
+            borderRadius: '4px',
+            padding: '8px 16px',
+            fontSize: '10px',
+            fontFamily: '"Press Start 2P", monospace',
+            cursor: 'pointer'
+          }}
+          expires={150}
+        >
+          We use cookies to analyze site traffic and display ads via Google Analytics and AdSense. 
+          By accepting, you agree to our privacy policy.
+        </CookieConsent>
+      </>
+    );
   }
 
   // Render principal (Vista PDF / Editor)
@@ -447,7 +491,7 @@ function App() {
             <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview" style={{ width: '100%', height: '100%', border: 'none' }} />
           ) : (
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
-              <p>{isGenerating ? "📥 Downloading from Cloudinary..." : "Generating preview..."}</p>
+              <p>{isGenerating ? "📥 Downloading from Cloudflare..." : "Generating preview..."}</p>
             </div>
           )}
         </div>
@@ -571,6 +615,47 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* BANNER DE COOKIES EN LA VISTA EDITOR */}
+      <CookieConsent
+        location="bottom"
+        buttonText="ACCEPT"
+        declineButtonText="DECLINE"
+        enableDeclineButton
+        cookieName="thespinearchive_cookie_consent"
+        style={{
+          background: '#111',
+          color: '#fff',
+          borderTop: '2px solid #b30000',
+          fontSize: '12px',
+          alignItems: 'center',
+          fontFamily: 'sans-serif',
+          zIndex: 99999
+        }}
+        buttonStyle={{
+          backgroundColor: '#ffcc00',
+          color: '#000',
+          fontWeight: 'bold',
+          borderRadius: '4px',
+          padding: '8px 16px',
+          fontSize: '10px',
+          fontFamily: '"Press Start 2P", monospace',
+          cursor: 'pointer'
+        }}
+        declineButtonStyle={{
+          backgroundColor: '#333',
+          color: '#fff',
+          borderRadius: '4px',
+          padding: '8px 16px',
+          fontSize: '10px',
+          fontFamily: '"Press Start 2P", monospace',
+          cursor: 'pointer'
+        }}
+        expires={150}
+      >
+        We use cookies to analyze site traffic and display ads via Google Analytics and AdSense. 
+        By accepting, you agree to our privacy policy.
+      </CookieConsent>
 
     </div>
   );
