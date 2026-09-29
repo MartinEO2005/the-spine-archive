@@ -84,15 +84,11 @@ const PrinterView = ({ initialSpines, onBack }) => {
         format: pdfFormat
       });
 
-      // ADD THIS BLOCK to inject the metadata
+      // Metadatos del PDF
+      const spineIds = images.map(img => img.id || img.title).filter(Boolean).join(',');
       pdf.setProperties({
-        subject: JSON.stringify(images)
-      });
-      
-      const spineIds = images.map(img => img.id).join(',');  // Extraemos los IDs
-      // Inyectamos los IDs en el campo Keywords (o Subject)
-      pdf.setProperties({
-        title: "My Switch Spines",
+        title: "Custom Nintendo Switch Spines Sheet",
+        subject: JSON.stringify(images),
         keywords: spineIds,
         creator: "The Spine Archive"
       });
@@ -174,21 +170,22 @@ const PrinterView = ({ initialSpines, onBack }) => {
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
       
       {/* HEADER */}
-      <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
+      <header style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
         <button onClick={onBack} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
-        <div style={{ color: 'white', fontWeight: 'bold' }}>
-          {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW (MULTI-PAGE)"}
-        </div>
+        <h1 style={{ color: 'white', fontWeight: 'bold', fontSize: '14px', margin: 0 }}>
+          {isGenerating ? "⏳ GENERATING..." : "SPINES PREVIEW & PDF GENERATOR"}
+        </h1>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
           <button onClick={() => window.open(pdfUrl)} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
         </div>
-      </div>
+      </header>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         
-        {/* PANEL IZQUIERDO CON DRAG & DROP */}
-        <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
+        {/* PANEL IZQUIERDO CON DRAG & DROP Y GUÍA DE TEXTO INDEXABLE */}
+        <aside style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             {images.map((imgObj, i) => (
               <div 
@@ -206,7 +203,7 @@ const PrinterView = ({ initialSpines, onBack }) => {
                   borderRadius: '8px', 
                   overflow: 'hidden', 
                   boxShadow: '0 2px 5px rgba(0,0,0,0.1)', 
-                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #b30000' : (!imgObj.src ? '2px solid orange' : 'none'),
+                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #b30000' : (!imgObj.src && !imgObj.image ? '2px solid orange' : 'none'),
                   cursor: 'grab',
                   opacity: draggedItemIndex === i ? 0.5 : 1,
                   transform: dragOverItemIndex === i && draggedItemIndex !== i ? 'scale(1.02)' : 'scale(1)',
@@ -219,7 +216,12 @@ const PrinterView = ({ initialSpines, onBack }) => {
                 </div>
 
                 <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} />
+                  <img 
+                    src={imgObj.image || imgObj.src} 
+                    alt={imgObj.title || imgObj.name || `Nintendo Switch Spine ${i + 1}`} 
+                    title={imgObj.title || "Custom Spine"}
+                    style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} 
+                  />
                 </div>
                 
                 <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
@@ -245,10 +247,34 @@ const PrinterView = ({ initialSpines, onBack }) => {
               </div>
             ))}
           </div>
-        </div>
+
+          {/* GUÍA DE IMPRESIÓN INDEXABLE POR GOOGLEBOT */}
+          <article style={{ backgroundColor: '#fff', padding: '15px', borderRadius: '8px', border: '1px solid #bbb', color: '#222', fontSize: '12px', lineHeight: '1.5' }}>
+            <details open>
+              <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#b30000', fontSize: '13px', marginBottom: '8px' }}>
+                📖 Print & Scale Instructions
+              </summary>
+              
+              <section style={{ marginTop: '10px' }}>
+                <h2 style={{ fontSize: '12px', color: '#111', margin: '8px 0 4px 0' }}>1. Correct Printer Scale Settings</h2>
+                <p style={{ margin: '0 0 8px 0', color: '#555' }}>
+                  The PDF generated by <strong>The Spine Archive</strong> is strictly scaled to 1:1 ratio. Set print scale to <strong>100%</strong> or <strong>"Actual Size"</strong>. Do not use "Fit to Page" or "Scale to Fit" options.
+                </p>
+
+                <h2 style={{ fontSize: '12px', color: '#111', margin: '8px 0 4px 0' }}>2. Recommended Paper & Spine Width</h2>
+                <ul style={{ paddingLeft: '18px', margin: '0 0 8px 0', color: '#555' }}>
+                  <li>Standard Switch spine width is <strong>10.5mm (~0.41 in)</strong>.</li>
+                  <li>Use glossy photo paper (120gsm - 180gsm) for best color results.</li>
+                  <li>Test print on plain paper first to check physical fit before final glossy printing.</li>
+                </ul>
+              </section>
+            </details>
+          </article>
+
+        </aside>
 
         {/* ÁREA CENTRAL Y CONTROLES */}
-        <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
+        <main style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
           
           <div style={{ 
               position: 'absolute', top: '15px', right: '15px', zIndex: 10, 
@@ -317,13 +343,13 @@ const PrinterView = ({ initialSpines, onBack }) => {
           </div>
 
           {pdfUrl ? (
-            <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview" style={{ width: '100%', height: '100%', border: 'none' }} />
+            <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview Document" style={{ width: '100%', height: '100%', border: 'none' }} />
           ) : (
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
               <p>{isGenerating ? "📥 Generating PDF..." : "Generating preview..."}</p>
             </div>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );

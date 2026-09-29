@@ -28,6 +28,20 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
+  // Función para cambiar de vista y actualizar la URL sin recargar la página
+const changeView = (newView) => {
+  setCurrentView(newView);
+  const url = new URL(window.location);
+  
+  if (newView === 'catalog') {
+    url.searchParams.delete('view'); // Si vuelve al catálogo, quitamos ?view=...
+  } else {
+    url.searchParams.set('view', newView); // Ponemos ?view=stats, ?view=about, etc.
+  }
+  
+  window.history.pushState({}, '', url);
+};
+
   // --- ESTADOS Y REFERENCIAS PARA PDF Y FILTROS ---
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
@@ -135,13 +149,21 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get('search');
-    if (query) {
-      const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
-      setSearchTerm(decodedQuery);
-    }
-  }, []);
+  const params = new URLSearchParams(window.location.search);
+  
+  // Detecta si la URL pide abrir una vista específica (stats, about, etc.)
+  const viewParam = params.get('view');
+  if (viewParam && ['stats', 'requests', 'about', 'legal'].includes(viewParam)) {
+    setCurrentView(viewParam);
+  }
+
+  // Detecta si la URL pide buscar un juego específico
+  const query = params.get('search');
+  if (query) {
+    const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
+    setSearchTerm(decodedQuery);
+  }
+}, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -410,13 +432,13 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
 
       {/* HEADER PRINCIPAL (NAVBAR SUPERIOR) */}
       <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
-        <img src="/logo.jpg" alt="Logo" onClick={() => setCurrentView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
+        <img src="/logo.jpg" alt="Logo" onClick={() => changeView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
         
         <div style={{ display: 'flex', marginRight: '30px', fontFamily: 'sans-serif' }}>
-          <button onClick={() => setCurrentView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
-          <button onClick={() => setCurrentView('stats')} style={navButtonStyle('stats')}>STATS</button>
-          <button onClick={() => setCurrentView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
-          <button onClick={() => setCurrentView('about')} style={navButtonStyle('about')}>ABOUT</button>
+          <button onClick={() => changeView('catalog')} style={navButtonStyle('catalog')}>CATALOG</button>
+          <button onClick={() => changeView('stats')} style={navButtonStyle('stats')}>STATS</button>
+          <button onClick={() => changeView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
+          <button onClick={() => changeView('about')} style={navButtonStyle('about')}>ABOUT</button>
         </div>
         
         <div style={{ flex: 1 }}></div>
@@ -516,7 +538,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
         lineHeight: '1.5',
         fontFamily: 'sans-serif'
       }}>
-        Transform your Switch library with high-quality replacement spines from the r/SwitchSpines community.
+        Transform your Switch library with high-quality replacement spines from thei community.
          Pick your favorite designs, build your custom sheet, and print 1:1 PDFs.
       </p>
     </div>
@@ -785,7 +807,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
             {currentView === 'stats' && <StatsView spines={spines} />}
             {currentView === 'requests' && <RequestsView />}
             {currentView === 'about' && <AboutView />}
-            {currentView === 'legal' && <LegalView onBack={() => setCurrentView('catalog')} />}
+            {currentView === 'legal' && <LegalView onBack={() => changeView('catalog')} />}
           </div>
         )}
       </div>
@@ -810,7 +832,7 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
       }}>
         <span>© {new Date().getFullYear()} The Spine Archive.</span>
         <span 
-          onClick={() => setCurrentView('legal')} 
+          onClick={() => changeView('legal')} 
           style={{ cursor: 'pointer', textDecoration: 'underline' }}
         >
           Privacy Policy & Terms of Service

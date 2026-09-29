@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thespinearchive.vercel.app/sitemap.xml
+Sitemap: https://thespinearchive.com/sitemap.xml
