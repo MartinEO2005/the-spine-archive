@@ -238,37 +238,53 @@ const RequestsView = () => {
                   {userBounties.map(item => {
                     const daysLeft = calculateDaysLeft(item.createdAt);
                     
-                    // Definición de estilo visual según días restantes
                     const isUrgent = daysLeft <= 5;
                     const isWarning = daysLeft <= 15 && daysLeft > 5;
-                    const timerColor = isUrgent ? '#ff4d4d' : isWarning ? '#ffcc00' : '#00ccff';
+                    
+                    // Color principal del temporizador
+                    const color = isUrgent ? '#ff4d4d' : isWarning ? '#ffcc00' : '#00ccff';
+                    
+                    // Tinte suave de fondo para la tarjeta
+                    const cardBg = isUrgent 
+                      ? 'rgba(255, 77, 77, 0.08)' 
+                      : isWarning 
+                      ? 'rgba(255, 204, 0, 0.05)' 
+                      : '#222';
 
                     return (
-                      <div key={item.id} style={{ background: '#222', padding: '12px', border: `1px solid ${isUrgent ? '#ff4d4d' : '#2e2e2e'}`, position: 'relative' }}>
+                      <div key={item.id} style={{ 
+                        background: cardBg, 
+                        padding: '14px', 
+                        border: `2px solid ${color}`, 
+                        boxShadow: `3px 3px 0px ${color}`,
+                        transition: 'all 0.3s ease'
+                      }}>
                         
-                        {/* CONTADOR DE DÍAS RESTANTES (NÚMERO DESTACADO) */}
-                        <div style={{ 
-                          position: 'absolute', 
-                          top: '10px', 
-                          right: '10px', 
-                          textAlign: 'center', 
-                          backgroundColor: '#111', 
-                          border: `2px solid ${timerColor}`, 
-                          padding: '4px 8px', 
-                          boxShadow: `2px 2px 0px ${timerColor}` 
-                        }}>
-                          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: timerColor, fontFamily: '"Press Start 2P", monospace', lineHeight: '1' }}>
-                            {daysLeft}
+                        {/* CABECERA EN FLEXBOX: EL TÍTULO NUNCA SE TRASLAPA */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
+                          <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#fff', wordBreak: 'break-word', flex: 1, lineHeight: '1.3' }}>
+                            {item.gameTitle}
                           </div>
-                          <div style={{ fontSize: '0.45rem', color: timerColor, fontFamily: '"Press Start 2P", monospace', marginTop: '2px' }}>
-                            DAYS LEFT
+
+                          {/* CONTADOR EN EL FLUJO NORMAL DE FLEXBOX */}
+                          <div style={{ 
+                            textAlign: 'center', 
+                            backgroundColor: '#111', 
+                            border: `1.5px solid ${color}`, 
+                            padding: '4px 8px', 
+                            minWidth: '55px',
+                            flexShrink: 0
+                          }}>
+                            <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: color, fontFamily: '"Press Start 2P", monospace', lineHeight: '1' }}>
+                              {daysLeft}
+                            </div>
+                            <div style={{ fontSize: '0.4rem', color: color, fontFamily: '"Press Start 2P", monospace', marginTop: '3px' }}>
+                              DAYS
+                            </div>
                           </div>
                         </div>
 
-                        <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#fff', marginBottom: '8px', paddingRight: '70px' }}>
-                          {item.gameTitle}
-                        </div>
-
+                        {/* ETIQUETAS DE VERSIÓN Y IDIOMA */}
                         <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
                           <span style={{ fontSize: '0.65rem', backgroundColor: '#332200', color: '#ffcc00', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
                             {item.switchVersion || 'Both'}
