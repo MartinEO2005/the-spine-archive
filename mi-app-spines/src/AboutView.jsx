@@ -158,37 +158,35 @@ const AboutView = () => {
             PRESERVATION PROJECT
           </p>
 
-          {/* SECCIÓN ABOUT */}
-          {activeSection === 'about' && (
-            <>
-              <RPGBox>
-                <p style={{ lineHeight: '1.8', margin: 0, textAlign: 'justify' }}>
-                  Welcome to <b>The Spine Archive</b>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <b>r/SwitchSpines</b> community. My mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork. Every spine in this archive is a testament to the creativity and passion of the fans who dedicate their time to making our physical collections look better than ever.
-                </p>
-              </RPGBox>
-              <RPGBox>
-                <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '15px' }}>Contribution & Contact</h2>
-                <p style={{ fontSize: '0.95rem', color: '#ccc', lineHeight: '1.6', textAlign: 'justify', marginBottom: '20px' }}>
-                  This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or if you don't find a specific franchise or creator that you know is already on the r/SwitchSpines subreddit, please send me a private message. Your feedback and contributions help keep this archive complete and up to date for everyone.
-                </p>
-                <p style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 'bold', marginBottom: '20px' }}>
-                  Please contact me if image quality is a big issue or if a spine size is incorrect.
-                </p>
-                
-                <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                  <a href="https://www.reddit.com/user/Certain-Issue5855/" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#cc0000', color: '#fff', padding: '10px 15px', fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer', textDecoration: 'none', display: 'inline-block' }}>
-                    SEND ME A Private Message
-                  </a>
-                  <a href="https://ko-fi.com/martineo" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#29abe0', color: '#fff', padding: '10px 15px', fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer', textDecoration: 'none', display: 'inline-block' }}>
-                    ☕ Support me on Ko-fi
-                  </a>
-                </div>
-              </RPGBox>
-            </>
-          )}
+          {/* SECCIÓN ABOUT (Renderizada en el DOM, visibilidad controlada por CSS) */}
+          <div style={{ display: activeSection === 'about' ? 'block' : 'none' }}>
+            <RPGBox>
+              <p style={{ lineHeight: '1.8', margin: 0, textAlign: 'justify' }}>
+                Welcome to <b>The Spine Archive</b>. I am creating this project dedicated to preserving, cataloging, and showcasing the incredible work of the <b>r/SwitchSpines</b> community. My mission is to create a seamless, searchable database that allows collectors to unify their shelves with high-quality custom artwork. Every spine in this archive is a testament to the creativity and passion of the fans who dedicate their time to making our physical collections look better than ever.
+              </p>
+            </RPGBox>
+            <RPGBox>
+              <h2 style={{ marginTop: 0, fontSize: '1.4rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '15px' }}>Contribution & Contact</h2>
+              <p style={{ fontSize: '0.95rem', color: '#ccc', lineHeight: '1.6', textAlign: 'justify', marginBottom: '20px' }}>
+                This database is a living project, constantly growing with new releases and community submissions. If you are an artist wishing to add your portfolio, or if you don't find a specific franchise or creator that you know is already on the r/SwitchSpines subreddit, please send me a private message. Your feedback and contributions help keep this archive complete and up to date for everyone.
+              </p>
+              <p style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 'bold', marginBottom: '20px' }}>
+                Please contact me if image quality is a big issue or if a spine size is incorrect.
+              </p>
+              
+              <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <a href="https://www.reddit.com/user/Certain-Issue5855/" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#cc0000', color: '#fff', padding: '10px 15px', fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer', textDecoration: 'none', display: 'inline-block' }}>
+                  SEND ME A Private Message
+                </a>
+                <a href="https://ko-fi.com/martineo" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: '#29abe0', color: '#fff', padding: '10px 15px', fontWeight: 'bold', border: '2px solid #fff', cursor: 'pointer', textDecoration: 'none', display: 'inline-block' }}>
+                  ☕ Support me on Ko-fi
+                </a>
+              </div>
+            </RPGBox>
+          </div>
 
-          {/* SECCIÓN HOW TO USE */}
-          {activeSection === 'how-to' && (
+          {/* SECCIÓN HOW TO USE (Renderizada en el DOM, visibilidad controlada por CSS) */}
+          <div style={{ display: activeSection === 'how-to' ? 'block' : 'none' }}>
             <RPGBox>
               <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>SYSTEM MANUAL</h2>
               <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>1. Selecting Spines</h3>
@@ -205,10 +203,10 @@ const AboutView = () => {
                 For best results, use a paper trimmer or an X-ACTO knife with a metal ruler. The generated PDF includes subtle guidelines to help you make precise cuts.
               </p>
             </RPGBox>
-          )}
+          </div>
 
-          {/* SECCIÓN ADVICE */}
-          {activeSection === 'advice' && (
+          {/* SECCIÓN ADVICE (Renderizada en el DOM, visibilidad controlada por CSS) */}
+          <div style={{ display: activeSection === 'advice' ? 'block' : 'none' }}>
             <RPGBox>
               <h2 style={{ marginTop: 0, fontSize: '1.5rem', borderBottom: '2px solid #fff', paddingBottom: '10px', marginBottom: '20px' }}>PRO TIPS</h2>
               <h3 style={{ fontSize: '1.1rem', color: '#ffcc00', marginBottom: '10px' }}>Maintain a Consistent Shelf</h3>
@@ -216,28 +214,23 @@ const AboutView = () => {
                 There is an <b>incredible variety of unique styles</b> to choose from! Using spines from a single style/creator ensures your physical collection looks unified and professional. Many of our beloved creators follow specific templates for their series or depending on the franchise. <span style={{color: '#ffcc00', fontWeight: 'bold'}}>Make sure to explore all the amazing creators before making your final selection to find the perfect aesthetic!</span>
               </p>
               
-              {/* Contenedor Flex para imágenes. Ahora usa el subcomponente ExampleCard */}
               <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'stretch' }}>
-                
                 <ExampleCard 
                   title="Example 1: Consistent series formatting" 
                   src="/ejemplo-estilo-dnn.png" 
                 />
-                
                 <ExampleCard 
                   title="Example 2: A different creator's aesthetic" 
                   src="/ejemplo-estilo-2.png" 
                 />
-                
                 <ExampleCard 
                   title="Example 3: Yet another creative style" 
                   src="/ejemplo-estilo-3.png" 
                 />
-
               </div>
               <p style={{ textAlign: 'center', color: '#aaa', fontSize: '0.8rem', marginTop: '15px' }}>(Click on any image to enlarge)</p>
             </RPGBox>
-          )}
+          </div>
         </div>
 
         {/* --- SIDEBAR DERECHO: FUN FACT --- */}

@@ -653,7 +653,7 @@ function App() {
         }}
         expires={150}
       >
-        We use cookies to analyze site traffic and display ads via Google Analytics and AdSense. 
+        We use cookies to analyze site traffic and display popular spine designs via Google Analytics . 
         By accepting, you agree to our privacy policy.
       </CookieConsent>
 
