@@ -31,18 +31,49 @@ const RequestsView = () => {
     return groups;
   }, [requests]);
 
+  // CÁLCULO DE DÍAS RESTANTES (45 DÍAS MÁXIMO)
+  const calculateDaysLeft = (createdAt) => {
+    if (!createdAt) return 45;
+    const created = Number(createdAt);
+    const expireTimestamp = created + 45 * 24 * 60 * 60 * 1000;
+    const diffMs = expireTimestamp - Date.now();
+    const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    return daysLeft > 0 ? daysLeft : 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // VERIFICACIÓN: Límite de 5 peticiones activas por usuario
+    const userClean = requester.trim().toLowerCase();
+    const userActiveCount = requests.filter(
+      r => (r.requester || '').trim().toLowerCase() === userClean
+    ).length;
+
+    if (userActiveCount >= 5) {
+      alert(`User "${requester}" already has 5 active requests! Delete or fulfill previous requests to add a new one.`);
+      return;
+    }
+
     setLoading(true);
     try {
-      await fetch('/api/requests', {
+      const res = await fetch('/api/requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ gameTitle, description, requester, switchVersion, language }), 
       });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        alert(errData.error || 'Failed to submit request');
+        return;
+      }
+
       setGameTitle(''); setDescription(''); setRequester(''); setSwitchVersion('Both'); setLanguage('English');
       setShowForm(false);
       await fetchRequests();
+    } catch (err) {
+      console.error(err);
     } finally { setLoading(false); }
   };
 
@@ -57,7 +88,6 @@ const RequestsView = () => {
     fetchRequests();
   };
 
-  // BORRADO INMEDIATO A UN SOLO CLICK
   const handleDelete = async (requestId) => {
     try {
       await fetch(`/api/requests?requestId=${requestId}&password=TU_CONTRASEÑA_AQUI`, { method: 'DELETE' });
@@ -70,7 +100,7 @@ const RequestsView = () => {
   return (
     <div style={{ color: 'white', maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
       
-      {/* HEADER PRINCIPAL - ESTILO GAMER RETRO */}
+      {/* HEADER PRINCIPAL */}
       <h1 style={{ 
         fontFamily: '"Press Start 2P", monospace', 
         textAlign: 'center', 
@@ -98,13 +128,12 @@ const RequestsView = () => {
           ⚠️ ALWAYS SEARCH THE WEBSITE FIRST!
         </h4>
         <p style={{ margin: 0, fontSize: '0.85rem', color: '#ddd', lineHeight: '1.4', marginTop: '10px' }}>
-          Please do a thorough search on the catalog before submitting a new bounty. The board is flooded with requests for titles that <strong>have already been completed and uploaded</strong>. Check deep before you type!
+          Please do a thorough search on the catalog before submitting a new bounty. Maximum <strong>5 requests per user</strong> are allowed at the same time.
         </p>
       </div>
 
-      {/* CUADRANTES DE REDIRECCIÓN (REDDIT / DISCORD) */}
+      {/* CUADRANTES DE REDIRECCIÓN */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-        
         <a href="https://www.reddit.com/r/SwitchSpines/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
           <div style={{ backgroundColor: '#222', border: '2px solid #ff4500', borderRadius: '8px', padding: '25px', cursor: 'pointer', transition: 'transform 0.2s, background-color 0.2s', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box', boxShadow: '4px 4px 0px #ff4500' }} onMouseEnter={e => {e.currentTarget.style.backgroundColor = '#292929'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={e => {e.currentTarget.style.backgroundColor = '#222'; e.currentTarget.style.transform = 'translateY(0)';}}>
             <h3 style={{ margin: '0 0 10px 0', color: '#ff4500', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '0.85rem', lineHeight: '1.4' }}>
@@ -126,7 +155,6 @@ const RequestsView = () => {
             </p>
           </div>
         </a>
-
       </div>
 
       {/* REGLAS DE USO */}
@@ -134,12 +162,12 @@ const RequestsView = () => {
         <h4 style={{ margin: '0 0 12px 0', color: '#b30000', fontSize: '0.8rem', letterSpacing: '0.5px', fontFamily: '"Press Start 2P", monospace' }}>📋 REQUEST BOARD RULES</h4>
         <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.85rem', color: '#aaa', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <li>Always input your consistent username (e.g., Reddit u/username) so all your items gather into your unique profile box below.</li>
-          <li>Clearly specify the language (English, Spanish, etc.) and style preferences inside the details area.</li>
-          <li>Mark accurately if the request targets <strong>Switch 1</strong>, <strong>Switch 2</strong>, or requires compatibility with both.</li>
+          <li>Maximum <strong>5 requests per user</strong> allowed in the queue.</li>
+          <li>Requests auto-expire and are removed after <strong>45 days</strong>.</li>
         </ul>
       </div>
 
-      {/* SECCIÓN DE USUARIOS Y BOTÓN AÑADIR JUNTOS */}
+      {/* SECCIÓN DE USUARIOS Y BOTÓN AÑADIR */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #333', paddingBottom: '15px', marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
         <h3 style={{ margin: 0, color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '1rem', textShadow: '2px 2px 0px #b30000', lineHeight: '1.4' }}>
           👥 ACTIVE REQUESTS BY USER
@@ -149,7 +177,7 @@ const RequestsView = () => {
         </button>
       </div>
 
-      {/* FORMULARIO DE SOLICITUD */}
+      {/* FORMULARIO */}
       {showForm && (
         <div style={{ backgroundColor: '#222', padding: '25px', border: '2px solid #444', marginBottom: '40px', boxShadow: '6px 6px 0px #111' }}>
           <h3 style={{ margin: '0 0 20px 0', fontFamily: '"Press Start 2P", monospace', fontSize: '0.9rem', color: '#fff' }}>POST A NEW REQUEST</h3>
@@ -196,54 +224,87 @@ const RequestsView = () => {
             <div key={user} style={{ backgroundColor: '#1a1a1a', border: '2px solid #333', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '4px 4px 0px #000' }}>
               
               <div>
-                <div style={{ borderBottom: '2px solid #444', paddingBottom: '10px', marginBottom: '15px' }}>
-                  <span style={{ fontSize: '0.65rem', color: '#888', display: 'block', textTransform: 'uppercase', fontFamily: '"Press Start 2P", monospace', marginBottom: '8px' }}>REQUESTER Profile</span>
-                  <h3 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', wordBreak: 'break-all' }}>👤 {user}</h3>
+                <div style={{ borderBottom: '2px solid #444', paddingBottom: '10px', marginBottom: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <span style={{ fontSize: '0.65rem', color: '#888', display: 'block', textTransform: 'uppercase', fontFamily: '"Press Start 2P", monospace', marginBottom: '4px' }}>REQUESTER Profile</span>
+                    <h3 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', wordBreak: 'break-all' }}>👤 {user}</h3>
+                  </div>
+                  <span style={{ fontSize: '0.65rem', backgroundColor: userBounties.length >= 5 ? '#b30000' : '#333', color: '#fff', padding: '4px 8px', border: '1px solid #555', fontFamily: '"Press Start 2P", monospace' }}>
+                    {userBounties.length}/5
+                  </span>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                  {userBounties.map(item => (
-                    <div key={item.id} style={{ background: '#222', padding: '12px', border: '1px solid #2e2e2e' }}>
-                      
-                      <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#fff', marginBottom: '8px' }}>
-                        {item.gameTitle}
-                      </div>
+                  {userBounties.map(item => {
+                    const daysLeft = calculateDaysLeft(item.createdAt);
+                    
+                    // Definición de estilo visual según días restantes
+                    const isUrgent = daysLeft <= 5;
+                    const isWarning = daysLeft <= 15 && daysLeft > 5;
+                    const timerColor = isUrgent ? '#ff4d4d' : isWarning ? '#ffcc00' : '#00ccff';
 
-                      <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '0.65rem', backgroundColor: '#332200', color: '#ffcc00', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
-                          {item.switchVersion || 'Both'}
-                        </span>
-                        <span style={{ fontSize: '0.65rem', backgroundColor: '#002233', color: '#00ccff', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
-                          {item.language || 'English'}
-                        </span>
-                      </div>
-
-                      {item.description && (
-                        <p style={{ margin: '0 0 12px 0', fontSize: '0.85rem', color: '#aaa', fontStyle: 'italic', lineHeight: '1.4' }}>
-                          🎨 {item.description}
-                        </p>
-                      )}
-
-                      {item.refLink && (
-                        <div style={{ background: '#002200', padding: '6px 10px', marginBottom: '10px', border: '1px solid #004400' }}>
-                          <a href={item.refLink} target="_blank" rel="noreferrer" style={{ color: '#00ff00', fontSize: '0.65rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: '"Press Start 2P", monospace' }}>
-                            🔗 REF LINK
-                          </a>
+                    return (
+                      <div key={item.id} style={{ background: '#222', padding: '12px', border: `1px solid ${isUrgent ? '#ff4d4d' : '#2e2e2e'}`, position: 'relative' }}>
+                        
+                        {/* CONTADOR DE DÍAS RESTANTES (NÚMERO DESTACADO) */}
+                        <div style={{ 
+                          position: 'absolute', 
+                          top: '10px', 
+                          right: '10px', 
+                          textAlign: 'center', 
+                          backgroundColor: '#111', 
+                          border: `2px solid ${timerColor}`, 
+                          padding: '4px 8px', 
+                          boxShadow: `2px 2px 0px ${timerColor}` 
+                        }}>
+                          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: timerColor, fontFamily: '"Press Start 2P", monospace', lineHeight: '1' }}>
+                            {daysLeft}
+                          </div>
+                          <div style={{ fontSize: '0.45rem', color: timerColor, fontFamily: '"Press Start 2P", monospace', marginTop: '2px' }}>
+                            DAYS LEFT
+                          </div>
                         </div>
-                      )}
 
-                      {/* BOTONES DE ACCIÓN: CON DELETE INSTANTÁNEO */}
-                      <div style={{ display: 'flex', gap: '5px', marginTop: '12px' }}>
-                        <button onClick={() => handleDelete(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #b30000', color: '#ff4d4d', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace', fontWeight: 'bold' }}>
-                          DELETE
-                        </button>
-                        <button onClick={() => handleProvideLink(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #00ccff', color: '#00ccff', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
-                          LINK
-                        </button>
+                        <div style={{ fontWeight: 'bold', fontSize: '1rem', color: '#fff', marginBottom: '8px', paddingRight: '70px' }}>
+                          {item.gameTitle}
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                          <span style={{ fontSize: '0.65rem', backgroundColor: '#332200', color: '#ffcc00', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
+                            {item.switchVersion || 'Both'}
+                          </span>
+                          <span style={{ fontSize: '0.65rem', backgroundColor: '#002233', color: '#00ccff', padding: '4px 6px', fontFamily: '"Press Start 2P", monospace' }}>
+                            {item.language || 'English'}
+                          </span>
+                        </div>
+
+                        {item.description && (
+                          <p style={{ margin: '0 0 12px 0', fontSize: '0.85rem', color: '#aaa', fontStyle: 'italic', lineHeight: '1.4' }}>
+                            🎨 {item.description}
+                          </p>
+                        )}
+
+                        {item.refLink && (
+                          <div style={{ background: '#002200', padding: '6px 10px', marginBottom: '10px', border: '1px solid #004400' }}>
+                            <a href={item.refLink} target="_blank" rel="noreferrer" style={{ color: '#00ff00', fontSize: '0.65rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: '"Press Start 2P", monospace' }}>
+                              🔗 REF LINK
+                            </a>
+                          </div>
+                        )}
+
+                        {/* BOTONES DE ACCIÓN */}
+                        <div style={{ display: 'flex', gap: '5px', marginTop: '12px' }}>
+                          <button onClick={() => handleDelete(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #b30000', color: '#ff4d4d', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace', fontWeight: 'bold' }}>
+                            DELETE
+                          </button>
+                          <button onClick={() => handleProvideLink(item.id)} style={{ flex: 1, padding: '8px 5px', background: 'transparent', border: '2px solid #00ccff', color: '#00ccff', fontSize: '0.6rem', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace' }}>
+                            LINK
+                          </button>
+                        </div>
+
                       </div>
-
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
               </div>

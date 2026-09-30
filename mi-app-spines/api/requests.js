@@ -2,7 +2,8 @@ import { createClient } from 'redis';
 
 export default async function handler(req, res) {
   const client = createClient({ url: process.env.REDIS_URL });
-  const ADMIN_PASSWORD = "TU_CONTRASEÑA_AQUI"; // Recuerda cambiar esto
+  const ADMIN_PASSWORD = "TU_CONTRASEÑA_AQUI"; 
+  const EXPIRE_45_DAYS = 45 * 24 * 60 * 60; // 3,888,000 segundos
 
   try {
     await client.connect();
@@ -24,11 +25,26 @@ export default async function handler(req, res) {
       return res.status(200).json(requests);
     }
 
-    // POST: Crear nueva petición
+    // POST: Crear nueva petición con restricción de 5 por usuario
     if (req.method === 'POST') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { gameTitle, description, requester, switchVersion, language } = body; 
       
+      const userClean = (requester || 'Anonymous').trim().toLowerCase();
+
+      // Verificar peticiones actuales del usuario
+      const keys = await client.keys('request:*');
+      const allData = await Promise.all(keys.map(k => client.get(k)));
+      const activeUserRequests = allData
+        .filter(Boolean)
+        .map(raw => JSON.parse(raw))
+        .filter(item => (item.requester || '').trim().toLowerCase() === userClean);
+
+      if (activeUserRequests.length >= 5) {
+        await client.quit();
+        return res.status(400).json({ error: 'You have reached the maximum limit of 5 active requests.' });
+      }
+
       const id = Date.now().toString();
       const newRequest = { 
         id, 
@@ -36,18 +52,19 @@ export default async function handler(req, res) {
         description, 
         requester: requester || 'Anonymous', 
         switchVersion: switchVersion || 'Both', 
-        language: language || 'English', // Guardamos el nuevo campo
+        language: language || 'English',
         status: 'pending', 
         claimedBy: [], 
         createdAt: Date.now() 
       };
 
-      await client.set(`request:${id}`, JSON.stringify(newRequest), { EX: 1209600 });
+      // Guardar con expiración de 45 días
+      await client.set(`request:${id}`, JSON.stringify(newRequest), { EX: EXPIRE_45_DAYS });
       await client.quit();
       return res.status(200).json(newRequest);
     }
 
-    // PATCH: Actualizar (Claim o añadir Link de referencia)
+    // PATCH: Actualizar
     if (req.method === 'PATCH') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const { requestId, artistName, refLink } = body; 
@@ -61,7 +78,6 @@ export default async function handler(req, res) {
 
       const current = JSON.parse(currentRaw);
       
-      // Si un artista reclama la petición
       if (artistName) {
         const currentClaims = Array.isArray(current.claimedBy) ? current.claimedBy : [];
         if (!currentClaims.includes(artistName)) currentClaims.push(artistName);
@@ -69,17 +85,16 @@ export default async function handler(req, res) {
         current.status = 'in-progress';
       }
 
-      // Si alguien aporta un enlace de referencia
       if (refLink) {
         current.refLink = refLink;
       }
 
-      await client.set(key, JSON.stringify(current), { EX: 604800 });
+      await client.set(key, JSON.stringify(current), { KEEPTTL: true });
       await client.quit();
       return res.status(200).json(current);
     }
 
-    // DELETE: Borrar petición (Solo admin/artista con contraseña)
+    // DELETE: Borrar petición
     if (req.method === 'DELETE') {
       const { requestId, password } = req.query;
       if (password !== ADMIN_PASSWORD) { 
