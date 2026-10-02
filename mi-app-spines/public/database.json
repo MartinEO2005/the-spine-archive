@@ -221741,5 +221741,881 @@
       ]
     },
     "hexColor": "#000000"
+  },
+  {
+    "id": "hdwikx",
+    "title": "Yooka-Laylee by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/hdwikx.webp",
+    "hash": "a570afe0f0635819593dcf2095ee7f31",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/hdwikx.webp",
+    "created_utc": 1592846446,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FAF3E5"
+  },
+  {
+    "id": "gs9wrz",
+    "title": "Yooka Laylee and the Impossible Lair by xangelo117x",
+    "author": "u/xangelo117x",
+    "src": "/spines/gs9wrz.webp",
+    "hash": "83ce2b061e2a9aa872f37e638643403e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gs9wrz.webp",
+    "created_utc": 1590684791,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#65811F"
+  },
+  {
+    "id": "gg321k",
+    "title": "Yooka Laylee by xangelo117x",
+    "author": "u/xangelo117x",
+    "src": "/spines/gg321k.webp",
+    "hash": "c6814719023b23529d6e5937ba92b2f3",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gg321k.webp",
+    "created_utc": 1588976501,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#A5AE7B"
+  },
+  {
+    "id": "1wr3tdn",
+    "title": "Dragon Quest XI S: Echoes of an Elusive Age by eridyon",
+    "author": "u/No-Specific4938",
+    "src": "/spines/1wr3tdn.webp",
+    "hash": "a65612fef59a2cf6d6ecbc844fbe5beb",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wr3tdn.webp",
+    "created_utc": 1790462580,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#D6F7FC"
+  },
+  {
+    "id": "1ws3htc",
+    "title": "Samurai Academy: Paws of Fury by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1ws3htc.webp",
+    "hash": "2dc9860a2eee1e3eb80ed058a81f46d0",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ws3htc.webp",
+    "created_utc": 1790565067,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#3D8DA6"
+  },
+  {
+    "id": "gje4y2",
+    "title": "Ms. Splosion Man by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/gje4y2.webp",
+    "hash": "cb695fcbbee2ac460459887054e9607e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gje4y2.webp",
+    "created_utc": 1589425817,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Pink",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (centered)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FB93CF"
+  },
+  {
+    "id": "12v800f",
+    "title": "XIII Remake",
+    "author": "u/J4mboTH",
+    "src": "/spines/12v800f.webp",
+    "hash": "d086089374fe308fdeefeab242e186cf",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/12v800f.webp",
+    "created_utc": 1682174594,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#030303"
+  },
+  {
+    "id": "1hbmsxr_0",
+    "title": "Final Fantasy I-IV Collection/ Pixel Remaster (Parte 1)",
+    "author": "u/leaf8902",
+    "src": "/spines/1hbmsxr_0.webp",
+    "hash": "ee162bd0b9ffd43cb53ecf4ad360aa9d",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hbmsxr_0.webp",
+    "created_utc": 1733896131,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Set / Panorama",
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#8BD7FD"
+  },
+  {
+    "id": "1hbmsxr_1",
+    "title": "Final Fantasy I-IV Collection/ Pixel Remaster (Parte 2)",
+    "author": "u/leaf8902",
+    "src": "/spines/1hbmsxr_1.webp",
+    "hash": "a38df2489fa34e0a68dddf4239535aff",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hbmsxr_1.webp",
+    "created_utc": 1733896131,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (centered)",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#8BD7FD"
+  },
+  {
+    "id": "10574ck",
+    "title": "SNK 40th Anniversary Collection",
+    "author": "u/ArgyleMonkey",
+    "src": "/spines/10574ck.webp",
+    "hash": "9743fa433746ea72735eeebfd65964bd",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/10574ck.webp",
+    "created_utc": 1673042930,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#222B56"
+  },
+  {
+    "id": "n1qem9",
+    "title": "Castlevania Anniversary Collection (LRG) by ohshittimetogo",
+    "author": "u/ohshittimetogo",
+    "src": "/spines/n1qem9.webp",
+    "hash": "f078c2e6125a7867538557fcee72fa96",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/n1qem9.webp",
+    "created_utc": 1619775660,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#000000"
+  },
+  {
+    "id": "hnunzr",
+    "title": "Castlevania Anniversary Collection by xangelo117x",
+    "author": "u/xangelo117x",
+    "src": "/spines/hnunzr.webp",
+    "hash": "4eb552b1f4f2e5e0f736fc6b9b6ccb50",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/hnunzr.webp",
+    "created_utc": 1594260748,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (from top)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#33314D"
+  },
+  {
+    "id": "gvcl4z",
+    "title": "RBI Baseball 20 by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/gvcl4z.webp",
+    "hash": "3ecab88aa5c518a8f5001ae1e3b5e003",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gvcl4z.webp",
+    "created_utc": 1591121834,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#24A4D6"
+  },
+  {
+    "id": "1ws4iod",
+    "title": "Baki Hanma: Blood Arena by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1ws4iod.webp",
+    "hash": "17dd4d2f536251fd864dd1218453a7f3",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ws4iod.webp",
+    "created_utc": 1790568294,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#000000"
+  },
+  {
+    "id": "1h7zzfw",
+    "title": "Resident Evil triple pack by AmyxVH_777",
+    "author": "u/AmyxVH_777",
+    "src": "/spines/1h7zzfw.webp",
+    "hash": "75b463839b1a96eec0798b387b700677",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1h7zzfw.webp",
+    "created_utc": 1733487118,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (from top)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#780A0F"
+  },
+  {
+    "id": "12huyxk",
+    "title": "Resident Evil Zero by yngames",
+    "author": "u/yngames",
+    "src": "/spines/12huyxk.webp",
+    "hash": "6db609927b3438bbaaf49d3a6d02d175",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/12huyxk.webp",
+    "created_utc": 1681158236,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#5D4143"
+  },
+  {
+    "id": "jo0gzb",
+    "title": "Resident Evil Revelations Collection by gutterpunk79",
+    "author": "u/gutterpunk79",
+    "src": "/spines/jo0gzb.webp",
+    "hash": "fdd73d069432b221336ffc4ac2b91dc1",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/jo0gzb.webp",
+    "created_utc": 1604509694,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#110806"
+  },
+  {
+    "id": "jo0f4a",
+    "title": "Resident Evil Triple Pack by gutterpunk79",
+    "author": "u/gutterpunk79",
+    "src": "/spines/jo0f4a.webp",
+    "hash": "69fea2e32042678bffaf8783368d3447",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/jo0f4a.webp",
+    "created_utc": 1604509531,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (from top)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#314653"
+  },
+  {
+    "id": "gk1tvd",
+    "title": "Resident Evil Revelations Collection by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/gk1tvd.webp",
+    "hash": "16009ce75fd7e3b8fbe7f16277619879",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gk1tvd.webp",
+    "created_utc": 1589514398,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#241F23"
+  },
+  {
+    "id": "idafm8",
+    "title": "Skully by xangelo117x",
+    "author": "u/xangelo117x",
+    "src": "/spines/idafm8.webp",
+    "hash": "f1b271bd95a05c6174922407357a5fab",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/idafm8.webp",
+    "created_utc": 1597930667,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#0B1C16"
+  },
+  {
+    "id": "1wu8aax",
+    "title": "Folly of the Wizards by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wu8aax.webp",
+    "hash": "4b113c88378508f98f7e122662a68fc2",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wu8aax.webp",
+    "created_utc": 1790782919,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#000000"
+  },
+  {
+    "id": "1wr3si5",
+    "title": "Dragon Quest VII Reimagined by eridyon",
+    "author": "u/No-Specific4938",
+    "src": "/spines/1wr3si5.webp",
+    "hash": "5a81ce6bbd60337e764e3b91ad21c40f",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wr3si5.webp",
+    "created_utc": 1790462512,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#D7EAF6"
+  },
+  {
+    "id": "1wt4eyx",
+    "title": "Platypus Reclayed by WarioPunk",
+    "author": "u/WarioPunk",
+    "src": "/spines/1wt4eyx.webp",
+    "hash": "d1afa035c288e8b52e468fabefb3670c",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wt4eyx.webp",
+    "created_utc": 1790669808,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#71D65F"
+  },
+  {
+    "id": "1wvikq9",
+    "title": "Bishoujo Battle: Double Strike! - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1wvikq9.webp",
+    "hash": "1ff933c681cbefb9bdd2ee3a2f74a73a",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wvikq9.webp",
+    "created_utc": 1790908950,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#081F2A"
+  },
+  {
+    "id": "1wvks3g",
+    "title": "Caves of Qud by shizoid_man",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wvks3g.webp",
+    "hash": "a99a79dbf2d262ac58192d575178b102",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wvks3g.webp",
+    "created_utc": 1790916079,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#0E2622"
+  },
+  {
+    "id": "1wvkrat",
+    "title": "Morsels by shizoid_man",
+    "author": "u/Shizoid_Man",
+    "src": "/spines/1wvkrat.webp",
+    "hash": "5bd8099a05c36fa68f118fd211271b04",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wvkrat.webp",
+    "created_utc": 1790916002,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#5D7D9B"
+  },
+  {
+    "id": "1wv8kia",
+    "title": "Warrior Cats by CorruptedBones",
+    "author": "u/CorruptedBones",
+    "src": "/spines/1wv8kia.webp",
+    "hash": "5cd374f4daa833aacb1df50f983d0281",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wv8kia.webp",
+    "created_utc": 1790882310,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#000000"
+  },
+  {
+    "id": "1wu7nc2",
+    "title": "Barbarian Saga: The Beastmaster by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wu7nc2.webp",
+    "hash": "1116f5ff3df0924a31fd298b52421f55",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wu7nc2.webp",
+    "created_utc": 1790781400,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#320C16"
+  },
+  {
+    "id": "1wrpb9v",
+    "title": "Bratz Rhythm & Style (V1) by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wrpb9v.webp",
+    "hash": "8b499e199699e1f4ba5ed41bcb2124ae",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wrpb9v.webp",
+    "created_utc": 1790528183,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#62317F"
+  },
+  {
+    "id": "1wrjmvl_0",
+    "title": "Just Dance Decades of Hits by AndyBD13 (Parte 1)",
+    "author": "u/AndyBD13",
+    "src": "/spines/1wrjmvl_0.webp",
+    "hash": "edfb859911c626a716973695ed7650ed",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wrjmvl_0.webp",
+    "created_utc": 1790514016,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#FFF605"
+  },
+  {
+    "id": "1wrjmvl_1",
+    "title": "Just Dance Decades of Hits by AndyBD13 (Parte 2)",
+    "author": "u/AndyBD13",
+    "src": "/spines/1wrjmvl_1.webp",
+    "hash": "2a2836a6f766f1130fbfcd3724781732",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wrjmvl_1.webp",
+    "created_utc": 1790514016,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (centered)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#FEF100"
+  },
+  {
+    "id": "1wr8p3m",
+    "title": "Winx Club: The Magic is Back (V1) by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wr8p3m.webp",
+    "hash": "057d2f65be8cf16799d7710078bf0606",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wr8p3m.webp",
+    "created_utc": 1790476887,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#169BD9"
+  },
+  {
+    "id": "1wqgq8h_0",
+    "title": "Shantae Series by kalboy28 (Parte 1)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_0.webp",
+    "hash": "bcfd501190140d9d57057a33627f32f6",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_0.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#F7DD00"
+  },
+  {
+    "id": "1wqgq8h_1",
+    "title": "Shantae Series by kalboy28 (Parte 2)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_1.webp",
+    "hash": "6b5323e0ca830edb604065cdde14ec74",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_1.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#F5B404"
+  },
+  {
+    "id": "1wqgq8h_2",
+    "title": "Shantae Series by kalboy28 (Parte 3)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_2.webp",
+    "hash": "1e19900afc4af525d7599467d83e4186",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_2.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#6D2652"
+  },
+  {
+    "id": "1wqgq8h_3",
+    "title": "Shantae Series by kalboy28 (Parte 4)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_3.webp",
+    "hash": "8e1953ff5d21119ae74776dd036c332e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_3.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#2E7BC5"
+  },
+  {
+    "id": "1wqgq8h_4",
+    "title": "Shantae Series by kalboy28 (Parte 5)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_4.webp",
+    "hash": "5c493486af0e76dde15c03c7c47fcbdf",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_4.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#00E0F8"
+  },
+  {
+    "id": "1wqgq8h_5",
+    "title": "Shantae Series by kalboy28 (Parte 6)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_5.webp",
+    "hash": "aa30b52d57acb96c48ff71254eb3cd3e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_5.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#01E3FB"
+  },
+  {
+    "id": "1wqgq8h_6",
+    "title": "Shantae Series by kalboy28 (Parte 7)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqgq8h_6.webp",
+    "hash": "b2fbb0fa3ce92713bf4113e7bdb3e803",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqgq8h_6.webp",
+    "created_utc": 1790395429,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#EDAA04"
+  },
+  {
+    "id": "1wqf1uf",
+    "title": "Hollow Knight by No_Analyst_9954",
+    "author": "u/No_Analyst_9954",
+    "src": "/spines/1wqf1uf.webp",
+    "hash": "91e25474cbea556f6e7f849d294990f5",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqf1uf.webp",
+    "created_utc": 1790390106,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all (centered)",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#094056"
+  },
+  {
+    "id": "1wqch69_0",
+    "title": "Sega Mega Drive/Genesis Classics by Kalboy28 (Parte 1)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqch69_0.webp",
+    "hash": "02373ca26c3f75453e1f2e9bbec71638",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqch69_0.webp",
+    "created_utc": 1790382397,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#271065"
+  },
+  {
+    "id": "1wqch69_1",
+    "title": "Sega Mega Drive/Genesis Classics by Kalboy28 (Parte 2)",
+    "author": "u/kalboy28",
+    "src": "/spines/1wqch69_1.webp",
+    "hash": "797e488bc6703c0c9fe16bda21d4a7c7",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wqch69_1.webp",
+    "created_utc": 1790382397,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#2C12A1"
   }
 ]
