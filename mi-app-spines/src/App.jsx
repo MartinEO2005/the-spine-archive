@@ -1,662 +1,95 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import jsPDF from 'jspdf';
+import React, { useState, useEffect } from 'react';
 import CatalogView from './CatalogView';
+import PrinterView from './PrinterView';
 import TaggerView from './TaggerView';
-import CookieConsent from 'react-cookie-consent';
-
-const DEFAULT_SPINE_WIDTH = 10.5;
-
-// CLAVE: Objeto global para guardar las imágenes ya convertidas a Base64 y no volver a descargarlas
-const globalImageCache = {};
-// NUEVO: Objeto global para almacenar promesas de descarga en curso y evitar duplicados simultáneos
-const globalPromiseCache = {};
+import CookieBanner from './components/CookieBanner';
+import MobileInfoView from './components/MobileInfoView'; // <-- Ajusta la ruta si es necesario
 
 function App() {
-  // Detector de móvil (bloqueo temprano para ahorrar recursos)
+  const [view, setView] = useState('catalog');
+  const [selectedSpines, setSelectedSpines] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showMobileNoticeModal, setShowMobileNoticeModal] = useState(false);
 
-  // Escuchador para cuando cambian el tamaño de la ventana
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [view, setView] = useState('catalog'); // 'catalog', 'pdf', 'tagger'
-  const [images, setImages] = useState([]);
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  
-  // CONTROL DE MODALES
-  const [showSupportModal, setShowSupportModal] = useState(false);
-  const [showPrintGuideModal, setShowPrintGuideModal] = useState(false);
-
-  // ESTADOS PARA DRAG & DROP
-  const [draggedItemIndex, setDraggedItemIndex] = useState(null);
-  const [dragOverItemIndex, setDragOverItemIndex] = useState(null);
-  
-  const [config, setConfig] = useState({
-    spineSpacing: 0.1,
-    pageWidth: 11.0,
-    pageHeight: 8.5,
-    marginTop: 0.5,
-    marginLeft: 0.5,
-    marginRight: 0.5,
-    spineWidthMM: DEFAULT_SPINE_WIDTH
-  });
-
-  const inchToMm = (inch) => inch * 25.4;
-
-  const resetSpineWidth = () => {
-    setConfig({ ...config, spineWidthMM: DEFAULT_SPINE_WIDTH });
-  };
-
-  // VERSIÓN OPTIMIZADA
-  const getSafeImageData = (url) => {
-    if (!url) return Promise.resolve(null);
-    
-    // Si ya se descargó y procesó en esta sesión, se devuelve de inmediato
-    if (globalImageCache[url]) {
-      return Promise.resolve(globalImageCache[url]);
+  const handleConfirmSelection = (spines) => {
+    setSelectedSpines(spines);
+    if (isMobile) {
+      setShowMobileNoticeModal(true);
+    } else {
+      setView('printer');
     }
+  };
 
-    // Si la imagen ya se está descargando en este preciso instante, reutilizamos su promesa
-    if (globalPromiseCache[url]) {
-      return globalPromiseCache[url];
+  const handleBackToCatalog = (currentSpinesInPrinter) => {
+    if (currentSpinesInPrinter) {
+      setSelectedSpines(currentSpinesInPrinter);
     }
-
-    globalPromiseCache[url] = new Promise((resolve) => {
-      const img = new Image();
-      img.setAttribute('crossOrigin', 'anonymous');
-      img.src = url;
-
-      img.onload = () => {
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
-          
-          const base64Data = canvas.toDataURL('image/jpeg', 0.85); 
-          globalImageCache[url] = base64Data; 
-          delete globalPromiseCache[url];
-          resolve(base64Data);
-        } catch (err) {
-          console.error("❌ Error procesando el canvas para la URL:", url, err);
-          delete globalPromiseCache[url];
-          resolve(null);
-        }
-      };
-
-      img.onerror = (err) => {
-        console.error("❌ Error de red o CORS al cargar la imagen del CDN:", url, err);
-        delete globalPromiseCache[url];
-        resolve(null);
-      };
-    });
-
-    return globalPromiseCache[url];
+    setView('catalog');
   };
 
-  const generatePreview = useCallback(async () => {
-    if (images.length === 0 || view !== 'pdf') {
-      setPdfUrl(null);
-      return;
-    }
-    
-    setIsGenerating(true);
-    
-    try {
-      const isPortrait = config.pageWidth < config.pageHeight;
-      const orientation = isPortrait ? 'p' : 'l';
-
-      // Determinamos el formato correcto para evitar el bug de escala de impresión
-      let pdfFormat = [inchToMm(config.pageWidth), inchToMm(config.pageHeight)];
-      if (config.pageWidth === 11.0 && config.pageHeight === 8.5) {
-        pdfFormat = 'letter';
-      } else if (config.pageWidth === 11.69 && config.pageHeight === 8.27) {
-        pdfFormat = 'a4';
-      }
-
-      const pdf = new jsPDF({
-        orientation: orientation,
-        unit: 'mm',
-        format: pdfFormat
-      });
-
-      // ADD THIS BLOCK to inject the metadata
-      pdf.setProperties({
-        subject: JSON.stringify(images)
-      });
-
-      const sW = parseFloat(config.spineWidthMM);
-      const sH = 161; 
-      const gap = inchToMm(config.spineSpacing);
-      const mLeft = inchToMm(config.marginLeft);
-      const mTop = inchToMm(config.marginTop);
-      const pW = inchToMm(config.pageWidth);
-      const pH = inchToMm(config.pageHeight);
-      const mRight = inchToMm(config.marginRight);
-
-      let curX = mLeft;
-      let curY = mTop;
-
-      const urlList = [];
-      images.forEach(imgObj => {
-        const targetUrl = imgObj.image || imgObj.src; 
-        if (targetUrl) {
-          for (let i = 0; i < imgObj.count; i++) urlList.push(targetUrl);
-        }
-      });
-
-      if (urlList.length === 0) {
-        setPdfUrl(null);
-        setIsGenerating(false);
-        return;
-      }
-
-      const loadedImages = await Promise.all(urlList.map(url => getSafeImageData(url)));
-
-      loadedImages.forEach((imgData) => {
-        if (!imgData) return;
-
-        if (curX + sW > pW - mRight) {
-          curX = mLeft;
-          curY += sH + 2;
-        }
-        
-        if (curY + sH > pH - 2) {
-          pdf.addPage([inchToMm(config.pageWidth), inchToMm(config.pageHeight)], orientation);
-          curX = mLeft;
-          curY = mTop;
-        }
-
-        pdf.addImage(imgData, 'JPEG', curX, curY, sW, sH, undefined, 'NONE');
-        curX += sW + gap;
-      });
-
-      setPdfUrl(pdf.output('bloburl'));
-    } catch (err) {
-      console.error("PDF Generator Error:", err);
-    } finally {
-      setIsGenerating(false);
-    }
-  }, [images, config, view]);
-
-  useEffect(() => {
-    // Aumentado a 1500ms para evitar peticiones masivas mientras el usuario mueve controles
-    const timeoutId = setTimeout(() => generatePreview(), 1500);
-    return () => clearTimeout(timeoutId);
-  }, [generatePreview]);
-
-  const handleDownloadClick = () => {
-    if (!pdfUrl) return;
-    window.open(pdfUrl, '_blank');
-    setShowSupportModal(true);
-  };
-
-  // FUNCIONES DE DRAG & DROP
-  const handleDragStart = (e, index) => {
-    setDraggedItemIndex(index);
-    e.dataTransfer.effectAllowed = "move";
-  };
-
-  const handleDragEnter = (index) => {
-    setDragOverItemIndex(index);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedItemIndex(null);
-    setDragOverItemIndex(null);
-  };
-
-  const handleDrop = (e, targetIndex) => {
-    e.preventDefault();
-    if (draggedItemIndex === null || draggedItemIndex === targetIndex) {
-      handleDragEnd();
-      return;
-    }
-
-    const newImages = [...images];
-    const draggedItem = newImages[draggedItemIndex];
-    newImages.splice(draggedItemIndex, 1);
-    newImages.splice(targetIndex, 0, draggedItem);
-    
-    setImages(newImages);
-    handleDragEnd();
-  };
-
-  // 1. PRIMERO: Render principal del etiquetador (dejamos pasar siempre, sea móvil o PC)
   if (view === 'tagger') {
     return <TaggerView onExit={() => setView('catalog')} />;
   }
 
-  // 2. SEGUNDO: Pantalla exclusiva para móviles: aborta el renderizado del catálogo para no consumir base de datos ni descargas
-  if (isMobile) {
-    return (
-      <div style={{ 
-        display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', 
-        backgroundColor: '#222', color: 'white', justifyContent: 'center', 
-        alignItems: 'center', textAlign: 'center', padding: '30px', boxSizing: 'border-box',
-        fontFamily: '"Press Start 2P", monospace, sans-serif' 
-      }}>
-        <style>
-          {`@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');`}
-        </style>
-        
-        <div style={{ fontSize: '40px', marginBottom: '20px' }}>🖥️</div>
-        
-        <h2 style={{ color: '#FF5E5B', lineHeight: '1.5', fontSize: '16px', marginBottom: '20px' }}>
-          DESKTOP REQUIRED
-        </h2>
-        
-        <p style={{ fontFamily: 'sans-serif', fontSize: '16px', lineHeight: '1.6', color: '#ccc', maxWidth: '400px' }}>
-          <b>The Spine Archive</b> is a high-precision printing tool designed for larger screens. 
-          <br/><br/>
-          To ensure the best experience and generate accurate PDFs without layout issues, please visit this website from your computer.
-        </p>
-      </div>
-    );
-  }
-
-  // 3. TERCERO: Si no es móvil, carga el catálogo normalmente (CON BANNER DE COOKIES)
-  if (view === 'catalog') {
-    return (
-      <>
-        <CatalogView onConfirm={(sel) => { setImages(sel); setView('pdf'); }} initialSelected={images} />
-        <CookieConsent
-          location="bottom"
-          buttonText="ACCEPT"
-          declineButtonText="DECLINE"
-          enableDeclineButton
-          cookieName="thespinearchive_cookie_consent"
-          style={{
-            background: '#111',
-            color: '#fff',
-            borderTop: '2px solid #b30000',
-            fontSize: '12px',
-            alignItems: 'center',
-            fontFamily: 'sans-serif',
-            zIndex: 99999
-          }}
-          buttonStyle={{
-            backgroundColor: '#ffcc00',
-            color: '#000',
-            fontWeight: 'bold',
-            borderRadius: '4px',
-            padding: '8px 16px',
-            fontSize: '10px',
-            fontFamily: '"Press Start 2P", monospace',
-            cursor: 'pointer'
-          }}
-          declineButtonStyle={{
-            backgroundColor: '#333',
-            color: '#fff',
-            borderRadius: '4px',
-            padding: '8px 16px',
-            fontSize: '10px',
-            fontFamily: '"Press Start 2P", monospace',
-            cursor: 'pointer'
-          }}
-          expires={150}
-        >
-          We use cookies to analyze site traffic and display ads via Google Analytics and AdSense. 
-          By accepting, you agree to our privacy policy.
-        </CookieConsent>
-      </>
-    );
-  }
-
-  // Render principal (Vista PDF / Editor)
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', backgroundColor: '#e5e5e5', overflow: 'hidden', fontFamily: 'sans-serif' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#111' }}>
       
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        `}
-      </style>
-
-      {/* HEADER */}
-      <div style={{ height: '50px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', zIndex: 100 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <button onClick={() => setView('catalog')} style={{ background: 'black', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>← BACK TO CATALOG</button>
-          
-          <div style={{ 
-            color: 'white', 
-            fontFamily: '"Press Start 2P", monospace', 
-            fontSize: '12px', 
-            textShadow: '2px 2px 0px #000',
-            letterSpacing: '1px',
-            marginTop: '3px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '15px'
-          }}>
-            {isGenerating ? "⏳ GENERATING..." : "PRINTING PREVIEW"}
-            
-            {/* BOTÓN GUIDA DE IMPRESIÓN */}
-            <button 
-              onClick={() => setShowPrintGuideModal(true)}
-              style={{
-                backgroundColor: '#ffcc00',
-                color: '#000',
-                border: '2px solid #fff',
-                borderRadius: '4px',
-                padding: '4px 10px',
-                fontSize: '9px',
-                fontFamily: '"Press Start 2P", monospace',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                boxShadow: '2px 2px 0px #000',
-                transition: 'transform 0.1s'
-              }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+      {view === 'catalog' && (
+  <>
+    <CatalogView 
+      onConfirm={handleConfirmSelection} 
+      initialSelected={selectedSpines} 
+      isMobile={isMobile}
+    />
+    
+    {/* MODAL BLOQUEANTE PARA USUARIOS MÓVILES */}
+    {showMobileNoticeModal && (
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999,
+        display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'
+      }}>
+        <div style={{
+          backgroundColor: '#222', padding: '30px', borderRadius: '12px', maxWidth: '450px',
+          textAlign: 'center', border: '2px solid #b30000', color: 'white', fontFamily: 'sans-serif'
+        }}>
+          <div style={{ fontSize: '40px', marginBottom: '15px' }}>🖥️</div>
+          <h3 style={{ color: '#b30000', fontFamily: '"Press Start 2P", monospace', fontSize: '12px', marginBottom: '15px', lineHeight: '1.5' }}>
+            PLEASE USE A PC TO PRINT
+          </h3>
+          <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#ccc', marginBottom: '25px' }}>
+            You have selected <b>{selectedSpines.length} spine(s)</b>. However, mobile devices cannot generate the PDF at the exact 1:1 scale required to fit physical Nintendo Switch cases. 
+            <br/><br/>
+            Please visit this website on a <b>Desktop or Laptop PC</b> to use the layout editor.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button
+              onClick={() => setShowMobileNoticeModal(false)}
+              style={{ backgroundColor: '#b30000', color: 'white', border: 'none', padding: '12px 25px', borderRadius: '4px', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold' }}
             >
-              ⚠️ BEFORE PRINTING!
+              UNDERSTOOD
             </button>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
-             <button onClick={() => setImages([])} style={{ background: '#444', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer' }}>CLEAR ALL</button>
-             <button onClick={handleDownloadClick} disabled={!pdfUrl} style={{ background: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', color: '#b30000' }}>DOWNLOAD PDF</button>
-        </div>
       </div>
+    )}
+  </>
+)}
 
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        
-        {/* PANEL IZQUIERDO CON DRAG & DROP INTEGRADO */}
-        <div style={{ width: '380px', backgroundColor: '#d1d1d1', borderRight: '1px solid #999', padding: '15px', overflowY: 'auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-            {images.map((imgObj, i) => (
-              <div 
-                key={i} 
-                draggable
-                onDragStart={(e) => handleDragStart(e, i)}
-                onDragOver={(e) => { e.preventDefault(); }}
-                onDragEnter={() => handleDragEnter(i)}
-                onDragLeave={() => { if(dragOverItemIndex === i) setDragOverItemIndex(null); }}
-                onDrop={(e) => handleDrop(e, i)}
-                onDragEnd={handleDragEnd}
-                style={{ 
-                  position: 'relative', 
-                  background: 'white', 
-                  borderRadius: '8px', 
-                  overflow: 'hidden', 
-                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)', 
-                  border: dragOverItemIndex === i && draggedItemIndex !== i ? '3px dashed #b30000' : (!imgObj.src ? '2px solid orange' : 'none'),
-                  cursor: 'grab',
-                  opacity: draggedItemIndex === i ? 0.5 : 1,
-                  transform: dragOverItemIndex === i && draggedItemIndex !== i ? 'scale(1.02)' : 'scale(1)',
-                  transition: 'all 0.2s ease',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <div style={{ backgroundColor: '#444', color: 'white', textAlign: 'center', fontSize: '10px', padding: '3px 0', cursor: 'grab' }}>
-                  ☰ DRAG
-                </div>
-
-                <div style={{ width: '100%', aspectRatio: '1/1', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={imgObj.image || imgObj.src} alt="t" style={{ width: '100%', height: '100px', objectFit: 'cover', pointerEvents: 'none' }} />
-                </div>
-                <div style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #eee' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>COUNT:</span>
-                    <input type="number" value={imgObj.count} onChange={(e) => {
-                      const newImgs = [...images];
-                      newImgs[i].count = Math.max(1, parseInt(e.target.value) || 1);
-                      setImages(newImgs);
-                    }} style={{ width: '45px', textAlign: 'center', border: '1px solid #ccc', color: '#000', background: 'white' }} />
-                </div>
-                <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} style={{ position: 'absolute', top: '22px', right: '5px', backgroundColor: 'rgba(230, 0, 18, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer', zIndex: 10 }}> × </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ÁREA CENTRAL Y CONTROLES */}
-        <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column', backgroundColor: '#525659' }}>
-          
-          <div style={{ 
-              position: 'absolute', top: '15px', right: '15px', zIndex: 10, 
-              backgroundColor: 'white', padding: '15px', borderRadius: '8px', 
-              boxShadow: '0 4px 20px rgba(0,0,0,0.4)', display: 'flex', 
-              flexDirection: 'column', gap: '12px',
-              color: '#000000' 
-          }}>
-            <div>
-                <label style={{ fontSize: '11px', fontWeight: 'bold', display: 'block', color: '#333', marginBottom: '4px' }}>PAPER SIZE</label>
-                <select 
-                    onChange={(e) => {
-                        const val = e.target.value;
-                        if (val === 'Letter') setConfig({...config, pageWidth: 11.0, pageHeight: 8.5, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
-                        if (val === 'A4') setConfig({...config, pageWidth: 11.69, pageHeight: 8.27, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
-                        if (val === '7x5') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.5, marginLeft: 0.5, marginRight: 0.5, spineSpacing: 0.1});
-                        if (val === '7x5-tight') setConfig({...config, pageWidth: 5.0, pageHeight: 7.0, marginTop: 0.1, marginLeft: 0.01, marginRight: 0.01, spineSpacing: 0.0});
-                    }}
-                    style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', background: 'white', color: 'black', fontSize: '12px' }}
-                >
-                    <option value="Letter">Letter (𝐫𝐞𝐜𝐨𝐦𝐦𝐞𝐧𝐝𝐞𝐝) - 11" x 8.5"</option>
-                    <option value="A4">A4 (EU) - 297 x 210mm</option>
-                    <option value="7x5">7 x 5 inch (Standard)</option>
-                    <option value="7x5-tight">7 x 5 inch (Tight)</option>
-                </select>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-              {[
-                { label: 'Spacing', key: 'spineSpacing' },
-                { label: 'Page W', key: 'pageWidth' },
-                { label: 'Page H', key: 'pageHeight' },
-                { label: 'M. Top', key: 'marginTop' },
-                { label: 'M. Left', key: 'marginLeft' },
-                { label: 'M. Right', key: 'marginRight' }
-              ].map(item => (
-                <div key={item.key}>
-                  <label style={{ fontSize: '10px', fontWeight: 'bold', display: 'block', color: '#333' }}>{item.label}</label>
-                  <input 
-                    type="number" step="0.01" 
-                    value={config[item.key]} 
-                    onChange={e => setConfig({...config, [item.key]: parseFloat(e.target.value) || 0})} 
-                    style={{ width: '55px', color: '#000', border: '1px solid #ccc', background: 'white' }} 
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div style={{ borderTop: '1px solid #eee', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>
-                  <label style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>Spine (mm): </label>
-                  <input 
-                    type="range" min={DEFAULT_SPINE_WIDTH - 5} max={DEFAULT_SPINE_WIDTH + 10} step="0.1"
-                    value={config.spineWidthMM} 
-                    onChange={e => setConfig({...config, spineWidthMM: parseFloat(e.target.value)})} 
-                    style={{ width: '100px', verticalAlign: 'middle' }} 
-                  />
-                  <span style={{ marginLeft: '8px', fontSize: '12px', color: '#000' }}>{config.spineWidthMM}</span>
-                </div>
-                <button 
-                  onClick={resetSpineWidth}
-                  style={{ backgroundColor: '#eee', color: '#333', border: '1px solid #ccc', borderRadius: '3px', fontSize: '10px', padding: '2px 5px', cursor: 'pointer' }}
-                >
-                  RESET
-                </button>
-            </div>
-          </div>
-
-          {pdfUrl ? (
-            <iframe src={`${pdfUrl}#view=FitH`} title="PDF Preview" style={{ width: '100%', height: '100%', border: 'none' }} />
-          ) : (
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
-              <p>{isGenerating ? "📥 Downloading from Cloudflare..." : "Generating preview..."}</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* MODAL DE DESCARGA Y DONACIÓN */}
-      {showSupportModal && (
-        <div style={{ 
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-          backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
-          display: 'flex', justifyContent: 'center', alignItems: 'center' 
-        }}>
-          <div style={{ 
-            backgroundColor: '#222', padding: '40px', borderRadius: '12px', width: '500px', 
-            textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #b30000' 
-          }}>
-            <div style={{ fontSize: '50px', marginBottom: '20px' }}>📄</div>
-            
-            <h2 style={{ color: '#4CAF50', marginBottom: '10px', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', lineHeight: '1.5' }}>
-              PDF DOWNLOADED!
-            </h2>
-            
-            <div style={{ backgroundColor: '#111', padding: '20px', borderRadius: '8px', marginTop: '25px', marginBottom: '25px', border: '1px solid #444' }}>
-              <p style={{ color: '#ddd', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
-                Maintaining <b>The Spine Archive</b> is completely free for the community, but as a student, I cannot afford the server and database costs alone.
-                <br/><br/>
-                If this tool has been useful for your collection, <b>consider helping me pay the server bill</b> so the project can keep growing. ❤️
-              </p>
-            </div>
-
-            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginBottom: '25px' }}>
-              <a href="https://ko-fi.com/martineo" target="_blank" rel="noreferrer" style={{ background: '#FF5E5B', color: 'white', padding: '15px 25px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '16px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                ☕ Support on Ko-fi
-              </a>
-            </div>
-
-            <button 
-              onClick={() => setShowSupportModal(false)} 
-              style={{ background: 'transparent', color: '#888', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: '13px' }}
-            >
-              Close and return to the application
-            </button>
-          </div>
-        </div>
+      {view === 'printer' && (
+        <PrinterView 
+          selectedSpines={selectedSpines} 
+          onBack={handleBackToCatalog} 
+        />
       )}
 
-      {/* MODAL DE ADVERTENCIA DE IMPRESIÓN (SOLUCIÓN A PROBLEMAS DE ESCALA) */}
-      {showPrintGuideModal && (
-        <div style={{ 
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-          backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, 
-          display: 'flex', justifyContent: 'center', alignItems: 'center' 
-        }}>
-          <div style={{ 
-            backgroundColor: '#1a1a1a', padding: '30px', borderRadius: '12px', width: '650px', 
-            textAlign: 'left', boxShadow: '0 10px 30px rgba(0,0,0,0.8)', border: '2px solid #ffcc00',
-            fontFamily: 'sans-serif', color: '#fff', maxHeight: '90vh', overflowY: 'auto'
-          }}>
-            <h2 style={{ 
-              color: '#ffcc00', 
-              fontFamily: '"Press Start 2P", monospace', 
-              fontSize: '13px', 
-              marginBottom: '20px',
-              borderBottom: '2px solid #333',
-              paddingBottom: '10px'
-            }}>
-              ⚠️ PRINT TROUBLESHOOTING & TIPS
-            </h2>
-
-            <div style={{ backgroundColor: '#111', padding: '15px', borderRadius: '6px', borderLeft: '4px solid #b30000', marginBottom: '20px' }}>
-              <p style={{ margin: 0, fontSize: '13px', color: '#ddd', lineHeight: '1.5' }}>
-                <b>The PDF generated by this tool is perfectly sized (1:1 scale).</b> If your print comes out too small, <b>it is almost certainly a printer settings issue</b>. Printer software often shrinks documents by default to add safe margins.
-              </p>
-            </div>
-
-            <h3 style={{ color: '#ffcc00', fontSize: '11px', fontFamily: '"Press Start 2P", monospace', marginBottom: '10px' }}>
-              1. THE GOLDEN RULE: PRINTER SETTINGS
-            </h3>
-            <ul style={{ color: '#ccc', fontSize: '12px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '20px' }}>
-              <li>Always set your print scale to exactly <b>100%</b> or <b>"Actual Size"</b>.</li>
-              <li><b>Crucial:</b> Completely unselect or disable any options like <i>"Fit to Scale"</i>, <i>"Fit to Printable Area"</i>, or <i>"Fit to Margins"</i>.</li>
-              <li>If you are printing at a local print shop, explicitly tell the staff to <b>"Print As Is"</b> with zero scaling, as their professional software defaults to margin adjustments.</li>
-            </ul>
-
-            <h3 style={{ color: '#ffcc00', fontSize: '11px', fontFamily: '"Press Start 2P", monospace', marginBottom: '10px' }}>
-              2. COMMUNITY WORKAROUNDS (RESULTS MAY VARY)
-            </h3>
-            <ul style={{ color: '#ccc', fontSize: '12px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '20px' }}>
-              <p style={{ margin: '0 0 10px -20px', fontSize: '12px' }}>If your specific printer model <i>still</i> forces margins and shrinks the image despite setting it to 100%, here are some anecdotal tricks from the r/SwitchSpines community that might help:</p>
-              <li><b>The 102%-103% Hack:</b> Some users bypass forced printer margins by manually setting their print scale to <b>102% or 103%</b> to achieve a perfect physical fit.</li>
-              <li><b>The Portrait Bug:</b> If you decide to copy the images into Word to print them manually, always paste them while in <b>Portrait mode</b> before switching the document to Landscape. Otherwise, Word auto-compresses them.</li>
-              <li><b>Spine Width Tweaking:</b> The standard width is 10.5mm (~0.41"). However, some users manually increase it to <b>0.43"</b> (approx. 10.9mm) in our editor slider to ensure the art fully covers the plastic spine edge without leaving red gaps.</li>
-            </ul>
-
-            <h3 style={{ color: '#ffcc00', fontSize: '11px', fontFamily: '"Press Start 2P", monospace', marginBottom: '10px' }}>
-              3. ALWAYS TEST FIRST!
-            </h3>
-            <ul style={{ color: '#ccc', fontSize: '12px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '25px' }}>
-              <li><b>Do not waste expensive color ink and glossy paper:</b> Always print a test page in Black & White on cheap plain paper first.</li>
-              <li>Cut out one test spine and slide it directly into a physical Nintendo Switch case to verify the scale before doing your final run.</li>
-            </ul>
-
-            <div style={{ textAlign: 'center' }}>
-              <button 
-                onClick={() => setShowPrintGuideModal(false)} 
-                style={{ 
-                  background: '#ffcc00', 
-                  color: '#000', 
-                  border: '2px solid #fff', 
-                  padding: '12px 30px', 
-                  fontWeight: 'bold', 
-                  fontFamily: '"Press Start 2P", monospace', 
-                  fontSize: '11px', 
-                  cursor: 'pointer',
-                  boxShadow: '3px 3px 0px #000'
-                }}
-              >
-                GOT IT, THANKS!
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* BANNER DE COOKIES EN LA VISTA EDITOR */}
-      <CookieConsent
-        location="bottom"
-        buttonText="ACCEPT"
-        declineButtonText="DECLINE"
-        enableDeclineButton
-        cookieName="thespinearchive_cookie_consent"
-        style={{
-          background: '#111',
-          color: '#fff',
-          borderTop: '2px solid #b30000',
-          fontSize: '12px',
-          alignItems: 'center',
-          fontFamily: 'sans-serif',
-          zIndex: 99999
-        }}
-        buttonStyle={{
-          backgroundColor: '#ffcc00',
-          color: '#000',
-          fontWeight: 'bold',
-          borderRadius: '4px',
-          padding: '8px 16px',
-          fontSize: '10px',
-          fontFamily: '"Press Start 2P", monospace',
-          cursor: 'pointer'
-        }}
-        declineButtonStyle={{
-          backgroundColor: '#333',
-          color: '#fff',
-          borderRadius: '4px',
-          padding: '8px 16px',
-          fontSize: '10px',
-          fontFamily: '"Press Start 2P", monospace',
-          cursor: 'pointer'
-        }}
-        expires={150}
-      >
-        We use cookies to analyze site traffic and display popular spine designs via Google Analytics . 
-        By accepting, you agree to our privacy policy.
-      </CookieConsent>
-
+      <CookieBanner />
     </div>
   );
 }

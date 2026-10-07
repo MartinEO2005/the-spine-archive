@@ -4,18 +4,15 @@ import SpineGrid from './SpineGrid';
 import StatsView from './StatsView';
 import AboutView from './AboutView';
 import RequestsView from './RequestsView';
-
 import LegalView from './LegalView';
 
-// --- GENERADOR DE PURPURINA PARA EL POP-UP ---
-const CONFETTI_PARTICLES = Array.from({ length: 30 }).map(() => ({
-  left: `${Math.random() * 100}%`,
-  color: ['#ffcc00', '#b30000', '#00ff00', '#00ffff'][Math.floor(Math.random() * 4)],
-  duration: `${1 + Math.random() * 1.5}s`,
-  delay: `${Math.random() * 2}s`
-}));
+// En la parte superior de CatalogView.jsx
+import SeoTextSection from './components/catalog/SeoTextSection';
+import FilterMenu from './components/catalog/FilterMenu';
+import UpdateModal from './components/catalog/UpdateModal';
 
-const CatalogView = ({ onConfirm, initialSelected = [] }) => {
+// AÑADIMOS la prop isMobile con valor por defecto false
+const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(''); 
@@ -28,28 +25,12 @@ const CatalogView = ({ onConfirm, initialSelected = [] }) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [scrapeInfo, setScrapeInfo] = useState({ count: 0, authors: [], date: '' });
 
-  // Función para cambiar de vista y actualizar la URL sin recargar la página
-const changeView = (newView) => {
-  setCurrentView(newView);
-  const url = new URL(window.location);
-  
-  if (newView === 'catalog') {
-    url.searchParams.delete('view'); // Si vuelve al catálogo, quitamos ?view=...
-  } else {
-    url.searchParams.set('view', newView); // Ponemos ?view=stats, ?view=about, etc.
-  }
-  
-  window.history.pushState({}, '', url);
-};
-
-  // --- ESTADOS Y REFERENCIAS PARA PDF Y FILTROS ---
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfStatusMsg, setPdfStatusMsg] = useState('');
   const [showFiltersMenu, setShowFiltersMenu] = useState(false);
   const fileInputRef = useRef(null);
 
-  // --- ESTADO Y MANEJADORES DE FILTROS ---
   const [selectedFilters, setSelectedFilters] = useState({
     "Platform": [],
     "Main Style": [],
@@ -59,6 +40,17 @@ const changeView = (newView) => {
     "Text Alignment": [],
     "Base Color": []
   });
+
+  const changeView = (newView) => {
+    setCurrentView(newView);
+    const url = new URL(window.location);
+    if (newView === 'catalog') {
+      url.searchParams.delete('view');
+    } else {
+      url.searchParams.set('view', newView);
+    }
+    window.history.pushState({}, '', url);
+  };
 
   const handleFilterChange = (category, value) => {
     setSelectedFilters(prev => {
@@ -84,7 +76,6 @@ const changeView = (newView) => {
 
   const totalActiveFilters = Object.values(selectedFilters).flat().length;
 
-  // --- LECTURA REAL DE METADATOS DEL PDF SUBIDO ---
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
@@ -122,7 +113,6 @@ const changeView = (newView) => {
     }
   };
 
-  // --- CARGA INTELIGENTE Y SEGURA DE BBDD ---
   useEffect(() => {
     fetch(`/scrape_info.json?t=${Date.now()}`)
       .then(res => {
@@ -134,9 +124,7 @@ const changeView = (newView) => {
         const version = info.date ? encodeURIComponent(info.date) : "v1";
         return fetch(`/database.json?v=${version}`);
       })
-      .catch(() => {
-        return fetch('/database.json');
-      })
+      .catch(() => fetch('/database.json'))
       .then(res => res.json())
       .then(data => { 
         setSpines(data); 
@@ -149,21 +137,17 @@ const changeView = (newView) => {
   }, []);
 
   useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  
-  // Detecta si la URL pide abrir una vista específica (stats, about, etc.)
-  const viewParam = params.get('view');
-  if (viewParam && ['stats', 'requests', 'about', 'legal'].includes(viewParam)) {
-    setCurrentView(viewParam);
-  }
-
-  // Detecta si la URL pide buscar un juego específico
-  const query = params.get('search');
-  if (query) {
-    const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
-    setSearchTerm(decodedQuery);
-  }
-}, []);
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    if (viewParam && ['stats', 'requests', 'about', 'legal'].includes(viewParam)) {
+      setCurrentView(viewParam);
+    }
+    const query = params.get('search');
+    if (query) {
+      const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
+      setSearchTerm(decodedQuery);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -193,17 +177,13 @@ const changeView = (newView) => {
 
   const normalizeText = (text) => {
     if (!text) return '';
-    return text
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   };
 
   const filteredSpines = useMemo(() => {
     let result = [...spines];
-
-    // Búsqueda por texto
     const term = debouncedTerm.trim();
+
     if (term) {
       const searchWords = normalizeText(term).split(/\s+/);
       result = result.filter(s => {
@@ -215,19 +195,15 @@ const changeView = (newView) => {
       });
     }
 
-    // Filtrado por etiquetas (tags)
     Object.keys(selectedFilters).forEach(catKey => {
       const activeValues = selectedFilters[catKey];
       if (activeValues && activeValues.length > 0) {
         result = result.filter(spine => {
           if (!spine.tags) return false;
-
           const tagValue = spine.tags[catKey] ?? 
                            spine.tags[catKey.toLowerCase()] ?? 
                            spine.tags[catKey.charAt(0).toUpperCase() + catKey.slice(1)];
-
           if (!tagValue) return false;
-
           if (Array.isArray(tagValue)) {
             return activeValues.some(val => tagValue.includes(val));
           }
@@ -236,7 +212,6 @@ const changeView = (newView) => {
       }
     });
 
-    // Ordenamiento
     if (sortOrder === 'newest') {
       result.reverse(); 
     } else if (sortOrder === 'az') {
@@ -268,16 +243,13 @@ const changeView = (newView) => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#111' }}>
-      
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-          
           @keyframes confetti-fall {
             0% { transform: translateY(-40px) rotate(0deg); opacity: 1; }
             100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
           }
-
           @keyframes pulse-border {
             0% { border-color: #b30000; box-shadow: 0 0 10px #b30000; }
             50% { border-color: #ffcc00; box-shadow: 0 0 30px #ffcc00; }
@@ -286,115 +258,14 @@ const changeView = (newView) => {
         `}
       </style>
 
-      {/* POP-UP SCRAPE INFO */}
-      {showUpdateModal && (
-        <div style={{ 
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-          backgroundColor: 'rgba(0,0,0,0.92)', zIndex: 9999, 
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          fontFamily: '"Press Start 2P", monospace'
-        }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-            {CONFETTI_PARTICLES.map((particle, i) => (
-              <div key={i} style={{
-                position: 'absolute',
-                top: '-10px',
-                left: particle.left,
-                width: '6px', height: '6px',
-                backgroundColor: particle.color,
-                animation: `confetti-fall ${particle.duration} infinite linear`,
-                animationDelay: particle.delay
-              }}></div>
-            ))}
-          </div>
+      {/* MODAL NOVEDADES SCRAPE */}
+      <UpdateModal 
+        showUpdateModal={showUpdateModal} 
+        setShowUpdateModal={setShowUpdateModal} 
+        scrapeInfo={scrapeInfo} 
+      />
 
-          <div style={{ 
-            backgroundColor: '#1a1a1a', 
-            padding: '40px', 
-            width: '750px', 
-            textAlign: 'center', 
-            border: '4px solid #b30000', 
-            animation: 'pulse-border 2s infinite',
-            boxSizing: 'border-box',
-            position: 'relative',
-            zIndex: 10
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-              <img 
-                src="/Imagen_fuego.jpg" 
-                alt="Bowser Fire" 
-                style={{ 
-                  width: '380px', 
-                  height: 'auto', 
-                  display: 'block',
-                  filter: 'drop-shadow(0px 0px 15px rgba(255, 100, 0, 0.4))'
-                }} 
-              />
-            </div>
-            <h2 style={{ 
-              color: '#fff', 
-              fontSize: '22px', 
-              marginBottom: '25px', 
-              borderBottom: '4px solid #b30000',
-              paddingBottom: '20px',
-              textShadow: '4px 4px 0px #b30000',
-              letterSpacing: '2px'
-            }}>
-              LATEST SCRAPE
-            </h2>
-            <div style={{ backgroundColor: '#111', padding: '30px', border: '4px solid #333', marginBottom: '35px', textAlign: 'center' }}>
-              <div style={{ color: '#fff', fontSize: '14px', marginBottom: '15px', lineHeight: '1.8' }}>
-                <span style={{ color: '#ffcc00', fontSize: '24px', textShadow: '2px 2px #000' }}>{scrapeInfo.count}</span><br/> 
-                NEW SPINES DETECTED!
-              </div>
-              <div style={{ color: '#888', fontSize: '9px', marginBottom: '25px', fontFamily: 'monospace' }}>
-                [ SYSTEM DATE: {scrapeInfo.date} ]
-              </div>
-              <div style={{ borderTop: '2px dashed #444', paddingTop: '20px' }}>
-                <p style={{ color: '#ffcc00', fontSize: '10px', margin: '0 0 15px 0' }}>
-                  ★ TOP CONTRIBUTORS ★
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
-                  {scrapeInfo.authors?.map((author, idx) => (
-                    <span key={idx} style={{
-                      backgroundColor: '#222',
-                      color: '#ff4d4d',
-                      padding: '8px 12px',
-                      border: '2px solid #555',
-                      fontSize: '9px',
-                      boxShadow: '2px 2px 0px #000'
-                    }}>
-                      {author}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <button 
-              onClick={() => setShowUpdateModal(false)} 
-              style={{ 
-                background: '#b30000', 
-                color: 'white', 
-                border: '4px solid #fff', 
-                cursor: 'pointer', 
-                padding: '15px 40px', 
-                fontWeight: 'bold', 
-                fontFamily: '"Press Start 2P", monospace', 
-                fontSize: '14px', 
-                boxShadow: '6px 6px 0px #000',
-                transition: 'transform 0.1s',
-                letterSpacing: '1px'
-              }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              AWESOME!
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL DE CARGA DE INSERTAR PDF */}
+      {/* MODAL RESTAURAR PDF */}
       {showPdfModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -430,7 +301,7 @@ const changeView = (newView) => {
         </div>
       )}
 
-      {/* HEADER PRINCIPAL (NAVBAR SUPERIOR) */}
+      {/* NAVBAR SUPERIOR */}
       <div style={{ height: '70px', backgroundColor: '#b30000', display: 'flex', alignItems: 'center', padding: '0 30px', zIndex: 100, position: 'sticky', top: 0 }}>
         <img src="/logo.jpg" alt="Logo" onClick={() => changeView('catalog')} style={{ height: '70px', cursor: 'pointer', marginRight: '30px' }} />
         
@@ -443,7 +314,6 @@ const changeView = (newView) => {
         
         <div style={{ flex: 1 }}></div>
 
-        {/* TEXTO RETRO #StopKillingGames */}
         <a 
           href="https://www.stopkillinggames.com/" 
           target="_blank" 
@@ -456,11 +326,8 @@ const changeView = (newView) => {
             textShadow: '2px 2px 0px #000',
             letterSpacing: '1px',
             marginRight: '25px',
-            transition: 'all 0.2s ease',
             display: 'inline-block'
           }}
-          onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.08)'; }}
-          onMouseLeave={e => { e.currentTarget.style.color = '#ffcc00'; e.currentTarget.style.transform = 'scale(1)'; }}
         >
           ✊ #StopKillingGames
         </a>
@@ -478,10 +345,7 @@ const changeView = (newView) => {
             textDecoration: 'none',
             fontSize: '13px',
             marginRight: '15px',
-            borderRadius: '5px',
-            boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
-            display: 'inline-block',
-            fontFamily: 'inherit'
+            borderRadius: '5px'
           }}
         >
           ⭐ SUPPORT THE PROJECT
@@ -497,15 +361,13 @@ const changeView = (newView) => {
             padding: '10px 25px', 
             borderRadius: '5px', 
             fontWeight: 'bold', 
-            cursor: 'pointer',
-            fontFamily: 'sans-serif'
+            cursor: 'pointer'
           }}
         >
           GENERATE PDF ({selectedSpines.length})
         </button>
       </div>
 
-      {/* INPUT OCULTO PARA CARGA DE PDF */}
       <input 
         type="file" 
         ref={fileInputRef} 
@@ -514,294 +376,122 @@ const changeView = (newView) => {
         style={{ display: 'none' }} 
       />
 
-      {/* SUB-BARRA DE HERRAMIENTAS Y BÚSQUEDA */}
-{currentView === 'catalog' && (
-  <div style={{ backgroundColor: '#111', padding: '20px 30px 10px 30px' }}>
-
-    {/* TITULAR Y DESCRIPCIÓN SEO (VISIBLES Y SEGUROS PARA GOOGLE) */}
-    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-      <h1 style={{ 
-        fontSize: '16px', 
-        color: '#ffcc00', 
-        fontFamily: '"Press Start 2P", monospace', 
-        marginBottom: '10px',
-        textShadow: '2px 2px 0px #000',
-        letterSpacing: '1px'
-      }}>
-        LEVEL UP YOUR GAME SHELF WITH CUSTOM SPINES
-      </h1>
-      <p style={{ 
-        fontSize: '13px', 
-        color: '#aaaaaa', 
-        maxWidth: '750px', 
-        margin: '0 auto', 
-        lineHeight: '1.5',
-        fontFamily: 'sans-serif'
-      }}>
-        Transform your Switch library with high-quality replacement spines from thei community.
-         Pick your favorite designs, build your custom sheet, and print 1:1 PDFs.
-      </p>
-    </div>
-
-    {/* BÚSQUEDA Y BOTONES */}
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '15px'
-    }}>
-      {/* BOTÓN NEWEST */}
-      <button 
-        onClick={() => setSortOrder(prev => prev === 'newest' ? 'az' : 'newest')}
-        style={{
-          backgroundColor: sortOrder === 'newest' ? '#222' : '#1a1a1a',
-          color: '#fff',
-          border: '2px solid #333',
-          borderRadius: '25px',
-          boxShadow: '4px 4px 0px #000',
-          padding: '12px 18px',
-          fontFamily: '"Press Start 2P", monospace',
-          fontSize: '0.65rem',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}
-      >
-        {sortOrder === 'newest' ? '🔥 NEWEST' : '🔤 A-Z'}    
-      </button>
-
-          {/* BOTÓN UPLOAD PDF */}
-          <button 
-            onClick={() => fileInputRef.current?.click()}
-            style={{
-              backgroundColor: '#b30000',
-              color: '#fff',
-              border: '2px solid #333',
-              boxShadow: '4px 4px 0px #000',
-              padding: '12px 18px',
-              fontFamily: '"Press Start 2P", monospace',
-              fontSize: '0.65rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}
-          >
-            📄 UPLOAD PDF
-          </button>
-
-          {/* INPUT DE BÚSQUEDA GRANDE Y CON BORDES REDONDEADOS */}
-          <div style={{ position: 'relative', minWidth: '380px' }}>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="🔍 Dynamic Search by name, author, reddit username...."
-              style={{
-                width: '100%',
-                padding: '12px 20px',
-                backgroundColor: '#1e1e1e',
-                color: '#fff',
-                border: '2px solid #333333ff',
-                borderRadius: '25px',
-                boxShadow: '4px 4px 0px #000',
-                fontSize: '0.85rem',
-                boxSizing: 'border-box',
-                outline: 'none'
-              }}
-            />
+      {/* BARRA DE HERRAMIENTAS Y BÚSQUEDA */}
+      {currentView === 'catalog' && (
+        <div style={{ backgroundColor: '#111', padding: '20px 30px 10px 30px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <h1 style={{ 
+              fontSize: '16px', 
+              color: '#ffcc00', 
+              fontFamily: '"Press Start 2P", monospace', 
+              marginBottom: '10px',
+              textShadow: '2px 2px 0px #000'
+            }}>
+              LEVEL UP YOUR GAME SHELF WITH CUSTOM SPINES
+            </h1>
+            <p style={{ fontSize: '13px', color: '#aaaaaa', maxWidth: '750px', margin: '0 auto', lineHeight: '1.5' }}>
+              Transform your Switch library with high-quality replacement spines from the community. Pick your favorite designs, build your custom sheet, and print 1:1 PDFs.
+            </p>
           </div>
 
-          {/* BOTÓN FILTROS */}
-          <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px' }}>
             <button 
-              onClick={() => setShowFiltersMenu(!showFiltersMenu)} 
+              onClick={() => setSortOrder(prev => prev === 'newest' ? 'az' : 'newest')}
               style={{
-                backgroundColor: showFiltersMenu ? '#2a2a2a' : '#1e1e1e',
+                backgroundColor: sortOrder === 'newest' ? '#222' : '#1a1a1a',
                 color: '#fff',
                 border: '2px solid #333',
-                boxShadow: '4px 4px 0px #000',
+                borderRadius: '25px',
                 padding: '12px 18px',
                 fontFamily: '"Press Start 2P", monospace',
                 fontSize: '0.65rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
+                cursor: 'pointer'
               }}
             >
-              FILTERS {totalActiveFilters > 0 && `(${totalActiveFilters})`} <span style={{ fontSize: '0.6rem', color: '#888' }}>{showFiltersMenu ? '▲' : '▼'}</span>
+              {sortOrder === 'newest' ? '🔥 NEWEST' : '🔤 A-Z'}    
             </button>
 
-            {/* MENÚ DE FILTROS DESPLEGABLE EN 3 COLUMNAS */}
-            {showFiltersMenu && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                right: 0,
-                marginTop: '12px',
-                backgroundColor: '#1a1a1a',
-                border: '3px solid #b30000',
-                boxShadow: '6px 6px 0px #000',
-                padding: '20px',
-                width: '700px',
-                zIndex: 100,
-                color: 'white',
-                fontSize: '12px',
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1.2fr',
-                gap: '20px'
-              }}>
+            <button 
+              onClick={() => fileInputRef.current?.click()}
+              style={{
+                backgroundColor: '#b30000',
+                color: '#fff',
+                border: '2px solid #333',
+                padding: '12px 18px',
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '0.65rem',
+                cursor: 'pointer'
+              }}
+            >
+              📄 UPLOAD PDF
+            </button>
 
-                {totalActiveFilters > 0 && (
-                  <button 
-                    onClick={clearFilters}
-                    style={{ gridColumn: 'span 3', backgroundColor: '#333', color: '#ffcc00', border: '1px solid #ffcc00', padding: '6px', cursor: 'pointer', fontFamily: '"Press Start 2P", monospace', fontSize: '0.55rem', marginBottom: '5px' }}
-                  >
-                    🧹 CLEAR ALL FILTERS
-                  </button>
-                )}
+            <div style={{ position: 'relative', minWidth: '380px' }}>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="🔍 Dynamic Search by name, author, reddit username..."
+                style={{
+                  width: '100%',
+                  padding: '12px 20px',
+                  backgroundColor: '#1e1e1e',
+                  color: '#fff',
+                  border: '2px solid #333',
+                  borderRadius: '25px',
+                  fontSize: '0.85rem',
+                  boxSizing: 'border-box',
+                  outline: 'none'
+                }}
+              />
+            </div>
 
-                {/* COLUMNA 1 */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                  <div>
-                    <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Platform</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      {['Switch 1', 'Switch 2'].map(val => (
-                        <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <input type="checkbox" checked={selectedFilters["Platform"]?.includes(val)} onChange={() => handleFilterChange("Platform", val)} /> {val}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+            <FilterMenu 
+              showFiltersMenu={showFiltersMenu}
+              setShowFiltersMenu={setShowFiltersMenu}
+              selectedFilters={selectedFilters}
+              handleFilterChange={handleFilterChange}
+              clearFilters={clearFilters}
+              totalActiveFilters={totalActiveFilters}
+            />
 
-                  <div>
-                    <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Main Style</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      {['Minimalist', 'Scenic / Detailed', 'Maximalist (Kitsch)'].map(val => (
-                        <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <input type="checkbox" checked={selectedFilters["Main Style"]?.includes(val)} onChange={() => handleFilterChange("Main Style", val)} /> {val}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Title Typography</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      {['Simple Text', 'Original Logo'].map(val => (
-                        <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <input type="checkbox" checked={selectedFilters["Title Typography"]?.includes(val)} onChange={() => handleFilterChange("Title Typography", val)} /> {val}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Lower Logo</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      {['Nintendo', 'other'].map(val => (
-                        <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <input type="checkbox" checked={selectedFilters["Lower logo"]?.includes(val)} onChange={() => handleFilterChange("Lower logo", val)} /> {val}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* COLUMNA 2 */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                  <div>
-                    <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Extras</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      {['DNN Style', 'Character Bottom', 'Characters throughout the spine', 'Set / Panorama'].map(val => (
-                        <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <input type="checkbox" checked={selectedFilters["Extras"]?.includes(val)} onChange={() => handleFilterChange("Extras", val)} /> {val}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Text Alignment</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      {['Top Centered', 'Top Centered with margin', 'Center', 'Bottom', 'Cover all (from top)', 'Cover all (centered)'].map(val => (
-                        <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <input type="checkbox" checked={selectedFilters["Text Alignment"]?.includes(val)} onChange={() => handleFilterChange("Text Alignment", val)} /> {val}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* COLUMNA 3 */}
-                <div>
-                  <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Base Color</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 10px' }}>
-                    {[
-                      { name: 'Red', color: '#e60012' },
-                      { name: 'Blue', color: '#0066cc' },
-                      { name: 'Yellow', color: '#ffcc00' },
-                      { name: 'Green', color: '#28a745' },
-                      { name: 'Pink', color: '#ff69b4' },
-                      { name: 'Orange', color: '#ff8c00' },
-                      { name: 'Purple', color: '#8a2be2' },
-                      { name: 'White', color: '#ffffff' },
-                      { name: 'Black', color: '#111111' },
-                      { name: 'Gray', color: '#888888' },
-                    ].map(item => (
-                      <label key={item.name} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <input type="checkbox" checked={selectedFilters["Base Color"]?.includes(item.name)} onChange={() => handleFilterChange("Base Color", item.name)} />
-                        <span style={{ width: '12px', height: '12px', backgroundColor: item.color, border: '1px solid #777', display: 'inline-block' }}></span> {item.name}
-                      </label>
-                    ))}
-
-                    <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', gridColumn: 'span 2' }}>
-                      <input type="checkbox" checked={selectedFilters["Base Color"]?.includes("Multicolor")} onChange={() => handleFilterChange("Base Color", "Multicolor")} />
-                      <span style={{ width: '12px', height: '12px', background: 'linear-gradient(45deg, red, yellow, green, cyan, blue, magenta)', border: '1px solid #777', display: 'inline-block' }}></span> Multicolor
-                    </label>
-                  </div>
-                </div>
-
-              </div>
-            )}
+            <button style={{
+              backgroundColor: '#b30000',
+              color: '#fff',
+              border: '2px solid #333',
+              padding: '12px 18px',
+              fontFamily: '"Press Start 2P", monospace',
+              fontSize: '0.65rem',
+              cursor: 'pointer'
+            }}>
+              🤖 AI (in process)
+            </button>
           </div>
-
-          {/* BOTÓN AI RECOMMENDATION */}
-          <button style={{
-            backgroundColor: '#b30000',
-            color: '#fff',
-            border: '2px solid #333',
-            boxShadow: '4px 4px 0px #000',
-            padding: '12px 18px',
-            fontFamily: '"Press Start 2P", monospace',
-            fontSize: '0.65rem',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            🤖 AI  (in process)
-          </button>
         </div>
-                </div>
       )}
 
       {/* ÁREA DE CONTENIDO */}
       <div style={{ flex: 1, backgroundColor: '#111', position: 'relative', paddingBottom: '40px' }}>
         {currentView === 'catalog' ? (
-          <SpineGrid 
-            spines={filteredSpines.slice(0, visibleCount)} 
-            selectedSpines={selectedSpines} 
-            toggleSpine={(s) => {
-              const isSelected = selectedSpines.find(x => x.id === s.id);
-              if (!isSelected) registerClick(s); 
-              setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
-            }} 
-            hoveredId={hoveredId} 
-            setHoveredId={setHoveredId} 
-          />
+          <>
+            {/* SI ES MÓVIL, EL TEXTO SEO APARECE ARRIBA DEL TODO PARA ADSENSE Y LECTURA */}
+            {isMobile && <SeoTextSection />}
+
+            <SpineGrid 
+              spines={filteredSpines.slice(0, visibleCount)} 
+              selectedSpines={selectedSpines} 
+              toggleSpine={(s) => {
+                const isSelected = selectedSpines.find(x => x.id === s.id);
+                if (!isSelected) registerClick(s); 
+                setSelectedSpines(isSelected ? selectedSpines.filter(x => x.id !== s.id) : [...selectedSpines, {...s, count: 1}]);
+              }} 
+              hoveredId={hoveredId} 
+              setHoveredId={setHoveredId} 
+            />
+
+            {/* SI ES PC, EL TEXTO SEO SE QUEDA ABAJO PARA NO ROMPER EL FLUJO DE IMPRESIÓN */}
+            {!isMobile && <SeoTextSection />}
+          </>
         ) : (
           <div style={{ padding: '40px', minHeight: '100vh', paddingBottom: '60px' }}>
             {currentView === 'stats' && <StatsView spines={spines} />}
@@ -812,7 +502,7 @@ const changeView = (newView) => {
         )}
       </div>
 
-      {/* FOOTER FLOTANTE Y SEMI-TRANSPARENTE */}
+      {/* FOOTER */}
       <div style={{
         position: 'fixed',
         bottom: 0,
@@ -824,21 +514,18 @@ const changeView = (newView) => {
         textAlign: 'center',
         padding: '8px 0',
         fontSize: '11px',
-        fontFamily: 'sans-serif',
         zIndex: 500,
         display: 'flex',
         justifyContent: 'center',
         gap: '15px'
       }}>
         <span>© {new Date().getFullYear()} The Spine Archive.</span>
-        <span 
-          onClick={() => changeView('legal')} 
-          style={{ cursor: 'pointer', textDecoration: 'underline' }}
-        >
+        <span onClick={() => changeView('legal')} style={{ cursor: 'pointer', textDecoration: 'underline' }}>
           Privacy Policy & Terms of Service
         </span>
       </div>
     </div> 
   );
 };
+
 export default CatalogView;
