@@ -6,7 +6,8 @@ const FilterMenu = ({
   selectedFilters, 
   handleFilterChange, 
   clearFilters, 
-  totalActiveFilters 
+  totalActiveFilters,
+  onOpenGuide // NUEVA PROP
 }) => {
   return (
     <div style={{ position: 'relative' }}>
@@ -120,7 +121,8 @@ const FilterMenu = ({
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Text Alignment</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                {['Top Centered', 'Top Centered with margin', 'Center', 'Bottom', 'Cover all (from top)', 'Cover all (centered)'].map(val => (
+                {/* Eliminado el 'Cover all (centered)' y renombrado el anterior a 'Cover All' */}
+                {['Top Centered', 'Top Centered with margin', 'Center', 'Bottom', 'Cover All'].map(val => (
                   <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input type="checkbox" checked={selectedFilters["Text Alignment"]?.includes(val)} onChange={() => handleFilterChange("Text Alignment", val)} /> {val}
                   </label>
@@ -156,6 +158,34 @@ const FilterMenu = ({
                 <span style={{ width: '12px', height: '12px', background: 'linear-gradient(45deg, red, yellow, green, cyan, blue, magenta)', border: '1px solid #777', display: 'inline-block' }}></span> Multicolor
               </label>
             </div>
+          </div>
+
+          {/* NUEVO BOTÓN PARA ABRIR LA GUÍA */}
+          <div style={{ 
+            gridColumn: 'span 3', 
+            marginTop: '10px', 
+            paddingTop: '15px', 
+            borderTop: '1px dashed #444',
+            display: 'flex',
+            justifyContent: 'flex-end'
+          }}>
+            <button
+              onClick={() => {
+                setShowFiltersMenu(false);
+                if (onOpenGuide) onOpenGuide();
+              }}
+              style={{
+                backgroundColor: 'transparent', // <-- ¡SIN EL '#' AQUÍ!
+                color: '#ffcc00',
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '0.60rem',
+                textDecoration: 'underline'
+              }}
+            >
+              📖 LEARN THE FILTERS
+            </button>
           </div>
 
         </div>

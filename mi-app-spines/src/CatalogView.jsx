@@ -12,7 +12,8 @@ import FilterMenu from './components/catalog/FilterMenu';
 import UpdateModal from './components/catalog/UpdateModal';
 
 // AÑADIMOS la prop isMobile con valor por defecto false
-const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false }) => {
+// AÑADIMOS onOpenGuide a las props que recibe CatalogView
+const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpenGuide }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(''); 
@@ -453,6 +454,7 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false }) => {
               handleFilterChange={handleFilterChange}
               clearFilters={clearFilters}
               totalActiveFilters={totalActiveFilters}
+              onOpenGuide={onOpenGuide} 
             />
 
             <button style={{
