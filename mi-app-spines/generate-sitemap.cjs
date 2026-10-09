@@ -40,7 +40,7 @@ try {
   xml += `  </url>\n`;
 
   // Secciones secundarias esenciales (se incluye 'privacy' indispensable para AdSense)
-  const staticViews = ['about', 'legal', 'privacy', 'requests', 'stats'];
+  const staticViews = ['about', 'legal', 'privacy', 'requests', 'stats','guide'];
 
   staticViews.forEach(view => {
     const url = `${BASE_URL}/?view=${view}`;

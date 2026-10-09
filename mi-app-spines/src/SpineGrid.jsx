@@ -18,6 +18,7 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
         
         // Priorizamos 'spine.image' (Backblaze). Si no existe, usamos 'spine.src'.
         const imageUrl = spine.image || spine.src;
+        const authorName = spine.author ? spine.author.replace(/^u\//i, '') : 'COMMUNITY';
 
         return (
           <div 
@@ -34,9 +35,10 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
               zIndex: isHovered ? 10 : 1 
             }}
           >
-           <img 
+            {/* 1. Atributo ALT completo con Título y Autor para AdSense y SEO */}
+            <img 
               src={imageUrl} 
-              alt={spine.title} 
+              alt={`${spine.title} custom Nintendo Switch spine cover by ${authorName}`} 
               loading="lazy" 
               style={{ 
                 height: '100%', 
@@ -47,27 +49,33 @@ const SpineGrid = ({ spines, selectedSpines, toggleSpine, hoveredId, setHoveredI
               }} 
             />
             
-            {isHovered && (
-              <div style={{ 
-                position: 'absolute', 
-                bottom: '-50px', 
-                left: '50%', 
-                transform: 'translateX(-50%)', 
-                backgroundColor: 'rgba(0,0,0,0.95)', 
-                color: 'white', 
-                padding: '8px 15px', 
-                borderRadius: '4px', 
-                fontSize: '12px', 
-                whiteSpace: 'nowrap', 
-                fontWeight: 'bold', 
-                border: '1px solid #b30000', 
-                zIndex: 20, 
-                textAlign: 'center' 
-              }}>
-                <div>{spine.title.toUpperCase()}</div>
-                <div style={{ color: '#b30000', fontSize: '10px' }}>BY {spine.author?.toUpperCase() || 'UNKNOWN'}</div>
+            {/* 2. El texto AHORA SIEMPRE EXISTE EN EL DOM para el bot de AdSense.
+                Solo alternamos opacidad y visibilidad visual con CSS */}
+            <div style={{ 
+              position: 'absolute', 
+              bottom: '-50px', 
+              left: '50%', 
+              transform: 'translateX(-50%)', 
+              backgroundColor: 'rgba(0,0,0,0.95)', 
+              color: 'white', 
+              padding: '8px 15px', 
+              borderRadius: '4px', 
+              fontSize: '12px', 
+              whiteSpace: 'nowrap', 
+              fontWeight: 'bold', 
+              border: '1px solid #b30000', 
+              zIndex: 20, 
+              textAlign: 'center',
+              opacity: isHovered ? 1 : 0,
+              visibility: isHovered ? 'visible' : 'hidden',
+              pointerEvents: 'none',
+              transition: 'opacity 0.15s ease-in-out'
+            }}>
+              <div>{spine.title?.toUpperCase()}</div>
+              <div style={{ color: '#b30000', fontSize: '10px' }}>
+                BY {authorName.toUpperCase()}
               </div>
-            )}
+            </div>
           </div>
         );
       })}

@@ -2,21 +2,40 @@ import React, { useState, useEffect } from 'react';
 import CatalogView from './CatalogView';
 import PrinterView from './PrinterView';
 import TaggerView from './TaggerView';
-import FilterGuideView from './FilterGuideView'; // <-- NUEVO IMPORT
+import FilterGuideView from './FilterGuideView'; 
 import CookieBanner from './components/CookieBanner';
 import MobileInfoView from './components/MobileInfoView'; 
 
 function App() {
-  const [view, setView] = useState('catalog'); // Gestiona si estamos en 'catalog', 'printer', 'tagger' o 'guide'
+  const [view, setView] = useState('catalog'); 
   const [selectedSpines, setSelectedSpines] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showMobileNoticeModal, setShowMobileNoticeModal] = useState(false);
 
+  // Leer la URL al iniciar la web (?view=guide)
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    if (viewParam === 'guide') {
+      setView('guide');
+    }
+
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Función helper para cambiar de vista y actualizar la URL en la barra del navegador
+  const changeAppView = (newView) => {
+    setView(newView);
+    const url = new URL(window.location);
+    if (newView === 'catalog') {
+      url.searchParams.delete('view');
+    } else {
+      url.searchParams.set('view', newView);
+    }
+    window.history.pushState({}, '', url);
+  };
 
   const handleConfirmSelection = (spines) => {
     setSelectedSpines(spines);
@@ -31,16 +50,16 @@ function App() {
     if (currentSpinesInPrinter) {
       setSelectedSpines(currentSpinesInPrinter);
     }
-    setView('catalog');
+    changeAppView('catalog');
   };
 
   // --- VISTAS DE PANTALLA COMPLETA ---
   if (view === 'tagger') {
-    return <TaggerView onExit={() => setView('catalog')} />;
+    return <TaggerView onExit={() => changeAppView('catalog')} />;
   }
 
   if (view === 'guide') {
-    return <FilterGuideView onBack={() => setView('catalog')} />;
+    return <FilterGuideView onBack={() => changeAppView('catalog')} />;
   }
 
   return (
@@ -52,7 +71,7 @@ function App() {
             onConfirm={handleConfirmSelection} 
             initialSelected={selectedSpines} 
             isMobile={isMobile}
-            onOpenGuide={() => setView('guide')} // <-- PASAMOS LA PROP AL CATÁLOGO
+            onOpenGuide={() => changeAppView('guide')} 
           />
           
           {/* MODAL BLOQUEANTE PARA USUARIOS MÓVILES */}

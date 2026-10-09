@@ -6,13 +6,10 @@ import AboutView from './AboutView';
 import RequestsView from './RequestsView';
 import LegalView from './LegalView';
 
-// En la parte superior de CatalogView.jsx
 import SeoTextSection from './components/catalog/SeoTextSection';
 import FilterMenu from './components/catalog/FilterMenu';
 import UpdateModal from './components/catalog/UpdateModal';
 
-// AÑADIMOS la prop isMobile con valor por defecto false
-// AÑADIMOS onOpenGuide a las props que recibe CatalogView
 const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpenGuide }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,6 +40,10 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpen
   });
 
   const changeView = (newView) => {
+    if (newView === 'guide') {
+      if (onOpenGuide) onOpenGuide();
+      return;
+    }
     setCurrentView(newView);
     const url = new URL(window.location);
     if (newView === 'catalog') {
@@ -140,7 +141,9 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpen
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const viewParam = params.get('view');
-    if (viewParam && ['stats', 'requests', 'about', 'legal'].includes(viewParam)) {
+    if (viewParam === 'guide') {
+      if (onOpenGuide) onOpenGuide();
+    } else if (viewParam && ['stats', 'requests', 'about', 'legal'].includes(viewParam)) {
       setCurrentView(viewParam);
     }
     const query = params.get('search');
@@ -148,7 +151,7 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpen
       const decodedQuery = decodeURIComponent(query).replace(/-/g, ' ');
       setSearchTerm(decodedQuery);
     }
-  }, []);
+  }, [onOpenGuide]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -522,8 +525,23 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpen
         gap: '15px'
       }}>
         <span>© {new Date().getFullYear()} The Spine Archive.</span>
+        
+        {/* ENLACE DIRECTO PARA EL RASTREADOR DE ADSENSE */}
+        <a 
+          href="?view=guide" 
+          onClick={(e) => {
+            e.preventDefault();
+            changeView('guide');
+          }}
+          style={{ color: '#ffcc00', textDecoration: 'underline', cursor: 'pointer' }}
+        >
+          Filter &amp; Tagging Guide
+        </a>
+
+        <span>|</span>
+
         <span onClick={() => changeView('legal')} style={{ cursor: 'pointer', textDecoration: 'underline' }}>
-          Privacy Policy & Terms of Service
+          Privacy Policy &amp; Terms of Service
         </span>
       </div>
     </div> 
