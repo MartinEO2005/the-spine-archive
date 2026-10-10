@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -32,6 +32,10 @@ export default function TagEditView({ onCancel }) {
   const [submitting, setSubmitting] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Estados para la carga progresiva del carrusel
+  const [visibleCount, setVisibleCount] = useState(30);
+  const carouselRef = useRef(null);
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
@@ -62,6 +66,19 @@ export default function TagEditView({ onCancel }) {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Reiniciar el contador visible cuando cambia la búsqueda
+  useEffect(() => {
+    setVisibleCount(30);
+  }, [searchTerm]);
+
+  const handleCarouselScroll = (e) => {
+    const { scrollLeft, scrollWidth, clientWidth } = e.currentTarget;
+    // Si el usuario llega cerca del final horizontal (a 150px del borde derecho)
+    if (scrollLeft + clientWidth >= scrollWidth - 150) {
+      setVisibleCount(prev => prev + 30);
+    }
+  };
 
   const getImageUrl = (game) => {
     if (!game) return "";
@@ -114,7 +131,6 @@ export default function TagEditView({ onCancel }) {
       if (error) throw error;
 
       alert("¡Etiquetas enviadas con éxito al buzón de revisión! Puedes seguir editando otro spine.");
-      // NOTA: Se elimina onCancel() para que el usuario no sea redirigido y pueda continuar editando.
     } catch (err) {
       console.error("Error al enviar a Supabase:", err);
       alert("Hubo un error al enviar el cambio. Revisa la consola.");
@@ -187,19 +203,23 @@ export default function TagEditView({ onCancel }) {
           }}
         />
 
-        {/* SPINE SELECTOR CAROUSEL */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '10px', 
-          overflowX: 'auto', 
-          backgroundColor: '#161616',
-          padding: '10px',
-          borderRadius: '8px',
-          height: '140px',
-          alignItems: 'center',
-          border: '1px solid #333'
-        }}>
-          {filteredSpines.map((spine, i) => {
+        {/* SPINE SELECTOR CAROUSEL CON CARGA PROGRESIVA (LAZY LOAD) */}
+        <div 
+          ref={carouselRef}
+          onScroll={handleCarouselScroll}
+          style={{ 
+            display: 'flex', 
+            gap: '10px', 
+            overflowX: 'auto', 
+            backgroundColor: '#161616',
+            padding: '10px',
+            borderRadius: '8px',
+            height: '140px',
+            alignItems: 'center',
+            border: '1px solid #333'
+          }}
+        >
+          {filteredSpines.slice(0, visibleCount).map((spine, i) => {
             const isSelected = selectedSpine?.id === spine.id;
             const imgUrl = getImageUrl(spine);
             return (
@@ -363,7 +383,7 @@ export default function TagEditView({ onCancel }) {
             </div>
 
             {/* FOOTER ACTIONS */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#111', padding: '15px', border: '2px solid #333', borderRadius: '6px', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-width', alignItems: 'center', backgroundColor: '#111', padding: '15px', border: '2px solid #333', borderRadius: '6px', flexWrap: 'wrap', gap: '10px' }}>
               <div style={{ fontSize: '10px', color: '#ff6666' }}>* Refer to the official guide if unsure.</div>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button onClick={onCancel} style={{ backgroundColor: 'transparent', color: '#888', border: '2px solid #555', padding: '10px 15px', fontFamily: '"Press Start 2P", monospace', fontSize: '0.55rem', cursor: 'pointer', borderRadius: '4px' }}>
