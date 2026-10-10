@@ -7,7 +7,8 @@ const FilterMenu = ({
   handleFilterChange, 
   clearFilters, 
   totalActiveFilters,
-  onOpenGuide // NUEVA PROP
+  onOpenGuide, // Prop para abrir la guía
+  onOpenTagEdit // NUEVA Prop para abrir la vista de edición de tags
 }) => {
   return (
     <div style={{ position: 'relative' }}>
@@ -121,7 +122,6 @@ const FilterMenu = ({
             <div>
               <div style={{ marginBottom: '8px', fontWeight: 'bold', color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '0.65rem' }}>Text Alignment</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                {/* Eliminado el 'Cover all (centered)' y renombrado el anterior a 'Cover All' */}
                 {['Top Centered', 'Top Centered with margin', 'Center', 'Bottom', 'Cover All'].map(val => (
                   <label key={val} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input type="checkbox" checked={selectedFilters["Text Alignment"]?.includes(val)} onChange={() => handleFilterChange("Text Alignment", val)} /> {val}
@@ -160,22 +160,45 @@ const FilterMenu = ({
             </div>
           </div>
 
-          {/* NUEVO BOTÓN PARA ABRIR LA GUÍA */}
+          {/* ZONA INFERIOR: BOTONES DE GUÍA Y EDICIÓN DE TAGS */}
           <div style={{ 
             gridColumn: 'span 3', 
             marginTop: '10px', 
             paddingTop: '15px', 
             borderTop: '1px dashed #444',
             display: 'flex',
-            justifyContent: 'flex-end'
+            justifyContent: 'space-between',
+            alignItems: 'center'
           }}>
+            {/* NUEVO BOTÓN AMARILLO PARA CORREGIR TAGS */}
+            <button
+              onClick={() => {
+                setShowFiltersMenu(false);
+                if (onOpenTagEdit) onOpenTagEdit();
+              }}
+              style={{
+                backgroundColor: '#ffcc00',
+                color: '#111',
+                border: '2px solid #000',
+                boxShadow: '3px 3px 0px #000',
+                padding: '8px 12px',
+                cursor: 'pointer',
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '0.55rem',
+                fontWeight: 'bold'
+              }}
+            >
+              💡 WANNA FIX THE TAGS?
+            </button>
+
+            {/* BOTÓN DE LA GUÍA */}
             <button
               onClick={() => {
                 setShowFiltersMenu(false);
                 if (onOpenGuide) onOpenGuide();
               }}
               style={{
-                backgroundColor: 'transparent', // <-- ¡SIN EL '#' AQUÍ!
+                backgroundColor: 'transparent',
                 color: '#ffcc00',
                 border: 'none',
                 cursor: 'pointer',

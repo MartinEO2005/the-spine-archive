@@ -10,7 +10,7 @@ import SeoTextSection from './components/catalog/SeoTextSection';
 import FilterMenu from './components/catalog/FilterMenu';
 import UpdateModal from './components/catalog/UpdateModal';
 
-const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpenGuide }) => {
+const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpenGuide, onOpenTagEdit }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(''); 
@@ -458,6 +458,7 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpen
               clearFilters={clearFilters}
               totalActiveFilters={totalActiveFilters}
               onOpenGuide={onOpenGuide} 
+              onOpenTagEdit={onOpenTagEdit}
             />
 
             <button style={{

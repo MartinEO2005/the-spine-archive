@@ -3,6 +3,7 @@ import CatalogView from './CatalogView';
 import PrinterView from './PrinterView';
 import TaggerView from './TaggerView';
 import FilterGuideView from './FilterGuideView'; 
+import TagEditView from './TagEditView'; // <-- NUEVO IMPORT
 import CookieBanner from './components/CookieBanner';
 import MobileInfoView from './components/MobileInfoView'; 
 
@@ -12,12 +13,14 @@ function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showMobileNoticeModal, setShowMobileNoticeModal] = useState(false);
 
-  // Leer la URL al iniciar la web (?view=guide)
+  // Leer la URL al iniciar la web (?view=guide o ?view=tag-edit)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const viewParam = params.get('view');
     if (viewParam === 'guide') {
       setView('guide');
+    } else if (viewParam === 'tag-edit') {
+      setView('tag-edit');
     }
 
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -62,6 +65,23 @@ function App() {
     return <FilterGuideView onBack={() => changeAppView('catalog')} />;
   }
 
+  if (view === 'tag-edit') {
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#111', padding: '40px 20px' }}>
+        <TagEditView 
+          spineName="Community Contribution"
+          currentAITags={{}}
+          onCancel={() => changeAppView('catalog')}
+          onSubmit={(proposedTags) => {
+            console.log("Tags enviadas:", proposedTags);
+            alert("¡Etiquetas enviadas correctamente para revisión!");
+            changeAppView('catalog');
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111' }}>
       
@@ -72,6 +92,7 @@ function App() {
             initialSelected={selectedSpines} 
             isMobile={isMobile}
             onOpenGuide={() => changeAppView('guide')} 
+            onOpenTagEdit={() => changeAppView('tag-edit')} // <-- CONECTADO AQUÍ
           />
           
           {/* MODAL BLOQUEANTE PARA USUARIOS MÓVILES */}
