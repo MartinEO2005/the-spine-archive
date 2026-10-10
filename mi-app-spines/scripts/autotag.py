@@ -59,8 +59,7 @@ Analyze this image and the metadata of a Nintendo Switch game spine. You are a d
     * "Top Centered with margin": There is a clear, atmospheric, or decorative empty space visible between the Nintendo Switch red banner and the start of the title text, with an average margin of 60 to 100 pixels that allows displaying the background, sky, or characteristic color of the game before the main typography.
     * "Center": The text floats in the absolute middle of the spine, with plenty of free space above and below.
     * "Bottom": The text is grouped entirely in the bottom half of the spine.
-    * "Cover all (from top)": The text is very long and occupies almost the entire vertical strip, starting from the top.
-    * "Cover all (centered)": The text is long and occupies a large part of the spine, but leaves symmetrical margins at the top and bottom.
+    * "Cover all": The text is very long and occupies almost the entire vertical strip, starting from the top.
 - "Main Style":
     * "Minimalist": The background behind the letters is solid, a simple gradient, or a subtle pattern. ATTENTION: If there are characters at the bottom but the central background where the text is located is clean, IT IS STILL Minimalist.
     * "Scenic / Detailed": The background features a complex illustration, a background scenario, or dense textures occupying the entire space.

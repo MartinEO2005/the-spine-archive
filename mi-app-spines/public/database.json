@@ -222617,5 +222617,410 @@
       "Extras": []
     },
     "hexColor": "#2C12A1"
+  },
+  {
+    "id": "13qzryf",
+    "title": "Framed collection by yngames",
+    "author": "u/yngames",
+    "src": "/spines/13qzryf.webp",
+    "hash": "04c8335d877869c16abc8373d6800cc3",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/13qzryf.webp",
+    "created_utc": 1684966945
+  },
+  {
+    "id": "i1dxjp",
+    "title": "Destiny Connect: Tick-Tock Travelers (alternate design) by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/i1dxjp.webp",
+    "hash": "4f74280308b48d59a23911261aa0dbe1",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/i1dxjp.webp",
+    "created_utc": 1596223968
+  },
+  {
+    "id": "i1dx0w",
+    "title": "Destiny Connect: Tick-Tock Travelers by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/i1dx0w.webp",
+    "hash": "336fc332c687c8b72c2ab8d7ff865d13",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/i1dx0w.webp",
+    "created_utc": 1596223917
+  },
+  {
+    "id": "gpk7ks",
+    "title": "Yono and the Celestial Elephants by Dienomight9",
+    "author": "u/DieNoMight9",
+    "src": "/spines/gpk7ks.webp",
+    "hash": "f30bd6e6142151622975817cba6cee4a",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gpk7ks.webp",
+    "created_utc": 1590298387
+  },
+  {
+    "id": "1x1k3u2_0",
+    "title": "Yooka-Laylee and the Impossible Lair (in the style of DieNoMight9) by Mii203 (Parte 1)",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1x1k3u2_0.webp",
+    "hash": "e07904af1ee3425a2f9907ee94d31d4f",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1k3u2_0.webp",
+    "created_utc": 1791549021
+  },
+  {
+    "id": "1x1k3u2_1",
+    "title": "Yooka-Laylee and the Impossible Lair (in the style of DieNoMight9) by Mii203 (Parte 2)",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1x1k3u2_1.webp",
+    "hash": "1e19ac52f7c2d78eee089ca3d156c3c8",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1k3u2_1.webp",
+    "created_utc": 1791549021
+  },
+  {
+    "id": "1wz0io0_0",
+    "title": "Disney Illusion Island (in the style of DieNoMight9) by Mii203 (Parte 1)",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wz0io0_0.webp",
+    "hash": "66403c6370314c1c90e59d3b6c5da0fc",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz0io0_0.webp",
+    "created_utc": 1791287313
+  },
+  {
+    "id": "1wz0io0_1",
+    "title": "Disney Illusion Island (in the style of DieNoMight9) by Mii203 (Parte 2)",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wz0io0_1.webp",
+    "hash": "b0e396d6cef27ff8aa6e8bab257ed4f2",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz0io0_1.webp",
+    "created_utc": 1791287313
+  },
+  {
+    "id": "1wy7dis",
+    "title": "Final Fantasy X/X-2 HD Remaster (in the style of DieNoMight9) by Mii203",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wy7dis.webp",
+    "hash": "960bd913a3d3827f270a8d4ad99b5398",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy7dis.webp",
+    "created_utc": 1791203610
+  },
+  {
+    "id": "1wyjub9",
+    "title": "Bob Esponja: Titanes de las mareas by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wyjub9.webp",
+    "hash": "2705ad8ce6a05f7afa4650f809a7b634",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyjub9.webp",
+    "created_utc": 1791233268
+  },
+  {
+    "id": "1wymtl5",
+    "title": "Riki 8bit Game Collection by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wymtl5.webp",
+    "hash": "b173123ffb8822fb6ab0e48d53bf9a9a",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wymtl5.webp",
+    "created_utc": 1791240823
+  },
+  {
+    "id": "pkpag7",
+    "title": "Astérix & Obelix: Baffez-Les Tous by Plokster52",
+    "author": "u/Plokster52",
+    "src": "/spines/pkpag7.webp",
+    "hash": "6c4edbc7d192d6d66c1db03a771c3021",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/pkpag7.webp",
+    "created_utc": 1631156382
+  },
+  {
+    "id": "1x1wms0",
+    "title": "Frederica by CommanderBoxers",
+    "author": "u/Commanderboxers",
+    "src": "/spines/1x1wms0.webp",
+    "hash": "54d060337b0ae7b55e5e5106c4b7569d",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1wms0.webp",
+    "created_utc": 1791579007
+  },
+  {
+    "id": "1wyngy2",
+    "title": "Frederica by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wyngy2.webp",
+    "hash": "c9ec51ef8b73fc4a64f8eab6ea47939c",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyngy2.webp",
+    "created_utc": 1791242610
+  },
+  {
+    "id": "1wym330",
+    "title": "Ninjala by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wym330.webp",
+    "hash": "63433d44bce7fdd1cc7f9a63d920a2c8",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wym330.webp",
+    "created_utc": 1791238837
+  },
+  {
+    "id": "1x00q1k",
+    "title": "South Park: Die rektakuläre Zerreißprobe (German Version) by OnkelSpidey and Lewcifer820",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1x00q1k.webp",
+    "hash": "e6f14e839b01ef5c4b9a4fa39928a795",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x00q1k.webp",
+    "created_utc": 1791389657
+  },
+  {
+    "id": "1wy7q82_0",
+    "title": "Nintendo Switch Sports Resort (in the style of DieNoMight9) by Mii203 (Parte 1)",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wy7q82_0.webp",
+    "hash": "2829b4578d39759316af1c93d4775d52",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy7q82_0.webp",
+    "created_utc": 1791204630
+  },
+  {
+    "id": "1wy7q82_1",
+    "title": "Nintendo Switch Sports Resort (in the style of DieNoMight9) by Mii203 (Parte 2)",
+    "author": "u/ItsAMii203",
+    "src": "/spines/1wy7q82_1.webp",
+    "hash": "e2318ff53a804553b5f4bb86ed4cadc9",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy7q82_1.webp",
+    "created_utc": 1791204630
+  },
+  {
+    "id": "1x136gy",
+    "title": "Bokuhime Project - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1x136gy.webp",
+    "hash": "698ca2115643c32221aa9c9d813e30e8",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x136gy.webp",
+    "created_utc": 1791494446
+  },
+  {
+    "id": "1x0ft8i",
+    "title": "Blue-Winged Chevalier - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1x0ft8i.webp",
+    "hash": "fc99a33f1fb8fb3603c2f2eb7166e7c5",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x0ft8i.webp",
+    "created_utc": 1791427799
+  },
+  {
+    "id": "1wzl2e6",
+    "title": "Blaze Union: Story to Reach the Future + Knights in the Nightmare - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1wzl2e6.webp",
+    "hash": "d476510bef79d2bca6f4739c01384298",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wzl2e6.webp",
+    "created_utc": 1791339730
+  },
+  {
+    "id": "1wzk3wb",
+    "title": "BlazBlue: Cross Tag Battle Special Edition - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1wzk3wb.webp",
+    "hash": "515bf95bf855fec87fbeb1c1d3516877",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wzk3wb.webp",
+    "created_utc": 1791336793
+  },
+  {
+    "id": "1wyqz07",
+    "title": "BlazBlue: Cross Tag Battle - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1wyqz07.webp",
+    "hash": "377d304013e52fb7adb49df9f9f46f92",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyqz07.webp",
+    "created_utc": 1791252787
+  },
+  {
+    "id": "1wwctjy",
+    "title": "Battle Arcus Rebellion from Shining - by HomoSnakexual",
+    "author": "u/HomoSnakexual",
+    "src": "/spines/1wwctjy.webp",
+    "hash": "b53e3daf3283b17da93429796c4fe96f",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwctjy.webp",
+    "created_utc": 1790997434
+  },
+  {
+    "id": "1wy176b_0",
+    "title": "Pokemon DLC Set by PSX_Ramitas (Parte 1)",
+    "author": "u/PSX_Ramitas",
+    "src": "/spines/1wy176b_0.webp",
+    "hash": "3e15aa42ea37b5b09c769cdfb09de995",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_0.webp",
+    "created_utc": 1791180857
+  },
+  {
+    "id": "1wy176b_1",
+    "title": "Pokemon DLC Set by PSX_Ramitas (Parte 2)",
+    "author": "u/PSX_Ramitas",
+    "src": "/spines/1wy176b_1.webp",
+    "hash": "d739aaf88f18f2f3f7b854fbb52e2807",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_1.webp",
+    "created_utc": 1791180857
+  },
+  {
+    "id": "1wy176b_2",
+    "title": "Pokemon DLC Set by PSX_Ramitas (Parte 3)",
+    "author": "u/PSX_Ramitas",
+    "src": "/spines/1wy176b_2.webp",
+    "hash": "c16a39f5b93e8569840223f29e24e1e0",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_2.webp",
+    "created_utc": 1791180857
+  },
+  {
+    "id": "1wy176b_3",
+    "title": "Pokemon DLC Set by PSX_Ramitas (Parte 4)",
+    "author": "u/PSX_Ramitas",
+    "src": "/spines/1wy176b_3.webp",
+    "hash": "e041deac5eb92bebd3dbe61a38a4ba09",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_3.webp",
+    "created_utc": 1791180857
+  },
+  {
+    "id": "1wy176b_4",
+    "title": "Pokemon DLC Set by PSX_Ramitas (Parte 5)",
+    "author": "u/PSX_Ramitas",
+    "src": "/spines/1wy176b_4.webp",
+    "hash": "3c13d46e5e7f1615f2b8be2fd7ad7f89",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_4.webp",
+    "created_utc": 1791180857
+  },
+  {
+    "id": "1x25k6p",
+    "title": "King of Tokyo by gaymersaurio_rex",
+    "author": "u/Objective-Wall-514",
+    "src": "/spines/1x25k6p.webp",
+    "hash": "64dd06866082b50695e2a3c1df1d5913",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x25k6p.webp",
+    "created_utc": 1791604901
+  },
+  {
+    "id": "1x1wmaf",
+    "title": "Silent Hope by CommanderBoxers",
+    "author": "u/Commanderboxers",
+    "src": "/spines/1x1wmaf.webp",
+    "hash": "cfd8e7f26e93c171bb444ef5f7cb30ad",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1wmaf.webp",
+    "created_utc": 1791578975
+  },
+  {
+    "id": "1wzubin",
+    "title": "El Shaddai: Ascension of the Metatron HD Remaster (Limited Run) by OnkelSpidey",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1wzubin.webp",
+    "hash": "1880fafc861997a91000ad747269bf52",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wzubin.webp",
+    "created_utc": 1791373382
+  },
+  {
+    "id": "1wz7mwb",
+    "title": "Kamen Rider: Memory of Heroez by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wz7mwb.webp",
+    "hash": "bb661c08a5d7fb1d90100f37aa478b09",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz7mwb.webp",
+    "created_utc": 1791305415
+  },
+  {
+    "id": "1wz7mgy",
+    "title": "Kamen Rider: Memory of Heroez  by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wz7mgy.webp",
+    "hash": "f286539552f30eabd7fb10d2d48b0b2c",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz7mgy.webp",
+    "created_utc": 1791305388
+  },
+  {
+    "id": "1wyrne6_0",
+    "title": "Hogwarts Legacy  (2 vers. normal/dark arts) by gaymersaurio_rex (Parte 1)",
+    "author": "u/Objective-Wall-514",
+    "src": "/spines/1wyrne6_0.webp",
+    "hash": "683ecd26200e2ccd57a01df92d8a646e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyrne6_0.webp",
+    "created_utc": 1791254923
+  },
+  {
+    "id": "1wyrne6_1",
+    "title": "Hogwarts Legacy  (2 vers. normal/dark arts) by gaymersaurio_rex (Parte 2)",
+    "author": "u/Objective-Wall-514",
+    "src": "/spines/1wyrne6_1.webp",
+    "hash": "828931cc1742e32dcdb0ab87aaf35181",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyrne6_1.webp",
+    "created_utc": 1791254923
+  },
+  {
+    "id": "1wyrne6_2",
+    "title": "Hogwarts Legacy  (2 vers. normal/dark arts) by gaymersaurio_rex (Parte 3)",
+    "author": "u/Objective-Wall-514",
+    "src": "/spines/1wyrne6_2.webp",
+    "hash": "1325eec375b0b91f0c3ac638ccab704e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyrne6_2.webp",
+    "created_utc": 1791254923
+  },
+  {
+    "id": "1wylcf5",
+    "title": "Dino Ranch: Mission Sauvetage by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wylcf5.webp",
+    "hash": "46efefffbfebd113b1edd481e9696474",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wylcf5.webp",
+    "created_utc": 1791236942
+  },
+  {
+    "id": "1wylamz",
+    "title": "Dino Ranch: Ride to the Rescue by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1wylamz.webp",
+    "hash": "e2c573cc2d4cbf458cba770122f430d8",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wylamz.webp",
+    "created_utc": 1791236814
+  },
+  {
+    "id": "1wxnk0u",
+    "title": "Bramble: The Mountain King by OnkelSpidey",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1wxnk0u.webp",
+    "hash": "7baf58ca9f4232b28cabcd94473620c2",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wxnk0u.webp",
+    "created_utc": 1791140394
+  },
+  {
+    "id": "1wwmqje",
+    "title": "Dragon Quest XI S: Streiter des Schicksals – Definitive Edition (Deutsch, Switch-2-Design) by OnkelSpidey and Skorm730",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1wwmqje.webp",
+    "hash": "0e3ceabe1b0bd7b7b0946d692273c4db",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwmqje.webp",
+    "created_utc": 1791032571
+  },
+  {
+    "id": "1wwmq38",
+    "title": "Dragon Quest VII Reimagined (Switch 2) by OnkelSpidey and Skorm730",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1wwmq38.webp",
+    "hash": "f7f90f643d858198bbcd57f3a52550c2",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwmq38.webp",
+    "created_utc": 1791032535
+  },
+  {
+    "id": "1wwmpe9",
+    "title": "Dragon Quest I & II HD-2D Remake (Switch 2) by OnkelSpidey and Skorm730",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1wwmpe9.webp",
+    "hash": "3179ea5a0392e05daa282b1c1f94f85e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwmpe9.webp",
+    "created_utc": 1791032483
+  },
+  {
+    "id": "1ww3k4v",
+    "title": "Paper Mario - Die Legende vom Äonentor by amiibolover99",
+    "author": "u/Longjumping_Dog7979",
+    "src": "/spines/1ww3k4v.webp",
+    "hash": "2547b2e6c066330d02a10a02b8d2c246",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ww3k4v.webp",
+    "created_utc": 1790971086
+  },
+  {
+    "id": "1ww35dc",
+    "title": "Paper Mario: Die Legende vom Äonentor (Deutsch) by OnkelSpidey",
+    "author": "u/OnkelSpidey",
+    "src": "/spines/1ww35dc.webp",
+    "hash": "b857042baae590becb75f39232d87314",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ww35dc.webp",
+    "created_utc": 1790970067
   }
 ]
