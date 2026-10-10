@@ -16,7 +16,6 @@ const SINGLE_CATEGORIES = {
   "Platform": ['Switch 1', 'Switch 2'],
   "Base Color": ['Red', 'Blue', 'Yellow', 'Green', 'Pink', 'Orange', 'Purple', 'White', 'Black', 'Gray', 'Multicolor'],
   "Title Typography": ['Simple Text', 'Original Logo'],
-  // Unificado a un solo "Cover All"
   "Text Alignment": ['Top Centered', 'Top Centered with margin', 'Center', 'Bottom', 'Cover All'],
   "Main Style": ['Minimalist', 'Scenic / Detailed', 'Maximalist (Kitsch)'],
   "Lower Logo": ['Nintendo', 'other']
@@ -96,19 +95,12 @@ export default function TagEditView({ onCancel }) {
     });
   };
 
-  // --- PRUEBA DE LA API DE SUPABASE ---
   const handleSubmit = async () => {
     if (!selectedSpine) return;
     setSubmitting(true);
 
     try {
-      console.log("Enviando datos a Supabase...", {
-        spine_id: selectedSpine.id,
-        spine_title: selectedSpine.title,
-        proposed_tags: proposedTags
-      });
-
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('tag_requests')
         .insert([
           { 
@@ -117,17 +109,15 @@ export default function TagEditView({ onCancel }) {
             proposed_tags: proposedTags,
             status: 'pending'
           }
-        ])
-        .select();
+        ]);
 
       if (error) throw error;
 
-      console.log("Respuesta exitosa de Supabase:", data);
-      alert("¡Prueba exitosa! Etiquetas guardadas en la base de datos de Supabase.");
-      onCancel();
+      alert("¡Etiquetas enviadas con éxito al buzón de revisión! Puedes seguir editando otro spine.");
+      // NOTA: Se elimina onCancel() para que el usuario no sea redirigido y pueda continuar editando.
     } catch (err) {
-      console.error("Error en la prueba con Supabase:", err);
-      alert("Hubo un error al conectar con Supabase. Revisa la consola.");
+      console.error("Error al enviar a Supabase:", err);
+      alert("Hubo un error al enviar el cambio. Revisa la consola.");
     } finally {
       setSubmitting(false);
     }
