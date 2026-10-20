@@ -222625,7 +222625,20 @@
     "src": "/spines/13qzryf.webp",
     "hash": "04c8335d877869c16abc8373d6800cc3",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/13qzryf.webp",
-    "created_utc": 1684966945
+    "created_utc": 1684966945,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style",
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#28314E"
   },
   {
     "id": "i1dxjp",
@@ -222634,7 +222647,17 @@
     "src": "/spines/i1dxjp.webp",
     "hash": "4f74280308b48d59a23911261aa0dbe1",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/i1dxjp.webp",
-    "created_utc": 1596223968
+    "created_utc": 1596223968,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#F6D27C"
   },
   {
     "id": "i1dx0w",
@@ -222643,7 +222666,19 @@
     "src": "/spines/i1dx0w.webp",
     "hash": "336fc332c687c8b72c2ab8d7ff865d13",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/i1dx0w.webp",
-    "created_utc": 1596223917
+    "created_utc": 1596223917,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#30598D"
   },
   {
     "id": "gpk7ks",
@@ -222652,7 +222687,20 @@
     "src": "/spines/gpk7ks.webp",
     "hash": "f30bd6e6142151622975817cba6cee4a",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gpk7ks.webp",
-    "created_utc": 1590298387
+    "created_utc": 1590298387,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style",
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#011C43"
   },
   {
     "id": "1x1k3u2_0",
@@ -222661,7 +222709,19 @@
     "src": "/spines/1x1k3u2_0.webp",
     "hash": "e07904af1ee3425a2f9907ee94d31d4f",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1k3u2_0.webp",
-    "created_utc": 1791549021
+    "created_utc": 1791549021,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Orange",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#FF9318"
   },
   {
     "id": "1x1k3u2_1",
@@ -222670,7 +222730,19 @@
     "src": "/spines/1x1k3u2_1.webp",
     "hash": "1e19ac52f7c2d78eee089ca3d156c3c8",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1k3u2_1.webp",
-    "created_utc": 1791549021
+    "created_utc": 1791549021,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Orange",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#FD9418"
   },
   {
     "id": "1wz0io0_0",
@@ -222679,7 +222751,19 @@
     "src": "/spines/1wz0io0_0.webp",
     "hash": "66403c6370314c1c90e59d3b6c5da0fc",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz0io0_0.webp",
-    "created_utc": 1791287313
+    "created_utc": 1791287313,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#471D32"
   },
   {
     "id": "1wz0io0_1",
@@ -222688,7 +222772,20 @@
     "src": "/spines/1wz0io0_1.webp",
     "hash": "b0e396d6cef27ff8aa6e8bab257ed4f2",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz0io0_1.webp",
-    "created_utc": 1791287313
+    "created_utc": 1791287313,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#53293E"
   },
   {
     "id": "1wy7dis",
@@ -222697,7 +222794,19 @@
     "src": "/spines/1wy7dis.webp",
     "hash": "960bd913a3d3827f270a8d4ad99b5398",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy7dis.webp",
-    "created_utc": 1791203610
+    "created_utc": 1791203610,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Gray",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#E2E1DB"
   },
   {
     "id": "1wyjub9",
@@ -222706,7 +222815,19 @@
     "src": "/spines/1wyjub9.webp",
     "hash": "2705ad8ce6a05f7afa4650f809a7b634",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyjub9.webp",
-    "created_utc": 1791233268
+    "created_utc": 1791233268,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#052128"
   },
   {
     "id": "1wymtl5",
@@ -222715,7 +222836,19 @@
     "src": "/spines/1wymtl5.webp",
     "hash": "b173123ffb8822fb6ab0e48d53bf9a9a",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wymtl5.webp",
-    "created_utc": 1791240823
+    "created_utc": 1791240823,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Pink",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FCE7EC"
   },
   {
     "id": "pkpag7",
@@ -222724,7 +222857,19 @@
     "src": "/spines/pkpag7.webp",
     "hash": "6c4edbc7d192d6d66c1db03a771c3021",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/pkpag7.webp",
-    "created_utc": 1631156382
+    "created_utc": 1631156382,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FFD808"
   },
   {
     "id": "1x1wms0",
@@ -222733,7 +222878,19 @@
     "src": "/spines/1x1wms0.webp",
     "hash": "54d060337b0ae7b55e5e5106c4b7569d",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1wms0.webp",
-    "created_utc": 1791579007
+    "created_utc": 1791579007,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#0D1D2A"
   },
   {
     "id": "1wyngy2",
@@ -222742,7 +222899,19 @@
     "src": "/spines/1wyngy2.webp",
     "hash": "c9ec51ef8b73fc4a64f8eab6ea47939c",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyngy2.webp",
-    "created_utc": 1791242610
+    "created_utc": 1791242610,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#271522"
   },
   {
     "id": "1wym330",
@@ -222751,7 +222920,19 @@
     "src": "/spines/1wym330.webp",
     "hash": "63433d44bce7fdd1cc7f9a63d920a2c8",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wym330.webp",
-    "created_utc": 1791238837
+    "created_utc": 1791238837,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#B6F6FF"
   },
   {
     "id": "1x00q1k",
@@ -222760,7 +222941,19 @@
     "src": "/spines/1x00q1k.webp",
     "hash": "e6f14e839b01ef5c4b9a4fa39928a795",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x00q1k.webp",
-    "created_utc": 1791389657
+    "created_utc": 1791389657,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#022B62"
   },
   {
     "id": "1wy7q82_0",
@@ -222769,7 +222962,20 @@
     "src": "/spines/1wy7q82_0.webp",
     "hash": "2829b4578d39759316af1c93d4775d52",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy7q82_0.webp",
-    "created_utc": 1791204630
+    "created_utc": 1791204630,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#1E97DB"
   },
   {
     "id": "1wy7q82_1",
@@ -222778,7 +222984,19 @@
     "src": "/spines/1wy7q82_1.webp",
     "hash": "e2318ff53a804553b5f4bb86ed4cadc9",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy7q82_1.webp",
-    "created_utc": 1791204630
+    "created_utc": 1791204630,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#1E97D7"
   },
   {
     "id": "1x136gy",
@@ -222787,7 +223005,19 @@
     "src": "/spines/1x136gy.webp",
     "hash": "698ca2115643c32221aa9c9d813e30e8",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x136gy.webp",
-    "created_utc": 1791494446
+    "created_utc": 1791494446,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Pink",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#CF0C79"
   },
   {
     "id": "1x0ft8i",
@@ -222796,7 +223026,17 @@
     "src": "/spines/1x0ft8i.webp",
     "hash": "fc99a33f1fb8fb3603c2f2eb7166e7c5",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x0ft8i.webp",
-    "created_utc": 1791427799
+    "created_utc": 1791427799,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#54ACE7"
   },
   {
     "id": "1wzl2e6",
@@ -222805,7 +223045,17 @@
     "src": "/spines/1wzl2e6.webp",
     "hash": "d476510bef79d2bca6f4739c01384298",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wzl2e6.webp",
-    "created_utc": 1791339730
+    "created_utc": 1791339730,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#6F0D0A"
   },
   {
     "id": "1wzk3wb",
@@ -222814,7 +223064,19 @@
     "src": "/spines/1wzk3wb.webp",
     "hash": "515bf95bf855fec87fbeb1c1d3516877",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wzk3wb.webp",
-    "created_utc": 1791336793
+    "created_utc": 1791336793,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#1E0133"
   },
   {
     "id": "1wyqz07",
@@ -222823,7 +223085,19 @@
     "src": "/spines/1wyqz07.webp",
     "hash": "377d304013e52fb7adb49df9f9f46f92",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyqz07.webp",
-    "created_utc": 1791252787
+    "created_utc": 1791252787,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#A54C5F"
   },
   {
     "id": "1wwctjy",
@@ -222832,7 +223106,19 @@
     "src": "/spines/1wwctjy.webp",
     "hash": "b53e3daf3283b17da93429796c4fe96f",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwctjy.webp",
-    "created_utc": 1790997434
+    "created_utc": 1790997434,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#F4C4AB"
   },
   {
     "id": "1wy176b_0",
@@ -222841,7 +223127,20 @@
     "src": "/spines/1wy176b_0.webp",
     "hash": "3e15aa42ea37b5b09c769cdfb09de995",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_0.webp",
-    "created_utc": 1791180857
+    "created_utc": 1791180857,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#872C7F"
   },
   {
     "id": "1wy176b_1",
@@ -222850,7 +223149,20 @@
     "src": "/spines/1wy176b_1.webp",
     "hash": "d739aaf88f18f2f3f7b854fbb52e2807",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_1.webp",
-    "created_utc": 1791180857
+    "created_utc": 1791180857,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#437093"
   },
   {
     "id": "1wy176b_2",
@@ -222859,7 +223171,20 @@
     "src": "/spines/1wy176b_2.webp",
     "hash": "c16a39f5b93e8569840223f29e24e1e0",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_2.webp",
-    "created_utc": 1791180857
+    "created_utc": 1791180857,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1wy176b_3",
@@ -222868,7 +223193,20 @@
     "src": "/spines/1wy176b_3.webp",
     "hash": "e041deac5eb92bebd3dbe61a38a4ba09",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_3.webp",
-    "created_utc": 1791180857
+    "created_utc": 1791180857,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#DA5241"
   },
   {
     "id": "1wy176b_4",
@@ -222877,7 +223215,20 @@
     "src": "/spines/1wy176b_4.webp",
     "hash": "3c13d46e5e7f1615f2b8be2fd7ad7f89",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wy176b_4.webp",
-    "created_utc": 1791180857
+    "created_utc": 1791180857,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1x25k6p",
@@ -222886,7 +223237,19 @@
     "src": "/spines/1x25k6p.webp",
     "hash": "64dd06866082b50695e2a3c1df1d5913",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x25k6p.webp",
-    "created_utc": 1791604901
+    "created_utc": 1791604901,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#5B9055"
   },
   {
     "id": "1x1wmaf",
@@ -222895,7 +223258,19 @@
     "src": "/spines/1x1wmaf.webp",
     "hash": "cfd8e7f26e93c171bb444ef5f7cb30ad",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x1wmaf.webp",
-    "created_utc": 1791578975
+    "created_utc": 1791578975,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#604543"
   },
   {
     "id": "1wzubin",
@@ -222904,7 +223279,17 @@
     "src": "/spines/1wzubin.webp",
     "hash": "1880fafc861997a91000ad747269bf52",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wzubin.webp",
-    "created_utc": 1791373382
+    "created_utc": 1791373382,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1wz7mwb",
@@ -222913,7 +223298,19 @@
     "src": "/spines/1wz7mwb.webp",
     "hash": "bb661c08a5d7fb1d90100f37aa478b09",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz7mwb.webp",
-    "created_utc": 1791305415
+    "created_utc": 1791305415,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#518FB6"
   },
   {
     "id": "1wz7mgy",
@@ -222922,7 +223319,19 @@
     "src": "/spines/1wz7mgy.webp",
     "hash": "f286539552f30eabd7fb10d2d48b0b2c",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wz7mgy.webp",
-    "created_utc": 1791305388
+    "created_utc": 1791305388,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#000000"
   },
   {
     "id": "1wyrne6_0",
@@ -222931,7 +223340,19 @@
     "src": "/spines/1wyrne6_0.webp",
     "hash": "683ecd26200e2ccd57a01df92d8a646e",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyrne6_0.webp",
-    "created_utc": 1791254923
+    "created_utc": 1791254923,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#DADBD6"
   },
   {
     "id": "1wyrne6_1",
@@ -222940,7 +223361,20 @@
     "src": "/spines/1wyrne6_1.webp",
     "hash": "828931cc1742e32dcdb0ab87aaf35181",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyrne6_1.webp",
-    "created_utc": 1791254923
+    "created_utc": 1791254923,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Set / Panorama",
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#284259"
   },
   {
     "id": "1wyrne6_2",
@@ -222949,7 +223383,19 @@
     "src": "/spines/1wyrne6_2.webp",
     "hash": "1325eec375b0b91f0c3ac638ccab704e",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wyrne6_2.webp",
-    "created_utc": 1791254923
+    "created_utc": 1791254923,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#213958"
   },
   {
     "id": "1wylcf5",
@@ -222958,7 +223404,19 @@
     "src": "/spines/1wylcf5.webp",
     "hash": "46efefffbfebd113b1edd481e9696474",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wylcf5.webp",
-    "created_utc": 1791236942
+    "created_utc": 1791236942,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#A0E3FC"
   },
   {
     "id": "1wylamz",
@@ -222967,7 +223425,19 @@
     "src": "/spines/1wylamz.webp",
     "hash": "e2c573cc2d4cbf458cba770122f430d8",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wylamz.webp",
-    "created_utc": 1791236814
+    "created_utc": 1791236814,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#A0E3FC"
   },
   {
     "id": "1wxnk0u",
@@ -222976,7 +223446,19 @@
     "src": "/spines/1wxnk0u.webp",
     "hash": "7baf58ca9f4232b28cabcd94473620c2",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wxnk0u.webp",
-    "created_utc": 1791140394
+    "created_utc": 1791140394,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#165859"
   },
   {
     "id": "1wwmqje",
@@ -222985,7 +223467,19 @@
     "src": "/spines/1wwmqje.webp",
     "hash": "0e3ceabe1b0bd7b7b0946d692273c4db",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwmqje.webp",
-    "created_utc": 1791032571
+    "created_utc": 1791032571,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#AF4E5A"
   },
   {
     "id": "1wwmq38",
@@ -222994,7 +223488,19 @@
     "src": "/spines/1wwmq38.webp",
     "hash": "f7f90f643d858198bbcd57f3a52550c2",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwmq38.webp",
-    "created_utc": 1791032535
+    "created_utc": 1791032535,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Gray",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#9C8B76"
   },
   {
     "id": "1wwmpe9",
@@ -223003,7 +223509,19 @@
     "src": "/spines/1wwmpe9.webp",
     "hash": "3179ea5a0392e05daa282b1c1f94f85e",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1wwmpe9.webp",
-    "created_utc": 1791032483
+    "created_utc": 1791032483,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#9FA863"
   },
   {
     "id": "1ww3k4v",
@@ -223012,7 +223530,19 @@
     "src": "/spines/1ww3k4v.webp",
     "hash": "2547b2e6c066330d02a10a02b8d2c246",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ww3k4v.webp",
-    "created_utc": 1790971086
+    "created_utc": 1790971086,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FFEED2"
   },
   {
     "id": "1ww35dc",
@@ -223021,7 +223551,17 @@
     "src": "/spines/1ww35dc.webp",
     "hash": "b857042baae590becb75f39232d87314",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1ww35dc.webp",
-    "created_utc": 1790970067
+    "created_utc": 1790970067,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Gray",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#CBBBAC"
   },
   {
     "id": "1x6k9yl_0",
@@ -223030,7 +223570,19 @@
     "src": "/spines/1x6k9yl_0.webp",
     "hash": "50e4671f56de83b654840960e679afa5",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k9yl_0.webp",
-    "created_utc": 1792067201
+    "created_utc": 1792067201,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#E68B08"
   },
   {
     "id": "1x6k9yl_1",
@@ -223039,7 +223591,19 @@
     "src": "/spines/1x6k9yl_1.webp",
     "hash": "7eac3a53a0494299e83910516e135141",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k9yl_1.webp",
-    "created_utc": 1792067201
+    "created_utc": 1792067201,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#E8BE3A"
   },
   {
     "id": "1x6k9yl_2",
@@ -223048,7 +223612,19 @@
     "src": "/spines/1x6k9yl_2.webp",
     "hash": "9a144088b8287ec99a7adcf8ada889b6",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k9yl_2.webp",
-    "created_utc": 1792067201
+    "created_utc": 1792067201,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#CFB530"
   },
   {
     "id": "1x6k9yl_3",
@@ -223057,7 +223633,19 @@
     "src": "/spines/1x6k9yl_3.webp",
     "hash": "43599be19d552d4bf436f231ea6691d6",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k9yl_3.webp",
-    "created_utc": 1792067201
+    "created_utc": 1792067201,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#E6B82E"
   },
   {
     "id": "1x6k9yl_4",
@@ -223066,7 +223654,19 @@
     "src": "/spines/1x6k9yl_4.webp",
     "hash": "a74164af77284addfd184e37f05b333e",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k9yl_4.webp",
-    "created_utc": 1792067201
+    "created_utc": 1792067201,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#C6A70B"
   },
   {
     "id": "1x6k9yl_5",
@@ -223075,7 +223675,19 @@
     "src": "/spines/1x6k9yl_5.webp",
     "hash": "4cd227dcd85f6075172d823e187d7403",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k9yl_5.webp",
-    "created_utc": 1792067201
+    "created_utc": 1792067201,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#D98400"
   },
   {
     "id": "1x76ck1",
@@ -223084,7 +223696,19 @@
     "src": "/spines/1x76ck1.webp",
     "hash": "feb4b9109f45f282b7e247554a4e8015",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x76ck1.webp",
-    "created_utc": 1792123462
+    "created_utc": 1792123462,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#0C81CB"
   },
   {
     "id": "1x6k5um",
@@ -223093,7 +223717,19 @@
     "src": "/spines/1x6k5um.webp",
     "hash": "bbcd81f4924007879ff34988388681fb",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6k5um.webp",
-    "created_utc": 1792066864
+    "created_utc": 1792066864,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#C3E2EC"
   },
   {
     "id": "1x75wse",
@@ -223102,7 +223738,17 @@
     "src": "/spines/1x75wse.webp",
     "hash": "0a60415462b9c6539d59636dbbb8edba",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x75wse.webp",
-    "created_utc": 1792122037
+    "created_utc": 1792122037,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Orange",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#DC7D44"
   },
   {
     "id": "1x5et5n",
@@ -223111,7 +223757,19 @@
     "src": "/spines/1x5et5n.webp",
     "hash": "b4aada6689e607c0e1cd5f60f516d2b8",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x5et5n.webp",
-    "created_utc": 1791942056
+    "created_utc": 1791942056,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#EE4459"
   },
   {
     "id": "1x5esei",
@@ -223120,7 +223778,19 @@
     "src": "/spines/1x5esei.webp",
     "hash": "9526f85138a2dd1225ef7f70bb99c2e1",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x5esei.webp",
-    "created_utc": 1791941992
+    "created_utc": 1791941992,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#743382"
   },
   {
     "id": "1x6x10u_0",
@@ -223129,7 +223799,19 @@
     "src": "/spines/1x6x10u_0.webp",
     "hash": "24eb0f6c8f8695d4a5c36414ee02d882",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6x10u_0.webp",
-    "created_utc": 1792096955
+    "created_utc": 1792096955,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#53400E"
   },
   {
     "id": "1x6x10u_1",
@@ -223138,7 +223820,21 @@
     "src": "/spines/1x6x10u_1.webp",
     "hash": "c0b9b6ceb60b8843f3e552c89e255c86",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6x10u_1.webp",
-    "created_utc": 1792096955
+    "created_utc": 1792096955,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style",
+        "Character Bottom",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#53400E"
   },
   {
     "id": "1x6x10u_2",
@@ -223147,7 +223843,19 @@
     "src": "/spines/1x6x10u_2.webp",
     "hash": "e0426dcbea4937b59b4a0fda22958ea9",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6x10u_2.webp",
-    "created_utc": 1792096955
+    "created_utc": 1792096955,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#D0C8A4"
   },
   {
     "id": "1x6x10u_3",
@@ -223156,7 +223864,19 @@
     "src": "/spines/1x6x10u_3.webp",
     "hash": "366f03c0cb249f71530e28483330422b",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6x10u_3.webp",
-    "created_utc": 1792096955
+    "created_utc": 1792096955,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#C4BB91"
   },
   {
     "id": "1x6uo7s_0",
@@ -223165,7 +223885,19 @@
     "src": "/spines/1x6uo7s_0.webp",
     "hash": "5a916535ef924ce9bd0245e8dfca832a",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_0.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#4F1B00"
   },
   {
     "id": "1x6uo7s_1",
@@ -223174,7 +223906,19 @@
     "src": "/spines/1x6uo7s_1.webp",
     "hash": "d484e572bc9f5d906cb0340b1e06aae2",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_1.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#4F1B00"
   },
   {
     "id": "1x6uo7s_2",
@@ -223183,7 +223927,19 @@
     "src": "/spines/1x6uo7s_2.webp",
     "hash": "9a9a63b7fbf32809cb0835b40dd75e56",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_2.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#4F1B00"
   },
   {
     "id": "1x6uo7s_3",
@@ -223192,7 +223948,19 @@
     "src": "/spines/1x6uo7s_3.webp",
     "hash": "1ea9df280d386a7d48eaf290c32c36f7",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_3.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#33241B"
   },
   {
     "id": "1x6uo7s_4",
@@ -223201,7 +223969,19 @@
     "src": "/spines/1x6uo7s_4.webp",
     "hash": "3ee534acf0492ba300e26fca1aad3517",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_4.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#F5E2A6"
   },
   {
     "id": "1x6uo7s_5",
@@ -223210,7 +223990,19 @@
     "src": "/spines/1x6uo7s_5.webp",
     "hash": "3ef246d1ccac9c3a9a5f888a70d8a1d6",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_5.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#2F2118"
   },
   {
     "id": "1x6uo7s_6",
@@ -223219,7 +224011,19 @@
     "src": "/spines/1x6uo7s_6.webp",
     "hash": "9cb2f68fbc0d5f11960160df5c961165",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_6.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#2F2118"
   },
   {
     "id": "1x6uo7s_7",
@@ -223228,7 +224032,19 @@
     "src": "/spines/1x6uo7s_7.webp",
     "hash": "5d1642979b7809880c50ea5440a68d3b",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6uo7s_7.webp",
-    "created_utc": 1792091491
+    "created_utc": 1792091491,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#4F1B00"
   },
   {
     "id": "1x3zvxo",
@@ -223237,7 +224053,19 @@
     "src": "/spines/1x3zvxo.webp",
     "hash": "45614b202b8084a077cbb9c2fe016070",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x3zvxo.webp",
-    "created_utc": 1791806195
+    "created_utc": 1791806195,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1x6agzj",
@@ -223246,7 +224074,19 @@
     "src": "/spines/1x6agzj.webp",
     "hash": "6f057a20883431907cd92c34a49baa29",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6agzj.webp",
-    "created_utc": 1792032600
+    "created_utc": 1792032600,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1x5i7rf",
@@ -223255,7 +224095,19 @@
     "src": "/spines/1x5i7rf.webp",
     "hash": "6d51cb3e2d55e27d2831ac1f58a76ec7",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x5i7rf.webp",
-    "created_utc": 1791952863
+    "created_utc": 1791952863,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#0371F9"
   },
   {
     "id": "1x5ggwc",
@@ -223264,7 +224116,19 @@
     "src": "/spines/1x5ggwc.webp",
     "hash": "f14fb289b74f148e0b5cfdffa7266c51",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x5ggwc.webp",
-    "created_utc": 1791947101
+    "created_utc": 1791947101,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#B7926A"
   },
   {
     "id": "1x4lbxy",
@@ -223273,7 +224137,19 @@
     "src": "/spines/1x4lbxy.webp",
     "hash": "746a00ddd9c44cc63aade75be02942d8",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x4lbxy.webp",
-    "created_utc": 1791859571
+    "created_utc": 1791859571,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#95AC67"
   },
   {
     "id": "1x3qsmc",
@@ -223282,7 +224158,19 @@
     "src": "/spines/1x3qsmc.webp",
     "hash": "3cf3380e788ee912a58c24f103f3caa4",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x3qsmc.webp",
-    "created_utc": 1791773848
+    "created_utc": 1791773848,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#142A4C"
   },
   {
     "id": "1x3pilq",
@@ -223291,7 +224179,19 @@
     "src": "/spines/1x3pilq.webp",
     "hash": "456f4caf28994652f5cd2452dcbd02de",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x3pilq.webp",
-    "created_utc": 1791769860
+    "created_utc": 1791769860,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Cover all",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#89C12F"
   },
   {
     "id": "1x2y8f4",
@@ -223300,7 +224200,20 @@
     "src": "/spines/1x2y8f4.webp",
     "hash": "fcc91cbab0468d515af7e322ce924507",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x2y8f4.webp",
-    "created_utc": 1791690795
+    "created_utc": 1791690795,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#393D50"
   },
   {
     "id": "1x75gyd",
@@ -223309,7 +224222,17 @@
     "src": "/spines/1x75gyd.webp",
     "hash": "20a3674951d81e55263aaf4628f06e32",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x75gyd.webp",
-    "created_utc": 1792120634
+    "created_utc": 1792120634,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Gray",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#353B42"
   },
   {
     "id": "1x74u2m",
@@ -223318,7 +224241,19 @@
     "src": "/spines/1x74u2m.webp",
     "hash": "b9dc292ed7d679ffa326a6ca09eae4ff",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x74u2m.webp",
-    "created_utc": 1792118641
+    "created_utc": 1792118641,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#2A2233"
   },
   {
     "id": "1x74edr",
@@ -223327,7 +224262,19 @@
     "src": "/spines/1x74edr.webp",
     "hash": "770586ddabc46a621ada87e6dacbe43b",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x74edr.webp",
-    "created_utc": 1792117260
+    "created_utc": 1792117260,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#DDB18C"
   },
   {
     "id": "1x6y35i",
@@ -223336,7 +224283,19 @@
     "src": "/spines/1x6y35i.webp",
     "hash": "27d2eac53e0024e305136055b1806623",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6y35i.webp",
-    "created_utc": 1792099539
+    "created_utc": 1792099539,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#141E33"
   },
   {
     "id": "1x6y2po",
@@ -223345,7 +224304,19 @@
     "src": "/spines/1x6y2po.webp",
     "hash": "7633cf362ca46354a85d12fb354ca790",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x6y2po.webp",
-    "created_utc": 1792099507
+    "created_utc": 1792099507,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#044155"
   },
   {
     "id": "1x4f1p5",
@@ -223354,7 +224325,19 @@
     "src": "/spines/1x4f1p5.webp",
     "hash": "c12a712a89c13438d5b6d44f48611b5c",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x4f1p5.webp",
-    "created_utc": 1791841806
+    "created_utc": 1791841806,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#09141C"
   },
   {
     "id": "1x4ep7h",
@@ -223363,7 +224346,19 @@
     "src": "/spines/1x4ep7h.webp",
     "hash": "ac771631f9bf05ba0c0f728be6ff8482",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x4ep7h.webp",
-    "created_utc": 1791840925
+    "created_utc": 1791840925,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#7DE0FE"
   },
   {
     "id": "1x3775v",
@@ -223372,7 +224367,19 @@
     "src": "/spines/1x3775v.webp",
     "hash": "e47e9b69a6b9ca0729d0bc881151ed71",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x3775v.webp",
-    "created_utc": 1791722365
+    "created_utc": 1791722365,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#ECE8DC"
   },
   {
     "id": "1x375wc",
@@ -223381,7 +224388,19 @@
     "src": "/spines/1x375wc.webp",
     "hash": "1af5a4a7542d5738f657aa3043e1d044",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x375wc.webp",
-    "created_utc": 1791722258
+    "created_utc": 1791722258,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#ECE8DC"
   },
   {
     "id": "1x2wcs5",
@@ -223390,7 +224409,19 @@
     "src": "/spines/1x2wcs5.webp",
     "hash": "8bf03a47112e4bbea73a1f564c5b39f9",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x2wcs5.webp",
-    "created_utc": 1791684733
+    "created_utc": 1791684733,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#2278BF"
   },
   {
     "id": "1x2wbsa",
@@ -223399,7 +224430,19 @@
     "src": "/spines/1x2wbsa.webp",
     "hash": "341fc1385c5d298fa9c36b7b4fffc5e3",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x2wbsa.webp",
-    "created_utc": 1791684643
+    "created_utc": 1791684643,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#0B3E64"
   },
   {
     "id": "1x2w974",
@@ -223408,7 +224451,19 @@
     "src": "/spines/1x2w974.webp",
     "hash": "4a9d48e19b3d26b0475de4ca730130d4",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x2w974.webp",
-    "created_utc": 1791684410
+    "created_utc": 1791684410,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#2579C0"
   },
   {
     "id": "1x2w6ne",
@@ -223417,7 +224472,19 @@
     "src": "/spines/1x2w6ne.webp",
     "hash": "5354ff42832b699907284eb96cdbed5d",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x2w6ne.webp",
-    "created_utc": 1791684171
+    "created_utc": 1791684171,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#0A3D62"
   },
   {
     "id": "1x2mt29",
@@ -223426,7 +224493,19 @@
     "src": "/spines/1x2mt29.webp",
     "hash": "4bf761a10532e6073974576fcd5b9cb3",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x2mt29.webp",
-    "created_utc": 1791657987
+    "created_utc": 1791657987,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1x873bh",
@@ -223435,7 +224514,19 @@
     "src": "/spines/1x873bh.webp",
     "hash": "3b60836b50f4ff22150a9f4f1b4682bf",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x873bh.webp",
-    "created_utc": 1792233562
+    "created_utc": 1792233562,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#02204A"
   },
   {
     "id": "1x87cy0",
@@ -223444,7 +224535,19 @@
     "src": "/spines/1x87cy0.webp",
     "hash": "20c3fd893a313584c0eceb576854f7d5",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x87cy0.webp",
-    "created_utc": 1792234548
+    "created_utc": 1792234548,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Red",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#843C29"
   },
   {
     "id": "1x93f78",
@@ -223453,7 +224556,19 @@
     "src": "/spines/1x93f78.webp",
     "hash": "bf6a1904bfba006157d314cc383e5e99",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x93f78.webp",
-    "created_utc": 1792330607
+    "created_utc": 1792330607,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#E2D28F"
   },
   {
     "id": "1x85sxv",
@@ -223462,7 +224577,19 @@
     "src": "/spines/1x85sxv.webp",
     "hash": "72a163705b7715a765ef5d47a1b6fd02",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x85sxv.webp",
-    "created_utc": 1792228754
+    "created_utc": 1792228754,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#2D0E26"
   },
   {
     "id": "1x86ioi",
@@ -223471,7 +224598,19 @@
     "src": "/spines/1x86ioi.webp",
     "hash": "235a4b7805879a4229bd0a72ae248deb",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x86ioi.webp",
-    "created_utc": 1792231465
+    "created_utc": 1792231465,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#1491D4"
   },
   {
     "id": "1j0ic5e_0",
@@ -223480,7 +224619,19 @@
     "src": "/spines/1j0ic5e_0.webp",
     "hash": "7567c0eeeba42f3d741333ee42f176bb",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1j0ic5e_0.webp",
-    "created_utc": 1740776814
+    "created_utc": 1740776814,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#FFFFFF"
   },
   {
     "id": "1j0ic5e_1",
@@ -223489,7 +224640,17 @@
     "src": "/spines/1j0ic5e_1.webp",
     "hash": "95be3e251f64b21718ae3d8f4c2838f9",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1j0ic5e_1.webp",
-    "created_utc": 1740776814
+    "created_utc": 1740776814,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#000000"
   },
   {
     "id": "1x85rg9_0",
@@ -223498,7 +224659,20 @@
     "src": "/spines/1x85rg9_0.webp",
     "hash": "eab11a06a2fa4b36e3553c5ffa7a537c",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x85rg9_0.webp",
-    "created_utc": 1792228591
+    "created_utc": 1792228591,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Green",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#738C64"
   },
   {
     "id": "1x85rg9_1",
@@ -223507,7 +224681,19 @@
     "src": "/spines/1x85rg9_1.webp",
     "hash": "16591e196e1937c4389fa24a4a7eb028",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x85rg9_1.webp",
-    "created_utc": 1792228591
+    "created_utc": 1792228591,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#759364"
   },
   {
     "id": "gwkr0r",
@@ -223516,7 +224702,19 @@
     "src": "/spines/gwkr0r.webp",
     "hash": "2c4b77f6e9698a20312429afbc3d1960",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/gwkr0r.webp",
-    "created_utc": 1591288066
+    "created_utc": 1591288066,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "DNN Style"
+      ]
+    },
+    "hexColor": "#1F0F2B"
   },
   {
     "id": "1x8vpiq",
@@ -223525,7 +224723,17 @@
     "src": "/spines/1x8vpiq.webp",
     "hash": "0443fb808c2bf00bf03f6bcb7cb880fe",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8vpiq.webp",
-    "created_utc": 1792303607
+    "created_utc": 1792303607,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": []
+    },
+    "hexColor": "#00025C"
   },
   {
     "id": "1x8vjg8",
@@ -223534,7 +224742,19 @@
     "src": "/spines/1x8vjg8.webp",
     "hash": "1eea26a0456eddb45dafb638a9b6cf9a",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8vjg8.webp",
-    "created_utc": 1792303034
+    "created_utc": 1792303034,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Cover all",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#34729B"
   },
   {
     "id": "1x8rqhs",
@@ -223543,7 +224763,19 @@
     "src": "/spines/1x8rqhs.webp",
     "hash": "49cb3ff1a409969e4d2302d2d7da8a2a",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8rqhs.webp",
-    "created_utc": 1792290087
+    "created_utc": 1792290087,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#75C0F6"
   },
   {
     "id": "1x93r5x",
@@ -223552,7 +224784,19 @@
     "src": "/spines/1x93r5x.webp",
     "hash": "ad76426de6b22ad88fe10fbf9fae839e",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x93r5x.webp",
-    "created_utc": 1792331532
+    "created_utc": 1792331532,
+    "tags": {
+      "Platform": "Switch 2",
+      "Base Color": "Gray",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#DBECF4"
   },
   {
     "id": "1x8ylha",
@@ -223561,7 +224805,19 @@
     "src": "/spines/1x8ylha.webp",
     "hash": "411f52fc8ff31dc178351e2e524afdcb",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8ylha.webp",
-    "created_utc": 1792314355
+    "created_utc": 1792314355,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#000000"
   },
   {
     "id": "1x8yl5g",
@@ -223570,7 +224826,19 @@
     "src": "/spines/1x8yl5g.webp",
     "hash": "4082efe93066ce78ee1acd3c9ccbb224",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8yl5g.webp",
-    "created_utc": 1792314319
+    "created_utc": 1792314319,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#9CC5F0"
   },
   {
     "id": "1x8lxvr_0",
@@ -223579,7 +224847,20 @@
     "src": "/spines/1x8lxvr_0.webp",
     "hash": "a1a07812b769278ce80b79fa7dd33ae0",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8lxvr_0.webp",
-    "created_utc": 1792273010
+    "created_utc": 1792273010,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#BFE2F6"
   },
   {
     "id": "1x8lxvr_1",
@@ -223588,7 +224869,20 @@
     "src": "/spines/1x8lxvr_1.webp",
     "hash": "f70b8a804627a28e9fa2adae4761aa7b",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x8lxvr_1.webp",
-    "created_utc": 1792273010
+    "created_utc": 1792273010,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Center",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine",
+        "Set / Panorama"
+      ]
+    },
+    "hexColor": "#BFE2F6"
   },
   {
     "id": "1x7ui6r",
@@ -223597,7 +224891,19 @@
     "src": "/spines/1x7ui6r.webp",
     "hash": "8babfe4e4c68f9c756af6c060a2a0b2f",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7ui6r.webp",
-    "created_utc": 1792191148
+    "created_utc": 1792191148,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#532A1A"
   },
   {
     "id": "1x7uhxe",
@@ -223606,7 +224912,19 @@
     "src": "/spines/1x7uhxe.webp",
     "hash": "8bcfe5e24f8f06a135de16f1e78f253d",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7uhxe.webp",
-    "created_utc": 1792191128
+    "created_utc": 1792191128,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Brown",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#4B3C36"
   },
   {
     "id": "1x7uhnh",
@@ -223615,7 +224933,19 @@
     "src": "/spines/1x7uhnh.webp",
     "hash": "26bf8aa880a93c6825af5c9b333244d6",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7uhnh.webp",
-    "created_utc": 1792191106
+    "created_utc": 1792191106,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Yellow",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#FDF0C4"
   },
   {
     "id": "1x7uhd9",
@@ -223624,7 +224954,19 @@
     "src": "/spines/1x7uhd9.webp",
     "hash": "76f0860c3b3077250c42e263bce587b5",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7uhd9.webp",
-    "created_utc": 1792191085
+    "created_utc": 1792191085,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#B8D9C5"
   },
   {
     "id": "1x7uh4d",
@@ -223633,7 +224975,19 @@
     "src": "/spines/1x7uh4d.webp",
     "hash": "66bee1793b9c19bcd1881521bb640359",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7uh4d.webp",
-    "created_utc": 1792191065
+    "created_utc": 1792191065,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#FFF2DB"
   },
   {
     "id": "1x7ugtp",
@@ -223642,7 +224996,19 @@
     "src": "/spines/1x7ugtp.webp",
     "hash": "aa06a99d189e31763ff386a6c48e251b",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7ugtp.webp",
-    "created_utc": 1792191041
+    "created_utc": 1792191041,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#235478"
   },
   {
     "id": "1x7ughw",
@@ -223651,7 +225017,19 @@
     "src": "/spines/1x7ughw.webp",
     "hash": "5f77d2489cd33b82fea4880b794d267d",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7ughw.webp",
-    "created_utc": 1792191018
+    "created_utc": 1792191018,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#103949"
   },
   {
     "id": "1x7ufu0",
@@ -223660,7 +225038,19 @@
     "src": "/spines/1x7ufu0.webp",
     "hash": "3cd4bb5f1e7df55db138ca84e5a43ffd",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7ufu0.webp",
-    "created_utc": 1792190969
+    "created_utc": 1792190969,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#40275B"
   },
   {
     "id": "1x7kngg",
@@ -223669,7 +225059,17 @@
     "src": "/spines/1x7kngg.webp",
     "hash": "d829cd11d6dec0fb632d13d974d7debf",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7kngg.webp",
-    "created_utc": 1792167659
+    "created_utc": 1792167659,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "Nintendo",
+      "Extras": []
+    },
+    "hexColor": "#000000"
   },
   {
     "id": "1x7kms6",
@@ -223678,6 +225078,186 @@
     "src": "/spines/1x7kms6.webp",
     "hash": "44803ea84bb33170ccc1d709b743b785",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x7kms6.webp",
-    "created_utc": 1792167617
+    "created_utc": 1792167617,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#FFFFFF"
+  },
+  {
+    "id": "1x9ay1u",
+    "title": "RBI Baseball 17 by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x9ay1u.webp",
+    "hash": "097d7c5e94ad985da39def81a495d595",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x9ay1u.webp",
+    "created_utc": 1792349207,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#588BB0"
+  },
+  {
+    "id": "1x94mv3",
+    "title": "Monster Boy and the Cursed Kingdom by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x94mv3.webp",
+    "hash": "4d8a528801c734cf1e937258101ed87e",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x94mv3.webp",
+    "created_utc": 1792333860,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Blue",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#009ADC"
+  },
+  {
+    "id": "1x95vc9",
+    "title": "Love Esquire by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x95vc9.webp",
+    "hash": "def5d6dfc5cbf5fc3c7ce419857426ff",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x95vc9.webp",
+    "created_utc": 1792336985,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "White",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Minimalist",
+      "Lower logo": "other",
+      "Extras": [
+        "Character Bottom"
+      ]
+    },
+    "hexColor": "#312623"
+  },
+  {
+    "id": "1hotfhl",
+    "title": "Spellcaster University by neokanae_gamer",
+    "author": "u/neokanae_gamer",
+    "src": "/spines/1hotfhl.webp",
+    "hash": "fb339f2624d0fbeb3a11dfa48f1802d1",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1hotfhl.webp",
+    "created_utc": 1735468475,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Simple Text",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#766D95"
+  },
+  {
+    "id": "1x9dag0",
+    "title": "Kamigami no Asobi Unite Edition by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x9dag0.webp",
+    "hash": "73cb1e768f9d1cba7cbdcda0829a2fb9",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x9dag0.webp",
+    "created_utc": 1792354777,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Green",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#9DFFE4"
+  },
+  {
+    "id": "1x9buyi",
+    "title": "Apidya by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x9buyi.webp",
+    "hash": "1d52af970872c98f0c66551d7bd01003",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x9buyi.webp",
+    "created_utc": 1792351357,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Black",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#000000"
+  },
+  {
+    "id": "1x96cwc",
+    "title": "Keylocker by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x96cwc.webp",
+    "hash": "63327b0fb28d3dce8582cee112101f8b",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x96cwc.webp",
+    "created_utc": 1792338217,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Purple",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "Nintendo",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#D45179"
+  },
+  {
+    "id": "1x96uf6",
+    "title": "Dreamcutter by LadyAlba",
+    "author": "u/LadysAlba",
+    "src": "/spines/1x96uf6.webp",
+    "hash": "0efed39e0ede62131445dfba193b2872",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/spines/1x96uf6.webp",
+    "created_utc": 1792339371,
+    "tags": {
+      "Platform": "Switch 1",
+      "Base Color": "Pink",
+      "Title Typography": "Original Logo",
+      "Text Alignment": "Top Centered with margin",
+      "Main Style": "Scenic / Detailed",
+      "Lower logo": "other",
+      "Extras": [
+        "Characters throughout the spine"
+      ]
+    },
+    "hexColor": "#B42B70"
   }
 ]
