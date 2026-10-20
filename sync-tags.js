@@ -1,10 +1,17 @@
+import 'dotenv/config'; // Carga automáticamente las variables del archivo .env
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
 
-// Tus credenciales de Supabase (puedes ponerlas directas o leerlas de .env)
-const supabaseUrl = 'https://suzqcdasxchkbfwnhrcg.supabase.co';
-const supabaseKey = 'TU_CLAVE_PUBLICA_O_SERVICE_ROLE'; // service_role si quieres actualizar estados
+// Lee las credenciales de forma segura desde el .env
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // Usa la clave service_role para permisos de escritura/actualización
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error("❌ Faltan las variables de entorno de Supabase en el archivo .env");
+  process.exit(1);
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function syncTags() {
@@ -29,7 +36,7 @@ async function syncTags() {
   console.log(`🔍 Se encontraron ${requests.length} sugerencias pendientes.`);
 
   // 2. Leer el database.json local
-  const dbPath = path.join(process.cwd(), 'public', 'database.json');
+const dbPath = path.join(process.cwd(), 'mi-app-spines', 'public', 'database.json');
   if (!fs.existsSync(dbPath)) {
     console.error("❌ No se encontró el archivo public/database.json");
     return;
@@ -48,7 +55,7 @@ async function syncTags() {
       updatedCount++;
       console.log(`✅ Actualizado spine: "${db[spineIndex].title}" (ID: ${req.spine_id})`);
 
-      // Opcional: Marcar la solicitud como 'applied' en Supabase para no procesarla dos veces
+      // Marcar la solicitud como 'applied' en Supabase
       await supabase
         .from('tag_requests')
         .update({ status: 'applied' })

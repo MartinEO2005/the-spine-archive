@@ -7,15 +7,15 @@
     "hash": "f43624503661c2bfbe7dc099badfc438",
     "image": "https://cdn.thespinearchive.com/file/the-spine-archive-storage/spines/1r0zt5r.webp",
     "tags": {
-      "Platform": "Switch 1",
-      "Base Color": "Multicolor",
-      "Title Typography": "Original Logo",
-      "Text Alignment": "Top Centered with margin",
-      "Main Style": "Scenic / Detailed",
-      "Lower logo": "other",
       "Extras": [
         "Character Bottom"
-      ]
+      ],
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Lower logo": "other",
+      "Main Style": "Scenic / Detailed",
+      "Text Alignment": "Top Centered",
+      "Title Typography": "Original Logo"
     },
     "hexColor": "#4C7497"
   },
@@ -225,15 +225,15 @@
     "hash": "a95faec6708bb5c6540d716ea340b171",
     "image": "https://cdn.thespinearchive.com/file/the-spine-archive-storage/spines/1qzopbl.webp",
     "tags": {
-      "Platform": "Switch 1",
-      "Base Color": "Multicolor",
-      "Title Typography": "Original Logo",
-      "Text Alignment": "Center",
-      "Main Style": "Scenic / Detailed",
-      "Lower logo": "other",
       "Extras": [
         "Character Bottom"
-      ]
+      ],
+      "Platform": "Switch 1",
+      "Base Color": "Multicolor",
+      "Lower logo": "other",
+      "Main Style": "Minimalist",
+      "Text Alignment": "Center",
+      "Title Typography": "Original Logo"
     },
     "hexColor": "#8AD1D9"
   },
@@ -215317,16 +215317,15 @@
     "image": "https://cdn.thespinearchive.com/file/the-spine-archive-storage/spines/1vy32cl.webp",
     "created_utc": 1787671792,
     "tags": {
+      "Extras": [
+        "Characters throughout the spine"
+      ],
       "Platform": "Switch 1",
       "Base Color": "Red",
-      "Title Typography": "Simple Text",
-      "Text Alignment": "Top Centered with margin",
-      "Main Style": "Scenic / Detailed",
       "Lower logo": "other",
-      "Extras": [
-        "DNN Style",
-        "Characters throughout the spine"
-      ]
+      "Main Style": "Scenic / Detailed",
+      "Text Alignment": "Top Centered with margin",
+      "Title Typography": "Simple Text"
     },
     "hexColor": "#C42320"
   },
@@ -221330,15 +221329,16 @@
     "image": "https://cdn.thespinearchive.com/file/the-spine-archive-storage/spines/1wn89nz.webp",
     "created_utc": 1790080484,
     "tags": {
-      "Platform": "Switch 1",
-      "Base Color": "Red",
-      "Title Typography": "Original Logo",
-      "Text Alignment": "Top Centered with margin",
-      "Main Style": "Minimalist",
-      "Lower logo": "other",
       "Extras": [
         "DNN Style"
-      ]
+      ],
+      "Platform": "Switch 1",
+      "Base Color": "Red",
+      "Lower Logo": "Nintendo",
+      "Lower logo": "other",
+      "Main Style": "Minimalist",
+      "Text Alignment": "Cover All",
+      "Title Typography": "Original Logo"
     },
     "hexColor": "#820E0F"
   },

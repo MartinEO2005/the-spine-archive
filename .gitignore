@@ -10,3 +10,4 @@ dist/
 .DS_Store
 .env
 extractions/
+mi-app-spines/public/database.json.bak
