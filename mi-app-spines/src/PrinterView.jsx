@@ -6,6 +6,31 @@ const printerImageCache = {};
 const printerPromiseCache = {};
 
 const PrinterView = ({ selectedSpines = [], initialSpines = [], onBack }) => {
+  // ==========================================
+  // BLOQUEO DE SEGURIDAD PARA MÓVILES
+  // ==========================================
+  const isMobileDevice = window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
+  if (isMobileDevice) {
+    return (
+      <div style={{ padding: '40px', backgroundColor: '#111', color: '#fff', textAlign: 'center', minHeight: '100vh', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ fontSize: '40px', marginBottom: '15px' }}>🖥️</div>
+        <h2 style={{ color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '14px', marginBottom: '20px', lineHeight: '1.6' }}>
+          PC REQUIRED
+        </h2>
+        <p style={{ fontSize: '14px', color: '#ccc', marginBottom: '30px', maxWidth: '400px', lineHeight: '1.6' }}>
+          This page cannot be accessed from mobile devices. Please open The Spine Archive on a Desktop or Laptop PC to generate and print your PDFs.
+        </p>
+        <button 
+          onClick={() => onBack(selectedSpines)}
+          style={{ backgroundColor: '#b30000', color: 'white', border: 'none', padding: '12px 25px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px' }}
+        >
+          ← Return to Catalog
+        </button>
+      </div>
+    );
+  }
+  // ==========================================
+
   const incomingSpines = selectedSpines.length > 0 ? selectedSpines : initialSpines;
   const [images, setImages] = useState(incomingSpines);
   const [pdfUrl, setPdfUrl] = useState(null);

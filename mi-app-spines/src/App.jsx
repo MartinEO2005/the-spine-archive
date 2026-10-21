@@ -43,7 +43,7 @@ function App() {
   const handleConfirmSelection = (spines) => {
     setSelectedSpines(spines);
     // BLOQUEO ESTRICTO: Si es móvil, NUNCA permitimos cambiar la vista a 'printer'
-    if (isMobile) {
+    if (window.innerWidth < 768 || isMobile) {
       setShowMobileNoticeModal(true);
       return; 
     }
@@ -83,31 +83,37 @@ function App() {
     );
   }
 
+  // Doble comprobación dinámica de móvil en render
+  const isActuallyMobile = isMobile || window.innerWidth < 768;
+
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#111' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#111', position: 'relative' }}>
       
       {view === 'catalog' && (
         <>
           <CatalogView 
             onConfirm={handleConfirmSelection} 
             initialSelected={selectedSpines} 
-            isMobile={isMobile}
+            isMobile={isActuallyMobile}
             onOpenGuide={() => changeAppView('guide')} 
             onOpenTagEdit={() => changeAppView('tag-edit')} 
           />
           
-          {/* MODAL BLOQUEANTE ANTIZOOM PARA USUARIOS MÓVILES */}
+          {/* MODAL BLOQUEANTE ANTIZOOM AGRESIVO PARA MÓVILES */}
           {showMobileNoticeModal && (
-            <div style={{
-              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-              backgroundColor: 'rgba(0,0,0,0.92)', zIndex: 99999,
-              display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px',
-              touchAction: 'none', overflow: 'hidden' // Impide gestos de zoom y scroll de fondo
-            }}>
+            <div 
+              onTouchMove={(e) => e.preventDefault()} // Bloquea cualquier intento de scroll o gesto táctil de zoom por detrás
+              style={{
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 999999,
+                display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px',
+                touchAction: 'none', overflow: 'hidden', overscrollBehavior: 'none'
+              }}
+            >
               <div style={{
                 backgroundColor: '#1e1e1e', padding: '30px', borderRadius: '12px', maxWidth: '460px',
                 textAlign: 'center', border: '2px solid #ffcc00', color: 'white', fontFamily: 'sans-serif',
-                boxShadow: '0 10px 25px rgba(0,0,0,0.8)'
+                boxShadow: '0 10px 25px rgba(0,0,0,0.9)'
               }}>
                 <div style={{ fontSize: '35px', marginBottom: '15px' }}>🖥️</div>
                 <h3 style={{ color: '#ffcc00', fontFamily: '"Press Start 2P", monospace', fontSize: '11px', marginBottom: '15px', lineHeight: '1.6' }}>
@@ -148,24 +154,24 @@ function App() {
         </>
       )}
 
-      {/* DOBLE VALIDACIÓN DE SEGURIDAD: Aunque cambien la URL o manipulen el estado, si es móvil nunca se renderiza PrinterView */}
-      {view === 'printer' && !isMobile && (
+      {/* RENDERIZADO CONDICIONAL BLINDADO: Si es móvil de verdad, JAMÁS muestra PrinterView */}
+      {view === 'printer' && !isActuallyMobile && (
         <PrinterView 
           selectedSpines={selectedSpines} 
           onBack={handleBackToCatalog} 
         />
       )}
 
-      {/* Si intentan entrar a printer siendo móvil, les devolvemos automáticamente al catálogo */}
-      {view === 'printer' && isMobile && (
-        (() => {
-          // Forzamos la redirección visual al catálogo de forma limpia
-          setTimeout(() => {
-            setView('catalog');
-            setShowMobileNoticeModal(true);
-          }, 0);
-          return null;
-        })()
+      {view === 'printer' && isActuallyMobile && (
+        <div style={{ padding: '50px', textAlign: 'center', color: '#fff', fontFamily: '"Press Start 2P", monospace', fontSize: '12px' }}>
+          <p>ACCESS DENIED ON MOBILE DEVICES</p>
+          <button 
+            onClick={() => changeAppView('catalog')}
+            style={{ marginTop: '20px', padding: '10px 20px', backgroundColor: '#b30000', color: '#fff', border: 'none', cursor: 'pointer' }}
+          >
+            RETURN TO CATALOG
+          </button>
+        </div>
       )}
 
       <CookieBanner />
