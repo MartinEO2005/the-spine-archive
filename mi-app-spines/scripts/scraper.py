@@ -56,9 +56,9 @@ SEARCH_TERMS = [" ","by","The Eternal Comet","Drosanator", "shizoid_man", "SemiC
 MAX_UPLOADS = 10000 
 
 # --- CONFIGURACIÓN DE DOBLE SESIÓN ---
-api_session = curl_requests.Session(impersonate="chrome120")
+api_session = curl_requests.Session(impersonate="chrome131")
 api_session.cookies.update({
-    'reddit_session': 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpsVFdYNlFVUEloWktaRG1rR0pVd1gvdWNFK01BSjBYRE12RU1kNzVxTXQ4IiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0Ml9iYms5ZzY1ZSIsImV4cCI6MTgwNzgyNTUyMS42NzY5OCwiaWF0IjoxNzkyMTg3MTIxLjY3Njk4LCJqdGkiOiJlb3hhY0ZRVVltSllVc0tFWjQ1OFc0aVhVdEVJTWciLCJhdCI6MSwiY2lkIjoiY29va2llIiwibGNhIjoxNjE3NDg4MDkxMDAwLCJzY3AiOiJlSndBQWdEOV8xdGRBd0FCRlFDNSIsImZsbyI6MX0.DJ1lm8iThvmHI1PPGu-dcsaa5UeDtj5e8Y6QlsNwqRp7Uo9ocEkZ3xa0E4Dqub5ef8TNN4iHrzRdxNb8EAyzjYRw_BKHDF37A05O9vZu97ucb5PU9Oi7iViVJWpGy3cv8g760jh30bY9bSyzp7j0Gj9-lZNPHhwg8Y5RnOahrGERhqBJ8iJ498XbRQHp1-UJCnw0ygb2pAstEPCPpJwjVbTwIYFPUXGwKBlg90hCtrxqMfL3PwwvPUNIeR08mYk8zBfyv5RIthL4AzPVkE2xnL90Xar_Qrr24NYSol_n6vPdX7Zui6vmn3xrNJ96t4q1V4EZmOxjxrVhIE9YNG_HPg', 
+    'reddit_session': 'eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpsVFdYNlFVUEloWktaRG1rR0pVd1gvdWNFK01BSjBYRE12RU1kNzVxTXQ4IiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0Ml9iYms5ZzY1ZSIsImV4cCI6MTgwOTEwNDYxNy44MzA2MzcsImlhdCI6MTc5MzQ2NjIxNy44MzA2MzcsImp0aSI6IjhLU2JEbTdvcFFLRkgtUENiaVoyNmJxdWQ0SVc0ZyIsImF0IjoxLCJjaWQiOiJjb29raWUiLCJsY2EiOjE2MTc0ODgwOTEwMDAsInNjcCI6ImVKd0FBZ0Q5XzF0ZEF3QUJGUUM1IiwiZmxvIjoxfQ.iMr8Zz7OhSfBC9nHOQEwc-jZ2ieO5f9u8fhXh_PhlcjqePtbgQeoM9SBaKhCdzWlt6y7BuZP5CNV38RqM3unbVwxjfKmbyN05o-KCIZA3Kd5QFuS6Rx93PsRkTQtf7Cp_CgsAiIY3g_QF-n_7pN-3Tv_JjNf3FdVMfMcEagcOhoGS-1KUn7RayLilFxncif30Fdt2c_sagSiPnZBGyOBohCMV3ta_E-YdYLF2TaS761TU-2ePuRJTH5rjthmsDfEJfgq3o_QL8FSSEh2pWblKvCYnIxYkdVlmuoiPF5RfOQSGRjAij9npnX0efK1QwmyITsXDwMDxgblMMp6HcyR-g', 
 })
 
 img_session = normal_requests.Session()
@@ -308,171 +308,179 @@ def update_database():
     existing_ids = {item['id'] for item in existing_data}
     existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
 
-    print(f"\n🚀 Iniciando actualización en Backblaze B2: {B2_BUCKET_NAME}")
+    print(f"\n🚀 Iniciando actualización vía Feed RSS en Backblaze B2: {B2_BUCKET_NAME}")
     print(f"📊 Base de datos actual: {len(existing_data)} entradas.")
 
-    total_new = 0
-    new_authors = [] 
+    rss_url = "https://www.reddit.com/r/SwitchSpines/new.rss"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+    }
 
     try:
-        print(f"🔍 Leyendo los posts más recientes directamente de r/SwitchSpines/new...")
-        after = None
+        print(f"🔍 Consultando feed RSS público de r/SwitchSpines...")
+        res = normal_requests.get(rss_url, headers=headers, timeout=15)
+        
+        if res.status_code != 200:
+            print(f"❌ Error HTTP {res.status_code} al obtener el feed RSS.")
+            return
 
-        while total_new < MAX_UPLOADS:
-            url = "https://www.reddit.com/r/SwitchSpines/new.json?limit=100"
-            if after: 
-                url += f"&after={after}"
+        # Extraer todos los IDs de los posts del XML del RSS usando regex (evita problemas de namespaces)
+        post_ids = re.findall(r'reddit\.com/r/SwitchSpines/comments/([a-z0-9]+)', res.text)
+        
+        # Eliminar duplicados manteniendo el orden cronológico
+        unique_ids = list(dict.fromkeys(post_ids))
+        
+        print(f"🎯 ¡Se han encontrado {len(unique_ids)} posts recientes en el RSS!")
 
+        total_new = 0
+        new_authors = []
+
+        for post_id in unique_ids:
+            if total_new >= MAX_UPLOADS: 
+                break
+
+            # Si el ID ya existe en tu base de datos, lo saltamos al instante
+            if post_id in existing_ids:
+                continue
+
+            print(f"\n-------------------------------------------------")
+            print(f"🔗 Procesando nuevo post detectado por RSS (ID: {post_id})")
+            print(f"-------------------------------------------------")
+            
+            # Reutilizamos tu función robusta de post individual
+            # Nota: Esto descargará, procesará, guardará localmente y subirá a B2 automáticamente.
+            # Vamos a adaptar ligeramente el flujo para llevar la cuenta.
+            
+            json_url = f"https://www.reddit.com/r/SwitchSpines/comments/{post_id}.json"
             try:
-                res = api_session.get(url, timeout=15)
-            except Exception as e:
-                print(f"   ⚠️ Error de conexión en API: {e}")
-                time.sleep(5); continue
+                post_res = api_session.get(json_url, headers=headers, timeout=15)
+                if post_res.status_code != 200:
+                    print(f"⚠️ No se pudo consultar el detalle del post {post_id} (Status: {post_res.status_code})")
+                    continue
 
-            if res.status_code == 429:
-                print("   ⏳ Esperando por Rate Limit (API)...")
-                time.sleep(30); continue
+                post_data_json = post_res.json()
+                post_data = post_data_json[0]['data']['children'][0]['data']
 
-            if res.status_code != 200: 
-                print(f"   ❌ Error HTTP {res.status_code} al obtener el feed.")
-                break
+                if 'crosspost_parent_list' in post_data and post_data['crosspost_parent_list']:
+                    post_data = post_data['crosspost_parent_list'][0]
 
-            data = res.json().get('data', {})
-            posts = data.get('children', [])
-            after = data.get('after')
-
-            if not posts: 
-                break
-
-            print(f"   -> Analizando lote de {len(posts)} posts recientes...")
-            nuevos_en_este_lote = 0
-
-            for post in posts:
-                if total_new >= MAX_UPLOADS: break
-
-                p = post['data']
-                u_id = f"{p['id']}"
-                
-                # Si el ID principal ya existe, lo saltamos al instante
-                if u_id in existing_ids: 
-                    continue 
-
-                nuevos_en_este_lote += 1
-                image_urls = []
-
-                if p.get('is_gallery'):
-                    meta = p.get('media_metadata', {})
+                img_url = None
+                if post_data.get('media_metadata'):
+                    meta = post_data.get('media_metadata', {})
                     for k in sorted(meta.keys()):
                         if meta[k].get('e') == 'Image':
-                            u = meta[k]['s'].get('u') or meta[k]['s'].get('gif')
-                            if u: image_urls.append(u.replace('&amp;', '&'))
-                elif 'url' in p and any(ext in p['url'].lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']): 
-                    image_urls.append(p['url'])
+                            u = meta[k].get('s', {}).get('u') or meta[k].get('s', {}).get('gif')
+                            if u:
+                                img_url = u.replace('&amp;', '&')
+                                break
 
-                for idx, img_url in enumerate(image_urls):
-                    if total_new >= MAX_UPLOADS: break
-
-                    sub_id = f"{p['id']}" if len(image_urls) == 1 else f"{p['id']}_{idx}"
-                    if sub_id in existing_ids: continue
-
+                if not img_url:
                     try:
-                        time.sleep(0.4)
-                        img_res = img_session.get(img_url, timeout=10)
-                        if img_res.status_code != 200: continue
-                        
-                        img = Image.open(BytesIO(img_res.content))
+                        images = post_data.get('preview', {}).get('images', [])
+                        if images:
+                            img_url = images[0]['source']['url'].replace('&amp;', '&')
+                    except Exception:
+                        pass
 
-                        if img.height > 12000:
-                            aspect = img.width / img.height
-                            img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
+                if not img_url:
+                    candidate = post_data.get('url_overridden_by_dest') or post_data.get('url', '')
+                    if candidate and 'reddit.com/r/' not in candidate:
+                        if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+                            img_id = candidate.rstrip('/').split('/')[-1]
+                            candidate = f"https://i.imgur.com/{img_id}.png"
+                        img_url = candidate
 
-                        if (img.height / img.width) >= 2.6:
-                            h = get_image_hash(img)
-                            if h in existing_hashes: continue
+                if not img_url:
+                    print("⚠️ El post no contiene una imagen válida.")
+                    continue
 
-                            print(f"✅ Nuevo lomo encontrado: {clean_title(p['title'])}")
+                img_res = img_session.get(img_url, timeout=10)
+                if img_res.status_code != 200:
+                    print("⚠️ No se pudo descargar la imagen desde la CDN.")
+                    continue
 
-                            buffer = BytesIO()
-                            img.convert("RGBA").save(buffer, format="WEBP", quality=85)
-                            buffer.seek(0)
+                img = Image.open(BytesIO(img_res.content))
+                if img.height > 12000:
+                    aspect = img.width / img.height
+                    img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
 
-                            # --- GUARDADO LOCAL EN PUBLIC/SPINES ---
-                            local_dir = os.path.join(BASE_DIR, "public", "spines")
-                            os.makedirs(local_dir, exist_ok=True)
-                            local_filepath = os.path.join(local_dir, f"{sub_id}.webp")
-                            
-                            with open(local_filepath, 'wb') as f:
-                                f.write(buffer.getvalue())
+                h = get_image_hash(img)
+                if h in existing_hashes:
+                    print("⚠️ Esta imagen ya existe (duplicada por hash).")
+                    continue
 
-                            # --- SUBIDA A BACKBLAZE B2 ---
-                            filename_b2 = f"spines/{sub_id}.webp"
-                            s3_client.upload_fileobj(
-                                buffer,
-                                B2_BUCKET_NAME,
-                                filename_b2,
-                                ExtraArgs={'ContentType': 'image/webp'}
-                            )
+                buffer = BytesIO()
+                img.convert("RGBA").save(buffer, format="WEBP", quality=85)
+                buffer.seek(0)
 
-                            prefix = B2_PUBLIC_URL_PREFIX
-                            if not prefix: 
-                                prefix = f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
+                local_dir = os.path.join(BASE_DIR, "public", "spines")
+                os.makedirs(local_dir, exist_ok=True)
+                local_filepath = os.path.join(local_dir, f"{post_id}.webp")
+                
+                with open(local_filepath, 'wb') as f:
+                    f.write(buffer.getvalue())
+                print(f"💾 Backup local guardado: {post_id}.webp")
 
-                            public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
+                filename_b2 = f"spines/{post_id}.webp"
+                s3_client.upload_fileobj(
+                    buffer,
+                    B2_BUCKET_NAME,
+                    filename_b2,
+                    ExtraArgs={'ContentType': 'image/webp'}
+                )
+                print(f"☁️ Subido a Backblaze B2: {post_id}.webp")
 
-                            raw_author = p.get('author')
-                            author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
+                prefix = B2_PUBLIC_URL_PREFIX or f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
+                public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
 
-                            entry = {
-                                "id": sub_id,
-                                "title": f"{clean_title(p['title'])} (Parte {idx+1})" if len(image_urls) > 1 else clean_title(p['title']),
-                                "author": author_name,
-                                "src": f"/spines/{sub_id}.webp",
-                                "hash": h,
-                                "image": public_image_url,
-                                "created_utc": int(p.get('created_utc', time.time())) 
-                            }
-                            existing_data.append(entry)
-                            existing_ids.add(sub_id)
-                            existing_hashes.add(h)
-                            
-                            total_new += 1
-                            new_authors.append(author_name)
+                raw_author = post_data.get('author')
+                author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
 
-                            if total_new % 5 == 0:
-                                save_db(existing_data)
+                new_entry = {
+                    "id": post_id,
+                    "title": clean_title(post_data['title']),
+                    "author": author_name,
+                    "src": f"/spines/{post_id}.webp",
+                    "hash": h,
+                    "image": public_image_url,
+                    "created_utc": int(post_data.get('created_utc', time.time()))
+                }
 
-                    except Exception as e:
-                        print(f"⚠️ Error con {sub_id}: {e}")
-                        continue
+                existing_data.append(new_entry)
+                existing_ids.add(post_id)
+                existing_hashes.add(h)
+                
+                total_new += 1
+                new_authors.append(author_name)
+                save_db(existing_data)
+                print(f"🎉 ¡ÉXITO! '{new_entry['title']}' añadido correctamente.")
 
-            if nuevos_en_este_lote == 0:
-                print("✨ Ya estás al día con los últimos posts del subreddit.")
-                break
+                time.sleep(2) # Pausa anti-rate limit
 
-            if not after: break
+            except Exception as e:
+                print(f"❌ Error procesando el post ID {post_id}: {e}")
+                continue
 
-    except KeyboardInterrupt:
-        print("\n🛑 Escaneo cancelado por el usuario. Asegurando base de datos...")
+    except Exception as e:
+        print(f"❌ Error al consultar el feed RSS: {e}")
 
     save_db(existing_data)
-    print(f"\n✨ Proceso finalizado. {total_new} lomos añadidos correctamente.")
+    print(f"\n✨ Proceso finalizado. {total_new} lomos nuevos añadidos correctamente.")
 
     if total_new > 0:
         scrape_info_path = os.path.join(BASE_DIR, "public", "scrape_info.json")
         unique_authors = sorted(list(set(new_authors)))
-        
         info_payload = {
             "count": total_new,
             "date": time.strftime("%Y-%m-%d %H:%M"),
             "authors": unique_authors
         }
-        
         try:
             with open(scrape_info_path, 'w', encoding='utf-8') as f_info:
                 json.dump(info_payload, f_info, indent=2, ensure_ascii=False)
             print(f"💾 Metadatos del scrape actualizados en: {scrape_info_path}")
         except Exception as e:
-            print(f"⚠️ No se pudo escribir automáticamente scrape_info.json: {e}")
+            print(f"⚠️ No se pudo escribir scrape_info.json: {e}")
 
 if __name__ == "__main__":
     print("\n=============================================")
