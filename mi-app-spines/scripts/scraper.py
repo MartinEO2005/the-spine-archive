@@ -308,10 +308,10 @@ def update_database():
     existing_ids = {item['id'] for item in existing_data}
     existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
 
-    print(f"\n🚀 Iniciando actualización vía Feed RSS en Backblaze B2: {B2_BUCKET_NAME}")
+    print(f"\n🚀 Iniciando actualización vía Feed RSS (Filtrado estricto) en B2: {B2_BUCKET_NAME}")
     print(f"📊 Base de datos actual: {len(existing_data)} entradas.")
 
-    rss_url = "https://www.reddit.com/r/SwitchSpines/new.rss"
+    rss_url = "https://www.reddit.com/r/SwitchSpines/new.rss?limit=100"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
     }
@@ -324,10 +324,7 @@ def update_database():
             print(f"❌ Error HTTP {res.status_code} al obtener el feed RSS.")
             return
 
-        # Extraer todos los IDs de los posts del XML del RSS usando regex (evita problemas de namespaces)
         post_ids = re.findall(r'reddit\.com/r/SwitchSpines/comments/([a-z0-9]+)', res.text)
-        
-        # Eliminar duplicados manteniendo el orden cronológico
         unique_ids = list(dict.fromkeys(post_ids))
         
         print(f"🎯 ¡Se han encontrado {len(unique_ids)} posts recientes en el RSS!")
@@ -339,23 +336,18 @@ def update_database():
             if total_new >= MAX_UPLOADS: 
                 break
 
-            # Si el ID ya existe en tu base de datos, lo saltamos al instante
             if post_id in existing_ids:
                 continue
 
             print(f"\n-------------------------------------------------")
-            print(f"🔗 Procesando nuevo post detectado por RSS (ID: {post_id})")
+            print(f"🔗 Analizando post (ID: {post_id})")
             print(f"-------------------------------------------------")
-            
-            # Reutilizamos tu función robusta de post individual
-            # Nota: Esto descargará, procesará, guardará localmente y subirá a B2 automáticamente.
-            # Vamos a adaptar ligeramente el flujo para llevar la cuenta.
             
             json_url = f"https://www.reddit.com/r/SwitchSpines/comments/{post_id}.json"
             try:
                 post_res = api_session.get(json_url, headers=headers, timeout=15)
                 if post_res.status_code != 200:
-                    print(f"⚠️ No se pudo consultar el detalle del post {post_id} (Status: {post_res.status_code})")
+                    print(f"⚠️ No se pudo consultar el detalle del post {post_id}")
                     continue
 
                 post_data_json = post_res.json()
@@ -391,7 +383,7 @@ def update_database():
                         img_url = candidate
 
                 if not img_url:
-                    print("⚠️ El post no contiene una imagen válida.")
+                    print("⚠️ Omitido: El post no contiene una imagen válida.")
                     continue
 
                 img_res = img_session.get(img_url, timeout=10)
@@ -400,6 +392,13 @@ def update_database():
                     continue
 
                 img = Image.open(BytesIO(img_res.content))
+
+                # --- 🛡️ FILTRO ESTRICTO DE PROPORCIÓN DE SPINE ---
+                # Evita que se cuelen fotos de colecciones, memes o imágenes cuadradas/horizontales
+                if (img.height / img.width) < 2.6:
+                    print(f"⚠️ Omitido: La imagen no tiene formato de spine (Proporción ancho/alto inválida: {img.width}x{img.height}).")
+                    continue
+
                 if img.height > 12000:
                     aspect = img.width / img.height
                     img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
@@ -455,7 +454,7 @@ def update_database():
                 save_db(existing_data)
                 print(f"🎉 ¡ÉXITO! '{new_entry['title']}' añadido correctamente.")
 
-                time.sleep(2) # Pausa anti-rate limit
+                time.sleep(2)
 
             except Exception as e:
                 print(f"❌ Error procesando el post ID {post_id}: {e}")
