@@ -308,84 +308,83 @@ def update_database():
     existing_ids = {item['id'] for item in existing_data}
     existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
 
-    print(f"\n🚀 Iniciando actualización vía Feed RSS (Filtrado estricto) en B2: {B2_BUCKET_NAME}")
+    print(f"\n🚀 Iniciando actualización vía ScrapeCreators en B2: {B2_BUCKET_NAME}")
     print(f"📊 Base de datos actual: {len(existing_data)} entradas.")
 
-    rss_url = "https://www.reddit.com/r/SwitchSpines/new.rss?limit=100"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
-    }
+    # --- CONFIGURACIÓN DE SCRAPECREATORS ---
+    # Reemplaza "TU_API_KEY" con tu clave gratuita de scrapecreators.com
+    api_key = "qRWn8PjygiUlOdUt1DhBboRx0Ju2"
+    url = "https://api.scrapecreators.com/v1/reddit/subreddit?subreddit=SwitchSpines&sort=new"
+    headers = {"x-api-key": api_key}
 
     try:
-        print(f"🔍 Consultando feed RSS público de r/SwitchSpines...")
-        res = normal_requests.get(rss_url, headers=headers, timeout=15)
+        print("🔍 Consultando posts a través de ScrapeCreators...")
+        res = normal_requests.get(url, headers=headers, timeout=20)
         
         if res.status_code != 200:
-            print(f"❌ Error HTTP {res.status_code} al obtener el feed RSS.")
+            print(f"❌ Error HTTP {res.status_code} al consultar la API de ScrapeCreators.")
             return
 
-        post_ids = re.findall(r'reddit\.com/r/SwitchSpines/comments/([a-z0-9]+)', res.text)
-        unique_ids = list(dict.fromkeys(post_ids))
+        data = res.json()
         
-        print(f"🎯 ¡Se han encontrado {len(unique_ids)} posts recientes en el RSS!")
+        # Obtenemos la lista de posts del JSON devuelto por la API
+        posts = data.get("posts", [])
+        if not posts:
+            # Fallback por si la estructura cambia a children de reddit
+            posts = data.get("data", {}).get("children", [])
+
+        print(f"🎯 ¡Se han obtenido {len(posts)} posts recientes correctamente!")
 
         total_new = 0
         new_authors = []
 
-        for post_id in unique_ids:
+        for post in posts:
             if total_new >= MAX_UPLOADS: 
                 break
 
-            if post_id in existing_ids:
+            # Compatibilidad con formato de la API o formato nativo de Reddit
+            p = post.get('data', post)
+            post_id = str(p.get('id', ''))
+            
+            if not post_id or post_id in existing_ids:
                 continue
 
             print(f"\n-------------------------------------------------")
             print(f"🔗 Analizando post (ID: {post_id})")
             print(f"-------------------------------------------------")
-            
-            json_url = f"https://www.reddit.com/r/SwitchSpines/comments/{post_id}.json"
+
+            # Extracción robusta de la URL de la imagen
+            img_url = None
+            if p.get('media_metadata'):
+                meta = p.get('media_metadata', {})
+                for k in sorted(meta.keys()):
+                    if meta[k].get('e') == 'Image':
+                        u = meta[k].get('s', {}).get('u') or meta[k].get('s', {}).get('gif')
+                        if u:
+                            img_url = u.replace('&', '&')
+                            break
+
+            if not img_url:
+                try:
+                    images = p.get('preview', {}).get('images', [])
+                    if images:
+                        img_url = images[0]['source']['url'].replace('&', '&')
+                except Exception:
+                    pass
+
+            if not img_url:
+                candidate = p.get('url_overridden_by_dest') or p.get('url', '')
+                if candidate and 'reddit.com/r/' not in candidate:
+                    if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+                        img_id = candidate.rstrip('/').split('/')[-1]
+                        candidate = f"https://i.imgur.com/{img_id}.png"
+                    img_url = candidate
+
+            if not img_url:
+                print("⚠️ Omitido: El post no contiene una imagen válida.")
+                continue
+
             try:
-                post_res = api_session.get(json_url, headers=headers, timeout=15)
-                if post_res.status_code != 200:
-                    print(f"⚠️ No se pudo consultar el detalle del post {post_id}")
-                    continue
-
-                post_data_json = post_res.json()
-                post_data = post_data_json[0]['data']['children'][0]['data']
-
-                if 'crosspost_parent_list' in post_data and post_data['crosspost_parent_list']:
-                    post_data = post_data['crosspost_parent_list'][0]
-
-                img_url = None
-                if post_data.get('media_metadata'):
-                    meta = post_data.get('media_metadata', {})
-                    for k in sorted(meta.keys()):
-                        if meta[k].get('e') == 'Image':
-                            u = meta[k].get('s', {}).get('u') or meta[k].get('s', {}).get('gif')
-                            if u:
-                                img_url = u.replace('&amp;', '&')
-                                break
-
-                if not img_url:
-                    try:
-                        images = post_data.get('preview', {}).get('images', [])
-                        if images:
-                            img_url = images[0]['source']['url'].replace('&amp;', '&')
-                    except Exception:
-                        pass
-
-                if not img_url:
-                    candidate = post_data.get('url_overridden_by_dest') or post_data.get('url', '')
-                    if candidate and 'reddit.com/r/' not in candidate:
-                        if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
-                            img_id = candidate.rstrip('/').split('/')[-1]
-                            candidate = f"https://i.imgur.com/{img_id}.png"
-                        img_url = candidate
-
-                if not img_url:
-                    print("⚠️ Omitido: El post no contiene una imagen válida.")
-                    continue
-
                 img_res = img_session.get(img_url, timeout=10)
                 if img_res.status_code != 200:
                     print("⚠️ No se pudo descargar la imagen desde la CDN.")
@@ -394,7 +393,6 @@ def update_database():
                 img = Image.open(BytesIO(img_res.content))
 
                 # --- 🛡️ FILTRO ESTRICTO DE PROPORCIÓN DE SPINE ---
-                # Evita que se cuelen fotos de colecciones, memes o imágenes cuadradas/horizontales
                 if (img.height / img.width) < 2.6:
                     print(f"⚠️ Omitido: La imagen no tiene formato de spine (Proporción ancho/alto inválida: {img.width}x{img.height}).")
                     continue
@@ -432,17 +430,17 @@ def update_database():
                 prefix = B2_PUBLIC_URL_PREFIX or f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
                 public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
 
-                raw_author = post_data.get('author')
+                raw_author = p.get('author')
                 author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
 
                 new_entry = {
                     "id": post_id,
-                    "title": clean_title(post_data['title']),
+                    "title": clean_title(p.get('title', 'Unknown')),
                     "author": author_name,
                     "src": f"/spines/{post_id}.webp",
                     "hash": h,
                     "image": public_image_url,
-                    "created_utc": int(post_data.get('created_utc', time.time()))
+                    "created_utc": int(p.get('created_utc', time.time()))
                 }
 
                 existing_data.append(new_entry)
@@ -461,7 +459,7 @@ def update_database():
                 continue
 
     except Exception as e:
-        print(f"❌ Error al consultar el feed RSS: {e}")
+        print(f"❌ Error al consultar la API: {e}")
 
     save_db(existing_data)
     print(f"\n✨ Proceso finalizado. {total_new} lomos nuevos añadidos correctamente.")
