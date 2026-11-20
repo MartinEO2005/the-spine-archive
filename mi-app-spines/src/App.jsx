@@ -6,12 +6,25 @@ import FilterGuideView from './FilterGuideView';
 import TagEditView from './TagEditView'; 
 import CookieBanner from './components/CookieBanner';
 import MobileInfoView from './components/MobileInfoView'; 
+import LandingView from './LandingView';
+import CustomCatalogView from './CustomCatalogView';
+
+// null = landing · 'switch' = catálogo actual · 'custom' = otras consolas
+const readSectionFromUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  const s = params.get('section');
+  if (s === 'switch' || s === 'custom') return s;
+  // Retrocompatibilidad: enlaces antiguos (?view=..., ?search=...) van directos a Switch
+  if (params.has('view') || params.has('search')) return 'switch';
+  return null;
+};
 
 function App() {
   const [view, setView] = useState('catalog'); 
   const [selectedSpines, setSelectedSpines] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showMobileNoticeModal, setShowMobileNoticeModal] = useState(false);
+  const [section, setSection] = useState(readSectionFromUrl);
 
   // Leer la URL al iniciar la web (?view=guide o ?view=tag-edit)
   useEffect(() => {
@@ -24,8 +37,14 @@ function App() {
     }
 
     const handleResize = () => setIsMobile(window.innerWidth < 768);
+    // Botón "Atrás" del navegador: vuelve a leer la sección desde la URL
+    const handlePopState = () => setSection(readSectionFromUrl());
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   // Función helper para cambiar de vista y actualizar la URL en la barra del navegador
@@ -38,6 +57,19 @@ function App() {
       url.searchParams.set('view', newView);
     }
     window.history.pushState({}, '', url);
+  };
+
+  // Cambiar entre landing / Switch / otras consolas
+  const goToSection = (newSection) => {
+    setSection(newSection);
+    setView('catalog');
+    setSelectedSpines([]); // no mezclar spines de Switch con las de otras consolas
+    const url = new URL(window.location);
+    url.searchParams.delete('view');
+    if (newSection) url.searchParams.set('section', newSection);
+    else url.searchParams.delete('section');
+    window.history.pushState({}, '', url);
+    window.scrollTo(0, 0);
   };
 
   const handleConfirmSelection = (spines) => {
@@ -56,6 +88,11 @@ function App() {
     }
     changeAppView('catalog');
   };
+
+  // --- SELECTOR DE PLATAFORMA (LANDING) ---
+  if (!section) {
+    return <LandingView onSelect={goToSection} />;
+  }
 
   // --- VISTAS DE PANTALLA COMPLETA ---
   if (view === 'tagger') {
@@ -91,13 +128,23 @@ function App() {
       
       {view === 'catalog' && (
         <>
-          <CatalogView 
-            onConfirm={handleConfirmSelection} 
-            initialSelected={selectedSpines} 
-            isMobile={isActuallyMobile}
-            onOpenGuide={() => changeAppView('guide')} 
-            onOpenTagEdit={() => changeAppView('tag-edit')} 
-          />
+          {section === 'custom' ? (
+            <CustomCatalogView
+              onConfirm={handleConfirmSelection}
+              initialSelected={selectedSpines}
+              isMobile={isActuallyMobile}
+              onGoHome={() => goToSection(null)}
+            />
+          ) : (
+            <CatalogView 
+              onConfirm={handleConfirmSelection} 
+              initialSelected={selectedSpines} 
+              isMobile={isActuallyMobile}
+              onOpenGuide={() => changeAppView('guide')} 
+              onOpenTagEdit={() => changeAppView('tag-edit')} 
+              onGoHome={() => goToSection(null)}
+            />
+          )}
           
           {/* MODAL BLOQUEANTE ANTIZOOM AGRESIVO PARA MÓVILES */}
           {showMobileNoticeModal && (

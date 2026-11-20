@@ -10,7 +10,7 @@ import SeoTextSection from './components/catalog/SeoTextSection';
 import FilterMenu from './components/catalog/FilterMenu';
 import UpdateModal from './components/catalog/UpdateModal';
 
-const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpenGuide, onOpenTagEdit }) => {
+const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpenGuide, onOpenTagEdit, onGoHome }) => {
   const [spines, setSpines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(''); 
@@ -314,6 +314,9 @@ const CatalogView = ({ onConfirm, initialSelected = [], isMobile = false, onOpen
           <button onClick={() => changeView('stats')} style={navButtonStyle('stats')}>STATS</button>
           <button onClick={() => changeView('requests')} style={navButtonStyle('requests')}>REQUESTS</button>
           <button onClick={() => changeView('about')} style={navButtonStyle('about')}>ABOUT</button>
+          {onGoHome && (
+            <button onClick={onGoHome} style={navButtonStyle('__home')}>⇄ PLATFORMS</button>
+          )}
         </div>
         
         <div style={{ flex: 1 }}></div>
