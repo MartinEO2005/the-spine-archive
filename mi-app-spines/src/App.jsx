@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CatalogView from './CatalogView';
 import PrinterView from './PrinterView';
+import CustomPrinterView from './CustomPrinterView';
 import TaggerView from './TaggerView';
 import FilterGuideView from './FilterGuideView'; 
 import TagEditView from './TagEditView'; 
@@ -203,10 +204,17 @@ function App() {
 
       {/* RENDERIZADO CONDICIONAL BLINDADO: Si es móvil de verdad, JAMÁS muestra PrinterView */}
       {view === 'printer' && !isActuallyMobile && (
-        <PrinterView 
-          selectedSpines={selectedSpines} 
-          onBack={handleBackToCatalog} 
-        />
+        section === 'custom' ? (
+          <CustomPrinterView
+            selectedSpines={selectedSpines}
+            onBack={handleBackToCatalog}
+          />
+        ) : (
+          <PrinterView 
+            selectedSpines={selectedSpines} 
+            onBack={handleBackToCatalog} 
+          />
+        )
       )}
 
       {view === 'printer' && isActuallyMobile && (

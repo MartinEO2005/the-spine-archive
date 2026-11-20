@@ -214,7 +214,7 @@ const CustomStatsView = ({ spines = [] }) => {
 
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
             <img
-              src="/logo.jpg"
+              src="/logo 2.png"
               alt="The Spine Archive Logo"
               style={{ height: '140px', objectFit: 'contain', filter: `drop-shadow(0px 0px 10px ${PALETTE.primary})` }}
             />
