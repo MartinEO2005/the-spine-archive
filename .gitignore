@@ -13,3 +13,4 @@ dist/
 .env
 extractions/
 mi-app-spines/public/database.json.bak
+/mi-app-spines/custom_spines
