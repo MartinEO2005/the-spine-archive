@@ -2001,5 +2001,61 @@
     "hash": "dc3c3cf5ea3abc963fb93c8d72bc9447",
     "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/19chmtl.webp",
     "created_utc": 1705880972
+  },
+  {
+    "id": "1y6hzw0",
+    "title": "New Super Mario Bros. By Gorilla Bros Gamer",
+    "raw_title": "New Super Mario Bros. Wii (Wii) By Gorilla Bros Gamer",
+    "author": "u/GorillaBrosGamer3",
+    "consoles": [
+      "Wii"
+    ],
+    "format": "dvd",
+    "src": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y6hzw0.webp",
+    "hash": "17d1db1e0ded80b509bdf7fbe0e6be76",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y6hzw0.webp",
+    "created_utc": 1795746486
+  },
+  {
+    "id": "1y6hazd",
+    "title": "Super Mario 3D Land By Gorilla Bros Gamer",
+    "raw_title": "Super Mario 3D Land (3DS) By Gorilla Bros Gamer",
+    "author": "u/GorillaBrosGamer3",
+    "consoles": [
+      "3DS"
+    ],
+    "format": "ds",
+    "src": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y6hazd.webp",
+    "hash": "64c0a3aadf39131cc4f0afe41772fe88",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y6hazd.webp",
+    "created_utc": 1795744212
+  },
+  {
+    "id": "1y6efgn",
+    "title": "SpongeBob SquarePants: Plankton's Robotic Revenge By Gorilla Bros Gamer",
+    "raw_title": "SpongeBob SquarePants: Plankton's Robotic Revenge (Wii U) By Gorilla Bros Gamer",
+    "author": "u/GorillaBrosGamer3",
+    "consoles": [
+      "Wii U"
+    ],
+    "format": "wiiu",
+    "src": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y6efgn.webp",
+    "hash": "0b73169cd7d66f63e7306c882d1a401d",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y6efgn.webp",
+    "created_utc": 1795735065
+  },
+  {
+    "id": "1y1fc1w",
+    "title": "Super Mario Galaxy",
+    "raw_title": "Super Mario Galaxy (Wii) by epicgamerwiiu",
+    "author": "u/epicgamerwiiu",
+    "consoles": [
+      "Wii"
+    ],
+    "format": "dvd",
+    "src": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y1fc1w.webp",
+    "hash": "225aaf302aaa7a36b1dfb2177d22b404",
+    "image": "https://cdn.thespinearchive.xyz/file/the-spine-archive-storage/custom/1y1fc1w.webp",
+    "created_utc": 1795209989
   }
 ]

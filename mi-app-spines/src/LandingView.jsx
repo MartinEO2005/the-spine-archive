@@ -320,7 +320,7 @@ const LandingView = ({ onSelect }) => {
 
         <div className="tsa-help">
           <span className="keys"><b>◀ ▶</b> SELECT &nbsp;·&nbsp; <b>ENTER</b> START &nbsp;·&nbsp; </span>
-          FREE FOREVER · MADE BY THE COMMUNITY
+          FREE FOREVER · MADE FOR THE COMMUNITY
         </div>
       </div>
 
