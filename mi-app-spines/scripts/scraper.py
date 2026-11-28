@@ -89,12 +89,221 @@ def save_db(data):
     except Exception as e:
         print(f"❌ ERROR CRÍTICO AL GUARDAR DATABASE.JSON: {e}")
 
+# =====================================================================
+# --- SOPORTE DE GALERÍAS (VARIAS SPINES EN UN MISMO POST) ---
+# Mismo formato que ya usa tu database.json:
+#   Post con 1 imagen  -> {id}
+#   Galería            -> {id}_0, {id}_1, {id}_2 ...  + título "(Parte N)"
+# También reconoce los IDs {id} y {id}_altN que se crearon por error,
+# para no volver a subir nada que ya esté.
+# =====================================================================
+def base_post_id(u_id):
+    return u_id.split('_')[0]          # los IDs de Reddit no llevan "_"
+
+def make_spine_id(post_id, index, total):
+    return post_id if total == 1 else f"{post_id}_{index}"
+
+def equivalent_ids(post_id, index):
+    """Todas las formas en que esa imagen puede estar ya guardada."""
+    ids = {f"{post_id}_{index}"}
+    if index == 0:
+        ids.add(post_id)
+    else:
+        ids.add(f"{post_id}_alt{index}")
+    return ids
+
+def post_index_count(post_id, existing_ids):
+    """Cuántas imágenes de este post hay ya guardadas (en cualquier formato)."""
+    return sum(1 for i in existing_ids if base_post_id(i) == post_id)
+
+DOWNLOAD_FAILURES = []   # imágenes que fallaron al descargar (se reintentan en la próxima ejecución)
+
+# Posts ya revisados que NO tienen spines válidas (peticiones, fotos, portadas...).
+# Se recuerdan para no volver a analizarlos y para saber cuándo parar de paginar.
+SKIPPED_PATH = os.path.join(EXTRACTIONS_DIR, "skipped_posts.json")
+
+def load_skipped():
+    try:
+        with open(SKIPPED_PATH, 'r', encoding='utf-8') as f:
+            return set(json.load(f))
+    except Exception:
+        return set()
+
+def save_skipped(skipped):
+    try:
+        os.makedirs(os.path.dirname(SKIPPED_PATH), exist_ok=True)
+        with open(SKIPPED_PATH, 'w', encoding='utf-8') as f:
+            json.dump(sorted(skipped), f)
+    except Exception as e:
+        print(f"⚠️ No se pudo guardar skipped_posts.json: {e}")
+
+def is_gallery_post(p):
+    return bool(p.get('is_gallery')) or p.get('post_hint') == 'gallery' or '/gallery/' in (p.get('url') or '')
+
+def fetch_full_post(post_id):
+    """Post completo desde Reddit. ScrapeCreators NO trae las imágenes de las galerías."""
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+    }
+    json_url = f"https://www.reddit.com/r/SwitchSpines/comments/{post_id}.json"
+    try:
+        res = api_session.get(json_url, headers=headers, timeout=15)
+        if res.status_code == 429:
+            print("⏳ Rate limit alcanzado en API de Reddit (429). Esperando 15 segundos...")
+            time.sleep(15)
+            res = api_session.get(json_url, headers=headers, timeout=15)
+        if res.status_code != 200:
+            print(f"❌ No se pudo obtener el post de Reddit. Status HTTP: {res.status_code}")
+            return None
+        post_data = res.json()[0]['data']['children'][0]['data']
+        # Soporte para Crossposts (publicaciones re-compartidas)
+        if 'crosspost_parent_list' in post_data and post_data['crosspost_parent_list']:
+            post_data = post_data['crosspost_parent_list'][0]
+        return post_data
+    except Exception as e:
+        print(f"❌ Error al consultar el post {post_id}: {e}")
+        return None
+
+def extract_image_urls(post_data):
+    """Devuelve TODAS las URLs de imagen del post, en el orden de la galería."""
+    # Prioridad 1: Galería / imágenes incrustadas (media_metadata), en orden real
+    meta = post_data.get('media_metadata') or {}
+    if meta:
+        order = [i.get('media_id') for i in (post_data.get('gallery_data') or {}).get('items', [])] or sorted(meta.keys())
+        urls = []
+        for mid in order:
+            m = meta.get(mid, {})
+            if m.get('e') != 'Image':
+                continue
+            # URL directa de i.redd.it (más fiable que la de preview firmada)
+            ext = (m.get('m') or 'image/png').split('/')[-1].replace('jpeg', 'jpg')
+            urls.append(f"https://i.redd.it/{mid}.{ext}")
+        if urls:
+            return urls
+
+    # Prioridad 2: Previsualización de CDN de Reddit (Preview)
+    try:
+        images = post_data.get('preview', {}).get('images', [])
+        if images:
+            return [images[0]['source']['url'].replace('&amp;', '&')]
+    except Exception:
+        pass
+
+    # Prioridad 3: URL de destino directo (i.redd.it, imgur, etc.)
+    candidate = post_data.get('url_overridden_by_dest') or post_data.get('url', '')
+    if candidate and 'reddit.com/' not in candidate:   # descarta /r/, /comments/ y /gallery/
+        if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+            img_id = candidate.rstrip('/').split('/')[-1]
+            candidate = f"https://i.imgur.com/{img_id}.png"
+        return [candidate]
+    return []
+
+def process_spine_image(img_url, u_id, post_data, existing_data, existing_ids, existing_hashes, check_ratio=True, title_suffix=""):
+    """Descarga, valida, guarda en local, sube a B2 y añade a database.json. Devuelve la entrada o None."""
+    if u_id in existing_ids:
+        print(f"⚠️ El ID {u_id} ya existe en la base de datos.")
+        return None
+
+    img_res = img_session.get(img_url, timeout=10)
+    if img_res.status_code != 200:
+        print("⚠️ No se pudo descargar la imagen desde la CDN.")
+        DOWNLOAD_FAILURES.append(u_id)
+        return None
+
+    img = Image.open(BytesIO(img_res.content))
+
+    # --- 🛡️ FILTRO ESTRICTO DE PROPORCIÓN DE SPINE ---
+    if check_ratio and (img.height / img.width) < 2.6:
+        print(f"⚠️ Omitido: La imagen no tiene formato de spine (Proporción ancho/alto inválida: {img.width}x{img.height}).")
+        return None
+
+    if img.height > 12000:
+        aspect = img.width / img.height
+        img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
+
+    h = get_image_hash(img)
+    if h in existing_hashes:
+        print("⚠️ Esta imagen ya existe (duplicada por hash).")
+        return None
+
+    buffer = BytesIO()
+    img.convert("RGBA").save(buffer, format="WEBP", quality=85)
+    buffer.seek(0)
+
+    local_dir = os.path.join(BASE_DIR, "public", "spines")
+    os.makedirs(local_dir, exist_ok=True)
+    with open(os.path.join(local_dir, f"{u_id}.webp"), 'wb') as f:
+        f.write(buffer.getvalue())
+    print(f"💾 Backup local guardado: {u_id}.webp")
+
+    filename_b2 = f"spines/{u_id}.webp"
+    s3_client.upload_fileobj(buffer, B2_BUCKET_NAME, filename_b2, ExtraArgs={'ContentType': 'image/webp'})
+    print(f"☁️ Subido a Backblaze B2: {u_id}.webp")
+
+    prefix = B2_PUBLIC_URL_PREFIX or f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
+    public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
+
+    raw_author = post_data.get('author')
+    author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
+
+    new_entry = {
+        "id": u_id,
+        "title": clean_title(post_data.get('title', 'Unknown')) + title_suffix,
+        "author": author_name,
+        "src": f"/spines/{u_id}.webp",
+        "hash": h,
+        "image": public_image_url,
+        "created_utc": int(post_data.get('created_utc', time.time()))
+    }
+
+    existing_data.append(new_entry)
+    existing_ids.add(u_id)
+    existing_hashes.add(h)
+    save_db(existing_data)
+    print(f"🎉 ¡ÉXITO! '{new_entry['title']}' añadido correctamente.")
+    return new_entry
+
+def process_post_images(post_data, existing_data, existing_ids, existing_hashes, check_ratio=True):
+    """Procesa TODAS las imágenes de un post. Devuelve la lista de entradas nuevas."""
+    post_id = str(post_data.get('id', ''))
+    img_urls = extract_image_urls(post_data)
+
+    if not img_urls:
+        print("⚠️ Omitido: El post no contiene una imagen válida.")
+        return []
+
+    if len(img_urls) > 1:
+        print(f"🖼️ Galería detectada: {len(img_urls)} imágenes")
+
+    total = len(img_urls)
+    added = []
+    for idx, img_url in enumerate(img_urls):
+        u_id = make_spine_id(post_id, idx, total)
+        if total > 1:
+            print(f"\n   ➜ Imagen {idx + 1}/{total} (ID: {u_id})")
+        already = equivalent_ids(post_id, idx) & existing_ids
+        if total == 1 and post_id in existing_ids:
+            already = {post_id}
+        if already:
+            print(f"   ⏭️ Ya estaba en la base de datos (como {', '.join(sorted(already))}).")
+            continue
+        try:
+            suffix = f" (Parte {idx + 1})" if total > 1 else ""
+            entry = process_spine_image(img_url, u_id, post_data, existing_data, existing_ids, existing_hashes, check_ratio, suffix)
+            if entry:
+                added.append(entry)
+                time.sleep(2)
+        except Exception as e:
+            print(f"❌ Error procesando la imagen {u_id}: {e}")
+    return added
+
 # --- FUNCIÓN PARA FORZAR EL SCRAPING DE UN POST ESPECÍFICO ---
 def process_single_reddit_post(post_url_or_id):
     """
     Forzar el scraping de un post específico de Reddit omitiendo 
     los filtros estrictos de búsqueda general. Soporta enlaces cortos (/s/),
-    crossposts, galerías, links de Imgur e imágenes embebidas.
+    crossposts, galerías (TODAS sus imágenes), links de Imgur e imágenes embebidas.
+    Si el post ya existía con solo 1 imagen, añade las que faltan (_alt1, _alt2...).
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
@@ -114,145 +323,17 @@ def process_single_reddit_post(post_url_or_id):
 
     print(f"\n🎯 Intentando forzar scraping del post ID: {post_id}")
 
-    json_url = f"https://www.reddit.com/r/SwitchSpines/comments/{post_id}.json"
-
-    try:
-        res = api_session.get(json_url, headers=headers, timeout=15)
-    except Exception as e:
-        print(f"❌ Error de conexión al consultar el post: {e}")
+    post_data = fetch_full_post(post_id)
+    if not post_data:
         return
 
-    # Manejo del Rate Limit 429
-    if res.status_code == 429:
-        print("⏳ Rate limit alcanzado en API de Reddit (429). Esperando 15 segundos...")
-        time.sleep(15)
-        return
+    with open(DB_JSON_PATH, 'r', encoding='utf-8') as f:
+        existing_data = json.load(f)
+    existing_ids = {item['id'] for item in existing_data}
+    existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
 
-    if res.status_code != 200:
-        print(f"❌ No se pudo obtener el post de Reddit. Status HTTP: {res.status_code}")
-        return
-
-    try:
-        data = res.json()
-        post_data = data[0]['data']['children'][0]['data']
-        
-    except Exception as e:
-        print(f"❌ Error al interpretar la respuesta JSON del post: {e}")
-        return
-
-    # Soporte para Crossposts (publicaciones re-compartidas)
-    if 'crosspost_parent_list' in post_data and post_data['crosspost_parent_list']:
-        post_data = post_data['crosspost_parent_list'][0]
-
-    # --- EXTRACCIÓN ROBUSTA DE LA URL DE IMAGEN ---
-    img_url = None
-
-    # Prioridad 1: Imágen(es) en media_metadata (Galerías o imágenes incrustadas)
-    if post_data.get('media_metadata'):
-        meta = post_data.get('media_metadata', {})
-        for k in sorted(meta.keys()):
-            if meta[k].get('e') == 'Image':
-                u = meta[k].get('s', {}).get('u') or meta[k].get('s', {}).get('gif')
-                if u:
-                    img_url = u.replace('&amp;', '&')
-                    break
-
-    # Prioridad 2: Previsualización de CDN de Reddit (Preview)
-    if not img_url:
-        try:
-            images = post_data.get('preview', {}).get('images', [])
-            if images:
-                img_url = images[0]['source']['url'].replace('&amp;', '&')
-        except Exception:
-            pass
-
-    # Prioridad 3: URL de destino directo (i.redd.it, imgur, etc.)
-    if not img_url:
-        candidate = post_data.get('url_overridden_by_dest') or post_data.get('url', '')
-        if candidate and 'reddit.com/r/' not in candidate and 'reddit.com/comments/' not in candidate:
-            if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
-                img_id = candidate.rstrip('/').split('/')[-1]
-                candidate = f"https://i.imgur.com/{img_id}.png"
-            img_url = candidate
-
-    # Validación final anti-HTML
-    if not img_url or 'reddit.com/r/' in img_url or 'reddit.com/comments/' in img_url:
-        print("❌ No se encontró ninguna URL de imagen válida en el post (es un post de solo texto o petición sin imagen).")
-        return
-
-    print(f"🔗 URL de la imagen detectada: {img_url}")
-
-    try:
-        img_res = img_session.get(img_url, timeout=10)
-        if img_res.status_code != 200:
-            print("❌ No se pudo descargar la imagen desde la CDN.")
-            return
-
-        img = Image.open(BytesIO(img_res.content))
-
-        if img.height > 12000:
-            aspect = img.width / img.height
-            img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
-
-        h = get_image_hash(img)
-
-        with open(DB_JSON_PATH, 'r', encoding='utf-8') as f:
-            existing_data = json.load(f)
-
-        existing_ids = {item['id'] for item in existing_data}
-        existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
-
-        u_id = post_id
-        if u_id in existing_ids:
-            print(f"⚠️ El ID {u_id} ya existe en la base de datos.")
-            return
-
-        if h in existing_hashes:
-            print("⚠️ Esta imagen exacta ya está registrada en la base de datos (mismo hash).")
-            return
-
-        buffer = BytesIO()
-        img.convert("RGBA").save(buffer, format="WEBP", quality=85)
-        buffer.seek(0)
-
-        # Guardado local en public/spines
-        local_dir = os.path.join(BASE_DIR, "public", "spines")
-        os.makedirs(local_dir, exist_ok=True)
-        local_filepath = os.path.join(local_dir, f"{u_id}.webp")
-        with open(local_filepath, 'wb') as f:
-            f.write(buffer.getvalue())
-
-        # Subida a Backblaze B2
-        filename_b2 = f"spines/{u_id}.webp"
-        s3_client.upload_fileobj(
-            buffer,
-            B2_BUCKET_NAME,
-            filename_b2,
-            ExtraArgs={'ContentType': 'image/webp'}
-        )
-
-        prefix = B2_PUBLIC_URL_PREFIX or f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
-        public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
-
-        raw_author = post_data.get('author')
-        author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
-
-        new_entry = {
-            "id": u_id,
-            "title": clean_title(post_data['title']),
-            "author": author_name,
-            "src": f"/spines/{u_id}.webp",
-            "hash": h,
-            "image": public_image_url,
-            "created_utc": int(post_data.get('created_utc', time.time()))
-        }
-
-        existing_data.append(new_entry)
-        save_db(existing_data)
-        print(f"🎉 ¡ÉXITO! '{new_entry['title']}' (por {author_name}) se ha añadido correctamente a B2 y database.json.")
-
-    except Exception as e:
-        print(f"❌ Error procesando el post individual: {e}")
+    added = process_post_images(post_data, existing_data, existing_ids, existing_hashes, check_ratio=False)
+    print(f"\n✨ {len(added)} lomo(s) añadido(s) desde este post.")
 
 
 # --- OPCIÓN 3: PROCESAR ENLACES DEL TABLERO ---
@@ -297,6 +378,8 @@ def process_bounty_links_from_file():
     except Exception as e:
         print(f"❌ Error al leer el archivo de links: {e}")
 
+MAX_PAGES = 8   # ScrapeCreators devuelve 25 posts por página -> hasta 200 posts recientes
+
 def update_database():
     try:
         with open(DB_JSON_PATH, 'r', encoding='utf-8') as f:
@@ -307,162 +390,105 @@ def update_database():
 
     existing_ids = {item['id'] for item in existing_data}
     existing_hashes = {item['hash'] for item in existing_data if 'hash' in item}
+    known_posts = {base_post_id(i) for i in existing_ids}
+    # Galerías guardadas con UNA sola imagen (por el fallo antiguo): candidatas a recuperar las que faltan
+    single_saved = {pid for pid in known_posts if post_index_count(pid, existing_ids) == 1}
+    skipped_posts = load_skipped()
 
     print(f"\n🚀 Iniciando actualización vía ScrapeCreators en B2: {B2_BUCKET_NAME}")
     print(f"📊 Base de datos actual: {len(existing_data)} entradas.")
 
     # --- CONFIGURACIÓN DE SCRAPECREATORS ---
-    # Reemplaza "TU_API_KEY" con tu clave gratuita de scrapecreators.com
     api_key = "qRWn8PjygiUlOdUt1DhBboRx0Ju2"
-    url = "https://api.scrapecreators.com/v1/reddit/subreddit?subreddit=SwitchSpines&sort=new"
+    url = "https://api.scrapecreators.com/v1/reddit/subreddit"
     headers = {"x-api-key": api_key}
 
+    total_new = 0
+    new_authors = []
+    after = None
+
     try:
-        print("🔍 Consultando posts a través de ScrapeCreators...")
-        res = normal_requests.get(url, headers=headers, timeout=20)
-        
-        if res.status_code != 200:
-            print(f"❌ Error HTTP {res.status_code} al consultar la API de ScrapeCreators.")
-            return
+        for page in range(MAX_PAGES):
+            params = {"subreddit": "SwitchSpines", "sort": "new"}
+            if after:
+                params["after"] = after
 
-        data = res.json()
-        
-        # Obtenemos la lista de posts del JSON devuelto por la API
-        posts = data.get("posts", [])
-        if not posts:
-            # Fallback por si la estructura cambia a children de reddit
-            posts = data.get("data", {}).get("children", [])
-
-        print(f"🎯 ¡Se han obtenido {len(posts)} posts recientes correctamente!")
-
-        total_new = 0
-        new_authors = []
-
-        for post in posts:
-            if total_new >= MAX_UPLOADS: 
+            print(f"\n🔍 Consultando posts a través de ScrapeCreators (página {page + 1})...")
+            res = normal_requests.get(url, headers=headers, params=params, timeout=20)
+            if res.status_code != 200:
+                print(f"❌ Error HTTP {res.status_code} al consultar la API de ScrapeCreators.")
                 break
 
-            # Compatibilidad con formato de la API o formato nativo de Reddit
-            p = post.get('data', post)
-            post_id = str(p.get('id', ''))
-            
-            if not post_id or post_id in existing_ids:
-                continue
+            data = res.json()
+            posts = data.get("posts", []) or data.get("data", {}).get("children", [])
+            print(f"🎯 ¡Se han obtenido {len(posts)} posts recientes correctamente!")
+            if not posts:
+                break
 
-            print(f"\n-------------------------------------------------")
-            print(f"🔗 Analizando post (ID: {post_id})")
-            print(f"-------------------------------------------------")
+            page_had_unseen = False
+            for post in posts:
+                if total_new >= MAX_UPLOADS:
+                    break
 
-            # Extracción robusta de la URL de la imagen
-            img_url = None
-            if p.get('media_metadata'):
-                meta = p.get('media_metadata', {})
-                for k in sorted(meta.keys()):
-                    if meta[k].get('e') == 'Image':
-                        u = meta[k].get('s', {}).get('u') or meta[k].get('s', {}).get('gif')
-                        if u:
-                            img_url = u.replace('&', '&')
-                            break
-
-            if not img_url:
-                try:
-                    images = p.get('preview', {}).get('images', [])
-                    if images:
-                        img_url = images[0]['source']['url'].replace('&', '&')
-                except Exception:
-                    pass
-
-            if not img_url:
-                candidate = p.get('url_overridden_by_dest') or p.get('url', '')
-                if candidate and 'reddit.com/r/' not in candidate:
-                    if 'imgur.com/' in candidate and not any(ext in candidate.lower() for ext in ['.png', '.jpg', '.jpeg', '.webp']):
-                        img_id = candidate.rstrip('/').split('/')[-1]
-                        candidate = f"https://i.imgur.com/{img_id}.png"
-                    img_url = candidate
-
-            if not img_url:
-                print("⚠️ Omitido: El post no contiene una imagen válida.")
-                continue
-
-            try:
-                img_res = img_session.get(img_url, timeout=10)
-                if img_res.status_code != 200:
-                    print("⚠️ No se pudo descargar la imagen desde la CDN.")
+                p = post.get('data', post)
+                post_id = str(p.get('id', ''))
+                if not post_id:
                     continue
 
-                img = Image.open(BytesIO(img_res.content))
-
-                # --- 🛡️ FILTRO ESTRICTO DE PROPORCIÓN DE SPINE ---
-                if (img.height / img.width) < 2.6:
-                    print(f"⚠️ Omitido: La imagen no tiene formato de spine (Proporción ancho/alto inválida: {img.width}x{img.height}).")
+                if post_id in skipped_posts:
                     continue
 
-                if img.height > 12000:
-                    aspect = img.width / img.height
-                    img = img.resize((int(8000 * aspect), 8000), Image.Resampling.LANCZOS)
+                gallery = is_gallery_post(p)
 
-                h = get_image_hash(img)
-                if h in existing_hashes:
-                    print("⚠️ Esta imagen ya existe (duplicada por hash).")
-                    continue
+                if post_id in known_posts:
+                    # Galerías guardadas con solo 1 imagen: recuperamos las que faltan
+                    if not (gallery and post_id in single_saved):
+                        continue
+                    print(f"\n-------------------------------------------------")
+                    print(f"🔁 Revisando galería ya archivada (ID: {post_id}) por si faltan imágenes")
+                    print(f"-------------------------------------------------")
+                else:
+                    page_had_unseen = True
+                    print(f"\n-------------------------------------------------")
+                    print(f"🔗 Analizando post (ID: {post_id})")
+                    print(f"-------------------------------------------------")
 
-                buffer = BytesIO()
-                img.convert("RGBA").save(buffer, format="WEBP", quality=85)
-                buffer.seek(0)
+                # Las galerías no traen las imágenes en ScrapeCreators: pedimos el post completo a Reddit
+                post_data = p
+                if gallery and not p.get('media_metadata'):
+                    post_data = fetch_full_post(post_id)
+                    if not post_data:
+                        continue
 
-                local_dir = os.path.join(BASE_DIR, "public", "spines")
-                os.makedirs(local_dir, exist_ok=True)
-                local_filepath = os.path.join(local_dir, f"{post_id}.webp")
-                
-                with open(local_filepath, 'wb') as f:
-                    f.write(buffer.getvalue())
-                print(f"💾 Backup local guardado: {post_id}.webp")
+                failures_before = len(DOWNLOAD_FAILURES)
+                added = process_post_images(post_data, existing_data, existing_ids, existing_hashes)
+                # Post nuevo sin ninguna spine válida y sin fallos de descarga -> no volver a analizarlo
+                if not added and post_id not in known_posts and len(DOWNLOAD_FAILURES) == failures_before:
+                    skipped_posts.add(post_id)
+                if added:
+                    known_posts.add(post_id)
+                    single_saved.discard(post_id)
+                total_new += len(added)
+                new_authors += [e['author'] for e in added]
 
-                filename_b2 = f"spines/{post_id}.webp"
-                s3_client.upload_fileobj(
-                    buffer,
-                    B2_BUCKET_NAME,
-                    filename_b2,
-                    ExtraArgs={'ContentType': 'image/webp'}
-                )
-                print(f"☁️ Subido a Backblaze B2: {post_id}.webp")
-
-                prefix = B2_PUBLIC_URL_PREFIX or f"https://cdn.thespinearchive.xyz/file/{B2_BUCKET_NAME}"
-                public_image_url = f"{prefix.rstrip('/')}/{filename_b2}"
-
-                raw_author = p.get('author')
-                author_name = f"u/{raw_author}" if raw_author and raw_author != "[deleted]" else "u/DeletedUser"
-
-                new_entry = {
-                    "id": post_id,
-                    "title": clean_title(p.get('title', 'Unknown')),
-                    "author": author_name,
-                    "src": f"/spines/{post_id}.webp",
-                    "hash": h,
-                    "image": public_image_url,
-                    "created_utc": int(p.get('created_utc', time.time()))
-                }
-
-                existing_data.append(new_entry)
-                existing_ids.add(post_id)
-                existing_hashes.add(h)
-                
-                total_new += 1
-                new_authors.append(author_name)
-                save_db(existing_data)
-                print(f"🎉 ¡ÉXITO! '{new_entry['title']}' añadido correctamente.")
-
-                time.sleep(2)
-
-            except Exception as e:
-                print(f"❌ Error procesando el post ID {post_id}: {e}")
-                continue
+            # Si ya hemos llegado a posts anteriores a la última ejecución, estamos al día
+            new_after = data.get("after") or data.get("data", {}).get("after")
+            if not page_had_unseen:
+                print("\n✅ Página sin posts nuevos: ya estás al día. Parando.")
+                break
+            if not new_after or new_after == after or total_new >= MAX_UPLOADS:
+                break
+            after = new_after
+            time.sleep(1)
 
     except Exception as e:
         print(f"❌ Error al consultar la API: {e}")
 
     save_db(existing_data)
+    save_skipped(skipped_posts)
     print(f"\n✨ Proceso finalizado. {total_new} lomos nuevos añadidos correctamente.")
+    if DOWNLOAD_FAILURES:
+        print(f"⚠️ {len(DOWNLOAD_FAILURES)} imágenes no se pudieron descargar; se reintentarán en la próxima ejecución.")
 
     if total_new > 0:
         scrape_info_path = os.path.join(BASE_DIR, "public", "scrape_info.json")
